@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{69AEB289-367B-4627-B759-AD1E5699485D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EfficientlyLazyCrypto</RootNamespace>
+    <AssemblyName>EfficientlyLazyCrypto</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkSubset>Client</TargetFrameworkSubset>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\CharacterSet.cs">
+      <Link>CharacterSet.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DataConversion.cs">
+      <Link>DataConversion.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DataGeneration.cs">
+      <Link>DataGeneration.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DataHashing.cs">
+      <Link>DataHashing.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIEngine.cs">
+      <Link>DPAPIEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\CryptProtectPromptFlags.cs">
+      <Link>DPAPINative\CryptProtectPromptFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\CRYPTPROTECT_PROMPTSTRUCT.cs">
+      <Link>DPAPINative\CRYPTPROTECT_PROMPTSTRUCT.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\DATA_BLOB.cs">
+      <Link>DPAPINative\DATA_BLOB.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\INativeMethods.cs">
+      <Link>DPAPINative\INativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\NativeMethods.cs">
+      <Link>DPAPINative\NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIParameters.cs">
+      <Link>DPAPIParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\Enumerations.cs">
+      <Link>Enumerations.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\ICryptoEngine.cs">
+      <Link>ICryptoEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\IDPAPIParameters.cs">
+      <Link>IDPAPIParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\IRijndaelParameters.cs">
+      <Link>IRijndaelParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\RijndaelEngine.cs">
+      <Link>RijndaelEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\RijndaelParameters.cs">
+      <Link>RijndaelParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
