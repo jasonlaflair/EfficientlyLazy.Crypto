@@ -1,4 +1,5 @@
 ﻿using System.Security;
+using System.Text;
 
 namespace EfficientlyLazyCrypto
 {
@@ -19,6 +20,11 @@ namespace EfficientlyLazyCrypto
         /// <value>Defined by the <see cref="DPAPIKeyType"/>.</value>
         public DPAPIKeyType KeyType { get; private set; }
 
+       /// <summary>
+        /// Defines the character encoding to use for string encryption
+        /// </summary>
+        public Encoding Encoding { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
         /// </summary>
@@ -38,15 +44,27 @@ namespace EfficientlyLazyCrypto
         {
         }
 
-        /// <summary>
+       /// <summary>
         /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
         /// </summary>
         /// <param name="keyType">Type of the key.</param>
         /// <param name="entropy">The entropy.</param>
         public DPAPIParameters(DPAPIKeyType keyType, SecureString entropy)
+           : this(keyType, entropy, Encoding.UTF8)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
+        /// </summary>
+        /// <param name="keyType">Type of the key.</param>
+        /// <param name="entropy">The entropy.</param>
+        /// <param name="encoding">Character encoding to use.</param>
+        public DPAPIParameters(DPAPIKeyType keyType, SecureString entropy, Encoding encoding)
         {
             KeyType = keyType;
             Entropy = entropy;
+           Encoding = encoding;
 
             if (entropy != null && !entropy.IsReadOnly()) Entropy.MakeReadOnly();
         }

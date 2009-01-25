@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +31,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\EfficientlyLazyCrypto.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
@@ -47,6 +52,7 @@
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="IDPAPIParameters.cs" />
     <Compile Include="IRijndaelParameters.cs" />
+    <Compile Include="InvalidRijndaelParameterException.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="RijndaelParameters.cs" />
     <Compile Include="Enumerations.cs" />

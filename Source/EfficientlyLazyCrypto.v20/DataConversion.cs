@@ -69,17 +69,6 @@ namespace EfficientlyLazyCrypto
         /// <summary>
         /// Converts the <see cref="SecureString"/> to a <see cref="byte"/>[].
         /// </summary>
-        /// <param name="secureString">The <see cref="SecureString"/> to convert.</param>
-        /// <returns><see cref="byte"/>[]</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        public static byte[] ToBytes(SecureString secureString)
-        {
-            return Encoding.UTF8.GetBytes(ToString(secureString));
-        }
-
-        /// <summary>
-        /// Converts the <see cref="SecureString"/> to a <see cref="byte"/>[].
-        /// </summary>
         ///<param name="secureString">The <see cref="SecureString"/> to convert.</param>
         ///<param name="encoding">Character encoding to use.</param>
         ///<returns><see cref="byte"/>[]</returns>

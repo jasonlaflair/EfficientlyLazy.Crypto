@@ -191,6 +191,11 @@ namespace EfficientlyLazyCrypto.Test
             {
                 get { return _keyType; }
             }
+
+           public Encoding Encoding
+           {
+              get { return Encoding.UTF8; }
+           }
         }
 
         [Test, Repeat(50), ExpectedException(typeof(ArgumentException))]

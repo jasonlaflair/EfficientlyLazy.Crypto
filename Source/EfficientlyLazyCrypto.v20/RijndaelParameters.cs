@@ -64,7 +64,7 @@ namespace EfficientlyLazyCrypto
         /// <summary>
         /// Defines the Encoding to use for string encryption
         /// </summary>
-        public Encoding TextEncoding { get; private set; }
+        public Encoding Encoding { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
@@ -149,8 +149,8 @@ namespace EfficientlyLazyCrypto
         /// <param name="encryptionKeySalt"></param>
         /// <param name="keySize">The size of the key to use.</param>
         /// <param name="passwordIterations">The number of password iterations.</param>
-        /// <param name="textEncoding">Defines the Encoding to use for string encryption.</param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt, RijndaelKeySize keySize, byte passwordIterations, Encoding textEncoding)
+        /// <param name="encoding">Defines the Encoding to use for string encryption.</param>
+        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt, RijndaelKeySize keySize, byte passwordIterations, Encoding encoding)
         {
             Key = DataConversion.ToSecureString(key, true);
             InitVector = DataConversion.ToSecureString(initVector, true);
@@ -159,7 +159,7 @@ namespace EfficientlyLazyCrypto
             EncryptionKeySalt = DataConversion.ToSecureString(encryptionKeySalt, true);
             KeySize = keySize;
             PasswordIterations = passwordIterations;
-            TextEncoding = textEncoding;
+            Encoding = encoding;
         }
     }
 }

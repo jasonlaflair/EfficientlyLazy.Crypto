@@ -264,13 +264,25 @@ namespace EfficientlyLazyCrypto.Test
             engine.Decrypt(inputFile, outputFile);
         }
 
-        [Test, ExpectedArgumentNullException]
+        [Test]
         public void ParameterValidation_NULL()
         {
-            ICryptoEngine engine = new RijndaelEngine(null);
+            try
+            {
+                RijndaelEngine.ValidateParameters(null);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("IRijndaelRarameters cannot be null", ex.Message);
+                Assert.AreEqual(string.Empty, ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
-        [Test, ExpectedArgumentOutOfRangeException]
+        [Test]
         public void ParameterValidation_BadInitVector()
         {
             _RijndaelParameters parameters = new _RijndaelParameters
@@ -278,63 +290,144 @@ namespace EfficientlyLazyCrypto.Test
                                                      InitVector = DataConversion.ToSecureString("four")
                                                  };
 
-            ICryptoEngine engine = new RijndaelEngine(parameters);
+            try
+            {
+                RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("InitVector must be a length of 0 or 16", ex.Message);
+                Assert.AreEqual("InitVector", ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
-        [Test, ExpectedArgumentOutOfRangeException]
+        [Test]
         public void ParameterValidation_InvaidPasswordIterations()
         {
             _RijndaelParameters parameters = new _RijndaelParameters
                                                  {
-                                                     InitVector = DataConversion.ToSecureString(""),
+                                                     InitVector = DataConversion.ToSecureString(string.Empty),
                                                      PasswordIterations = 0
                                                  };
 
-            ICryptoEngine engine = new RijndaelEngine(parameters);
+            try
+            {
+            RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("PasswordIterations must be greater than 0", ex.Message);
+                Assert.AreEqual("PasswordIterations", ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
-        [Test, ExpectedArgumentOutOfRangeException]
+        [Test]
         public void ParameterValidation_InvalidSaltRange()
         {
             _RijndaelParameters parameters = new _RijndaelParameters
                                                  {
-                                                     InitVector = DataConversion.ToSecureString(""),
+                                                     InitVector = DataConversion.ToSecureString(string.Empty),
                                                      PasswordIterations = 1,
                                                      MinimumDataSaltLength = 20,
                                                      MaximumDataSaltLength = 15
                                                  };
 
-            ICryptoEngine engine = new RijndaelEngine(parameters);
+            try
+            {
+            RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("MaximumDataSaltLength cannot be less than MinimumDataSaltLength", ex.Message);
+                Assert.AreEqual(string.Empty, ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
-        [Test, ExpectedArgumentOutOfRangeException]
+        [Test]
         public void ParameterValidation_InvalidSaltMin()
         {
             _RijndaelParameters parameters = new _RijndaelParameters
                                                  {
-                                                     InitVector = DataConversion.ToSecureString(""),
+                                                     InitVector = DataConversion.ToSecureString(string.Empty),
                                                      PasswordIterations = 1,
                                                      MinimumDataSaltLength =
-                                                         ((byte) (RijndaelParameters.MINIMUM_SET_SALT_LENGTH - 1)),
+                                                         (RijndaelParameters.MINIMUM_SET_SALT_LENGTH - 1),
                                                      MaximumDataSaltLength = 15
                                                  };
 
-            ICryptoEngine engine = new RijndaelEngine(parameters);
+            try
+            {
+            RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("MinimumDataSaltLength cannot be smaller than 4", ex.Message);
+                Assert.AreEqual("MinimumDataSaltLength", ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
-        [Test, ExpectedArgumentOutOfRangeException]
+        [Test]
         public void ParameterValidation_InvalidSaltMax()
         {
             _RijndaelParameters parameters = new _RijndaelParameters
                                                  {
-                                                     InitVector = DataConversion.ToSecureString(""),
+                                                     InitVector = DataConversion.ToSecureString(string.Empty),
                                                      PasswordIterations = 1,
                                                      MinimumDataSaltLength = RijndaelParameters.MINIMUM_SET_SALT_LENGTH,
                                                      MaximumDataSaltLength =
-                                                         ((byte) (RijndaelParameters.MAXIMUM_SET_SALT_LENGTH + 1))
+                                                         (RijndaelParameters.MAXIMUM_SET_SALT_LENGTH + 1)
                                                  };
 
-            ICryptoEngine engine = new RijndaelEngine(parameters);
+            try
+            {
+                RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("MaximumDataSaltLength cannot be larger than 254", ex.Message);
+                Assert.AreEqual("MaximumDataSaltLength", ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
+        }
+
+        [Test]
+        public void ParameterValidation_MissingEncoding()
+        {
+            RijndaelParameters parameters = new RijndaelParameters("sljfslkfas", "1234567890123456", 15, 30, "sdlfjsldfsk",
+                                                          RijndaelKeySize.Key256Bit, 1, null);
+
+            try
+            {
+                RijndaelEngine.ValidateParameters(parameters);
+            }
+            catch (InvalidRijndaelParameterException ex)
+            {
+                Assert.AreEqual("An Encoding must be defined", ex.Message);
+                Assert.AreEqual("Encoding", ex.InvalidProperty);
+
+                return;
+            }
+
+            Assert.Fail("Shouldn't Get Here!!");
         }
 
         private class _RijndaelParameters : IRijndaelParameters
@@ -346,7 +439,7 @@ namespace EfficientlyLazyCrypto.Test
             public SecureString EncryptionKeySalt { get; set; }
             public RijndaelKeySize KeySize { get; set; }
             public byte PasswordIterations { get; set; }
-            public Encoding TextEncoding { get; set; }
+            public Encoding Encoding { get; set; }
         }
     }
 }

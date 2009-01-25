@@ -27,7 +27,7 @@ namespace EfficientlyLazyCrypto
             ValidateParameters(parameters);
 
             // Initialization vector converted to a byte array.  Get bytes of initialization vector.
-            byte[] initVectorBytes = DataConversion.ToBytes(parameters.InitVector);
+            byte[] initVectorBytes = DataConversion.ToBytes(parameters.InitVector, parameters.Encoding);
 
             // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
             // Get bytes of salt (used in hashing).
@@ -51,47 +51,55 @@ namespace EfficientlyLazyCrypto
             _minimumDataSaltLength = parameters.MinimumDataSaltLength;
             _maximumDataSaltLength = parameters.MaximumDataSaltLength;
 
-            _textEncoding = parameters.TextEncoding;
+            _textEncoding = parameters.Encoding;
         }
 
-        private static void ValidateParameters(IRijndaelParameters parameters)
+        /// <summary>
+        /// Validate IRijndaelParameters for proper property settings
+        /// </summary>
+        /// <param name="parameters">IRijndaelParameters to validate</param>
+        public static void ValidateParameters(IRijndaelParameters parameters)
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters", "IRijndaelRarameters cannot be null");
+                throw new InvalidRijndaelParameterException(parameters, "IRijndaelRarameters cannot be null");
             }
             
             if (!(parameters.InitVector.Length == 0 || parameters.InitVector.Length == 16))
             {
-                throw new ArgumentOutOfRangeException("parameters", parameters.InitVector.Length,
+                throw new InvalidRijndaelParameterException(parameters, "InitVector", parameters.InitVector.Length,
                                                       "InitVector must be a length of 0 or 16");
             }
             
             if (parameters.PasswordIterations <= 0)
             {
-                throw new ArgumentOutOfRangeException("parameters", parameters.PasswordIterations,
+                throw new InvalidRijndaelParameterException(parameters, "PasswordIterations", parameters.PasswordIterations,
                                                       "PasswordIterations must be greater than 0");
             }
             
             if (parameters.MaximumDataSaltLength < parameters.MinimumDataSaltLength)
             {
-                throw new ArgumentOutOfRangeException("parameters",
-                                                      "MaximumDataSaltLength cannot be less than MinimumDataSaltLength");
+                throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength cannot be less than MinimumDataSaltLength");
             }
             
             if (parameters.MinimumDataSaltLength != 0 && parameters.MinimumDataSaltLength < RijndaelParameters.MINIMUM_SET_SALT_LENGTH)
             {
-                throw new ArgumentOutOfRangeException("parameters", parameters.MinimumDataSaltLength,
+                throw new InvalidRijndaelParameterException(parameters, "MinimumDataSaltLength", parameters.MinimumDataSaltLength,
                                                       string.Format("MinimumDataSaltLength cannot be smaller than {0}",
                                                                     RijndaelParameters.MINIMUM_SET_SALT_LENGTH));
             }
             
             if (parameters.MaximumDataSaltLength != 0 && parameters.MaximumDataSaltLength > RijndaelParameters.MAXIMUM_SET_SALT_LENGTH)
             {
-                throw new ArgumentOutOfRangeException("parameters", parameters.MaximumDataSaltLength,
+                throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength", parameters.MaximumDataSaltLength,
                                                       string.Format("MaximumDataSaltLength cannot be larger than {0}",
                                                                     RijndaelParameters.MAXIMUM_SET_SALT_LENGTH));
             }
+
+           if (parameters.Encoding == null)
+           {
+               throw new InvalidRijndaelParameterException(parameters, "Encoding", parameters.Encoding, "An Encoding must be defined");
+           }
         }
 
         /// <summary>

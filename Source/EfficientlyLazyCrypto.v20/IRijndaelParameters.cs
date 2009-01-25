@@ -52,8 +52,8 @@ namespace EfficientlyLazyCrypto
         byte PasswordIterations { get; }
 
         /// <summary>
-        /// Defines the Encoding to use for string encryption
+        /// Defines the character encoding to use for string encryption
         /// </summary>
-        Encoding TextEncoding { get; }
+        Encoding Encoding { get; }
     }
 }

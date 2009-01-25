@@ -1,4 +1,5 @@
 ﻿using System.Security;
+using System.Text;
 
 namespace EfficientlyLazyCrypto
 {
@@ -18,5 +19,10 @@ namespace EfficientlyLazyCrypto
         /// </summary>
         /// <value>Defined by the <see cref="DPAPIKeyType"/>.</value>
         DPAPIKeyType KeyType { get; }
+
+       /// <summary>
+        /// Defines the character encoding to use for string encryption
+        /// </summary>
+        Encoding Encoding { get; }
     }
 }

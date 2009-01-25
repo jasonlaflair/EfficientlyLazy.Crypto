@@ -17,6 +17,7 @@ namespace EfficientlyLazyCrypto
         private readonly INativeMethods _nativeMethods;
         private readonly DPAPIKeyType _keyType = DPAPIKeyType.MachineKey;
         private readonly SecureString _entropy;
+       private readonly Encoding _encoding;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
@@ -38,6 +39,7 @@ namespace EfficientlyLazyCrypto
             _keyType = parameters.KeyType;
             _entropy = parameters.Entropy;
             _nativeMethods = nativeMethods;
+           _encoding = parameters.Encoding;
         }
 
         private static void ValidateParameters(IDPAPIParameters parameters)
@@ -66,7 +68,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Encrypt(byte[] plaintext)
         {
-            return DPAPI_Encrypt(_keyType, plaintext, DataConversion.ToBytes(_entropy));
+            return DPAPI_Encrypt(_keyType, plaintext, DataConversion.ToBytes(_entropy, _encoding));
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Encrypt(string plaintext)
         {
-            return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(plaintext)));
+            return Convert.ToBase64String(Encrypt(_encoding.GetBytes(plaintext)));
         }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Decrypt(byte[] cipherText)
         {
-            return DPAPI_Decrypt(cipherText, DataConversion.ToBytes(_entropy));
+            return DPAPI_Decrypt(cipherText, DataConversion.ToBytes(_entropy, _encoding));
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Decrypt(string cipherText)
         {
-            return Encoding.UTF8.GetString(Decrypt(Convert.FromBase64String(cipherText)));
+            return _encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
         }
 
         /// <summary>

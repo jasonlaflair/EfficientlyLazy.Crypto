@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v20.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v35.Test", "Tests\EfficientlyLazyCrypto.v35.Test\EfficientlyLazyCrypto.v35.Test.csproj", "{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{1F11CC6D-E59C-42C6-B778-6F8835B3B4E9}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\EfficientlyLazyCrypto.v20\EfficientlyLazyCrypto.v20.shfb = Documentation\EfficientlyLazyCrypto.v20\EfficientlyLazyCrypto.v20.shfb
+		Documentation\EfficientlyLazyCrypto.v35\EfficientlyLazyCrypto.v35.shfb = Documentation\EfficientlyLazyCrypto.v35\EfficientlyLazyCrypto.v35.shfb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

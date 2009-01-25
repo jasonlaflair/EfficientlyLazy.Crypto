@@ -1,6 +1,6 @@
 ﻿<project schemaVersion="1.6.0.7">
     <assemblies>
-        <assembly assemblyPath="..\..\Source\EfficientlyLazy.Crypto.v35\bin\Debug\EfficientlyLazy.Crypto.dll" xmlCommentsPath="..\..\Source\EfficientlyLazy.Crypto.v35\bin\Debug\EfficientlyLazy.Crypto.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Source\EfficientlyLazyCrypto.v35\bin\Release\EfficientlyLazyCrypto.dll" xmlCommentsPath="..\..\Source\EfficientlyLazyCrypto.v35\bin\Release\EfficientlyLazyCrypto.xml" commentsOnly="False" />
     </assemblies>
     <namespaceSummaries>
         <namespaceSummaryItem name="" isDocumented="False" />
@@ -23,9 +23,9 @@
     <IndentHtml>False</IndentHtml>
     <Preliminary>True</Preliminary>
     <RootNamespaceContainer>True</RootNamespaceContainer>
-    <RootNamespaceTitle>EfficientlyLazy</RootNamespaceTitle>
-    <HelpTitle>Efficiently Lazy</HelpTitle>
-    <HtmlHelpName>EfficientlyLazy</HtmlHelpName>
+    <RootNamespaceTitle>EfficientlyLazyCrypto</RootNamespaceTitle>
+    <HelpTitle>EfficientlyLazyCrypto</HelpTitle>
+    <HtmlHelpName>EfficientlyLazyCrypto</HtmlHelpName>
     <Language>en-US</Language>
     <CopyrightHref />
     <CopyrightText>LaFlair.NET 2008</CopyrightText>
@@ -45,6 +45,6 @@
     <CollectionTocStyle>Hierarchical</CollectionTocStyle>
     <IncludeStopWordList>True</IncludeStopWordList>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
-    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <HelpFileVersion>0.0.9.0</HelpFileVersion>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
 </project>
