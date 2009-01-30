@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		Documentation\EfficientlyLazyCrypto.v35\EfficientlyLazyCrypto.v35.shfb = Documentation\EfficientlyLazyCrypto.v35\EfficientlyLazyCrypto.v35.shfb
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.Demo", "Source\EfficientlyLazyCrypto.Demo\EfficientlyLazyCrypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

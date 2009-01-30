@@ -64,31 +64,31 @@ namespace EfficientlyLazyCrypto
             {
                 throw new InvalidRijndaelParameterException(parameters, "IRijndaelRarameters cannot be null");
             }
-            
+
             if (!(parameters.InitVector.Length == 0 || parameters.InitVector.Length == 16))
             {
                 throw new InvalidRijndaelParameterException(parameters, "InitVector", parameters.InitVector.Length,
                                                       "InitVector must be a length of 0 or 16");
             }
-            
+
             if (parameters.PasswordIterations <= 0)
             {
                 throw new InvalidRijndaelParameterException(parameters, "PasswordIterations", parameters.PasswordIterations,
                                                       "PasswordIterations must be greater than 0");
             }
-            
+
             if (parameters.MaximumDataSaltLength < parameters.MinimumDataSaltLength)
             {
                 throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength cannot be less than MinimumDataSaltLength");
             }
-            
+
             if (parameters.MinimumDataSaltLength != 0 && parameters.MinimumDataSaltLength < RijndaelParameters.MINIMUM_SET_SALT_LENGTH)
             {
                 throw new InvalidRijndaelParameterException(parameters, "MinimumDataSaltLength", parameters.MinimumDataSaltLength,
                                                       string.Format("MinimumDataSaltLength cannot be smaller than {0}",
                                                                     RijndaelParameters.MINIMUM_SET_SALT_LENGTH));
             }
-            
+
             if (parameters.MaximumDataSaltLength != 0 && parameters.MaximumDataSaltLength > RijndaelParameters.MAXIMUM_SET_SALT_LENGTH)
             {
                 throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength", parameters.MaximumDataSaltLength,
@@ -96,10 +96,10 @@ namespace EfficientlyLazyCrypto
                                                                     RijndaelParameters.MAXIMUM_SET_SALT_LENGTH));
             }
 
-           if (parameters.Encoding == null)
-           {
-               throw new InvalidRijndaelParameterException(parameters, "Encoding", parameters.Encoding, "An Encoding must be defined");
-           }
+            if (parameters.Encoding == null)
+            {
+                throw new InvalidRijndaelParameterException(parameters, "Encoding", parameters.Encoding, "An Encoding must be defined");
+            }
         }
 
         /// <summary>
@@ -115,37 +115,30 @@ namespace EfficientlyLazyCrypto
             // Let's make cryptographic operations thread-safe.
             lock (_encryptor)
             {
-                MemoryStream memoryStream = null;
-                CryptoStream cryptoStream = null;
-
                 try
                 {
                     // Add salt at the beginning of the plain text bytes (if needed).
                     byte[] plainTextBytesWithSalt = AddSalt(plaintext);
 
-                    memoryStream = new MemoryStream();
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        // To perform encryption, we must use the Write mode.
+                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, _encryptor, CryptoStreamMode.Write))
+                        {
+                            // Start encrypting data.
+                            cryptoStream.Write(plainTextBytesWithSalt, 0, plainTextBytesWithSalt.Length);
 
-                    // To perform encryption, we must use the Write mode.
-                    cryptoStream = new CryptoStream(memoryStream, _encryptor, CryptoStreamMode.Write);
+                            // Finish the encryption operation.
+                            cryptoStream.FlushFinalBlock();
+                        }
 
-                    // Start encrypting data.
-                    cryptoStream.Write(plainTextBytesWithSalt, 0, plainTextBytesWithSalt.Length);
-
-                    // Finish the encryption operation.
-                    cryptoStream.FlushFinalBlock();
-
-                    // Move encrypted data from memory into a byte array.
-                    cipherTextBytes = memoryStream.ToArray();
+                        // Move encrypted data from memory into a byte array.
+                        cipherTextBytes = memoryStream.ToArray();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    //cipherTextBytes = null;
                     throw new CryptographicException("Unable to Encrypt requested data", ex);
-                }
-                finally
-                {
-                    if (cryptoStream != null) cryptoStream.Dispose();
-                    if (memoryStream != null) memoryStream.Dispose();
                 }
             }
 
@@ -186,24 +179,24 @@ namespace EfficientlyLazyCrypto
             // Let's make cryptographic operations thread-safe.
             lock (_decryptor)
             {
-                MemoryStream memoryStream = null;
-                CryptoStream cryptoStream = null;
-
                 try
                 {
-                    memoryStream = new MemoryStream(cipherText);
-
-                    // To perform decryption, we must use the Read mode.
-                    cryptoStream = new CryptoStream(memoryStream, _decryptor, CryptoStreamMode.Read);
-
                     // Since we do not know how big decrypted value will be, use the same
                     // size as cipher text. Cipher text is always longer than plain text
                     // (in block cipher encryption), so we will just use the number of
                     // decrypted data byte after we know how big it is.
                     var decryptedBytes = new byte[cipherText.Length];
 
-                    // Decrypting data and get the count of plain text bytes.
-                    int decryptedByteCount = cryptoStream.Read(decryptedBytes, 0, decryptedBytes.Length);
+                    int decryptedByteCount;
+
+                    using (MemoryStream ms = new MemoryStream(cipherText))
+                    {
+                        // To perform decryption, we must use the Read mode.
+                        using (CryptoStream cs = new CryptoStream(ms, _decryptor, CryptoStreamMode.Read))
+                        {
+                            decryptedByteCount = cs.Read(decryptedBytes, 0, decryptedBytes.Length);
+                        }
+                    }
 
                     int saltLen = 0;
 
@@ -223,11 +216,6 @@ namespace EfficientlyLazyCrypto
                 catch (Exception ex)
                 {
                     throw new CryptographicException("Unable to decrypt requested data", ex);
-                }
-                finally
-                {
-                    if (cryptoStream != null) cryptoStream.Dispose();
-                    if (memoryStream != null) memoryStream.Dispose();
                 }
             }
 
@@ -276,7 +264,7 @@ namespace EfficientlyLazyCrypto
             {
                 return plainTextBytes;
             }
-            
+
             // Generate the salt.
             byte[] saltBytes = GenerateSalt();
 

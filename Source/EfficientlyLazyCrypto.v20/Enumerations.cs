@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel;
+using System.Security.Cryptography;
 
 namespace EfficientlyLazyCrypto
 {
@@ -21,8 +22,10 @@ namespace EfficientlyLazyCrypto
     public enum DPAPIKeyType
     {
         /// <summary>Encrypt at the User Level</summary>
+        [Description("User Level")]
         UserKey = 1,
         /// <summary>Encrypt at the Machine Level</summary>
+        [Description("Machine Level")]
         MachineKey = 0
     }
 
@@ -30,10 +33,13 @@ namespace EfficientlyLazyCrypto
     public enum RijndaelKeySize
     {
         /// <summary>128bit key length</summary>
+        [Description("128bit")]
         Key128Bit = 128,
         /// <summary>192bit key length</summary>
+        [Description("192bit")]
         Key192Bit = 192,
         /// <summary>256bit key length</summary>
+        [Description("256bit")]
         Key256Bit = 256
     }
 }
