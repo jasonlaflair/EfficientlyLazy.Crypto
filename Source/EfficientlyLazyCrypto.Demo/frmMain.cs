@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
 namespace EfficientlyLazyCrypto.Demo
@@ -15,20 +9,21 @@ namespace EfficientlyLazyCrypto.Demo
         {
             InitializeComponent();
 
-            cbxKeySize.DataSource = Conv.GetEnumDescriptions(typeof(RijndaelKeySize));
+            cbxRijndaelKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(RijndaelKeySize));
 
-            nudSaltMin.Minimum = 0;
-            nudSaltMin.Maximum = RijndaelParameters.MINIMUM_SET_SALT_LENGTH;
-            nudSaltMin.Value = 0;
+            nudRijndaelSaltMin.Minimum = 0;
+            nudRijndaelSaltMin.Maximum = RijndaelParameters.MINIMUM_SET_SALT_LENGTH;
+            nudRijndaelSaltMin.Value = 0;
 
-            nudSaltMax.Minimum = 0;
-            nudSaltMax.Maximum = RijndaelParameters.MAXIMUM_SET_SALT_LENGTH;
-            nudSaltMax.Value = 0;
+            nudRijndaelSaltMax.Minimum = 0;
+            nudRijndaelSaltMax.Maximum = RijndaelParameters.MAXIMUM_SET_SALT_LENGTH;
+            nudRijndaelSaltMax.Value = 0;
 
-            nudPassIterations.Minimum = 1;
-            nudPassIterations.Maximum = 10000;
-            nudPassIterations.Value = 1;
+            nudRijndaelPassIterations.Minimum = 1;
+            nudRijndaelPassIterations.Maximum = 10000;
+            nudRijndaelPassIterations.Value = 1;
 
+            cmbDPAPIKeyType.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(DPAPIKeyType));
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -36,13 +31,12 @@ namespace EfficientlyLazyCrypto.Demo
 
         }
 
-        private void cmdEncrypt_Click(object sender, EventArgs e)
+        private void cmdRijndaelEncrypt_Click(object sender, EventArgs e)
         {
-            RijndaelKeySize keySize = Conv.GetEnumName<RijndaelKeySize>(cbxKeySize.SelectedItem.ToString());
+            RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = new RijndaelParameters(txtKey.Text, txtInitVector.Text, (byte)nudSaltMin.Value, (byte)nudSaltMax.Value, txtKeySalt.Text, keySize, (byte)nudPassIterations.Value);
-
-            ICryptoEngine engine = null;
+            IRijndaelParameters parameters = new RijndaelParameters(txtRijndaelKey.Text, txtRijndaelInitVector.Text, (byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value, txtRijndaelKeySalt.Text, keySize, (byte)nudRijndaelPassIterations.Value);
+            ICryptoEngine engine;
 
             try
             {
@@ -51,30 +45,26 @@ namespace EfficientlyLazyCrypto.Demo
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Parameter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                engine = null;
+                return;
             }
 
-            if (engine != null)
+            try
             {
-                try
-                {
-                    txtEncrypted.Text = engine.Encrypt(txtClearText.Text);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Encryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtEncrypted.Text = string.Empty;
-                }
+                txtRijndaelEncrypted.Text = engine.Encrypt(txtRijndaelClearText.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Encryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtRijndaelEncrypted.Text = string.Empty;
             }
         }
 
-        private void cmdDecrypt_Click(object sender, EventArgs e)
+        private void cmdRijndaelDecrypt_Click(object sender, EventArgs e)
         {
-            RijndaelKeySize keySize = Conv.GetEnumName<RijndaelKeySize>(cbxKeySize.SelectedItem.ToString());
+            RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = new RijndaelParameters(txtKey.Text, txtInitVector.Text, (byte)nudSaltMin.Value, (byte)nudSaltMax.Value, txtKeySalt.Text, keySize, (byte)nudPassIterations.Value);
-
-            ICryptoEngine engine = null;
+            IRijndaelParameters parameters = new RijndaelParameters(txtRijndaelKey.Text, txtRijndaelInitVector.Text, (byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value, txtRijndaelKeySalt.Text, keySize, (byte)nudRijndaelPassIterations.Value);
+            ICryptoEngine engine;
 
             try
             {
@@ -83,68 +73,75 @@ namespace EfficientlyLazyCrypto.Demo
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Parameter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                engine = null;
+                return;
             }
 
-            if (engine != null)
+            try
             {
-                try
-                {
-                    txtClearText.Text = engine.Decrypt(txtEncrypted.Text);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Decryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtClearText.Text = string.Empty;
-                }
+                txtRijndaelClearText.Text = engine.Decrypt(txtRijndaelEncrypted.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Decryption Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtRijndaelClearText.Text = string.Empty;
             }
         }
-    }
 
-    public static class Conv
-    {
-        public static List<string> GetEnumDescriptions(Type value)
+        private void cmdDPAPIEncrypt_Click(object sender, EventArgs e)
         {
-            List<string> descriptions = new List<string>();
+            DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-            FieldInfo[] fis = value.GetFields();
-            foreach (FieldInfo fi in fis)
+            IDPAPIParameters parameters = new DPAPIParameters(keyType, txtDPAPIEntropy.Text);
+            ICryptoEngine engine;
+
+            try
             {
-                DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-                if (attributes.Length > 0)
-                {
-                    descriptions.Add(attributes[0].Description);
-                }
+                engine = new DPAPIEngine(parameters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Parameter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            return descriptions;
-        }
-
-        public static string GetEnumDescription(Enum value)
-        {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return (attributes.Length > 0) ? attributes[0].Description : value.ToString();
-        }
-
-        public static T GetEnumName<T>(string description)
-        {
-            FieldInfo[] fis = typeof(T).GetFields();
-            foreach (FieldInfo fi in fis)
+            try
             {
-                DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                txtDPAPIEncrypted.Text = engine.Encrypt(txtDPAPIClearText.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Encryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDPAPIEncrypted.Text = string.Empty;
+            }
+        }
 
-                if (attributes.Length > 0 && attributes[0].Description == description)
-                {
-                    return
-                   (T)fi.GetValue(typeof(T));
+        private void cmdDPAPIDecrypt_Click(object sender, EventArgs e)
+        {
+            DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-                    // return fi.Name;
-                }
+            IDPAPIParameters parameters = new DPAPIParameters(keyType, txtDPAPIEntropy.Text);
+            ICryptoEngine engine;
+
+            try
+            {
+                engine = new DPAPIEngine(parameters);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Parameter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            return default(T); // description;
+            try
+            {
+                txtDPAPIClearText.Text = engine.Decrypt(txtDPAPIEncrypted.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n\r\n{1}", ex.Message, ex), "Decryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDPAPIClearText.Text = string.Empty;
+            }
         }
     }
 }
