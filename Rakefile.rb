@@ -22,7 +22,7 @@ end
 task :runTests do
  runner = 'ThirdParty\\Gallio\\Gallio.Echo.exe'
  assemblies = FileList["Tests/**/bin/Debug/*.Test.dll"]
- extension = '' #'/e:TeamCityExtension,Gallio.TeamCityIntegration'
+ extension = '/e:TeamCityExtension,Gallio.TeamCityIntegration'
  options = '' # '/runner:NCover2'
  sh "#{runner} #{assemblies} #{extension} #{options}"
 end
