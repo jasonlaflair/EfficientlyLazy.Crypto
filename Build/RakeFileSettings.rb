@@ -1,4 +1,4 @@
-@solutionRoot = File.dirname(Rake.original_dir)
+#@solutionRoot = File.dirname(Rake.original_dir)
 
 @buildLevel = NIL
 
@@ -6,9 +6,9 @@
 @solutionFiles = FileList[@solutionRoot + "/*.sln"]
 
 @nCover = 'c:\\Program Files\\NCover\\NCoverExplorer.Console.exe'
-@nCoverConfig = '"' + Rake.original_dir + '/config.ncover"'
+@nCoverConfig = '"' + @rootBuildPath + '/config.ncover"'
 
-@GallioUnitTestRunner = @solutionRoot + '\\ThirdParty\\Gallio\\Gallio.Echo.exe'
+@GallioUnitTestRunner = @solutionRoot + '/ThirdParty/Gallio/Gallio.Echo.exe'
 #@unitTestAssmMask = FileList["Tests/**/bin/Debug/*.Test.dll"]
 
 @shfb = 'C:\\Program Files (x86)\\EWSoftware\\Sandcastle Help File Builder\\SandcastleBuilderConsole.exe'

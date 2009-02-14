@@ -1,4 +1,5 @@
 @rootBuildPath = Rake.original_dir
+@solutionRoot = Rake.original_dir
 
 unless @rootBuildPath.include?('/Build')
   @rootBuildPath = @rootBuildPath + "/Build"
