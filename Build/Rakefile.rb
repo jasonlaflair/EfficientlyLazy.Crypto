@@ -1,10 +1,10 @@
-require 'RakeFileSettings'
+import 'RakeFileSettings.rb'
 
-require 'MSBuild'
-require 'NCover'
-require 'Gallio'
-require 'SandCastle'
-require 'Custom'
+import 'MSBuild.rb'
+import 'NCover.rb'
+import 'Gallio.rb'
+import 'SandCastle.rb'
+import 'Custom.rb'
 
 task :default => :development
 
