@@ -1,7 +1,7 @@
 
 def runUnitTests
     extension = '/e:TeamCityExtension,Gallio.TeamCityIntegration'
-    options = '/runner:NCover2 /no-echo-results /wd:"C:\Users\jason\Documents\Source Code\efficientlylazycrypto\Tests\Output"'
+    options = '/runner:NCover2 /no-echo-results /wd:"' + @rootBuildPath + '"'
     
     unitTestAssmMask = FileList["#{@solutionRoot}/Tests/**/bin/#{@buildLevel}/*.Test.dll"]
     
