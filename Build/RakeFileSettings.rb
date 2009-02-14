@@ -6,7 +6,7 @@
 @solutionFiles = FileList[@solutionRoot + "/*.sln"]
 
 @nCover = 'c:\\Program Files\\NCover\\NCoverExplorer.Console.exe'
-@nCoverConfig = '"' + @rootBuildPath + '/config.ncover"'
+@nCoverConfig = '"' + @rootBuildPath + '/teamCity.ncover"'
 
 @GallioUnitTestRunner = @solutionRoot + '/ThirdParty/Gallio/Gallio.Echo.exe'
 #@unitTestAssmMask = FileList["Tests/**/bin/Debug/*.Test.dll"]
