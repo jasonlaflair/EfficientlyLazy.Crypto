@@ -1,4 +1,3 @@
-require 'RakeFileSettings'
 
 def compile
   params = "/t:Rebuild /nologo /m /v:q /p:Configuration=#{@buildLevel}"

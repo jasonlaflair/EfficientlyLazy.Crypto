@@ -1,4 +1,3 @@
-require 'RakeFileSettings'
 
 def runUnitTests
     extension = '/e:TeamCityExtension,Gallio.TeamCityIntegration'

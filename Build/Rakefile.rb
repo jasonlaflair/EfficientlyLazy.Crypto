@@ -1,10 +1,15 @@
-import Rake.original_dir + '/RakeFileSettings.rb'
+@rootBuildPath = Rake.original_dir
 
-import Rake.original_dir + '/MSBuild.rb'
-import Rake.original_dir + '/NCover.rb'
-import Rake.original_dir + '/Gallio.rb'
-import Rake.original_dir + '/SandCastle.rb'
-import Rake.original_dir + '/Custom.rb'
+unless @rootBuildPath.include?('/Build')
+  @rootBuildPath = @rootBuildPath + "/Build"
+end
+
+import @rootBuildPath + '/RakeFileSettings.rb'
+import @rootBuildPath + '/MSBuild.rb'
+import @rootBuildPath + '/NCover.rb'
+import @rootBuildPath + '/Gallio.rb'
+import @rootBuildPath + '/SandCastle.rb'
+import @rootBuildPath + '/Custom.rb'
 
 task :default => :development
 
