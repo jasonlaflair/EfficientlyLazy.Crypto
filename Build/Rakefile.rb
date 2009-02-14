@@ -1,10 +1,10 @@
-import 'RakeFileSettings.rb'
+import Rake.original_dir + '/RakeFileSettings.rb'
 
-import 'MSBuild.rb'
-import 'NCover.rb'
-import 'Gallio.rb'
-import 'SandCastle.rb'
-import 'Custom.rb'
+import Rake.original_dir + '/MSBuild.rb'
+import Rake.original_dir + '/NCover.rb'
+import Rake.original_dir + '/Gallio.rb'
+import Rake.original_dir + '/SandCastle.rb'
+import Rake.original_dir + '/Custom.rb'
 
 task :default => :development
 
