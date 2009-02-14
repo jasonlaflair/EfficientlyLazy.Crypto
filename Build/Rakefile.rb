@@ -16,12 +16,13 @@ task :default => :development
 
 task :test => [:setDebugLevel, :runCoverage]
 
-task :development => [:setDebugLevel, :compile, :runUnitTests]
+task :development => [:setDebugLevel, :compile, :runUnitTests, :runCoverage]
 task :heavy => [:setDebugLevel, :compile, :runUnitTests, :runCoverage]
 
 task :qa => [:setQALevel, :compile, :runUnitTests, :runCoverage, :customMethods]
 task :production => [:compileRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods]
 
+desc "do something funky"
 task :setDebugLevel do
   @buildLevel = 'Debug'
 end
