@@ -1,16 +1,16 @@
 
 def runUnitTests
-    extension = '/e:TeamCityExtension,Gallio.TeamCityIntegration'
-    options = '/runner:NCover2 /no-echo-results /wd:"' + @rootBuildPath + '"'
+    extension = "/e:TeamCityExtension,Gallio.TeamCityIntegration"
+    options = "/runner:NCover2 /no-echo-results /rt:HTML /rnf:UnitTestResults /rd:\"#{$rootBuildPath}\" /wd:\"#{$rootBuildPath}\""
     
-    unitTestAssmMask = FileList["#{@solutionRoot}/Tests/**/bin/#{@buildLevel}/*.Test.dll"]
+    unitTestAssmMask = FileList["#{$solutionRoot}/Tests/**/bin/#{$buildLevel}/*.Test.dll"]
     
-    fileList = ''
+    fileList = ""
     
     # wrap each path in quotes
     unitTestAssmMask.each do |p|
-      fileList = fileList + '"' + p + '" '
+      fileList = fileList + "\"" + p + "\" "
     end
     
-    sh "#{@GallioUnitTestRunner} #{extension} #{options} #{fileList}"
+    sh "#{$GallioUnitTestRunner} #{extension} #{options} #{fileList}"
 end

@@ -1,4 +1,4 @@
 
 def runNCover
-  sh "#{@nCover} /c:#{@nCoverConfig} /e"
+  sh "#{$nCover} /c:#{$nCoverConfig}"
 end

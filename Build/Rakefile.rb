@@ -1,38 +1,39 @@
-@rootBuildPath = Rake.original_dir
-@solutionRoot = Rake.original_dir
-
-unless @rootBuildPath.include?('/Build')
-  @rootBuildPath = @rootBuildPath + "/Build"
+$solutionRoot = Rake.original_dir
+if $solutionRoot.include?('/Build')
+  $solutionRoot = File.dirname($solutionRoot)
 end
 
-import @rootBuildPath + '/RakeFileSettings.rb'
-import @rootBuildPath + '/MSBuild.rb'
-import @rootBuildPath + '/NCover.rb'
-import @rootBuildPath + '/Gallio.rb'
-import @rootBuildPath + '/SandCastle.rb'
-import @rootBuildPath + '/Custom.rb'
+$rootBuildPath = Rake.original_dir
+unless $rootBuildPath.include?('/Build')
+  $rootBuildPath = $rootBuildPath + "/Build"
+end
+
+import "#{$rootBuildPath}/RakeFileSettings.rb"
+import "#{$rootBuildPath}/MSBuild.rb"
+import "#{$rootBuildPath}/NCover.rb"
+import "#{$rootBuildPath}/Gallio.rb"
+import "#{$rootBuildPath}/SandCastle.rb"
+import "#{$rootBuildPath}/Custom.rb"
 
 task :default => :development
 
-task :test => [:setDebugLevel, :runCoverage]
+task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
+task :heavy => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
 
-task :development => [:setDebugLevel, :compile, :runUnitTests, :runCoverage]
-task :heavy => [:setDebugLevel, :compile, :runUnitTests, :runCoverage]
-
-task :qa => [:setQALevel, :compile, :runUnitTests, :runCoverage, :customMethods]
-task :production => [:compileRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods]
+task :qa => [:setBuildLevelQA, :compile, :runUnitTests, :runCoverage, :customMethods]
+task :production => [:setBuildLevelRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods]
 
 desc "do something funky"
-task :setDebugLevel do
-  @buildLevel = 'Debug'
+task :setBuildLevelDebug do
+  $buildLevel = $buildLevelDebug
 end
 
-task :setQALevel do
-  @buildLevel = 'Debug'
+task :setBuildLevelQA do
+  $buildLevel = $buildLevelQA
 end
 
-task :setProductionLevel do
-  @buildLevel = 'Release'
+task :setBuildLevelRelease do
+  $buildLevel = $buildLevelRelease
 end
 
 task :compile do

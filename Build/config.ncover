@@ -51,7 +51,7 @@
     <CoverageFileName>coverage.xml</CoverageFileName>
   </CoverageFileNames>
   <ReportType>ModuleMethodSummary</ReportType>
-  <HtmlReportFileName>CoverageSummary.html</HtmlReportFileName>
+  <HtmlReportFileName>ModuleMethodSummary.html</HtmlReportFileName>
   <XmlReportFileName />
   <MergeFileName />
   <ShowExcludedFooter>true</ShowExcludedFooter>

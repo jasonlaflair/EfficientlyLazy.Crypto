@@ -1,19 +1,21 @@
-#@solutionRoot = File.dirname(Rake.original_dir)
 
-@buildLevel = NIL
+$buildLevelDebug = "Debug"
+$buildLevelQA = "QA"
+$buildLevelRelease = "Release"
 
-@msbuild = 'C:\\WINDOWS\\Microsoft.NET\\Framework\\v3.5\\MSBuild.exe'
-@solutionFiles = FileList[@solutionRoot + "/*.sln"]
+$buildLevel = NIL
 
-@nCover = 'c:\\Program Files\\NCover\\NCoverExplorer.Console.exe'
-@nCoverConfig = '"' + @rootBuildPath + '/teamCity.ncover"'
+$msbuild = "\"C:/WINDOWS/Microsoft.NET/Framework/v3.5/MSBuild.exe\""
+$solutionFiles = FileList[$solutionRoot + "/*.sln"]
 
-@GallioUnitTestRunner = @solutionRoot + '/ThirdParty/Gallio/Gallio.Echo.exe'
-#@unitTestAssmMask = FileList["Tests/**/bin/Debug/*.Test.dll"]
+$nCover = "\"c:/Program Files/NCover/NCoverExplorer.Console.exe\""
+$nCoverConfig = "\"#{$rootBuildPath}/teamCity.ncover\""
 
-@shfb = 'C:\\Program Files (x86)\\EWSoftware\\Sandcastle Help File Builder\\SandcastleBuilderConsole.exe'
+$GallioUnitTestRunner = "\"#{$solutionRoot}/ThirdParty/Gallio/Gallio.Echo.exe\""
 
-@packageLib20 = 'Package\\lib\\v20\\'
-@packageLib35 = 'Package\\lib\\v35\\'
-@packageDemo = 'Package\\Demo\\'
+$shfb = 'C:\\Program Files (x86)\\EWSoftware\\Sandcastle Help File Builder\\SandcastleBuilderConsole.exe'
+
+$packageLib20 = 'Package\\lib\\v20\\'
+$packageLib35 = 'Package\\lib\\v35\\'
+$packageDemo = 'Package\\Demo\\'
 
