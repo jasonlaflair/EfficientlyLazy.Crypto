@@ -14,11 +14,12 @@ import "#{$rootBuildPath}/NCover.rb"
 import "#{$rootBuildPath}/Gallio.rb"
 import "#{$rootBuildPath}/SandCastle.rb"
 import "#{$rootBuildPath}/Custom.rb"
+import "#{$rootBuildPath}/ZipTools.rb"
 
 task :default => :development
 
-task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
-task :heavy => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
+task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods]
+task :heavy => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods]
 
 task :qa => [:setBuildLevelQA, :compile, :runUnitTests, :runCoverage, :customMethods]
 task :production => [:setBuildLevelRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods]
