@@ -50,7 +50,7 @@
   <CoverageFileNames>
     <CoverageFileName>Build/coverage.xml</CoverageFileName>
   </CoverageFileNames>
-  <ReportType>Build/ModuleMethodSummary</ReportType>
+  <ReportType>ModuleMethodSummary</ReportType>
   <HtmlReportFileName>Build/ModuleMethodSummary.html</HtmlReportFileName>
   <XmlReportFileName />
   <MergeFileName />
