@@ -1,7 +1,7 @@
 
 def runUnitTests
     extension = "/e:TeamCityExtension,Gallio.TeamCityIntegration"
-    options = "/runner:NCover2 /no-echo-results /rt:HTML /rnf:UnitTestResults /rd:\"#{$rootBuildPath}/UnitTestResults\" /wd:\"#{$rootBuildPath}/UnitTestResults\""
+    options = "/runner:NCover2 /no-echo-results /rt:HTML /rnf:UnitTestResults /rd:\"#{$rootBuildPath}\" /wd:\"#{$rootBuildPath}\""
     
     unitTestAssmMask = FileList["#{$solutionRoot}/Tests/**/bin/#{$buildLevel}/*.Test.dll"]
     
