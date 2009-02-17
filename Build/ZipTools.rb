@@ -1,5 +1,7 @@
 
 def addDirectoryToZip(quotedSourceDirectory, quotedZipFilePath)
+  puts "##teamcity[progressMessage 'Adding Directory To Zip']"
+  
   zipExe = "\"#{$rootBuildPath}/Tools/7zip/7za.exe\""
   
   params = "a -tzip -mx9 #{quotedZipFilePath} -ir!#{quotedSourceDirectory}"
@@ -9,6 +11,8 @@ def addDirectoryToZip(quotedSourceDirectory, quotedZipFilePath)
 end
 
 def addFileToZip(quotedSourceFile, quotedZipFilePath)
+  puts "##teamcity[progressMessage 'Adding File To Zip']"
+  
   zipExe = "\"#{$rootBuildPath}/Tools/7zip/7za.exe\""
   
   params = "a -tzip -mx9 #{quotedZipFilePath} #{quotedSourceFile}"

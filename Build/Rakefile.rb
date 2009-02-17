@@ -18,11 +18,11 @@ import "#{$rootBuildPath}/ZipTools.rb"
 
 task :default => :development
 
-task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods]
-task :heavy => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods]
+task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods, :reportComplete]
+task :heavy => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage, :customMethods, :reportComplete]
 
-task :qa => [:setBuildLevelQA, :compile, :runUnitTests, :runCoverage, :customMethods]
-task :production => [:setBuildLevelRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods]
+task :qa => [:setBuildLevelQA, :compile, :runUnitTests, :runCoverage, :customMethods, :reportComplete]
+task :production => [:setBuildLevelRelease, :compile, :runUnitTests, :runCoverage, :generateDocs, :customMethods, :reportComplete]
 
 desc "do something funky"
 task :setBuildLevelDebug do
@@ -48,6 +48,11 @@ end
 task :runCoverage do
   runNCover
 end
+
+task :reportComplete do
+  puts "##teamcity[progressMessage 'Complete']"
+end
+
 
 task :generateDocs do
   buildDocumentationWithSandcastle 'Documentation\\EfficientlyLazyCrypto.v20\\EfficientlyLazyCrypto.v20.shfb'
