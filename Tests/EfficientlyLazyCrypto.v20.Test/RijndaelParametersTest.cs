@@ -14,7 +14,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
 
-            var parameters = new RijndaelParameters(passPhrase);
+            var parameters = RijndaelParameters.Create(passPhrase);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());
@@ -26,7 +26,8 @@ namespace EfficientlyLazyCrypto.Test
             string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
             string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            var parameters = new RijndaelParameters(passPhrase, initVector);
+            var parameters = RijndaelParameters.Create(passPhrase)
+                .SetInitVector(initVector);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());
@@ -45,7 +46,9 @@ namespace EfficientlyLazyCrypto.Test
             var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
             var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
 
-            var parameters = new RijndaelParameters(passPhrase, initVector, saltMin, saltMax);
+            var parameters = RijndaelParameters.Create(passPhrase)
+                .SetInitVector(initVector)
+                .SetRandomSaltLength(saltMin, saltMax);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());
@@ -69,7 +72,10 @@ namespace EfficientlyLazyCrypto.Test
 
             string encryptionKeySalt = DataGeneration.RandomString(50, 200, true, true, true, true);
 
-            var parameters = new RijndaelParameters(passPhrase, initVector, saltMin, saltMax, encryptionKeySalt);
+            var parameters = RijndaelParameters.Create(passPhrase)
+                .SetInitVector(initVector)
+                .SetRandomSaltLength(saltMin, saltMax)
+                .SetSaltData(encryptionKeySalt);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());
@@ -96,7 +102,10 @@ namespace EfficientlyLazyCrypto.Test
 
             const RijndaelKeySize keySize = RijndaelKeySize.Key192Bit;
 
-            var parameters = new RijndaelParameters(passPhrase, initVector, saltMin, saltMax, string.Empty, keySize);
+            var parameters = RijndaelParameters.Create(passPhrase)
+                .SetInitVector(initVector)
+                .SetRandomSaltLength(saltMin, saltMax)
+                .SetKeySize(keySize);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());
@@ -124,7 +133,11 @@ namespace EfficientlyLazyCrypto.Test
 
             const byte passwordIterations = 5;
 
-            var parameters = new RijndaelParameters(passPhrase, initVector, saltMin, saltMax, string.Empty, keySize, passwordIterations);
+            var parameters = RijndaelParameters.Create(passPhrase)
+                .SetInitVector(initVector)
+                .SetRandomSaltLength(saltMin, saltMax)
+                .SetKeySize(keySize)
+                .SetPasswordIterations(passwordIterations);
 
             Assert.AreEqual(passPhrase, DataConversion.ToString(parameters.Key));
             Assert.IsTrue(parameters.Key.IsReadOnly());

@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System;
+using System.Security;
 using System.Text;
 
 namespace EfficientlyLazyCrypto
@@ -20,53 +21,78 @@ namespace EfficientlyLazyCrypto
         /// <value>Defined by the <see cref="DPAPIKeyType"/>.</value>
         public DPAPIKeyType KeyType { get; private set; }
 
-       /// <summary>
+        /// <summary>
         /// Defines the character encoding to use for string encryption
         /// </summary>
         public Encoding Encoding { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
-        /// </summary>
-        /// <param name="keyType">The <see cref="DPAPIKeyType"/> to use for the crypto engine.</param>
-        public DPAPIParameters(DPAPIKeyType keyType) 
-            : this(keyType, string.Empty)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
-        /// </summary>
-        /// <param name="keyType">The <see cref="DPAPIKeyType"/> to use for the crypto engine.</param>
-        /// <param name="entropy">The entropy to use for the crypto engine.</param>
-        public DPAPIParameters(DPAPIKeyType keyType, string entropy) 
-            : this(keyType, DataConversion.ToSecureString(entropy))
-        {
-        }
-
-       /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
-        /// </summary>
-        /// <param name="keyType">Type of the key.</param>
-        /// <param name="entropy">The entropy.</param>
-        public DPAPIParameters(DPAPIKeyType keyType, SecureString entropy)
-           : this(keyType, entropy, Encoding.UTF8)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIParameters"/> class.
-        /// </summary>
-        /// <param name="keyType">Type of the key.</param>
-        /// <param name="entropy">The entropy.</param>
-        /// <param name="encoding">Character encoding to use.</param>
-        public DPAPIParameters(DPAPIKeyType keyType, SecureString entropy, Encoding encoding)
+        ///<summary>
+        /// Sets the <see cref="DPAPIKeyType"/> to use for the crypto engine.
+        ///</summary>
+        ///<param name="keyType"><see cref="DPAPIKeyType"/></param>
+        ///<returns></returns>
+        public IDPAPIParameters SetKeyType(DPAPIKeyType keyType)
         {
             KeyType = keyType;
-            Entropy = entropy;
-           Encoding = encoding;
 
-            if (entropy != null && !entropy.IsReadOnly()) Entropy.MakeReadOnly();
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the entropy for the cryptography parameters.
+        ///</summary>
+        ///<param name="entropy">Entropy specified as a string.</param>
+        ///<returns></returns>
+        public IDPAPIParameters SetEntropy(string entropy)
+        {
+            Entropy = DataConversion.ToSecureString(entropy, true);
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the entropy for the cryptography parameters.
+        ///</summary>
+        ///<param name="entropy">Entropy specified as a <see cref="SecureString" />.</param>
+        ///<returns></returns>
+        public IDPAPIParameters SetEntropy(SecureString entropy)
+        {
+            if (entropy == null)
+                throw new ArgumentNullException("entropy", "paramenter cannot be null");
+
+            Entropy = entropy;
+            
+            if (!Entropy.IsReadOnly()) Entropy.MakeReadOnly();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the encoding for the cryptography parameters.
+        ///</summary>
+        ///<param name="encoding"><see cref="Encoding"/> to use.</param>
+        ///<returns></returns>
+        public IDPAPIParameters SetEncoding(Encoding encoding)
+        {
+            Encoding = encoding;
+
+            return this;
+        }
+
+        private DPAPIParameters(DPAPIKeyType keyType)
+        {
+            KeyType = keyType;
+            Entropy = DataConversion.ToSecureString(string.Empty, true);
+            Encoding = Encoding.UTF8;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keyType"></param>
+        ///<returns></returns>
+        public static DPAPIParameters Create(DPAPIKeyType keyType)
+        {
+            return new DPAPIParameters(keyType);
         }
     }
 }

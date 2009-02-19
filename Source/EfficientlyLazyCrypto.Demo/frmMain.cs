@@ -35,7 +35,13 @@ namespace EfficientlyLazyCrypto.Demo
         {
             RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = new RijndaelParameters(txtRijndaelKey.Text, txtRijndaelInitVector.Text, (byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value, txtRijndaelKeySalt.Text, keySize, (byte)nudRijndaelPassIterations.Value);
+            IRijndaelParameters parameters = RijndaelParameters.Create(txtRijndaelKey.Text)
+                .SetInitVector(txtRijndaelInitVector.Text)
+                .SetRandomSaltLength((byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value)
+                .SetSaltData(txtRijndaelKeySalt.Text)
+                .SetKeySize(keySize)
+                .SetPasswordIterations((byte)nudRijndaelPassIterations.Value);
+
             ICryptoEngine engine;
 
             try
@@ -63,7 +69,13 @@ namespace EfficientlyLazyCrypto.Demo
         {
             RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = new RijndaelParameters(txtRijndaelKey.Text, txtRijndaelInitVector.Text, (byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value, txtRijndaelKeySalt.Text, keySize, (byte)nudRijndaelPassIterations.Value);
+            IRijndaelParameters parameters = RijndaelParameters.Create(txtRijndaelKey.Text)
+                .SetInitVector(txtRijndaelInitVector.Text)
+                .SetRandomSaltLength((byte) nudRijndaelSaltMin.Value, (byte) nudRijndaelSaltMax.Value)
+                .SetSaltData(txtRijndaelKeySalt.Text)
+                .SetKeySize(keySize)
+                .SetPasswordIterations((byte) nudRijndaelPassIterations.Value);
+
             ICryptoEngine engine;
 
             try
@@ -92,7 +104,9 @@ namespace EfficientlyLazyCrypto.Demo
         {
             DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-            IDPAPIParameters parameters = new DPAPIParameters(keyType, txtDPAPIEntropy.Text);
+            IDPAPIParameters parameters = DPAPIParameters.Create(keyType)
+                .SetEntropy(txtDPAPIEntropy.Text);
+
             ICryptoEngine engine;
 
             try
@@ -120,7 +134,9 @@ namespace EfficientlyLazyCrypto.Demo
         {
             DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-            IDPAPIParameters parameters = new DPAPIParameters(keyType, txtDPAPIEntropy.Text);
+            IDPAPIParameters parameters = DPAPIParameters.Create(keyType)
+                .SetEntropy(txtDPAPIEntropy.Text);
+
             ICryptoEngine engine;
 
             try

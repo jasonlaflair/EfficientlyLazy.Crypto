@@ -20,7 +20,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             string plainText = DataGeneration.RandomString(200, 500, true, true, true, true);
             
-            var parameters = new DPAPIParameters(DPAPIKeyType.UserKey);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.UserKey);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -38,7 +38,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes( DataGeneration.RandomString(200, 500, true, true, true, true));
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.UserKey);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.UserKey);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -56,7 +56,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             string plainText = DataGeneration.RandomString(200, 500, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.MachineKey);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.MachineKey);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -74,7 +74,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(DataGeneration.RandomString(200, 500, true, true, true, true));
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.MachineKey);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.MachineKey);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -94,7 +94,8 @@ namespace EfficientlyLazyCrypto.Test
             string plainText = DataGeneration.RandomString(200, 500, true, true, true, true);
             string entropy = DataGeneration.RandomString(100, 300, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.UserKey, entropy);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.UserKey)
+                .SetEntropy(entropy);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -113,7 +114,8 @@ namespace EfficientlyLazyCrypto.Test
             byte[] plainBytes = Encoding.UTF8.GetBytes(DataGeneration.RandomString(200, 500, true, true, true, true));
             string entropy = DataGeneration.RandomString(100, 300, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.UserKey, entropy);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.UserKey)
+                .SetEntropy(entropy);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -132,7 +134,8 @@ namespace EfficientlyLazyCrypto.Test
             string plainText = DataGeneration.RandomString(200, 500, true, true, true, true);
             string entropy = DataGeneration.RandomString(100, 300, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.MachineKey, entropy);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.MachineKey)
+                .SetEntropy(entropy);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -151,7 +154,8 @@ namespace EfficientlyLazyCrypto.Test
             byte[] plainBytes = Encoding.UTF8.GetBytes(DataGeneration.RandomString(200, 500, true, true, true, true));
             string entropy = DataGeneration.RandomString(100, 300, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.MachineKey, entropy);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.MachineKey)
+                .SetEntropy(entropy);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -169,7 +173,8 @@ namespace EfficientlyLazyCrypto.Test
         {
             string entropy = DataGeneration.RandomString(100, 300, true, true, true, true);
 
-            var parameters = new DPAPIParameters(DPAPIKeyType.MachineKey, entropy);
+            var parameters = DPAPIParameters.Create(DPAPIKeyType.MachineKey)
+                .SetEntropy(entropy);
 
             var engine = new DPAPIEngine(parameters);
 
@@ -196,6 +201,26 @@ namespace EfficientlyLazyCrypto.Test
            {
               get { return Encoding.UTF8; }
            }
+
+            public IDPAPIParameters SetKeyType(DPAPIKeyType keyType)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IDPAPIParameters SetEntropy(string entropy)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IDPAPIParameters SetEntropy(SecureString entropy)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IDPAPIParameters SetEncoding(Encoding encoding)
+            {
+                throw new System.NotImplementedException();
+            }
         }
 
         [Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
@@ -215,7 +240,8 @@ namespace EfficientlyLazyCrypto.Test
         {
             SecureString ss = null;
 
-            IDPAPIParameters parameters = new DPAPIParameters(DPAPIKeyType.UserKey, ss);
+            IDPAPIParameters parameters = DPAPIParameters.Create(DPAPIKeyType.UserKey)
+                .SetEntropy(ss);
 
             new DPAPIEngine(parameters);
         }
@@ -235,7 +261,7 @@ namespace EfficientlyLazyCrypto.Test
 
             repository.ReplayAll();
 
-            ICryptoEngine engine = new DPAPIEngine(new DPAPIParameters(DPAPIKeyType.UserKey, "key"), INativeMethodsMock);
+            ICryptoEngine engine = new DPAPIEngine(DPAPIParameters.Create(DPAPIKeyType.UserKey).SetEntropy("key"), INativeMethodsMock);
 
             engine.Encrypt("crap");
 
@@ -256,7 +282,7 @@ namespace EfficientlyLazyCrypto.Test
 
             repository.ReplayAll();
 
-            ICryptoEngine engine = new DPAPIEngine(new DPAPIParameters(DPAPIKeyType.UserKey, "key"), INativeMethodsMock);
+            ICryptoEngine engine = new DPAPIEngine(DPAPIParameters.Create(DPAPIKeyType.UserKey).SetEntropy("key"), INativeMethodsMock);
 
             engine.Encrypt("crap");
         }
@@ -264,7 +290,7 @@ namespace EfficientlyLazyCrypto.Test
         [Test, ExpectedException(typeof(NotImplementedException))]
         public void DPAPIEngine_FileEncryption()
         {
-            ICryptoEngine engine = new DPAPIEngine(new DPAPIParameters(DPAPIKeyType.UserKey, "key"));
+            ICryptoEngine engine = new DPAPIEngine(DPAPIParameters.Create(DPAPIKeyType.UserKey).SetEntropy("key"));
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -275,7 +301,7 @@ namespace EfficientlyLazyCrypto.Test
         [Test, ExpectedException(typeof(NotImplementedException))]
         public void DPAPIEngine_FileDecryption()
         {
-            ICryptoEngine engine = new DPAPIEngine(new DPAPIParameters(DPAPIKeyType.UserKey, "key"));
+            ICryptoEngine engine = new DPAPIEngine(DPAPIParameters.Create(DPAPIKeyType.UserKey).SetEntropy("key"));
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;

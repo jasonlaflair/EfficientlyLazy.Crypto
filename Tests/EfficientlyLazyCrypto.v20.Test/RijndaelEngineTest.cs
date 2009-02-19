@@ -20,7 +20,7 @@ namespace EfficientlyLazyCrypto.Test
 
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -38,7 +38,7 @@ namespace EfficientlyLazyCrypto.Test
 
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -55,7 +55,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
             string init = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -74,7 +75,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
             string init = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -96,7 +98,9 @@ namespace EfficientlyLazyCrypto.Test
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init, minSalt, maxSalt);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -119,7 +123,10 @@ namespace EfficientlyLazyCrypto.Test
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
             string saltKey = DataGeneration.RandomString(50, 100, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init, minSalt, maxSalt, saltKey);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSaltData(saltKey);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -154,7 +161,11 @@ namespace EfficientlyLazyCrypto.Test
             else if (mod == 1) keySize = RijndaelKeySize.Key192Bit;
             else keySize = RijndaelKeySize.Key256Bit;
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init, minSalt, maxSalt, saltKey, keySize);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSaltData(saltKey)
+                .SetKeySize(keySize);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -179,7 +190,12 @@ namespace EfficientlyLazyCrypto.Test
 
             byte iterations = (byte)DataGeneration.RandomInteger(1, 10);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init, minSalt, maxSalt, saltKey, RijndaelKeySize.Key256Bit, iterations);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSaltData(saltKey)
+                .SetKeySize(RijndaelKeySize.Key256Bit)
+                .SetPasswordIterations(iterations);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -204,7 +220,12 @@ namespace EfficientlyLazyCrypto.Test
 
             byte iterations = (byte)DataGeneration.RandomInteger(1, 10);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init, minSalt, maxSalt, saltKey, RijndaelKeySize.Key256Bit, iterations);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSaltData(saltKey)
+                .SetKeySize(RijndaelKeySize.Key256Bit)
+                .SetPasswordIterations(iterations);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -225,7 +246,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
             string init = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -238,7 +260,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
             string init = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -254,7 +277,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = DataGeneration.RandomString(50, 220, true, true, true, true);
             string init = DataGeneration.RandomString(16, 16, true, true, true, true);
 
-            IRijndaelParameters parameters = new RijndaelParameters(key, init);
+            IRijndaelParameters parameters = RijndaelParameters.Create(key)
+                .SetInitVector(init);
 
             ICryptoEngine engine = new RijndaelEngine(parameters);
 
@@ -412,8 +436,13 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void ParameterValidation_MissingEncoding()
         {
-            RijndaelParameters parameters = new RijndaelParameters("sljfslkfas", "1234567890123456", 15, 30, "sdlfjsldfsk",
-                                                          RijndaelKeySize.Key256Bit, 1, null);
+            IRijndaelParameters parameters = RijndaelParameters.Create("sljfslkfas")
+                .SetInitVector("1234567890123456")
+                .SetRandomSaltLength(15, 30)
+                .SetSaltData("sdlfjsldfsk")
+                .SetKeySize(RijndaelKeySize.Key256Bit)
+                .SetPasswordIterations(1)
+                .SetEncoding(null);
 
             try
             {
@@ -440,6 +469,56 @@ namespace EfficientlyLazyCrypto.Test
             public RijndaelKeySize KeySize { get; set; }
             public byte PasswordIterations { get; set; }
             public Encoding Encoding { get; set; }
+
+            public IRijndaelParameters SetKey(SecureString key)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetKey(string key)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetInitVector(SecureString initVector)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetInitVector(string initVector)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetRandomSaltLength(byte min, byte max)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetSaltData(SecureString saltData)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetSaltData(string saltData)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetKeySize(RijndaelKeySize keySize)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetPasswordIterations(byte iterations)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public IRijndaelParameters SetEncoding(Encoding encoding)
+            {
+                throw new System.NotImplementedException();
+            }
         }
     }
 }

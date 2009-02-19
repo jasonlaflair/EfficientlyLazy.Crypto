@@ -66,100 +66,99 @@ namespace EfficientlyLazyCrypto
         /// </summary>
         public Encoding Encoding { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        public RijndaelParameters(string key)
-            : this(key, string.Empty, 0, 0, string.Empty, RijndaelKeySize.Key256Bit, 1)
+        public IRijndaelParameters SetKey(SecureString key)
         {
+            Key = key;
+
+            if (!Key.IsReadOnly()) Key.MakeReadOnly();
+
+            return this;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        public RijndaelParameters(string key, string initVector)
-            : this(key, initVector, 0, 0, string.Empty, RijndaelKeySize.Key256Bit, 1)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        /// <param name="minimumDataSaltLength"></param>
-        /// <param name="maximumDataSaltLength"></param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength)
-            : this(key, initVector, minimumDataSaltLength, maximumDataSaltLength, string.Empty, RijndaelKeySize.Key256Bit, 1)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        /// <param name="minimumDataSaltLength"></param>
-        /// <param name="maximumDataSaltLength"></param>
-        /// <param name="encryptionKeySalt"></param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt)
-            : this(key, initVector, minimumDataSaltLength, maximumDataSaltLength, encryptionKeySalt, RijndaelKeySize.Key256Bit, 1)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        /// <param name="minimumDataSaltLength"></param>
-        /// <param name="maximumDataSaltLength"></param>
-        /// <param name="encryptionKeySalt"></param>
-        /// <param name="keySize">The size of the key to use.</param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt, RijndaelKeySize keySize)
-            : this(key, initVector, minimumDataSaltLength, maximumDataSaltLength, encryptionKeySalt, keySize, 1)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        /// <param name="minimumDataSaltLength"></param>
-        /// <param name="maximumDataSaltLength"></param>
-        /// <param name="encryptionKeySalt"></param>
-        /// <param name="keySize">The size of the key to use.</param>
-        /// <param name="passwordIterations">The number of password iterations.</param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt, RijndaelKeySize keySize, byte passwordIterations)
-            : this(key, initVector, minimumDataSaltLength, maximumDataSaltLength, encryptionKeySalt, keySize, passwordIterations, Encoding.UTF8)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelParameters"/> class.
-        /// </summary>
-        /// <param name="key">The key to use for the crypto engine.</param>
-        /// <param name="initVector">The initialization vector to use for the crypto engine.</param>
-        /// <param name="minimumDataSaltLength"></param>
-        /// <param name="maximumDataSaltLength"></param>
-        /// <param name="encryptionKeySalt"></param>
-        /// <param name="keySize">The size of the key to use.</param>
-        /// <param name="passwordIterations">The number of password iterations.</param>
-        /// <param name="encoding">Defines the Encoding to use for string encryption.</param>
-        public RijndaelParameters(string key, string initVector, byte minimumDataSaltLength, byte maximumDataSaltLength, string encryptionKeySalt, RijndaelKeySize keySize, byte passwordIterations, Encoding encoding)
+        public IRijndaelParameters SetKey(string key)
         {
             Key = DataConversion.ToSecureString(key, true);
+
+            return this;
+        }
+
+        public IRijndaelParameters SetInitVector(SecureString initVector)
+        {
+            InitVector = initVector;
+
+            if (!InitVector.IsReadOnly()) InitVector.MakeReadOnly();
+
+            return this;
+        }
+
+        public IRijndaelParameters SetInitVector(string initVector)
+        {
             InitVector = DataConversion.ToSecureString(initVector, true);
-            MinimumDataSaltLength = minimumDataSaltLength;
-            MaximumDataSaltLength = maximumDataSaltLength;
-            EncryptionKeySalt = DataConversion.ToSecureString(encryptionKeySalt, true);
+
+            return this;
+        }
+
+        public IRijndaelParameters SetRandomSaltLength(byte min, byte max)
+        {
+            MinimumDataSaltLength = min;
+            MaximumDataSaltLength = max;
+
+            return this;
+        }
+
+        public IRijndaelParameters SetSaltData(SecureString saltData)
+        {
+            EncryptionKeySalt = saltData;
+
+            if (!EncryptionKeySalt.IsReadOnly()) EncryptionKeySalt.MakeReadOnly();
+
+            return this;
+        }
+
+        public IRijndaelParameters SetSaltData(string saltData)
+        {
+            EncryptionKeySalt = DataConversion.ToSecureString(saltData, true);
+
+            return this;
+        }
+
+        public IRijndaelParameters SetKeySize(RijndaelKeySize keySize)
+        {
             KeySize = keySize;
-            PasswordIterations = passwordIterations;
+
+            return this;
+        }
+
+        public IRijndaelParameters SetPasswordIterations(byte iterations)
+        {
+            PasswordIterations = iterations;
+
+            return this;
+        }
+
+        public IRijndaelParameters SetEncoding(Encoding encoding)
+        {
             Encoding = encoding;
+
+            return this;
+        }
+
+        private RijndaelParameters(SecureString key)
+        {
+            Key = key;
+            InitVector = DataConversion.ToSecureString(string.Empty, true);
+            MinimumDataSaltLength = 0;
+            MaximumDataSaltLength = 0;
+            EncryptionKeySalt = DataConversion.ToSecureString(string.Empty);
+            KeySize = RijndaelKeySize.Key256Bit;
+            PasswordIterations = 1;
+            Encoding = Encoding.UTF8;
+        }
+
+
+        public static RijndaelParameters Create(string key)
+        {
+            return new RijndaelParameters(DataConversion.ToSecureString(key, true));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace EfficientlyLazyCrypto.Test
         [Row(DPAPIKeyType.UserKey)]
         public void DPAPIParameters_KeyTypeTest(DPAPIKeyType keyType)
         {
-            var actual = new DPAPIParameters(keyType);
+            var actual = DPAPIParameters.Create(keyType);
 
             Assert.AreEqual(keyType, actual.KeyType);
             Assert.AreEqual(string.Empty, DataConversion.ToString(actual.Entropy));
@@ -35,7 +35,8 @@ namespace EfficientlyLazyCrypto.Test
         {
             string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
 
-            var actual = new DPAPIParameters(keyType, entropy);
+            var actual = DPAPIParameters.Create(keyType)
+                .SetEntropy(entropy);
 
             Assert.AreEqual(keyType, actual.KeyType);
             Assert.AreEqual(entropy, DataConversion.ToString(actual.Entropy));
@@ -52,7 +53,8 @@ namespace EfficientlyLazyCrypto.Test
         {
             string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
 
-            var actual = new DPAPIParameters(keyType, entropy);
+            var actual = DPAPIParameters.Create(keyType)
+                .SetEntropy(entropy);
 
             Assert.AreEqual(keyType, actual.KeyType);
             Assert.AreEqual(entropy, DataConversion.ToString(actual.Entropy));
@@ -76,7 +78,8 @@ namespace EfficientlyLazyCrypto.Test
                 ss.AppendChar(ch);
             }
 
-            var actual = new DPAPIParameters(keyType, ss);
+            var actual = DPAPIParameters.Create(keyType)
+                .SetEntropy(ss);
 
             Assert.AreEqual(keyType, actual.KeyType);
             Assert.AreEqual(DataConversion.ToString(ss), DataConversion.ToString(ss));
@@ -102,7 +105,8 @@ namespace EfficientlyLazyCrypto.Test
 
             if (makeReadOnly) ss.MakeReadOnly();
 
-            var actual = new DPAPIParameters(keyType, ss);
+            var actual = DPAPIParameters.Create(keyType)
+                .SetEntropy(ss);
 
             Assert.AreEqual(keyType, actual.KeyType);
             Assert.AreEqual(DataConversion.ToString(ss), DataConversion.ToString(ss));

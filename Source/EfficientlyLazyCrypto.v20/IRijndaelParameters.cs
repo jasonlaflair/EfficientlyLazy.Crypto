@@ -55,5 +55,22 @@ namespace EfficientlyLazyCrypto
         /// Defines the character encoding to use for string encryption
         /// </summary>
         Encoding Encoding { get; }
+
+        IRijndaelParameters SetKey(SecureString key);
+        IRijndaelParameters SetKey(string key);
+
+        IRijndaelParameters SetInitVector(SecureString initVector);
+        IRijndaelParameters SetInitVector(string initVector);
+
+        IRijndaelParameters SetRandomSaltLength(byte min, byte max);
+
+        IRijndaelParameters SetSaltData(SecureString saltData);
+        IRijndaelParameters SetSaltData(string saltData);
+
+        IRijndaelParameters SetKeySize(RijndaelKeySize keySize);
+
+        IRijndaelParameters SetPasswordIterations(byte iterations);
+
+        IRijndaelParameters SetEncoding(Encoding encoding);
     }
 }
