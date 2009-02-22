@@ -48,10 +48,10 @@
   <KeepInSyncWithExportedPath>false</KeepInSyncWithExportedPath>
   <ProjectGuid>74a22d4a-0143-4d9f-82ce-14fd4fa08d17</ProjectGuid>
   <CoverageFileNames>
-    <CoverageFileName>coverage.xml</CoverageFileName>
+    <CoverageFileName>Artifacts/coverage.xml</CoverageFileName>
   </CoverageFileNames>
-  <ReportType>ModuleMethodSummary</ReportType>
-  <HtmlReportFileName>ModuleMethodSummary.html</HtmlReportFileName>
+  <ReportType>@REPORTTYPE@</ReportType>
+  <HtmlReportFileName>Artifacts/@REPORTTYPE@.html</HtmlReportFileName>
   <XmlReportFileName />
   <MergeFileName />
   <ShowExcludedFooter>true</ShowExcludedFooter>
