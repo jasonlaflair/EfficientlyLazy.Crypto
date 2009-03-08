@@ -7,12 +7,12 @@ namespace EfficientlyLazyCrypto.Test
     ///to contain all RijndaelParametersTest Unit Tests
     ///</summary>
     [TestFixture]
-    public class RijndaelParametersTest
+    public class RijndaelParametersTest : RandomBase
     {
         [Test]
         public void RijndaelParametersTest_PassPhrase()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
+            string passPhrase = GeneratePassPhrase();
 
             var parameters = RijndaelParameters.Create(passPhrase);
 
@@ -23,8 +23,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void RijndaelParametersTest_InitVector()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
-            string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string passPhrase = GeneratePassPhrase();
+            string initVector = GenerateInitVector();
 
             var parameters = RijndaelParameters.Create(passPhrase)
                 .SetInitVector(initVector);
@@ -39,9 +39,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void RijndaelParametersTest_Salt()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
-            string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
-
+            string passPhrase = GeneratePassPhrase();
+            string initVector = GenerateInitVector();
 
             var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
             var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
@@ -63,14 +62,13 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void RijndaelParametersTest_Salt_Key()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
-            string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
-
+            string passPhrase = GeneratePassPhrase();
+            string initVector = GenerateInitVector();
 
             var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
             var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
 
-            string encryptionKeySalt = DataGeneration.RandomString(50, 200, true, true, true, true);
+            string encryptionKeySalt = GenerateRandomSalt();
 
             var parameters = RijndaelParameters.Create(passPhrase)
                 .SetInitVector(initVector)
@@ -93,8 +91,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void RijndaelParametersTest_KeySize()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
-            string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string passPhrase = GeneratePassPhrase();
+            string initVector = GenerateInitVector();
 
             var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
             var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
@@ -122,8 +120,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test]
         public void RijndaelParametersTest_PasswordIterations()
         {
-            string passPhrase = DataGeneration.RandomString(100, 500, true, true, true, true);
-            string initVector = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string passPhrase = GeneratePassPhrase();
+            string initVector = GenerateInitVector();
 
             var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
             var saltMax = (byte)DataGeneration.RandomInteger(100, 150);

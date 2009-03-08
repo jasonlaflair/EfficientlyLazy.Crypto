@@ -97,35 +97,5 @@ namespace EfficientlyLazyCrypto.Test
                 }
             }
         }
-
-        [Test]
-        [Row(2, null, null, null)]
-        [Row(null, 2, null, null)]
-        [Row(null, null, 2, null)]
-        [Row(null, null, null, 2)]
-        public void CharacterSetCustomOverload(int? requiredUppers, int? requiredLowers, int? requiredNumerics, int? requiredSpecials)
-        {
-            CharacterSet set = CharacterSet.Empty();
-
-            if (requiredUppers.HasValue) set = CharacterSet.AllUppercase(requiredUppers.Value);
-            if (requiredLowers.HasValue) set = CharacterSet.AllLowercase();
-            if (requiredNumerics.HasValue) set = CharacterSet.AllNumeric();
-            if (requiredSpecials.HasValue) set = CharacterSet.AllSpecial();
-
-            Assert.AreNotEqual(set.Characters.Count, 0);
-
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
-
-            string data = DataGeneration.RandomString(min, max, requiredUppers, requiredLowers, requiredNumerics, requiredSpecials);
-
-            foreach (char ch in data)
-            {
-                if (!(set.Characters.Contains(ch)))
-                {
-                    Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
-                }
-            }
-        }
     }
 }

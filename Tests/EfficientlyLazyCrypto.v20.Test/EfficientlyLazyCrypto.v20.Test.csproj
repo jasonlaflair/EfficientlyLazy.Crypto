@@ -52,6 +52,7 @@
     <Compile Include="DPAPINative\DATA_BLOB_Test.cs" />
     <Compile Include="DPAPIEngineTest.cs" />
     <Compile Include="DPAPIParametersTest.cs" />
+    <Compile Include="RandomBase.cs" />
     <Compile Include="RijndaelEngineTest.cs" />
     <Compile Include="RijndaelParametersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

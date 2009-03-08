@@ -3,7 +3,7 @@
 namespace EfficientlyLazyCrypto
 {
     /// <summary>CharacterSet for use in DataGeneration</summary>
-    public struct CharacterSet
+    public sealed class CharacterSet
     {
         ///<summary>
         ///</summary>
@@ -13,6 +13,13 @@ namespace EfficientlyLazyCrypto
         /// When used for <see href="DataGeneration">Data Generation</see> indicates the minimum number of characters required from this CharacterSet.
         ///</summary>
         public int MinimumRequired { get; private set; }
+
+        private CharacterSet()
+        {
+            Characters = new List<char>();
+            MinimumRequired = 0;
+            _requiredCharactersFound = 0;
+        }
 
         ///<summary>
         ///</summary>
@@ -35,10 +42,10 @@ namespace EfficientlyLazyCrypto
         ///<param name="characters"></param>
         ///<param name="minimumCharactersRequired"></param>
         public CharacterSet(List<char> characters, int minimumCharactersRequired)
-            : this()
         {
             Characters = characters;
             MinimumRequired = minimumCharactersRequired;
+            _requiredCharactersFound = 0;
         }
 
         ///<summary>
@@ -46,10 +53,10 @@ namespace EfficientlyLazyCrypto
         ///<param name="characters"></param>
         ///<param name="minimumCharactersRequired"></param>
         public CharacterSet(string characters, int minimumCharactersRequired)
-            : this()
         {
             Characters = new List<char>(characters.ToCharArray());
             MinimumRequired = minimumCharactersRequired;
+            _requiredCharactersFound = 0;
         }
 
         ///<summary>
@@ -147,5 +154,19 @@ namespace EfficientlyLazyCrypto
                            MinimumRequired = 0
                        };
         }
+
+        private int _requiredCharactersFound { get; set; }
+
+        internal void CharacterFound()
+        {
+            _requiredCharactersFound++;
+        }
+
+        internal void ResetFindings()
+        {
+            _requiredCharactersFound = 0;
+        }
+
+        internal bool RequirementsMet { get { return MinimumRequired <= _requiredCharactersFound; } }
     }
 }

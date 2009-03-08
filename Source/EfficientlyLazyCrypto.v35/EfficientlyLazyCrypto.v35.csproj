@@ -55,20 +55,17 @@
     <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIEngine.cs">
       <Link>DPAPIEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\CryptProtectPromptFlags.cs">
-      <Link>DPAPINative\CryptProtectPromptFlags.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_CryptProtectPromptFlags.cs">
+      <Link>DPAPINative_CryptProtectPromptFlags.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\CRYPTPROTECT_PROMPTSTRUCT.cs">
-      <Link>DPAPINative\CRYPTPROTECT_PROMPTSTRUCT.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs">
+      <Link>DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\DATA_BLOB.cs">
-      <Link>DPAPINative\DATA_BLOB.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_DATA_BLOB.cs">
+      <Link>DPAPINative_DATA_BLOB.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\INativeMethods.cs">
-      <Link>DPAPINative\INativeMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative\NativeMethods.cs">
-      <Link>DPAPINative\NativeMethods.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_Methods.cs">
+      <Link>DPAPINative_Methods.cs</Link>
     </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIParameters.cs">
       <Link>DPAPIParameters.cs</Link>

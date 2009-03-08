@@ -11,14 +11,14 @@ namespace EfficientlyLazyCrypto.Test
     ///to contain all RijndaelEngineTest Unit Tests
     ///</summary>
     [TestFixture]
-    public class RijndaelEngineTest
+    public class RijndaelEngineTest : RandomBase
     {
         [Test, Repeat(50)]
         public void Test()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
+            string key = GeneratePassPhrase();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key);
 
@@ -36,7 +36,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             byte[] nullBytes = null;
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
+            string key = GeneratePassPhrase();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key);
 
@@ -50,10 +50,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test1()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init);
@@ -70,10 +70,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test2()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init);
@@ -90,10 +90,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test3()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
@@ -114,14 +114,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test4()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
-            string saltKey = DataGeneration.RandomString(50, 100, true, true, true, true);
+            string saltKey = GenerateRandomSalt();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init)
@@ -144,14 +144,14 @@ namespace EfficientlyLazyCrypto.Test
         {
             _repeater++;
 
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
-            string saltKey = DataGeneration.RandomString(50, 100, true, true, true, true);
+            string saltKey = GenerateRandomSalt();
 
             int mod = (int)(_repeater % 3);
 
@@ -179,14 +179,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test6()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
-            string saltKey = DataGeneration.RandomString(50, 100, true, true, true, true);
+            string saltKey = GenerateRandomSalt();
 
             byte iterations = (byte)DataGeneration.RandomInteger(1, 10);
 
@@ -209,14 +209,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void Test7()
         {
-            string clearText = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string clearText = GenerateClearText();
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             byte minSalt = (byte)DataGeneration.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGeneration.RandomInteger(100, 250);
-            string saltKey = DataGeneration.RandomString(50, 100, true, true, true, true);
+            string saltKey = GenerateRandomSalt();
 
             byte iterations = (byte)DataGeneration.RandomInteger(1, 10);
 
@@ -239,12 +239,12 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50), ExpectedException(typeof(CryptographicException))]
         public void Test8()
         {
-            string randomData = DataGeneration.RandomString(25, 75, true, true, true, true);
+            string randomData = GenerateClearText();
 
             string fake = Convert.ToBase64String(Encoding.UTF8.GetBytes(randomData));
 
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init);
@@ -257,8 +257,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test, ExpectedException(typeof(NotImplementedException))]
         public void RijndaelEngine_FileEncryption()
         {
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init);
@@ -274,8 +274,8 @@ namespace EfficientlyLazyCrypto.Test
         [Test, ExpectedException(typeof(NotImplementedException))]
         public void RijndaelEngine_FileDecryption()
         {
-            string key = DataGeneration.RandomString(50, 220, true, true, true, true);
-            string init = DataGeneration.RandomString(16, 16, true, true, true, true);
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
 
             IRijndaelParameters parameters = RijndaelParameters.Create(key)
                 .SetInitVector(init);

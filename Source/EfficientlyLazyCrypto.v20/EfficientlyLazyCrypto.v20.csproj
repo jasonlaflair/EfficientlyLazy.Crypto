@@ -41,17 +41,17 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DPAPINative\CryptProtectPromptFlags.cs" />
-    <Compile Include="DPAPINative\CRYPTPROTECT_PROMPTSTRUCT.cs" />
-    <Compile Include="DPAPINative\DATA_BLOB.cs" />
-    <Compile Include="DPAPINative\INativeMethods.cs" />
-    <Compile Include="DPAPINative\NativeMethods.cs" />
+    <Compile Include="DPAPINative_CryptProtectPromptFlags.cs" />
+    <Compile Include="DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs" />
+    <Compile Include="DPAPINative_DATA_BLOB.cs" />
+    <Compile Include="DPAPINative_Methods.cs" />
     <Compile Include="DPAPIEngine.cs" />
     <Compile Include="DPAPIParameters.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="IDPAPIParameters.cs" />
     <Compile Include="IRijndaelParameters.cs" />
     <Compile Include="InvalidRijndaelParameterException.cs" />
+    <Compile Include="RandomStringRequirements.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="RijndaelParameters.cs" />
     <Compile Include="Enumerations.cs" />

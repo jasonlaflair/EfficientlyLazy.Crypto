@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Security;
 using System.Security.Permissions;
-using EfficientlyLazyCrypto.DPAPINative;
 
 namespace EfficientlyLazyCrypto
 {
@@ -14,7 +13,7 @@ namespace EfficientlyLazyCrypto
     /// </summary>
     public sealed class DPAPIEngine : ICryptoEngine
     {
-        private readonly INativeMethods _nativeMethods;
+        private readonly DPAPINative_Methods _nativeMethods = new DPAPINative_Methods();
         private readonly DPAPIKeyType _keyType = DPAPIKeyType.MachineKey;
         private readonly SecureString _entropy;
        private readonly Encoding _encoding;
@@ -23,24 +22,29 @@ namespace EfficientlyLazyCrypto
         /// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
         /// </summary>
         /// <param name="parameters">The <see cref="IDPAPIParameters"/> parameters</param>
-        public DPAPIEngine(IDPAPIParameters parameters) : this(parameters, new NativeMethods())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
-        /// </summary>
-        /// <param name="parameters">The <see cref="IDPAPIParameters"/> parameters</param>
-        /// <param name="nativeMethods"></param>
-        public DPAPIEngine(IDPAPIParameters parameters, INativeMethods nativeMethods)
+        public DPAPIEngine(IDPAPIParameters parameters)
         {
             ValidateParameters(parameters);
-            
+
             _keyType = parameters.KeyType;
             _entropy = parameters.Entropy;
-            _nativeMethods = nativeMethods;
-           _encoding = parameters.Encoding;
+            _encoding = parameters.Encoding;
         }
+
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
+        ///// </summary>
+        ///// <param name="parameters">The <see cref="IDPAPIParameters"/> parameters</param>
+        ///// <param name="nativeMethods"></param>
+        //public DPAPIEngine(IDPAPIParameters parameters, INativeMethods nativeMethods)
+        //{
+        //    ValidateParameters(parameters);
+            
+        //    _keyType = parameters.KeyType;
+        //    _entropy = parameters.Entropy;
+        //    _nativeMethods = nativeMethods;
+        //   _encoding = parameters.Encoding;
+        //}
 
         private static void ValidateParameters(IDPAPIParameters parameters)
         {
@@ -138,22 +142,22 @@ namespace EfficientlyLazyCrypto
         private byte[] DPAPI_Encrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
-            var plainTextBlob = DATA_BLOB.Null();
-            var cipherTextBlob = DATA_BLOB.Null();
-            var entropyBlob = DATA_BLOB.Null();
+            var plainTextBlob = DPAPINative_DATA_BLOB.Null();
+            var cipherTextBlob = DPAPINative_DATA_BLOB.Null();
+            var entropyBlob = DPAPINative_DATA_BLOB.Null();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = CRYPTPROTECT_PROMPTSTRUCT.Default();
+            var prompt = DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.Default();
 
             byte[] cipherTextBytes;
 
             try
             {
                 // Convert plaintext bytes into a BLOB structure.
-                plainTextBlob = DATA_BLOB.Init(plainTextBytes); // InitBLOB(plainTextBytes);
+                plainTextBlob = DPAPINative_DATA_BLOB.Init(plainTextBytes); // InitBLOB(plainTextBytes);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DATA_BLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
+                entropyBlob = DPAPINative_DATA_BLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
 
                 // Disable any types of UI.
                 int flags = CRYPTPROTECT_UI_FORBIDDEN;
@@ -203,22 +207,22 @@ namespace EfficientlyLazyCrypto
         private byte[] DPAPI_Decrypt(byte[] cipherText, byte[] entropy)
         {
             // Create BLOBs to hold data.
-            var plainTextBlob = new DATA_BLOB();
-            var cipherTextBlob = new DATA_BLOB();
-            var entropyBlob = new DATA_BLOB();
+            var plainTextBlob = new DPAPINative_DATA_BLOB();
+            var cipherTextBlob = new DPAPINative_DATA_BLOB();
+            var entropyBlob = new DPAPINative_DATA_BLOB();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = CRYPTPROTECT_PROMPTSTRUCT.Default();
+            var prompt = DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.Default();
 
             byte[] plainTextBytes;
 
             try
             {
                 // Convert ciphertext bytes into a BLOB structure.
-                cipherTextBlob = DATA_BLOB.Init(cipherText);
+                cipherTextBlob = DPAPINative_DATA_BLOB.Init(cipherText);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DATA_BLOB.Init(entropy);
+                entropyBlob = DPAPINative_DATA_BLOB.Init(entropy);
 
                 // Initialize description string.
                 string description = String.Empty;

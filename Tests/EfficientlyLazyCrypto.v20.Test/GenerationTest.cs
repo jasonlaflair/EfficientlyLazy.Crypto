@@ -31,70 +31,79 @@ namespace EfficientlyLazyCrypto.Test
         //    }
         //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
-        public void ExceptionNothingRequired()
+        [Test]
+        public void Test()
         {
-            DataGeneration.RandomString(5, 10, false, false, false, false);
+            RandomStringRequirements requirements = new RandomStringRequirements(20, 50)
+                .AddCharacterSet(CharacterSet.AllUppercase(30));
+
+            string rand = DataGeneration.RandomString(requirements);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(rand));
         }
 
-        [Test, Repeat(50), ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ExceptionMinValueLessThanZero()
-        {
-            DataGeneration.RandomString(0, 5, true, false, false, false);
-        }
 
-        [Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
-        public void ExceptionMinValueGreaterThanMaxValue()
-        {
-            DataGeneration.RandomString(10, 5, true, false, false, false);
-        }
 
-        [Test, Repeat(50)]
-        public void Complete()
-        {
-            DataGeneration.RandomString(10, 50, 1, 1, 1, 1);
-        }
 
-        [Test, Repeat(50), ExpectedException(typeof(InvalidOperationException))]
-        public void CompleteButWithTooManyIterations()
-        {
-            DataGeneration.RandomString(1, 3, 1, 1, 1, 1);
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //[Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
+        //public void ExceptionNothingRequired()
+        //{
+        //    DataGeneration.RandomString(5, 10, false, false, false, false);
+        //}
+
+        //[Test, Repeat(50), ExpectedException(typeof(ArgumentOutOfRangeException))]
+        //public void ExceptionMinValueLessThanZero()
+        //{
+        //    DataGeneration.RandomString(0, 5, true, false, false, false);
+        //}
+
+        //[Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
+        //public void ExceptionMinValueGreaterThanMaxValue()
+        //{
+        //    DataGeneration.RandomString(10, 5, true, false, false, false);
+        //}
+
+        //[Test, Repeat(50)]
+        //public void Complete()
+        //{
+        //    DataGeneration.RandomString(10, 50, 1, 1, 1, 1);
+        //}
+
+        //[Test, Repeat(50), ExpectedException(typeof(InvalidOperationException))]
+        //public void CompleteButWithTooManyIterations()
+        //{
+        //    DataGeneration.RandomString(1, 3, 1, 1, 1, 1);
+        //}
 
         [Test, Repeat(50)]
         public void RandomNumberTest_Valid()

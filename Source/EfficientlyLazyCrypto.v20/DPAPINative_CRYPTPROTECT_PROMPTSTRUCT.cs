@@ -1,13 +1,13 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace EfficientlyLazyCrypto.DPAPINative
+namespace EfficientlyLazyCrypto
 {
     /// <summary>
     /// Provides the text of a prompt and information about when and where that prompt is to be displayed when using the CryptProtectData and CryptUnprotectData functions.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct CRYPTPROTECT_PROMPTSTRUCT : IDisposable
+    internal struct DPAPINative_CRYPTPROTECT_PROMPTSTRUCT : IDisposable
     {
         /// <summary>
         /// The size, in bytes, of this structure.
@@ -17,7 +17,7 @@ namespace EfficientlyLazyCrypto.DPAPINative
         /// <summary>
         /// Indicates when prompts to the user are to be displayed.
         /// </summary>
-        public CryptProtectPromptFlags PromptFlags { get; set; }
+        public DPAPINative_CryptProtectPromptFlags PromptFlags { get; set; }
 
         /// <summary>
         /// Window handle to the parent window.
@@ -33,15 +33,15 @@ namespace EfficientlyLazyCrypto.DPAPINative
         /// Creates a default instance of CRYPTPROTECT_PROMPTSTRUCT.
         ///</summary>
         ///<returns>The default instance of CRYPTPROTECT_PROMPTSTRUCT</returns>
-        public static CRYPTPROTECT_PROMPTSTRUCT Default()
+        public static DPAPINative_CRYPTPROTECT_PROMPTSTRUCT Default()
         {
-            return new CRYPTPROTECT_PROMPTSTRUCT
-                         {
-                             Size = Marshal.SizeOf(typeof(CRYPTPROTECT_PROMPTSTRUCT)),
-                             PromptFlags = 0,
-                             Handle = IntPtr.Zero,
-                             Prompt = null
-                         };
+            return new DPAPINative_CRYPTPROTECT_PROMPTSTRUCT
+                       {
+                           Size = Marshal.SizeOf(typeof(DPAPINative_CRYPTPROTECT_PROMPTSTRUCT)),
+                           PromptFlags = 0,
+                           Handle = IntPtr.Zero,
+                           Prompt = null
+                       };
         }
 
         /// <summary>

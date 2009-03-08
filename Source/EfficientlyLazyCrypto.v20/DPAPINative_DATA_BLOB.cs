@@ -1,13 +1,13 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace EfficientlyLazyCrypto.DPAPINative
+namespace EfficientlyLazyCrypto
 {
     ///<summary>
     /// Structure that holds the encrypted data.
     ///</summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct DATA_BLOB : IDisposable
+    internal struct DPAPINative_DATA_BLOB : IDisposable
     {
         ///<summary>
         /// Holds the length of the data
@@ -23,9 +23,9 @@ namespace EfficientlyLazyCrypto.DPAPINative
         /// Creates an empty DATA_BLOB.
         ///</summary>
         ///<returns>An empty DATA_BLOB</returns>
-        public static DATA_BLOB Null()
+        public static DPAPINative_DATA_BLOB Null()
         {
-            return new DATA_BLOB
+            return new DPAPINative_DATA_BLOB
                        {
                            DataLength = 0,
                            DataPointer = IntPtr.Zero
@@ -38,12 +38,12 @@ namespace EfficientlyLazyCrypto.DPAPINative
         ///<param name="data">Data to be encrypted.</param>
         ///<returns>Structure that holds byte[] data to be encrypted.</returns>
         ///<exception cref="MemberAccessException">Unable to allocate data buffer for BLOB structure</exception>
-        public static DATA_BLOB Init(byte[] data)
+        public static DPAPINative_DATA_BLOB Init(byte[] data)
         {
             // Use empty array for null parameter.
             if (data == null) data = new byte[0];
 
-            var blob = new DATA_BLOB
+            var blob = new DPAPINative_DATA_BLOB
                            {
                                DataPointer = Marshal.AllocHGlobal(data.Length),
                                DataLength = data.Length
