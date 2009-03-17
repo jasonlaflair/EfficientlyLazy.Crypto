@@ -42,8 +42,8 @@ namespace EfficientlyLazyCrypto.Test
             string passPhrase = GeneratePassPhrase();
             string initVector = GenerateInitVector();
 
-            var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
-            var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
+            var saltMin = (byte)DataGenerator.Integer(10, 50);
+            var saltMax = (byte)DataGenerator.Integer(100, 150);
 
             var parameters = RijndaelParameters.Create(passPhrase)
                 .SetInitVector(initVector)
@@ -65,8 +65,8 @@ namespace EfficientlyLazyCrypto.Test
             string passPhrase = GeneratePassPhrase();
             string initVector = GenerateInitVector();
 
-            var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
-            var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
+            var saltMin = (byte)DataGenerator.Integer(10, 50);
+            var saltMax = (byte)DataGenerator.Integer(100, 150);
 
             string encryptionKeySalt = GenerateRandomSalt();
 
@@ -94,8 +94,8 @@ namespace EfficientlyLazyCrypto.Test
             string passPhrase = GeneratePassPhrase();
             string initVector = GenerateInitVector();
 
-            var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
-            var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
+            var saltMin = (byte)DataGenerator.Integer(10, 50);
+            var saltMax = (byte)DataGenerator.Integer(100, 150);
             //var salt = new Salt(saltMin, saltMax);
 
             const RijndaelKeySize keySize = RijndaelKeySize.Key192Bit;
@@ -123,8 +123,8 @@ namespace EfficientlyLazyCrypto.Test
             string passPhrase = GeneratePassPhrase();
             string initVector = GenerateInitVector();
 
-            var saltMin = (byte)DataGeneration.RandomInteger(10, 50);
-            var saltMax = (byte)DataGeneration.RandomInteger(100, 150);
+            var saltMin = (byte)DataGenerator.Integer(10, 50);
+            var saltMax = (byte)DataGenerator.Integer(100, 150);
             //var salt = new Salt(saltMin, saltMax);
 
             const RijndaelKeySize keySize = RijndaelKeySize.Key192Bit;

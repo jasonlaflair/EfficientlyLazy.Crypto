@@ -51,13 +51,11 @@
     <Compile Include="IDPAPIParameters.cs" />
     <Compile Include="IRijndaelParameters.cs" />
     <Compile Include="InvalidRijndaelParameterException.cs" />
-    <Compile Include="RandomStringRequirements.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="RijndaelParameters.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CharacterSet.cs" />
-    <Compile Include="DataGeneration.cs" />
+    <Compile Include="DataGenerator.cs" />
     <Compile Include="DataHashing.cs" />
     <Compile Include="DataConversion.cs" />
   </ItemGroup>

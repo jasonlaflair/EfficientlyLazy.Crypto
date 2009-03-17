@@ -1,4 +1,5 @@
-﻿using MbUnit.Framework;
+﻿using System.Collections.Generic;
+using MbUnit.Framework;
 
 namespace EfficientlyLazyCrypto.Test
 {
@@ -8,22 +9,22 @@ namespace EfficientlyLazyCrypto.Test
     [TestFixture]
     public class Generation_ValidData_Test
     {
-        private readonly CharacterSet uppers = CharacterSet.AllUppercase();
-        private readonly CharacterSet lowers = CharacterSet.AllLowercase();
-        private readonly CharacterSet numbers = CharacterSet.AllNumeric();
-        private readonly CharacterSet puncts = CharacterSet.AllSpecial();
+        private readonly List<char> uppers = new List<char>(DataGenerator._uppercase);
+        private readonly List<char> lowers = new List<char>(DataGenerator._lowercase);
+        private readonly List<char> numbers = new List<char>(DataGenerator._numbers);
+        private readonly List<char> puncts = new List<char>(DataGenerator._specials);
 
         [Test, Repeat(50)]
         public void TestUppers()
         {
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
+            int min = DataGenerator.Integer(3, 500);
+            int max = min + DataGenerator.Integer(100, 500);
 
-            string data = DataGeneration.RandomString(min, max, true, false, false, false);
+            string data = DataGenerator.String(min, max, true, false, false, false);
 
             foreach (char ch in data)
             {
-                if (!uppers.Characters.Contains(ch))
+                if (!uppers.Contains(ch))
                 {
                     Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
                 }
@@ -33,14 +34,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void TestLowers()
         {
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
+            int min = DataGenerator.Integer(3, 500);
+            int max = min + DataGenerator.Integer(100, 500);
 
-            string data = DataGeneration.RandomString(min, max, false, true, false, false);
+            string data = DataGenerator.String(min, max, false, true, false, false);
 
             foreach (char ch in data)
             {
-                if (!lowers.Characters.Contains(ch))
+                if (!lowers.Contains(ch))
                 {
                     Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
                 }
@@ -50,14 +51,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void TestNumbers()
         {
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
+            int min = DataGenerator.Integer(3, 500);
+            int max = min + DataGenerator.Integer(100, 500);
 
-            string data = DataGeneration.RandomString(min, max, false, false, true, false);
+            string data = DataGenerator.String(min, max, false, false, true, false);
 
             foreach (char ch in data)
             {
-                if (!numbers.Characters.Contains(ch))
+                if (!numbers.Contains(ch))
                 {
                     Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
                 }
@@ -67,14 +68,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void TestPuncts()
         {
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
+            int min = DataGenerator.Integer(3, 500);
+            int max = min + DataGenerator.Integer(100, 500);
 
-            string data = DataGeneration.RandomString(min, max, false, false, false, true);
+            string data = DataGenerator.String(min, max, false, false, false, true);
 
             foreach (char ch in data)
             {
-                if (!puncts.Characters.Contains(ch))
+                if (!puncts.Contains(ch))
                 {
                     Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
                 }
@@ -84,14 +85,14 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void TestAll()
         {
-            int min = DataGeneration.RandomInteger(3, 500);
-            int max = min + DataGeneration.RandomInteger(100, 500);
+            int min = DataGenerator.Integer(3, 500);
+            int max = min + DataGenerator.Integer(100, 500);
 
-            string data = DataGeneration.RandomString(min, max, true, true, true, true);
+            string data = DataGenerator.String(min, max, true, true, true, true);
 
             foreach (char ch in data)
             {
-                if (!(uppers.Characters.Contains(ch) || lowers.Characters.Contains(ch) || numbers.Characters.Contains(ch) || puncts.Characters.Contains(ch)))
+                if (!(uppers.Contains(ch) || lowers.Contains(ch) || numbers.Contains(ch) || puncts.Contains(ch)))
                 {
                     Assert.Fail(string.Format("{0}\r\n\r\nChar: {1}", data, ch));
                 }

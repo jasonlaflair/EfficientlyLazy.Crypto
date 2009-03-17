@@ -33,7 +33,7 @@ namespace EfficientlyLazyCrypto.Test
         [Row(DPAPIKeyType.UserKey)]
         public void DPAPIParameters_EntropyTest(DPAPIKeyType keyType)
         {
-            string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
+            string entropy = DataGenerator.String(100, 500, true, true, true, true);
 
             var actual = DPAPIParameters.Create(keyType)
                 .SetEntropy(entropy);
@@ -51,7 +51,7 @@ namespace EfficientlyLazyCrypto.Test
         [Row(DPAPIKeyType.UserKey)]
         public void DPAPIParameters_ISecureStringConversionServiceTest(DPAPIKeyType keyType)
         {
-            string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
+            string entropy = DataGenerator.String(100, 500, true, true, true, true);
 
             var actual = DPAPIParameters.Create(keyType)
                 .SetEntropy(entropy);
@@ -69,7 +69,7 @@ namespace EfficientlyLazyCrypto.Test
         [Row(DPAPIKeyType.UserKey)]
         public void DPAPIParameters_SecureString(DPAPIKeyType keyType)
         {
-            string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
+            string entropy = DataGenerator.String(100, 500, true, true, true, true);
 
             var ss = new SecureString();
 
@@ -94,7 +94,7 @@ namespace EfficientlyLazyCrypto.Test
         [Row(DPAPIKeyType.UserKey, false)]
         public void DPAPIParameters_SecureString1(DPAPIKeyType keyType, bool makeReadOnly)
         {
-            string entropy = DataGeneration.RandomString(100, 500, true, true, true, true);
+            string entropy = DataGenerator.String(100, 500, true, true, true, true);
 
             var ss = new SecureString();
 

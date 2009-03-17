@@ -18,7 +18,7 @@ namespace EfficientlyLazyCrypto.Test
 
         //    for (int i = 0; i <= int.MaxValue - 5000; i++)
         //    {
-        //        seed = DataGeneration.RandomSeedValue();
+        //        seed = DataGenerator.SeedValue();
 
         //        if (returnedValues.ContainsKey(seed))
         //        {
@@ -30,17 +30,6 @@ namespace EfficientlyLazyCrypto.Test
         //        Console.WriteLine(seed);
         //    }
         //}
-
-        [Test]
-        public void Test()
-        {
-            RandomStringRequirements requirements = new RandomStringRequirements(20, 50)
-                .AddCharacterSet(CharacterSet.AllUppercase(30));
-
-            string rand = DataGeneration.RandomString(requirements);
-
-            Assert.IsTrue(!string.IsNullOrEmpty(rand));
-        }
 
 
 
@@ -78,40 +67,40 @@ namespace EfficientlyLazyCrypto.Test
         //[Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
         //public void ExceptionNothingRequired()
         //{
-        //    DataGeneration.RandomString(5, 10, false, false, false, false);
+        //    DataGenerator.String(5, 10, false, false, false, false);
         //}
 
         //[Test, Repeat(50), ExpectedException(typeof(ArgumentOutOfRangeException))]
         //public void ExceptionMinValueLessThanZero()
         //{
-        //    DataGeneration.RandomString(0, 5, true, false, false, false);
+        //    DataGenerator.String(0, 5, true, false, false, false);
         //}
 
         //[Test, Repeat(50), ExpectedException(typeof(ArgumentException))]
         //public void ExceptionMinValueGreaterThanMaxValue()
         //{
-        //    DataGeneration.RandomString(10, 5, true, false, false, false);
+        //    DataGenerator.String(10, 5, true, false, false, false);
         //}
 
         //[Test, Repeat(50)]
         //public void Complete()
         //{
-        //    DataGeneration.RandomString(10, 50, 1, 1, 1, 1);
+        //    DataGenerator.String(10, 50, 1, 1, 1, 1);
         //}
 
         //[Test, Repeat(50), ExpectedException(typeof(InvalidOperationException))]
         //public void CompleteButWithTooManyIterations()
         //{
-        //    DataGeneration.RandomString(1, 3, 1, 1, 1, 1);
+        //    DataGenerator.String(1, 3, 1, 1, 1, 1);
         //}
 
         [Test, Repeat(50)]
         public void RandomNumberTest_Valid()
         {
-            int minValue = DataGeneration.RandomInteger(10, 100);
-            int maxValue = DataGeneration.RandomInteger(101, 500);
+            int minValue = DataGenerator.Integer(10, 100);
+            int maxValue = DataGenerator.Integer(101, 500);
 
-            int rnd = DataGeneration.RandomInteger(minValue, maxValue);
+            int rnd = DataGenerator.Integer(minValue, maxValue);
 
             Assert.IsTrue(minValue <= rnd && rnd <= maxValue);
             Assert.IsTrue(minValue < maxValue);
@@ -120,10 +109,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50), ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RandomNumberTest_MinGreaterThanMin()
         {
-            int maxValue = DataGeneration.RandomInteger(10, 100);
-            int minValue = DataGeneration.RandomInteger(101, 500);
+            int maxValue = DataGenerator.Integer(10, 100);
+            int minValue = DataGenerator.Integer(101, 500);
 
-            int rnd = DataGeneration.RandomInteger(minValue, maxValue);
+            int rnd = DataGenerator.Integer(minValue, maxValue);
 
             Assert.IsTrue(minValue <= rnd && rnd <= maxValue);
             Assert.IsTrue(minValue < maxValue);

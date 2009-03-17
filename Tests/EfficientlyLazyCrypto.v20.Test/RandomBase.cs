@@ -8,38 +8,22 @@ namespace EfficientlyLazyCrypto.Test
     {
         protected static string GenerateClearText()
         {
-            return DataGeneration.RandomString(new RandomStringRequirements(50, 300)
-                .AddCharacterSet(CharacterSet.AllLowercase())
-                .AddCharacterSet(CharacterSet.AllNumeric())
-                .AddCharacterSet(CharacterSet.AllSpecial())
-                .AddCharacterSet(CharacterSet.AllUppercase()));
+            return DataGenerator.String(50, 300, true, true, true, true);
         }
 
         protected static string GeneratePassPhrase()
         {
-            return DataGeneration.RandomString(new RandomStringRequirements(100, 500)
-                .AddCharacterSet(CharacterSet.AllLowercase())
-                .AddCharacterSet(CharacterSet.AllNumeric())
-                .AddCharacterSet(CharacterSet.AllSpecial())
-                .AddCharacterSet(CharacterSet.AllUppercase()));
+            return DataGenerator.String(100, 500, true, true, true, true);
         }
 
         protected static string GenerateRandomSalt()
         {
-            return DataGeneration.RandomString(new RandomStringRequirements(50, 250)
-                .AddCharacterSet(CharacterSet.AllLowercase())
-                .AddCharacterSet(CharacterSet.AllNumeric())
-                .AddCharacterSet(CharacterSet.AllSpecial())
-                .AddCharacterSet(CharacterSet.AllUppercase()));
+            return DataGenerator.String(50, 250, true, true, true, true);
         }
 
         protected static string GenerateInitVector()
         {
-            return DataGeneration.RandomString(new RandomStringRequirements(16, 16)
-                .AddCharacterSet(CharacterSet.AllLowercase())
-                .AddCharacterSet(CharacterSet.AllNumeric())
-                .AddCharacterSet(CharacterSet.AllSpecial())
-                .AddCharacterSet(CharacterSet.AllUppercase()));
+            return DataGenerator.String(16, 16, true, true, true, true);
         }
     }
 }

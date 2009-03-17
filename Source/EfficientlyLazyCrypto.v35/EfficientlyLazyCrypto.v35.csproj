@@ -40,14 +40,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\CharacterSet.cs">
-      <Link>CharacterSet.cs</Link>
-    </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\DataConversion.cs">
       <Link>DataConversion.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DataGeneration.cs">
-      <Link>DataGeneration.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DataGenerator.cs">
+      <Link>DataGenerator.cs</Link>
     </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\DataHashing.cs">
       <Link>DataHashing.cs</Link>
