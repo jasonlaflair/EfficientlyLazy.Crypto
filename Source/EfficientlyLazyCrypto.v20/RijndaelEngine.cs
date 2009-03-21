@@ -1,44 +1,239 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
-using System.Security.Permissions;
 
 namespace EfficientlyLazyCrypto
 {
     /// <summary>
     /// Encryption/Decryption using <see cref="RijndaelManaged"/>.
     /// </summary>
-    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     public sealed class RijndaelEngine : ICryptoEngine
     {
-        private readonly ICryptoTransform _encryptor;
-        private readonly ICryptoTransform _decryptor;
-        private readonly byte _minimumDataSaltLength;
-        private readonly byte _maximumDataSaltLength;
-        private readonly Encoding _textEncoding;
+        private ICryptoTransform _encryptor;
+        private ICryptoTransform _decryptor;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RijndaelEngine"/> class.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        public RijndaelEngine(IRijndaelParameters parameters)
+        ///<summary>
+        ///</summary>
+        public SecureString Key { get; private set; }
+        ///<summary>
+        ///</summary>
+        public SecureString InitVector { get; private set; }
+        ///<summary>
+        ///</summary>
+        public int MinimumDataSaltLength { get; private set; }
+        ///<summary>
+        ///</summary>
+        public int MaximumDataSaltLength { get; private set; }
+        ///<summary>
+        ///</summary>
+        public SecureString EncryptionKeySalt { get; private set; }
+        ///<summary>
+        ///</summary>
+        public RijndaelKeySize KeySize { get; private set; }
+        ///<summary>
+        ///</summary>
+        public int PasswordIterations { get; private set; }
+        ///<summary>
+        ///</summary>
+        public Encoding Encoding { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        public RijndaelEngine(string key)
         {
-            ValidateParameters(parameters);
+            Key = ToSecureString(key);
+            InitVector = ToSecureString(string.Empty);
+            MinimumDataSaltLength = 0;
+            MaximumDataSaltLength = 0;
+            EncryptionKeySalt = ToSecureString(string.Empty);
+            KeySize = RijndaelKeySize.Key256Bit;
+            PasswordIterations = 10;
+            Encoding = Encoding.UTF8;
 
+            GenerateEngine();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        public RijndaelEngine(SecureString key)
+        {
+            key.MakeReadOnly();
+
+            Key = key;
+            InitVector = ToSecureString(string.Empty);
+            MinimumDataSaltLength = 0;
+            MaximumDataSaltLength = 0;
+            EncryptionKeySalt = ToSecureString(string.Empty);
+            KeySize = RijndaelKeySize.Key256Bit;
+            PasswordIterations = 10;
+            Encoding = Encoding.UTF8;
+
+            GenerateEngine();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="initVector"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetInitVector(string initVector)
+        {
+            if (initVector == null)
+            {
+                throw new ArgumentNullException("initVector", "InitVector cannot be null");
+            }
+
+            if (!(initVector.Length == 0 || initVector.Length == 16))
+            {
+                throw new ArgumentException("InitVector must be a length of 0 or 16", "initVector");
+            }
+
+            InitVector = ToSecureString(initVector);
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="initVector"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetInitVector(SecureString initVector)
+        {
+            initVector.MakeReadOnly();
+            InitVector = initVector;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="minimumLength"></param>
+        ///<param name="maximumLength"></param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetDataSaltLength(int minimumLength, int maximumLength)
+        {
+            if (minimumLength < 0)
+            {
+                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 0");
+            }
+            if (maximumLength < 0)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 0");
+            }
+            if (maximumLength < minimumLength)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", string.Format("maximumLength ({0}) must be greater than or equal to minimumLength ({1})", maximumLength, minimumLength));
+            }
+
+            MinimumDataSaltLength = minimumLength;
+            MaximumDataSaltLength = maximumLength;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keySalt"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetEncryptionKeySalt(string keySalt)
+        {
+            EncryptionKeySalt = ToSecureString(keySalt);
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keySalt"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetEncryptionKeySalt(SecureString keySalt)
+        {
+            keySalt.MakeReadOnly();
+            EncryptionKeySalt = keySalt;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keySize"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetKeySize(RijndaelKeySize keySize)
+        {
+            KeySize = keySize;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="iterations"></param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetPasswordIterations(int iterations)
+        {
+            if (iterations <= 0)
+            {
+                throw new ArgumentOutOfRangeException("iterations", iterations, "iterations must be greater than 0");
+            }
+
+            PasswordIterations = iterations;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="encoding"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetEncoding(Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
+            Encoding = encoding;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        private void GenerateEngine()
+        {
             // Initialization vector converted to a byte array.  Get bytes of initialization vector.
-            byte[] initVectorBytes = DataConversion.ToBytes(parameters.InitVector, parameters.Encoding);
+            byte[] initVectorBytes = Encoding.GetBytes(ToString(InitVector));
 
             // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
             // Get bytes of salt (used in hashing).
-            byte[] saltValueBytes = parameters.EncryptionKeySalt == null || parameters.EncryptionKeySalt.Length == 0 ? new byte[8] : Encoding.ASCII.GetBytes(DataConversion.ToString(parameters.EncryptionKeySalt));
+            byte[] saltValueBytes = EncryptionKeySalt == null || EncryptionKeySalt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(EncryptionKeySalt));
 
             var symmetricKey = new RijndaelManaged();
 
-            var password = new Rfc2898DeriveBytes(DataConversion.ToString(parameters.Key), saltValueBytes, parameters.PasswordIterations);
+            var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
 
             // Convert key to a byte array adjusting the size from bits to bytes.
-            byte[] keyBytes = password.GetBytes((int)parameters.KeySize / 8);
+            byte[] keyBytes = password.GetBytes((int)KeySize / 8);
 
             // If we do not have initialization vector, we cannot use the CBC mode.
             // The only alternative is the ECB mode (which is not as good).
@@ -47,59 +242,6 @@ namespace EfficientlyLazyCrypto
             // Create encryptor and decryptor, which we will use for cryptographic operations.
             _encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
             _decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
-
-            _minimumDataSaltLength = parameters.MinimumDataSaltLength;
-            _maximumDataSaltLength = parameters.MaximumDataSaltLength;
-
-            _textEncoding = parameters.Encoding;
-        }
-
-        /// <summary>
-        /// Validate IRijndaelParameters for proper property settings
-        /// </summary>
-        /// <param name="parameters">IRijndaelParameters to validate</param>
-        public static void ValidateParameters(IRijndaelParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "IRijndaelRarameters cannot be null");
-            }
-
-            if (!(parameters.InitVector.Length == 0 || parameters.InitVector.Length == 16))
-            {
-                throw new InvalidRijndaelParameterException(parameters, "InitVector", parameters.InitVector.Length,
-                                                      "InitVector must be a length of 0 or 16");
-            }
-
-            if (parameters.PasswordIterations <= 0)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "PasswordIterations", parameters.PasswordIterations,
-                                                      "PasswordIterations must be greater than 0");
-            }
-
-            if (parameters.MaximumDataSaltLength < parameters.MinimumDataSaltLength)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength cannot be less than MinimumDataSaltLength");
-            }
-
-            if (parameters.MinimumDataSaltLength != 0 && parameters.MinimumDataSaltLength < RijndaelParameters.MINIMUM_SET_SALT_LENGTH)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "MinimumDataSaltLength", parameters.MinimumDataSaltLength,
-                                                      string.Format("MinimumDataSaltLength cannot be smaller than {0}",
-                                                                    RijndaelParameters.MINIMUM_SET_SALT_LENGTH));
-            }
-
-            if (parameters.MaximumDataSaltLength != 0 && parameters.MaximumDataSaltLength > RijndaelParameters.MAXIMUM_SET_SALT_LENGTH)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "MaximumDataSaltLength", parameters.MaximumDataSaltLength,
-                                                      string.Format("MaximumDataSaltLength cannot be larger than {0}",
-                                                                    RijndaelParameters.MAXIMUM_SET_SALT_LENGTH));
-            }
-
-            if (parameters.Encoding == null)
-            {
-                throw new InvalidRijndaelParameterException(parameters, "Encoding", parameters.Encoding, "An Encoding must be defined");
-            }
         }
 
         /// <summary>
@@ -153,7 +295,7 @@ namespace EfficientlyLazyCrypto
         /// <returns></returns>
         public string Encrypt(string plaintext)
         {
-            return Convert.ToBase64String(Encrypt(_textEncoding.GetBytes(plaintext)));
+            return Convert.ToBase64String(Encrypt(Encoding.GetBytes(plaintext)));
         }
 
         /// <summary>
@@ -201,7 +343,7 @@ namespace EfficientlyLazyCrypto
                     int saltLen = 0;
 
                     // If we are using salt, get its length from the first 4 bytes of plain text data.
-                    if (_maximumDataSaltLength > 0 && _maximumDataSaltLength >= _minimumDataSaltLength)
+                    if (MaximumDataSaltLength > 0 && MaximumDataSaltLength >= MinimumDataSaltLength)
                     {
                         saltLen = (decryptedBytes[0] & 0x03) | (decryptedBytes[1] & 0x0c) | (decryptedBytes[2] & 0x30) |
                                   (decryptedBytes[3] & 0xc0);
@@ -230,7 +372,7 @@ namespace EfficientlyLazyCrypto
         /// <returns></returns>
         public string Decrypt(string cipherText)
         {
-            return _textEncoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
+            return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
         }
 
         /// <summary>
@@ -260,7 +402,7 @@ namespace EfficientlyLazyCrypto
         /// </returns>
         private byte[] AddSalt(byte[] plainTextBytes)
         {
-            if (_minimumDataSaltLength == 0 || _maximumDataSaltLength == 0)
+            if (MinimumDataSaltLength == 0 || MaximumDataSaltLength == 0)
             {
                 return plainTextBytes;
             }
@@ -294,7 +436,7 @@ namespace EfficientlyLazyCrypto
         /// </remarks>
         private byte[] GenerateSalt()
         {
-            var saltLen = DataGenerator.Integer(_minimumDataSaltLength, _maximumDataSaltLength);
+            var saltLen = DataGenerator.Integer(MinimumDataSaltLength, MaximumDataSaltLength);
 
             // Allocate byte array to hold our salt.
             var salt = new byte[saltLen];
@@ -312,6 +454,39 @@ namespace EfficientlyLazyCrypto
             salt[3] = (byte)((salt[3] & 0x3f) | (saltLen & 0xc0));
 
             return salt;
+        }
+
+        private static SecureString ToSecureString(string text)
+        {
+            var ss = new SecureString();
+
+            foreach (char ch in text)
+            {
+                ss.AppendChar(ch);
+            }
+
+            ss.MakeReadOnly();
+
+            return ss;
+        }
+
+        private static string ToString(SecureString secureString)
+        {
+            string text;
+
+            IntPtr ptr = IntPtr.Zero;
+
+            try
+            {
+                ptr = Marshal.SecureStringToBSTR(secureString);
+                text = Marshal.PtrToStringBSTR(ptr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+
+            return text;
         }
 
         #endregion

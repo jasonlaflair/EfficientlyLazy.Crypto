@@ -12,11 +12,11 @@ namespace EfficientlyLazyCrypto.Demo
             cbxRijndaelKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(RijndaelKeySize));
 
             nudRijndaelSaltMin.Minimum = 0;
-            nudRijndaelSaltMin.Maximum = RijndaelParameters.MINIMUM_SET_SALT_LENGTH;
+            nudRijndaelSaltMin.Maximum = int.MaxValue;
             nudRijndaelSaltMin.Value = 0;
 
             nudRijndaelSaltMax.Minimum = 0;
-            nudRijndaelSaltMax.Maximum = RijndaelParameters.MAXIMUM_SET_SALT_LENGTH;
+            nudRijndaelSaltMax.Maximum = int.MaxValue;
             nudRijndaelSaltMax.Value = 0;
 
             nudRijndaelPassIterations.Minimum = 1;
@@ -35,18 +35,16 @@ namespace EfficientlyLazyCrypto.Demo
         {
             RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = RijndaelParameters.Create(txtRijndaelKey.Text)
-                .SetInitVector(txtRijndaelInitVector.Text)
-                .SetRandomSaltLength((byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value)
-                .SetSaltData(txtRijndaelKeySalt.Text)
-                .SetKeySize(keySize)
-                .SetPasswordIterations((byte)nudRijndaelPassIterations.Value);
-
             ICryptoEngine engine;
 
             try
             {
-                engine = new RijndaelEngine(parameters);
+                engine = new RijndaelEngine(txtRijndaelKey.Text)
+                .SetInitVector(txtRijndaelInitVector.Text)
+                .SetDataSaltLength((byte)nudRijndaelSaltMin.Value, (byte)nudRijndaelSaltMax.Value)
+                .SetEncryptionKeySalt(txtRijndaelKeySalt.Text)
+                .SetKeySize(keySize)
+                .SetPasswordIterations((byte)nudRijndaelPassIterations.Value);
             }
             catch (Exception ex)
             {
@@ -69,18 +67,16 @@ namespace EfficientlyLazyCrypto.Demo
         {
             RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxRijndaelKeySize.SelectedItem.ToString());
 
-            IRijndaelParameters parameters = RijndaelParameters.Create(txtRijndaelKey.Text)
-                .SetInitVector(txtRijndaelInitVector.Text)
-                .SetRandomSaltLength((byte) nudRijndaelSaltMin.Value, (byte) nudRijndaelSaltMax.Value)
-                .SetSaltData(txtRijndaelKeySalt.Text)
-                .SetKeySize(keySize)
-                .SetPasswordIterations((byte) nudRijndaelPassIterations.Value);
-
             ICryptoEngine engine;
 
             try
             {
-                engine = new RijndaelEngine(parameters);
+                engine = new RijndaelEngine(txtRijndaelKey.Text)
+                    .SetInitVector(txtRijndaelInitVector.Text)
+                    .SetDataSaltLength((byte) nudRijndaelSaltMin.Value, (byte) nudRijndaelSaltMax.Value)
+                    .SetEncryptionKeySalt(txtRijndaelKeySalt.Text)
+                    .SetKeySize(keySize)
+                    .SetPasswordIterations((byte) nudRijndaelPassIterations.Value);
             }
             catch (Exception ex)
             {
@@ -104,14 +100,12 @@ namespace EfficientlyLazyCrypto.Demo
         {
             DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-            IDPAPIParameters parameters = DPAPIParameters.Create(keyType)
-                .SetEntropy(txtDPAPIEntropy.Text);
-
             ICryptoEngine engine;
 
             try
             {
-                engine = new DPAPIEngine(parameters);
+                engine = new DPAPIEngine(keyType)
+                    .SetEntropy(txtDPAPIEntropy.Text);
             }
             catch (Exception ex)
             {
@@ -134,14 +128,12 @@ namespace EfficientlyLazyCrypto.Demo
         {
             DPAPIKeyType keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbDPAPIKeyType.SelectedItem.ToString());
 
-            IDPAPIParameters parameters = DPAPIParameters.Create(keyType)
-                .SetEntropy(txtDPAPIEntropy.Text);
-
             ICryptoEngine engine;
 
             try
             {
-                engine = new DPAPIEngine(parameters);
+                engine = new DPAPIEngine(keyType)
+                    .SetEntropy(txtDPAPIEntropy.Text);
             }
             catch (Exception ex)
             {

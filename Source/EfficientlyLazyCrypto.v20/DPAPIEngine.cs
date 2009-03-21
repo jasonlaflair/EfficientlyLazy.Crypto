@@ -14,54 +14,76 @@ namespace EfficientlyLazyCrypto
     public sealed class DPAPIEngine : ICryptoEngine
     {
         private readonly DPAPINative_Methods _nativeMethods = new DPAPINative_Methods();
-        private readonly DPAPIKeyType _keyType = DPAPIKeyType.MachineKey;
-        private readonly SecureString _entropy;
-       private readonly Encoding _encoding;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
-        /// </summary>
-        /// <param name="parameters">The <see cref="IDPAPIParameters"/> parameters</param>
-        public DPAPIEngine(IDPAPIParameters parameters)
+        ///<summary>
+        ///</summary>
+        public SecureString Entropy { get; private set; }
+        ///<summary>
+        ///</summary>
+        public DPAPIKeyType KeyType { get; private set; }
+        ///<summary>
+        ///</summary>
+        public Encoding Encoding { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keyType"></param>
+        public DPAPIEngine(DPAPIKeyType keyType)
         {
-            ValidateParameters(parameters);
-
-            _keyType = parameters.KeyType;
-            _entropy = parameters.Entropy;
-            _encoding = parameters.Encoding;
+            KeyType = keyType;
+            Entropy = ToSecureString(string.Empty);
+            Encoding = Encoding.UTF8;
         }
 
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="DPAPIEngine"/> class.
-        ///// </summary>
-        ///// <param name="parameters">The <see cref="IDPAPIParameters"/> parameters</param>
-        ///// <param name="nativeMethods"></param>
-        //public DPAPIEngine(IDPAPIParameters parameters, INativeMethods nativeMethods)
-        //{
-        //    ValidateParameters(parameters);
-            
-        //    _keyType = parameters.KeyType;
-        //    _entropy = parameters.Entropy;
-        //    _nativeMethods = nativeMethods;
-        //   _encoding = parameters.Encoding;
-        //}
-
-        private static void ValidateParameters(IDPAPIParameters parameters)
+        ///<summary>
+        ///</summary>
+        ///<param name="entropy"></param>
+        ///<returns></returns>
+        public DPAPIEngine SetEntropy(string entropy)
         {
-            if (parameters == null)
+            Entropy = ToSecureString(entropy);
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="entropy"></param>
+        ///<returns></returns>
+        public DPAPIEngine SetEntropy(SecureString entropy)
+        {
+            entropy.MakeReadOnly();
+            Entropy = entropy;
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="keyType"></param>
+        ///<returns></returns>
+        public DPAPIEngine SetKeyType(DPAPIKeyType keyType)
+        {
+            KeyType = keyType;
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="encoding"></param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        public DPAPIEngine SetEncoding(Encoding encoding)
+        {
+            if (encoding == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
             }
 
-            if (parameters.Entropy == null)
-            {
-                throw new ArgumentException("Entropy can not be null", "parameters");
-            }
-            
-            if (!parameters.Entropy.IsReadOnly())
-            {
-                throw new ArgumentException("Entropy needs to be marked as ReadOnly", "parameters");
-            }
+            Encoding = encoding;
+
+            return this;
         }
 
         /// <summary>
@@ -72,7 +94,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Encrypt(byte[] plaintext)
         {
-            return DPAPI_Encrypt(_keyType, plaintext, DataConversion.ToBytes(_entropy, _encoding));
+            return DPAPI_Encrypt(KeyType, plaintext, Encoding.GetBytes(ToString(Entropy)));
         }
 
         /// <summary>
@@ -83,7 +105,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Encrypt(string plaintext)
         {
-            return Convert.ToBase64String(Encrypt(_encoding.GetBytes(plaintext)));
+            return Convert.ToBase64String(Encrypt(Encoding.GetBytes(plaintext)));
         }
 
         /// <summary>
@@ -106,7 +128,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Decrypt(byte[] cipherText)
         {
-            return DPAPI_Decrypt(cipherText, DataConversion.ToBytes(_entropy, _encoding));
+            return DPAPI_Decrypt(cipherText, Encoding.GetBytes(ToString(Entropy)));
         }
 
         /// <summary>
@@ -117,7 +139,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Decrypt(string cipherText)
         {
-            return _encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
+            return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
         }
 
         /// <summary>
@@ -264,6 +286,39 @@ namespace EfficientlyLazyCrypto
 
             // Return the result.
             return plainTextBytes;
+        }
+
+        private static SecureString ToSecureString(string text)
+        {
+            var ss = new SecureString();
+
+            foreach (char ch in text)
+            {
+                ss.AppendChar(ch);
+            }
+
+            ss.MakeReadOnly();
+
+            return ss;
+        }
+
+        private static string ToString(SecureString secureString)
+        {
+            string text;
+
+            IntPtr ptr = IntPtr.Zero;
+
+            try
+            {
+                ptr = Marshal.SecureStringToBSTR(secureString);
+                text = Marshal.PtrToStringBSTR(ptr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+
+            return text;
         }
 
         #endregion

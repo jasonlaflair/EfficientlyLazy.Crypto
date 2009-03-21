@@ -40,9 +40,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DataConversion.cs">
-      <Link>DataConversion.cs</Link>
-    </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\DataGenerator.cs">
       <Link>DataGenerator.cs</Link>
     </Compile>
@@ -64,29 +61,14 @@
     <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_Methods.cs">
       <Link>DPAPINative_Methods.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIParameters.cs">
-      <Link>DPAPIParameters.cs</Link>
-    </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\Enumerations.cs">
       <Link>Enumerations.cs</Link>
     </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\ICryptoEngine.cs">
       <Link>ICryptoEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\IDPAPIParameters.cs">
-      <Link>IDPAPIParameters.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\InvalidRijndaelParameterException.cs">
-      <Link>InvalidRijndaelParameterException.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\IRijndaelParameters.cs">
-      <Link>IRijndaelParameters.cs</Link>
-    </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\RijndaelEngine.cs">
       <Link>RijndaelEngine.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\RijndaelParameters.cs">
-      <Link>RijndaelParameters.cs</Link>
     </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
