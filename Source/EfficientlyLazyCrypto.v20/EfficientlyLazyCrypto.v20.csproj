@@ -41,7 +41,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="NewRijndaelEngine.cs" />
     <Compile Include="DPAPINative_CryptProtectPromptFlags.cs" />
     <Compile Include="DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs" />
     <Compile Include="DPAPINative_DATA_BLOB.cs" />
