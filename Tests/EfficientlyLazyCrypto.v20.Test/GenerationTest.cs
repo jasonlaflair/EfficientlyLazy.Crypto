@@ -97,10 +97,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50)]
         public void RandomNumberTest_Valid()
         {
-            int minValue = DataGenerator.Integer(10, 100);
-            int maxValue = DataGenerator.Integer(101, 500);
+            int minValue = DataGenerator.RandomInteger(10, 100);
+            int maxValue = DataGenerator.RandomInteger(101, 500);
 
-            int rnd = DataGenerator.Integer(minValue, maxValue);
+            int rnd = DataGenerator.RandomInteger(minValue, maxValue);
 
             Assert.IsTrue(minValue <= rnd && rnd <= maxValue);
             Assert.IsTrue(minValue < maxValue);
@@ -109,10 +109,10 @@ namespace EfficientlyLazyCrypto.Test
         [Test, Repeat(50), ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RandomNumberTest_MinGreaterThanMin()
         {
-            int maxValue = DataGenerator.Integer(10, 100);
-            int minValue = DataGenerator.Integer(101, 500);
+            int maxValue = DataGenerator.RandomInteger(10, 100);
+            int minValue = DataGenerator.RandomInteger(101, 500);
 
-            int rnd = DataGenerator.Integer(minValue, maxValue);
+            int rnd = DataGenerator.RandomInteger(minValue, maxValue);
 
             Assert.IsTrue(minValue <= rnd && rnd <= maxValue);
             Assert.IsTrue(minValue < maxValue);

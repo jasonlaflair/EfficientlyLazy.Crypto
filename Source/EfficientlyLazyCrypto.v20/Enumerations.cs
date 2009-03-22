@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Security.Cryptography;
 
 namespace EfficientlyLazyCrypto
@@ -6,8 +7,9 @@ namespace EfficientlyLazyCrypto
     /// <summary>Algorithms used for Data Hashing</summary>
     public enum HashingAlgorithm
     {
-        ///// <summary>MD5 Hashing</summary>
-        //MD5 = 5,
+        /// <summary>MD5 Hashing</summary>
+        [Obsolete("Should not be used as it has been proven insecure")]
+        MD5 = 5,
         /// <summary>SHA1 Hashing</summary>
         SHA1 = 1,
         /// <summary>SHA256 Hashing</summary>

@@ -12,10 +12,14 @@ namespace EfficientlyLazyCrypto
     {
         private static Random _random;
 
-        public const string _uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        public const string _lowercase = "abcdefghijklmnopqrstuvwxyz";
-        public const string _numbers = "0123456789";
-        public const string _specials = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
+        ///<summary>Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZ</summary>
+        public const string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        ///<summary>Characters: abcdefghijklmnopqrstuvwxyz</summary>
+        public const string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
+        ///<summary>Characters: 0123456789</summary>
+        public const string NumericCharacters = "0123456789";
+        ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
+        public const string SpecialCharacters = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
 
         private int _minimum;
         private int _maximum;
@@ -120,7 +124,7 @@ namespace EfficientlyLazyCrypto
         /// period of time - can generate the same "random" number.
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException"><c>maxValue</c> is out of range.</exception>
-        public static int Integer(int minimumValue, int maximumValue)
+        public static int RandomInteger(int minimumValue, int maximumValue)
         {
             if (minimumValue <= 0)
             {
@@ -141,9 +145,57 @@ namespace EfficientlyLazyCrypto
         ///<summary>
         ///</summary>
         ///<returns></returns>
-        public int Integer()
+        public int NextInteger()
         {
             return _random.Next(_minimum, _maximum);
+        }
+
+        /// <summary>
+        /// Returns a random number between 0.0 and 1.0.
+        /// </summary>
+        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
+        public static double RandomDouble()
+        {
+            return _random.NextDouble();
+        }
+
+        /// <summary>
+        /// Returns a random number between 0.0 and 1.0.
+        /// </summary>
+        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
+        public double NextDouble()
+        {
+            return _random.NextDouble();
+        }
+
+        ///<summary>
+        /// Fills the elements of a specified array of bytes with random numbers.
+        ///</summary>
+        ///<param name="buffer">An array of bytes to contain random numbers.</param>
+        ///<exception cref="ArgumentNullException">buffer is null</exception>
+        public static void RandomBytes(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer", "buffer cannot be null");
+            }
+
+            _random.NextBytes(buffer);
+        }
+
+        ///<summary>
+        /// Fills the elements of a specified array of bytes with random numbers.
+        ///</summary>
+        ///<param name="buffer">An array of bytes to contain random numbers.</param>
+        ///<exception cref="ArgumentNullException">buffer is null</exception>
+        public void NextBytes(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new ArgumentNullException("buffer", "buffer cannot be null");
+            }
+
+            _random.NextBytes(buffer);
         }
 
         ///<summary>
@@ -157,7 +209,7 @@ namespace EfficientlyLazyCrypto
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
         ///<exception cref="ArgumentException"></exception>
-        public static string String(int minimumLength, int maximumLength, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
+        public static string RandomString(int minimumLength, int maximumLength, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
             if (minimumLength <= 0)
             {
@@ -178,18 +230,18 @@ namespace EfficientlyLazyCrypto
 
             List<char> characterPool = GenerateCharacterPool(includeUppercase, includeLowercase, includeNumbers, includeSpecials);
 
-            return GenerateString(characterPool, minimumLength, maximumLength);
+            return RandomString(characterPool, minimumLength, maximumLength);
         }
 
         ///<summary>
         ///</summary>
         ///<returns></returns>
-        public string String()
+        public string NextString()
         {
-            return GenerateString(_characterPool, _minimum, _maximum);
+            return RandomString(_characterPool, _minimum, _maximum);
         }
 
-        private static string GenerateString(IList<char> characterPool, int minimumLength, int maximumLength)
+        private static string RandomString(IList<char> characterPool, int minimumLength, int maximumLength)
         {
             int length = _random.Next(minimumLength, maximumLength);
             
@@ -222,10 +274,10 @@ namespace EfficientlyLazyCrypto
         {
             List<char> masterCharacterPool = new List<char>();
 
-            if (includeUppercase) masterCharacterPool.AddRange(_uppercase);
-            if (includeLowercase) masterCharacterPool.AddRange(_lowercase);
-            if (includeNumbers) masterCharacterPool.AddRange(_numbers);
-            if (includeSpecials) masterCharacterPool.AddRange(_specials);
+            if (includeUppercase) masterCharacterPool.AddRange(UppercaseCharacters);
+            if (includeLowercase) masterCharacterPool.AddRange(LowercaseCharacters);
+            if (includeNumbers) masterCharacterPool.AddRange(NumericCharacters);
+            if (includeSpecials) masterCharacterPool.AddRange(SpecialCharacters);
 
             // randomize masterCharacterPool
             for (int randomPasses = 0; randomPasses <= 4; randomPasses++)

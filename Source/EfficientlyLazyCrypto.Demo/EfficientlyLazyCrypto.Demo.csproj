@@ -42,6 +42,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DPAPIEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DPAPIEngineControl.Designer.cs">
+      <DependentUpon>DPAPIEngineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="EnumerationConversions.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -56,12 +62,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RijndaelEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RijndaelEngineControl.Designer.cs">
+      <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DPAPIEngineControl.resx">
+      <DependentUpon>DPAPIEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RijndaelEngineControl.resx">
+      <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

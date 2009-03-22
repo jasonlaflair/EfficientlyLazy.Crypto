@@ -87,12 +87,12 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.Integer(4, 100);
-            byte maxSalt = (byte)DataGenerator.Integer(100, 250);
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetDataSaltLength(minSalt, maxSalt);
+                .SetRandomSaltLength(minSalt, maxSalt);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
@@ -109,14 +109,14 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.Integer(4, 100);
-            byte maxSalt = (byte)DataGenerator.Integer(100, 250);
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetDataSaltLength(minSalt, maxSalt)
-                .SetEncryptionKeySalt(saltKey);
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSalt(saltKey);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
@@ -137,8 +137,8 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.Integer(4, 100);
-            byte maxSalt = (byte)DataGenerator.Integer(100, 250);
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             int mod = (int)(_repeater % 3);
@@ -151,8 +151,8 @@ namespace EfficientlyLazyCrypto.Test
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetDataSaltLength(minSalt, maxSalt)
-                .SetEncryptionKeySalt(saltKey)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSalt(saltKey)
                 .SetKeySize(keySize);
 
             string encrypted = engine.Encrypt(clearText);
@@ -170,16 +170,16 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.Integer(4, 100);
-            byte maxSalt = (byte)DataGenerator.Integer(100, 250);
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            byte iterations = (byte)DataGenerator.Integer(1, 10);
+            byte iterations = (byte)DataGenerator.RandomInteger(1, 10);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetDataSaltLength(minSalt, maxSalt)
-                .SetEncryptionKeySalt(saltKey)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSalt(saltKey)
                 .SetKeySize(RijndaelKeySize.Key256Bit)
                 .SetPasswordIterations(iterations);
 
@@ -198,16 +198,16 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.Integer(4, 100);
-            byte maxSalt = (byte)DataGenerator.Integer(100, 250);
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            byte iterations = (byte)DataGenerator.Integer(1, 10);
+            byte iterations = (byte)DataGenerator.RandomInteger(1, 10);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetDataSaltLength(minSalt, maxSalt)
-                .SetEncryptionKeySalt(saltKey)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSalt(saltKey)
                 .SetKeySize(RijndaelKeySize.Key256Bit)
                 .SetPasswordIterations(iterations);
 
@@ -342,7 +342,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             try
             {
-                new RijndaelEngine(string.Empty).SetDataSaltLength(20, 15);
+                new RijndaelEngine(string.Empty).SetRandomSaltLength(20, 15);
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -360,7 +360,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             try
             {
-                new RijndaelEngine(string.Empty).SetDataSaltLength(-1, 10);
+                new RijndaelEngine(string.Empty).SetRandomSaltLength(-1, 10);
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -378,7 +378,7 @@ namespace EfficientlyLazyCrypto.Test
         {
             try
             {
-                new RijndaelEngine(string.Empty).SetDataSaltLength(5, -1);
+                new RijndaelEngine(string.Empty).SetRandomSaltLength(5, -1);
             }
             catch (ArgumentOutOfRangeException ex)
             {

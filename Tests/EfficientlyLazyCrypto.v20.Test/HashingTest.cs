@@ -19,7 +19,7 @@ namespace EfficientlyLazyCrypto.Test
             {
                 var type = (HashingAlgorithm)Enum.Parse(typeof(HashingAlgorithm), hash);
 
-                string normalText = DataGenerator.String(3, 500, true, true, true, true);
+                string normalText = DataGenerator.RandomString(3, 500, true, true, true, true);
 
                 string hashed = DataHashing.Compute(type, normalText, Encoding.UTF8);
 
@@ -37,7 +37,7 @@ namespace EfficientlyLazyCrypto.Test
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    sw.Write(DataGenerator.String(3, 2000, true, true, true, true));
+                    sw.Write(DataGenerator.RandomString(3, 2000, true, true, true, true));
                     sw.Write(" ");
                 }
             }
@@ -63,8 +63,8 @@ namespace EfficientlyLazyCrypto.Test
             {
                 var type = (HashingAlgorithm)Enum.Parse(typeof(HashingAlgorithm), hash);
 
-                string normalText = DataGenerator.String(3, 500, true, true, true, true);
-                string keyText = DataGenerator.String(3, 500, true, true, true, true);
+                string normalText = DataGenerator.RandomString(3, 500, true, true, true, true);
+                string keyText = DataGenerator.RandomString(3, 500, true, true, true, true);
 
                 string hashed = DataHashing.ComputeHMAC(type, normalText, keyText, Encoding.UTF8);
 
@@ -81,7 +81,7 @@ namespace EfficientlyLazyCrypto.Test
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    sw.Write(DataGenerator.String(3, 2000, true, true, true, true));
+                    sw.Write(DataGenerator.RandomString(3, 2000, true, true, true, true));
                     sw.Write(" ");
                 }
             }
@@ -92,7 +92,7 @@ namespace EfficientlyLazyCrypto.Test
             {
                 var type = (HashingAlgorithm)Enum.Parse(typeof(HashingAlgorithm), hash);
 
-                string keyText = DataGenerator.String(3, 500, true, true, true, true);
+                string keyText = DataGenerator.RandomString(3, 500, true, true, true, true);
                 string hashed = DataHashing.ComputeHMAC(type, file, keyText, Encoding.UTF8);
 
                 Assert.IsTrue(DataHashing.ValidateHMAC(type, file, keyText, hashed, Encoding.UTF8));

@@ -23,13 +23,13 @@ namespace EfficientlyLazyCrypto
         public SecureString InitVector { get; private set; }
         ///<summary>
         ///</summary>
-        public int MinimumDataSaltLength { get; private set; }
+        public int RandomSaltMinimumLength { get; private set; }
         ///<summary>
         ///</summary>
-        public int MaximumDataSaltLength { get; private set; }
+        public int RandomSaltMaximumLength { get; private set; }
         ///<summary>
         ///</summary>
-        public SecureString EncryptionKeySalt { get; private set; }
+        public SecureString Salt { get; private set; }
         ///<summary>
         ///</summary>
         public RijndaelKeySize KeySize { get; private set; }
@@ -47,9 +47,9 @@ namespace EfficientlyLazyCrypto
         {
             Key = ToSecureString(key);
             InitVector = ToSecureString(string.Empty);
-            MinimumDataSaltLength = 0;
-            MaximumDataSaltLength = 0;
-            EncryptionKeySalt = ToSecureString(string.Empty);
+            RandomSaltMinimumLength = 0;
+            RandomSaltMaximumLength = 0;
+            Salt = ToSecureString(string.Empty);
             KeySize = RijndaelKeySize.Key256Bit;
             PasswordIterations = 10;
             Encoding = Encoding.UTF8;
@@ -66,14 +66,46 @@ namespace EfficientlyLazyCrypto
 
             Key = key;
             InitVector = ToSecureString(string.Empty);
-            MinimumDataSaltLength = 0;
-            MaximumDataSaltLength = 0;
-            EncryptionKeySalt = ToSecureString(string.Empty);
+            RandomSaltMinimumLength = 0;
+            RandomSaltMaximumLength = 0;
+            Salt = ToSecureString(string.Empty);
             KeySize = RijndaelKeySize.Key256Bit;
             PasswordIterations = 10;
             Encoding = Encoding.UTF8;
 
             GenerateEngine();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetKey(string key)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key", "Key cannot be null");
+            }
+
+            Key = ToSecureString(key);
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public RijndaelEngine SetKey(SecureString key)
+        {
+            key.MakeReadOnly();
+            Key = key;
+
+            GenerateEngine();
+
+            return this;
         }
 
         ///<summary>
@@ -119,7 +151,7 @@ namespace EfficientlyLazyCrypto
         ///<param name="maximumLength"></param>
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public RijndaelEngine SetDataSaltLength(int minimumLength, int maximumLength)
+        public RijndaelEngine SetRandomSaltLength(int minimumLength, int maximumLength)
         {
             if (minimumLength < 0)
             {
@@ -134,8 +166,8 @@ namespace EfficientlyLazyCrypto
                 throw new ArgumentOutOfRangeException("maximumLength", string.Format("maximumLength ({0}) must be greater than or equal to minimumLength ({1})", maximumLength, minimumLength));
             }
 
-            MinimumDataSaltLength = minimumLength;
-            MaximumDataSaltLength = maximumLength;
+            RandomSaltMinimumLength = minimumLength;
+            RandomSaltMaximumLength = maximumLength;
 
             GenerateEngine();
 
@@ -144,11 +176,11 @@ namespace EfficientlyLazyCrypto
 
         ///<summary>
         ///</summary>
-        ///<param name="keySalt"></param>
+        ///<param name="salt"></param>
         ///<returns></returns>
-        public RijndaelEngine SetEncryptionKeySalt(string keySalt)
+        public RijndaelEngine SetSalt(string salt)
         {
-            EncryptionKeySalt = ToSecureString(keySalt);
+            Salt = ToSecureString(salt);
 
             GenerateEngine();
 
@@ -157,12 +189,12 @@ namespace EfficientlyLazyCrypto
 
         ///<summary>
         ///</summary>
-        ///<param name="keySalt"></param>
+        ///<param name="salt"></param>
         ///<returns></returns>
-        public RijndaelEngine SetEncryptionKeySalt(SecureString keySalt)
+        public RijndaelEngine SetSalt(SecureString salt)
         {
-            keySalt.MakeReadOnly();
-            EncryptionKeySalt = keySalt;
+            salt.MakeReadOnly();
+            Salt = salt;
 
             GenerateEngine();
 
@@ -226,7 +258,7 @@ namespace EfficientlyLazyCrypto
 
             // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
             // Get bytes of salt (used in hashing).
-            byte[] saltValueBytes = EncryptionKeySalt == null || EncryptionKeySalt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(EncryptionKeySalt));
+            byte[] saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
 
             var symmetricKey = new RijndaelManaged();
 
@@ -343,7 +375,7 @@ namespace EfficientlyLazyCrypto
                     int saltLen = 0;
 
                     // If we are using salt, get its length from the first 4 bytes of plain text data.
-                    if (MaximumDataSaltLength > 0 && MaximumDataSaltLength >= MinimumDataSaltLength)
+                    if (RandomSaltMaximumLength > 0 && RandomSaltMaximumLength >= RandomSaltMinimumLength)
                     {
                         saltLen = (decryptedBytes[0] & 0x03) | (decryptedBytes[1] & 0x0c) | (decryptedBytes[2] & 0x30) |
                                   (decryptedBytes[3] & 0xc0);
@@ -402,7 +434,7 @@ namespace EfficientlyLazyCrypto
         /// </returns>
         private byte[] AddSalt(byte[] plainTextBytes)
         {
-            if (MinimumDataSaltLength == 0 || MaximumDataSaltLength == 0)
+            if (RandomSaltMinimumLength == 0 || RandomSaltMaximumLength == 0)
             {
                 return plainTextBytes;
             }
@@ -436,7 +468,7 @@ namespace EfficientlyLazyCrypto
         /// </remarks>
         private byte[] GenerateSalt()
         {
-            var saltLen = DataGenerator.Integer(MinimumDataSaltLength, MaximumDataSaltLength);
+            var saltLen = DataGenerator.RandomInteger(RandomSaltMinimumLength, RandomSaltMaximumLength);
 
             // Allocate byte array to hold our salt.
             var salt = new byte[saltLen];
