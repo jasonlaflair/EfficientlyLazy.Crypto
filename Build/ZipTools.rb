@@ -1,20 +1,18 @@
+class ZipTools
 
-def addDirectoryToZip(sourceDirectory, zipFilePath)
-  
-  zipExe = "\"#{$rootBuildPath}/Tools/7zip/7za.exe\""
-  
-  params = "a -tzip -mx9 \"#{zipFilePath}\" -ir!\"#{sourceDirectory}\""
-  
-  sh "#{zipExe} #{params}"
-  
-end
+  require 'find'
+  require 'zip/zip'
 
-def addFileToZip(sourceFile, zipFilePath)
-  
-  zipExe = "\"#{$rootBuildPath}/Tools/7zip/7za.exe\""
-  
-  params = "a -tzip -mx9 \"#{zipFilePath}\" \"#{sourceFile}\""
-  
-  sh "#{zipExe} #{params}"
+  def self.create_zip(filename, root, excludes=/^$/)
+    File.delete(filename) if File.exists? filename
+    Zip::ZipFile.open(filename, Zip::ZipFile::CREATE) do |zip|
+      Find.find(root) do |path|
+        next if path =~ excludes
+      
+        zip_path = path.gsub(root, '')
+        zip.add(zip_path, path)
+      end
+    end
+  end
   
 end

@@ -14,55 +14,74 @@ $nCoverConfig = "#{$rootBuildPath}/config.ncover"
 
 $GallioEcho = "\"#{$solutionRoot}/ThirdParty/Gallio/Gallio.Echo.exe\""
 
-$shfb = "C:/Program Files (x86)/EWSoftware/Sandcastle Help File Builder/SandcastleBuilderConsole.exe"
+$shfb64 = "C:/Program Files (x86)/EWSoftware/Sandcastle Help File Builder/SandcastleBuilderConsole.exe"
+$shfb32 = "C:/Program Files/EWSoftware/Sandcastle Help File Builder/SandcastleBuilderConsole.exe"
+$shfb = ""
 
 $version = "0.0.0.0"
 
-import "#{$rootBuildPath}/MSBuild.rb"
-import "#{$rootBuildPath}/NCover.rb"
-import "#{$rootBuildPath}/Gallio.rb"
-import "#{$rootBuildPath}/SandCastle.rb"
-import "#{$rootBuildPath}/ZipTools.rb"
+require "#{$rootBuildPath}/MSBuild.rb"
+require "#{$rootBuildPath}/Gallio.rb"
+require "#{$rootBuildPath}/NCover.rb"
+require "#{$rootBuildPath}/SandCastle.rb"
+require "#{$rootBuildPath}/ZipTools.rb"
+
+task :test do
+  
+  
+end
+
 
 task :default => :development
 
 task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
-task :release => [:setBuildLevelRelease, :compile, :generateDocs, :packageup]
+task :package => [:setBuildLevelRelease, :compile, :generateDocs, :packageup]
 
 task :setBuildLevelDebug do
   $buildLevel = "Debug"
-  $version = getVersion
+  $version = MSBuild.getVersion
 end
 
 task :setBuildLevelRelease do
   $buildLevel = "Release"
-  $version = getVersion
+  $version = MSBuild.getVersion
 end
 
 task :compile do
-  compile
+  MSBuild.compile
 end
 
 task :runUnitTests do
-  runUnitTests
+  Gallio.runUnitTests
 end
 
 task :runCoverage do
-  runNCover
+  NCover.runNCover
 end
 
 task :generateDocs do
-  buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v20/EfficientlyLazyCrypto.v20.csproj", "2.0.50727", $version, "EfficientlyLazyCrypto.v20")
-  buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v35/EfficientlyLazyCrypto.v35.csproj", "3.5", $version, "EfficientlyLazyCrypto.v35")
+  
+  $shfb = $shfb32 if File.exist?($shfb32)
+  $shfb = $shfb64 if File.exist?($shfb64)
+  
+  if ($shfb == "")
+    puts "Unable to find Sandcastle Help File Builder"
+    exit
+  end
+  
+  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v20/EfficientlyLazyCrypto.v20.csproj", "2.0.50727", $version, "EfficientlyLazyCrypto.v20")
+  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v35/EfficientlyLazyCrypto.v35.csproj", "3.5", $version, "EfficientlyLazyCrypto.v35")
+  
 end
 
 task :packageup do
+
+  require "fileutils"
   
   package = "#{$artifacts}/Package"
-  mkdir(package) unless File.exist?(package)
+  rm_r(package) if File.exist?(package)
+  mkdir(package)
   
-  require "fileutils"
-
   folderv20 = "#{$artifacts}/Package/v20"
   mkdir(folderv20) unless File.exist?(folderv20)
 
@@ -71,7 +90,7 @@ task :packageup do
     cp(file, folderv20)
   end
   
-  cp("#{$artifacts}/EfficientlyLazyCrypto.v20.chm", "#{folderv20}/EfficientlyLazyCrypto.chm")
+  mv("#{$artifacts}/EfficientlyLazyCrypto.v20.chm", "#{folderv20}/EfficientlyLazyCrypto.chm")
 
   folderv35 = "#{$artifacts}/Package/v35"
   mkdir(folderv35) unless File.exist?(folderv35)
@@ -81,9 +100,9 @@ task :packageup do
     cp(file, folderv35)
   end
 
-  cp("#{$artifacts}/EfficientlyLazyCrypto.v35.chm", "#{folderv35}/EfficientlyLazyCrypto.chm")
+  mv("#{$artifacts}/EfficientlyLazyCrypto.v35.chm", "#{folderv35}/EfficientlyLazyCrypto.chm")
   
-  addDirectoryToZip("#{package}/*.*", "#{$artifacts}/EfficientlyLazyCrypto.zip")
+  ZipTools.create_zip("#{$artifacts}/EfficientlyLazyCrypto.zip", "#{package}/")
   
   rm_r(package)
 
