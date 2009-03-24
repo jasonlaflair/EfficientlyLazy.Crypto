@@ -11,6 +11,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v35.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.Demo", "Source\EfficientlyLazyCrypto.Demo\EfficientlyLazyCrypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
+	ProjectSection(SolutionItems) = preProject
+		Build\config.ncover = Build\config.ncover
+		Build\Gallio.rb = Build\Gallio.rb
+		Build\InstallGems.bat = Build\InstallGems.bat
+		Build\MSBuild.rb = Build\MSBuild.rb
+		Build\NCover.rb = Build\NCover.rb
+		Build\Rakefile.rb = Build\Rakefile.rb
+		Build\SandCastle.rb = Build\SandCastle.rb
+		Build\ZipTools.rb = Build\ZipTools.rb
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{F522BD75-C4E9-428A-9CC3-A29FAAFA8226}"
+	ProjectSection(SolutionItems) = preProject
+		Source\SharedAssemblyInfo.cs = Source\SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Style Enforcer", "Code Style Enforcer", "{1E4D1A12-0DB8-4A15-AD21-A08FAF2C976E}"
+	ProjectSection(SolutionItems) = preProject
+		Code Style Enforcer\ImplementationRules.xml = Code Style Enforcer\ImplementationRules.xml
+		Code Style Enforcer\NameRules.xml = Code Style Enforcer\NameRules.xml
+		Code Style Enforcer\VisibilityRules.xml = Code Style Enforcer\VisibilityRules.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +64,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		CodeStyleEnforcer_RulesLocation = 1
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal

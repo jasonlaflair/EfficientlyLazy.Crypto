@@ -102,7 +102,11 @@ task :packageup do
 
   mv("#{$artifacts}/EfficientlyLazyCrypto.v35.chm", "#{folderv35}/EfficientlyLazyCrypto.chm")
   
-  ZipTools.create_zip("#{$artifacts}/EfficientlyLazyCrypto.zip", "#{package}/")
+  zipfilename = "#{$artifacts}/EfficientlyLazyCrypto-#{$version}.zip"
+  
+  rm(zipfilename) if File.exist?(zipfilename)
+  
+  ZipTools.create_zip(zipfilename, "#{package}/")
   
   rm_r(package)
 

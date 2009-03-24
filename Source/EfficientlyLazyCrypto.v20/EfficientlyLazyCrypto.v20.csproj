@@ -12,6 +12,8 @@
     <AssemblyName>EfficientlyLazyCrypto</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\efficientlylazycrypto.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,10 +45,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DPAPINative_CryptProtectPromptFlags.cs" />
-    <Compile Include="DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs" />
-    <Compile Include="DPAPINative_DATA_BLOB.cs" />
-    <Compile Include="DPAPINative_Methods.cs" />
+    <Compile Include="DPAPINative.cs" />
     <Compile Include="DPAPIEngine.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="RijndaelEngine.cs" />

@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>Client</TargetFrameworkSubset>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\efficientlylazycrypto.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,17 +53,8 @@
     <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIEngine.cs">
       <Link>DPAPIEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_CryptProtectPromptFlags.cs">
-      <Link>DPAPINative_CryptProtectPromptFlags.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs">
-      <Link>DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_DATA_BLOB.cs">
-      <Link>DPAPINative_DATA_BLOB.cs</Link>
-    </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative_Methods.cs">
-      <Link>DPAPINative_Methods.cs</Link>
+    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative.cs">
+      <Link>DPAPINative.cs</Link>
     </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\Enumerations.cs">
       <Link>Enumerations.cs</Link>

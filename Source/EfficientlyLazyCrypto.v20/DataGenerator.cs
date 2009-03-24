@@ -7,6 +7,9 @@ namespace EfficientlyLazyCrypto
 {
     /// <summary>
     /// Generation of true random data.
+    /// This overcomes the limitations of .NET Framework's Random
+    /// class, which - when initialized multiple times within a very short
+    /// period of time - can generate the same "random" number.
     /// </summary>
     public class DataGenerator
     {
@@ -26,24 +29,30 @@ namespace EfficientlyLazyCrypto
         private List<char> _characterPool;
 
         ///<summary>
+        /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
         ///</summary>
-        ///<param name="minimum"></param>
-        ///<param name="maximum"></param>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        ///<param name="minimum">The inclusive lower bound of the random number or string length returned.</param>
+        ///<param name="maximum">The exclusive upper bound of the random number or string length returned. maximum must be greater than or equal to minimum.</param>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
         public DataGenerator(int minimum, int maximum)
             : this(minimum, maximum, false, false, false, false)
         {
         }
 
         ///<summary>
+        /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
         ///</summary>
-        ///<param name="minimum"></param>
-        ///<param name="maximum"></param>
-        ///<param name="includeUppercase"></param>
-        ///<param name="includeLowercase"></param>
-        ///<param name="includeNumbers"></param>
-        ///<param name="includeSpecials"></param>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        ///<param name="minimum">The inclusive lower bound of the random number or string length returned.</param>
+        ///<param name="maximum">The exclusive upper bound of the random number or string length returned. maximum must be greater than or equal to minimum.</param>
+        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
         public DataGenerator(int minimum, int maximum, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
             if (minimum <= 0)
@@ -67,10 +76,13 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Sets the lower and upper bound of the random number or string length returned.
         ///</summary>
-        ///<param name="minimum"></param>
-        ///<param name="maximum"></param>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        ///<param name="minimum">The inclusive lower bound of the random number or string length returned.</param>
+        ///<param name="maximum">The exclusive upper bound of the random number or string length returned. maximum must be greater than or equal to minimum.</param>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
         public void ResetLengths(int minimum, int maximum)
         {
             if (minimum <= 0)
@@ -91,12 +103,13 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Defines the character sets used when generated string values.
         ///</summary>
-        ///<param name="includeUppercase"></param>
-        ///<param name="includeLowercase"></param>
-        ///<param name="includeNumbers"></param>
-        ///<param name="includeSpecials"></param>
-        ///<exception cref="ArgumentException"></exception>
+        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<exception cref="ArgumentException">At least one of the 4 character sets must be used.</exception>
         public void ResetCharacterRequirements(bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
             if (!(includeUppercase || includeLowercase || includeNumbers || includeSpecials))
@@ -113,38 +126,36 @@ namespace EfficientlyLazyCrypto
         }
 
         /// <summary>
-        /// Generates a random <see cref="int"/>.
+        /// Generates a random number within a specified range.
         /// </summary>
-        /// <param name="minimumValue">Minimum value (inclusive).</param>
-        /// <param name="maximumValue">Maximum value (inclusive).</param>
-        /// <returns>Random <see cref="int"/> value between the <paramref name="minimumValue"/> and <paramref name="maximumValue"/> (inclusive).</returns>
-        /// <remarks>
-        /// This methods overcomes the limitations of .NET Framework's Random
-        /// class, which - when initialized multiple times within a very short
-        /// period of time - can generate the same "random" number.
-        /// </remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><c>maxValue</c> is out of range.</exception>
-        public static int RandomInteger(int minimumValue, int maximumValue)
+        ///<param name="minimum">The inclusive lower bound of the random number returned.</param>
+        ///<param name="maximum">The exclusive upper bound of the random number returned. maximum must be greater than or equal to minimum.</param>
+        /// <returns>Returns a random number within a specified range.</returns>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
+        public static int RandomInteger(int minimum, int maximum)
         {
-            if (minimumValue <= 0)
+            if (minimum <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimumValue", "minimumValue must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimum", "minimum must be greater than 0");
             }
-            if (maximumValue <= 0)
+            if (maximum <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than 0");
             }
-            if (minimumValue > maximumValue)
+            if (minimum > maximum)
             {
-                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than or equal to minimumValue");
+                throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than or equal to minimum");
             }
 
-            return _random.Next(minimumValue, maximumValue);
+            return _random.Next(minimum, maximum);
         }
 
         ///<summary>
+        /// Generates a random number within a specified range.
         ///</summary>
-        ///<returns></returns>
+        ///<returns>Returns a random number within the configured range.</returns>
         public int NextInteger()
         {
             return _random.Next(_minimum, _maximum);
@@ -199,16 +210,19 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Generates a random string between the specifed lengths using the specified character sets
         ///</summary>
-        ///<param name="minimumLength"></param>
-        ///<param name="maximumLength"></param>
-        ///<param name="includeUppercase"></param>
-        ///<param name="includeLowercase"></param>
-        ///<param name="includeNumbers"></param>
-        ///<param name="includeSpecials"></param>
-        ///<returns></returns>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
-        ///<exception cref="ArgumentException"></exception>
+        ///<param name="minimumLength">The inclusive lower length of the random string returned.</param>
+        ///<param name="maximumLength">The exclusive upper length of the random string returned. maximumLength must be greater than or equal to minimumLength.</param>
+        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<returns>Returns a random string between the specifed lengths using the specified character sets</returns>
+        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
+        ///<exception cref="ArgumentException">At least one of the 4 character sets must be used.</exception>
         public static string RandomString(int minimumLength, int maximumLength, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
             if (minimumLength <= 0)
@@ -234,8 +248,9 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Generates a random string between the specifed lengths using the specified character sets
         ///</summary>
-        ///<returns></returns>
+        ///<returns>Returns a random string between the specifed lengths using the specified character sets</returns>
         public string NextString()
         {
             return RandomString(_characterPool, _minimum, _maximum);

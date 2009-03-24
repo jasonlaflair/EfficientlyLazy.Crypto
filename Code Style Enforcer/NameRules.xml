@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rules xmlns="http://joel.fjorden.se/CodeStyleEnforcer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://joel.fjorden.se/CodeStyleEnforcer NameRules.xsd" Version="2.1.0.0">
+  <Rule CodeType="Field">
+    <Prefix>_</Prefix>
+    <Case>Camel</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="ReadonlyField">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="PrivateReadonlyField">
+    <Prefix>_</Prefix>
+    <Case>Camel</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="ConstantField">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>true</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Variable">
+    <Case>Camel</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="EnumerationValue">
+    <Case>Pascal</Case>
+    <AllowDigits>true</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Class">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Interface">
+    <Prefix>I</Prefix>
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Structure">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Enumeration">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Delegate">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Exception">
+    <Suffix>Exception</Suffix>
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Attribute">
+    <Suffix>Attribute</Suffix>
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Method">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Parameter">
+    <Case>Camel</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="EventHandler">
+    <Prefix>On</Prefix>
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+  <Rule CodeType="Property">
+    <Case>Pascal</Case>
+    <AllowDigits>false</AllowDigits>
+    <AllowUnderscore>false</AllowUnderscore>
+    <AllowAccentedCharacters>true</AllowAccentedCharacters>
+  </Rule>
+</Rules>

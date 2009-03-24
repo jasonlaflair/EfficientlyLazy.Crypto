@@ -13,21 +13,24 @@ namespace EfficientlyLazyCrypto
     /// </summary>
     public sealed class DPAPIEngine : ICryptoEngine
     {
-        private readonly DPAPINative_Methods _nativeMethods = new DPAPINative_Methods();
+        private readonly static DPAPINative _nativeMethods = new DPAPINative();
 
         ///<summary>
+        /// Additional entropy used for encryption/decryption.
         ///</summary>
         public SecureString Entropy { get; private set; }
         ///<summary>
+        /// Method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.
         ///</summary>
         public DPAPIKeyType KeyType { get; private set; }
         ///<summary>
+        /// Character encoding to use during encryption/decryption.
         ///</summary>
         public Encoding Encoding { get; private set; }
 
         ///<summary>
         ///</summary>
-        ///<param name="keyType"></param>
+        ///<param name="keyType">Defines the method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.</param>
         public DPAPIEngine(DPAPIKeyType keyType)
         {
             KeyType = keyType;
@@ -36,9 +39,9 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Sets additional entropy used for encryption/decryption
         ///</summary>
-        ///<param name="entropy"></param>
-        ///<returns></returns>
+        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
         public DPAPIEngine SetEntropy(string entropy)
         {
             Entropy = ToSecureString(entropy);
@@ -47,9 +50,9 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Sets additional entropy used for encryption/decryption
         ///</summary>
-        ///<param name="entropy"></param>
-        ///<returns></returns>
+        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
         public DPAPIEngine SetEntropy(SecureString entropy)
         {
             entropy.MakeReadOnly();
@@ -59,9 +62,9 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.
         ///</summary>
-        ///<param name="keyType"></param>
-        ///<returns></returns>
+        ///<param name="keyType">Sets type (<see cref="DPAPIKeyType"/>) of encryption/decryption.</param>
         public DPAPIEngine SetKeyType(DPAPIKeyType keyType)
         {
             KeyType = keyType;
@@ -70,10 +73,10 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Sets character encoding to use during encryption/decryption.
         ///</summary>
-        ///<param name="encoding"></param>
-        ///<returns></returns>
-        ///<exception cref="ArgumentNullException"></exception>
+        ///<param name="encoding">Character encoding to use during encryption/decryption.</param>
+        ///<exception cref="ArgumentNullException">encoding is null</exception>
         public DPAPIEngine SetEncoding(Encoding encoding)
         {
             if (encoding == null)
@@ -94,7 +97,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Encrypt(byte[] plaintext)
         {
-            return DPAPI_Encrypt(KeyType, plaintext, Encoding.GetBytes(ToString(Entropy)));
+            return DPAPIEncrypt(KeyType, plaintext, Encoding.GetBytes(ToString(Entropy)));
         }
 
         /// <summary>
@@ -128,7 +131,7 @@ namespace EfficientlyLazyCrypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Decrypt(byte[] cipherText)
         {
-            return DPAPI_Decrypt(cipherText, Encoding.GetBytes(ToString(Entropy)));
+            return DPAPIDecrypt(cipherText, Encoding.GetBytes(ToString(Entropy)));
         }
 
         /// <summary>
@@ -161,25 +164,25 @@ namespace EfficientlyLazyCrypto
         private const int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        private byte[] DPAPI_Encrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
+        private static byte[] DPAPIEncrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
-            var plainTextBlob = DPAPINative_DATA_BLOB.Null();
-            var cipherTextBlob = DPAPINative_DATA_BLOB.Null();
-            var entropyBlob = DPAPINative_DATA_BLOB.Null();
+            var plainTextBlob = DPAPINative.DPAPINativeDATABLOB.Null();
+            var cipherTextBlob = DPAPINative.DPAPINativeDATABLOB.Null();
+            var entropyBlob = DPAPINative.DPAPINativeDATABLOB.Null();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.Default();
+            var prompt = DPAPINative.DPAPINativeCRYPTPROTECTPROMPTSTRUCT.Default();
 
             byte[] cipherTextBytes;
 
             try
             {
                 // Convert plaintext bytes into a BLOB structure.
-                plainTextBlob = DPAPINative_DATA_BLOB.Init(plainTextBytes); // InitBLOB(plainTextBytes);
+                plainTextBlob = DPAPINative.DPAPINativeDATABLOB.Init(plainTextBytes); // InitBLOB(plainTextBytes);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DPAPINative_DATA_BLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
+                entropyBlob = DPAPINative.DPAPINativeDATABLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
 
                 // Disable any types of UI.
                 int flags = CRYPTPROTECT_UI_FORBIDDEN;
@@ -226,25 +229,25 @@ namespace EfficientlyLazyCrypto
         }
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        private byte[] DPAPI_Decrypt(byte[] cipherText, byte[] entropy)
+        private static byte[] DPAPIDecrypt(byte[] cipherText, byte[] entropy)
         {
             // Create BLOBs to hold data.
-            var plainTextBlob = new DPAPINative_DATA_BLOB();
-            var cipherTextBlob = new DPAPINative_DATA_BLOB();
-            var entropyBlob = new DPAPINative_DATA_BLOB();
+            var plainTextBlob = new DPAPINative.DPAPINativeDATABLOB();
+            var cipherTextBlob = new DPAPINative.DPAPINativeDATABLOB();
+            var entropyBlob = new DPAPINative.DPAPINativeDATABLOB();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = DPAPINative_CRYPTPROTECT_PROMPTSTRUCT.Default();
+            var prompt = DPAPINative.DPAPINativeCRYPTPROTECTPROMPTSTRUCT.Default();
 
             byte[] plainTextBytes;
 
             try
             {
                 // Convert ciphertext bytes into a BLOB structure.
-                cipherTextBlob = DPAPINative_DATA_BLOB.Init(cipherText);
+                cipherTextBlob = DPAPINative.DPAPINativeDATABLOB.Init(cipherText);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DPAPINative_DATA_BLOB.Init(entropy);
+                entropyBlob = DPAPINative.DPAPINativeDATABLOB.Init(entropy);
 
                 // Initialize description string.
                 string description = String.Empty;
