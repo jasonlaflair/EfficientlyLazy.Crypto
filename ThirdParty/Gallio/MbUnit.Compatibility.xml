@@ -1472,6 +1472,126 @@
       <param name="s">String to test.</param>
       <param name="regex">A <see cref="T:System.Text.RegularExpressions.Regex" /> instance.</param>
     </member>
+    <member name="T:MbUnit.Framework.OldXmlAssert">
+      <summary>Class containing generic assert methods for XML markup This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathEvaluatesTo(System.String,System.String,System.String)">
+      <summary>Asserts that the flattened String obtained by executing an Xpath on some XML is a particular value</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">The XML to test.</param>
+      <param name="expectedValue">The expected value.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathEvaluatesTo(System.String,System.IO.TextReader,System.String)">
+      <summary>Asserts that the flattened String obtained by executing an Xpath on some XML is a particular value</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">The XML to test.</param>
+      <param name="expectedValue">The expected value.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathEvaluatesTo(System.String,MbUnit.Framework.Xml.XmlInput,System.String)">
+      <summary>Asserts that the flattened String obtained by executing an Xpath on some XML is a particular value</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">The XML to test.</param>
+      <param name="expectedValue">The expected value.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathExists(System.String,System.String)">
+      <summary>Assert that an XPath expression matches at least one node in someXml</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">The XML being tested.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathExists(System.String,System.IO.TextReader)">
+      <summary>Assert that an XPath expression matches at least one node in someXml</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">A reader ontot eh XML being tested</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XPathExists(System.String,MbUnit.Framework.Xml.XmlInput)">
+      <summary>Assert that an XPath expression matches at least one node in someXml</summary>
+      <param name="anXPathExpression">An X path expression.</param>
+      <param name="inXml">The XML to test.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlEquals(System.IO.TextReader,System.IO.TextReader)">
+      <summary>Asserts that two pieces of XML are similar.</summary>
+      <param name="controlTextReader">The control text reader.</param>
+      <param name="testTextReader">The test text reader.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlEquals(System.String,System.String)">
+      <summary>Asserts that two pieces of XML are similar.</summary>
+      <param name="controlText">The control text.</param>
+      <param name="testText">The test text.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlEquals(MbUnit.Framework.Xml.XmlInput,MbUnit.Framework.Xml.XmlInput)">
+      <summary>Asserts that two pieces of XML are similar.</summary>
+      <param name="controlInput">The control input.</param>
+      <param name="testInput">The test input.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlEquals(MbUnit.Framework.Xml.XmlDiff)">
+      <summary>Asserts that two pieces of XMl are similar given their diff</summary>
+      <param name="xmlDiff">The XML diff.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlIdentical(System.IO.TextReader,System.IO.TextReader)">
+      <summary>Asserts that two pieces of XML are identical.</summary>
+      <param name="controlTextReader">The control text reader.</param>
+      <param name="testTextReader">The test text reader.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlIdentical(System.String,System.String)">
+      <summary>Asserts that two pieces of XML are identical.</summary>
+      <param name="controlText">The control text.</param>
+      <param name="testText">The test text.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlIdentical(MbUnit.Framework.Xml.XmlInput,MbUnit.Framework.Xml.XmlInput)">
+      <summary>Asserts that two pieces of XML are identical.</summary>
+      <param name="controlInput">The control input.</param>
+      <param name="testInput">The test input.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlIdentical(MbUnit.Framework.Xml.XmlDiff)">
+      <summary>Asserts that two pieces of XML are identical given their diff</summary>
+      <param name="xmlDiff">The XML diff.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlNotEquals(MbUnit.Framework.Xml.XmlDiff)">
+      <summary>Asserts that two pieces of XMl are not similar given their diff</summary>
+      <param name="xmlDiff">The XML diff.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlNotIdentical(MbUnit.Framework.Xml.XmlDiff)">
+      <summary>Asserts that two pieces of XML are not identical given their diff</summary>
+      <param name="xmlDiff">The XML diff.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(System.String)">
+      <summary>Asserts that <paramref name="someXml" /> is valid XML.</summary>
+      <param name="someXml">The XMl to test</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(System.String,System.String)">
+      <summary>Asserts that <paramref name="someXml" /> is valid XML given a <paramref name="baseURI" /></summary>
+      <param name="someXml">The XML to test.</param>
+      <param name="baseURI">The base URI.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(System.IO.TextReader)">
+      <summary>Asserts that some XML is valid.</summary>
+      <param name="reader">A <see cref="T:System.IO.TextReader" /> pointing to the XML to test.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(System.IO.TextReader,System.String)">
+      <summary>Asserts that some XML is valid given a <paramref name="baseURI" /></summary>
+      <param name="reader">A <see cref="T:System.IO.TextReader" /> pointing to the XML to test.</param>
+      <param name="baseURI">The base URI.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(MbUnit.Framework.Xml.XmlInput)">
+      <summary>Asserts that some XML is valid.</summary>
+      <param name="xmlInput">The XML input.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XmlValid(MbUnit.Framework.Xml.Validator)">
+      <summary>Asserts that some XML is valid.</summary>
+      <param name="validator">A <see cref="T:MbUnit.Framework.Xml.Validator" /> object containing the XML to validate</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XslTransformResults(System.String,System.String,System.String)">
+      <summary>Asserts that the results of an XSL transform on some XML are the expected result</summary>
+      <param name="xslTransform">The XSL transform.</param>
+      <param name="xmlToTransform">The XML to transform.</param>
+      <param name="expectedResult">The expected result.</param>
+    </member>
+    <member name="M:MbUnit.Framework.OldXmlAssert.XslTransformResults(MbUnit.Framework.Xml.XmlInput,MbUnit.Framework.Xml.XmlInput,MbUnit.Framework.Xml.XmlInput)">
+      <summary>Asserts that the results of an XSL transform on some XML are the expected result</summary>
+      <param name="xslTransform">The XSL transform.</param>
+      <param name="xmlToTransform">The XML to transform.</param>
+      <param name="expectedResult">The expected result.</param>
+    </member>
     <member name="T:MbUnit.Framework.RowTestAttribute">
       <summary>Provides compatibility with MbUnit v2 row test feature.</summary>
     </member>
@@ -1480,6 +1600,81 @@
     </member>
     <member name="T:MbUnit.Framework.TestFixtureTearDownAttribute">
       <summary>Provides compatibility with MbUnit v2 test fixture tear down.</summary>
+    </member>
+    <member name="T:MbUnit.Framework.Xml.Differences">
+      <summary>Utilities for manipulating differences. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="M:MbUnit.Framework.Xml.Differences.IsMajorDifference(MbUnit.Framework.Xml.DifferenceType)">
+      <summary>Returns true is a difference is considered significant.</summary>
+    </member>
+    <member name="T:MbUnit.Framework.Xml.DifferenceType">
+      <summary>Describes the type of difference found.</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.AttributeValueExplicitlySpecified">
+      <summary>Comparing an implied attribute value against an explicit value</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.AttributeNameNotFound">
+      <summary>Comparing 2 elements and one has an attribute the other does not</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.AttributeValue">
+      <summary>Comparing 2 attributes with the same name but different values</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.AttributeSequence">
+      <summary>Comparing 2 attribute lists with the same attributes in different sequence</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.CDATAValue">
+      <summary>Comparing 2 CDATA sections with different values</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.CommentValue">
+      <summary>Comparing 2 comments with different values</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.DOCTYPE_NAME_ID">
+      <summary>Comparing 2 document types with different names</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.DocTypePublicID">
+      <summary>Comparing 2 document types with different public identifiers</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.DocTypeSystemID">
+      <summary>Comparing 2 document types with different system identifiers</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.ElementTagName">
+      <summary>Comparing 2 elements with different tag names</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.ELEMENT_NUM_ATTRIBUTES_ID">
+      <summary>Comparing 2 elements with different number of attributes</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.PROCESSING_INSTRUCTION_TARGET_ID">
+      <summary>Comparing 2 processing instructions with different targets</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.PROCESSING_INSTRUCTION_DATA_ID">
+      <summary>Comparing 2 processing instructions with different instructions</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.TEXT_VALUE_ID">
+      <summary>Comparing 2 different text values</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.NAMESPACE_PREFIX_ID">
+      <summary>Comparing 2 nodes with different namespace prefixes</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.NAMESPACE_URI_ID">
+      <summary>Comparing 2 nodes with different namespace URIs</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.NODE_TYPE_ID">
+      <summary>Comparing 2 nodes with different node types</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.HAS_CHILD_NODES_ID">
+      <summary>Comparing 2 nodes but only one has any children</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.CHILD_NODELIST_LENGTH_ID">
+      <summary>Comparing 2 nodes with different numbers of children</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.CHILD_NODELIST_SEQUENCE_ID">
+      <summary>Comparing 2 nodes with children whose nodes are in different sequence</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.HAS_DOCTYPE_DECLARATION_ID">
+      <summary>Comparing 2 Documents only one of which has a doctype</summary>
+    </member>
+    <member name="F:MbUnit.Framework.Xml.DifferenceType.HAS_XML_DECLARATION_PREFIX_ID">
+      <summary>Comparing 2 Documents only one of which has an XML Prefix Declaration</summary>
     </member>
   </members>
 </doc>

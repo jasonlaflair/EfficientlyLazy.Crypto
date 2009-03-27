@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="ViolationsReport.xsl"?>
+<Violations>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/DPAPINative/DATA_BLOB_Test.cs">
+    <Violation Column="18" Row="9" Type="Name">Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/DPAPIEngineTest.cs">
+    <Violation Column="21" Row="18" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="34" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="50" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="66" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="83" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="101" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="119" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="137" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="155" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="168" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="180" Type="Name">Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/Generation_ValidData_Test.cs">
+    <Violation Column="18" Row="10" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="37" Row="12" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="37" Row="13" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="37" Row="14" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="37" Row="15" Type="Name">Prefix is wrong, should be '_'.</Violation>
+  </File>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/RijndaelEngineTest.cs">
+    <Violation Column="21" Row="33" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="47" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="65" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="83" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="105" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="131" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="166" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="194" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="222" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="238" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="253" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="286" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="304" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="323" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="341" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="359" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="377" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="395" Type="Name">Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/GenerationTest.cs">
+    <Violation Column="21" Row="98" Type="Name">Name contains illegal characters.</Violation>
+    <Violation Column="21" Row="110" Type="Name">Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Tests/EfficientlyLazyCrypto.v20.Test/DPAPINative/CRYPTPROTECT_PROMPTSTRUCT_Test.cs">
+    <Violation Column="18" Row="7" Type="Name">Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/DPAPIEngineControl.cs">
+    <Violation Column="22" Row="25" Type="Name">Prefix is wrong, should be 'On'.
+Name contains illegal characters.</Violation>
+    <Violation Column="22" Row="30" Type="Name">Prefix is wrong, should be 'On'.
+Case is wrong.
+Name contains illegal characters.</Violation>
+    <Violation Column="22" Row="46" Type="Name">Prefix is wrong, should be 'On'.
+Case is wrong.
+Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/frmMain.cs">
+    <Violation Column="26" Row="6" Type="Name">Case is wrong.</Violation>
+    <Violation Column="22" Row="13" Type="Name">Prefix is wrong, should be 'On'.
+Case is wrong.
+Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/RijndaelEngineControl.Designer.cs">
+    <Violation Column="4" Row="3" Type="Visibility">Visibility has to be specified explicitly.</Violation>
+    <Violation Column="50" Row="8" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="46" Row="329" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="330" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="46" Row="331" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="332" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="46" Row="333" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="47" Row="334" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="335" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="52" Row="336" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="337" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="52" Row="338" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="339" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="44" Row="340" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="52" Row="341" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="342" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="343" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="344" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="345" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="346" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="44" Row="347" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="45" Row="348" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="349" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="45" Row="350" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="50" Row="351" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="50" Row="352" Type="Name">Prefix is wrong, should be '_'.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/frmMain.Designer.cs">
+    <Violation Column="19" Row="3" Type="Name">Case is wrong.</Violation>
+    <Violation Column="4" Row="3" Type="Visibility">Visibility has to be specified explicitly.</Violation>
+    <Violation Column="50" Row="8" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="49" Row="109" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="46" Row="110" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="46" Row="111" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="39" Row="112" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="36" Row="113" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/RijndaelEngineControl.cs">
+    <Violation Column="22" Row="37" Type="Name">Prefix is wrong, should be 'On'.
+Name contains illegal characters.</Violation>
+    <Violation Column="22" Row="42" Type="Name">Prefix is wrong, should be 'On'.
+Case is wrong.
+Name contains illegal characters.</Violation>
+    <Violation Column="22" Row="58" Type="Name">Prefix is wrong, should be 'On'.
+Case is wrong.
+Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/Properties/Resources.Designer.cs">
+    <Violation Column="65" Row="27" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="65" Row="29" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="47" Row="63" Type="Name">Case is wrong.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="70" Type="Name">Case is wrong.
+Name contains illegal characters.</Violation>
+  </File>
+  <File Path="Source/EfficientlyLazyCrypto.Demo/DPAPIEngineControl.Designer.cs">
+    <Violation Column="4" Row="3" Type="Visibility">Visibility has to be specified explicitly.</Violation>
+    <Violation Column="50" Row="8" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="46" Row="215" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="216" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="217" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="218" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="219" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="220" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="221" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="47" Row="222" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="44" Row="223" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="45" Row="224" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="44" Row="225" Type="Name">Prefix is wrong, should be '_'.
+Name contains illegal characters.</Violation>
+    <Violation Column="45" Row="226" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="50" Row="227" Type="Name">Prefix is wrong, should be '_'.</Violation>
+    <Violation Column="50" Row="228" Type="Name">Prefix is wrong, should be '_'.</Violation>
+  </File>
+</Violations>

@@ -19,11 +19,11 @@
     <member name="P:Gallio.Reports.BaseReportFormatter.Name">
       <summary>Gets the unique name of the component.</summary>
     </member>
-    <member name="M:Gallio.Reports.BaseReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,System.Collections.Specialized.NameValueCollection,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+    <member name="M:Gallio.Reports.BaseReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,Gallio.Runner.Reports.ReportFormatterOptions,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
       <summary>Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode" /> is suitable for use in hashing algorithms and data structures like a hash table.</summary>
       <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
     </member>
-    <member name="M:Gallio.Reports.BaseReportFormatter.GetAttachmentContentDisposition(System.Collections.Specialized.NameValueCollection)">
+    <member name="M:Gallio.Reports.BaseReportFormatter.GetAttachmentContentDisposition(Gallio.Runner.Reports.ReportFormatterOptions)">
       <summary>Gets the attachment content disposition.</summary>
       <param name="options">The formatter options</param>
       <returns>The attachment content disposition</returns>
@@ -34,7 +34,7 @@
         <para> Unfortunately the format is non-standard and cannot be read by most other browsers. </para>
       </summary>
     </member>
-    <member name="M:Gallio.Reports.MHtmlReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,System.Collections.Specialized.NameValueCollection,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+    <member name="M:Gallio.Reports.MHtmlReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,Gallio.Runner.Reports.ReportFormatterOptions,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
       <summary>Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode" /> is suitable for use in hashing algorithms and data structures like a hash table.</summary>
       <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
     </member>
@@ -44,7 +44,7 @@
         <para> Recognizes the following options: <list type="bullet"><listheader><term>Option</term><description>Description</description></listheader><item><term>AttachmentContentDisposition</term><description>Overrides the default attachment content disposition for the format. The content disposition may be "Absent" to exclude attachments, "Link" to include attachments by reference to external files, or "Inline" to include attachments as inline content within the formatted document. Different formats use different default content dispositions.</description></item></list></para>
       </summary>
     </member>
-    <member name="M:Gallio.Reports.XmlReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,System.Collections.Specialized.NameValueCollection,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+    <member name="M:Gallio.Reports.XmlReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,Gallio.Runner.Reports.ReportFormatterOptions,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
       <summary>Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode" /> is suitable for use in hashing algorithms and data structures like a hash table.</summary>
       <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
     </member>
@@ -57,13 +57,13 @@
     <member name="P:Gallio.Reports.XsltReportFormatter.Transform">
       <summary>Gets the XSL transform.</summary>
     </member>
-    <member name="M:Gallio.Reports.XsltReportFormatter.ApplyTransform(Gallio.Runner.Reports.IReportWriter,Gallio.Model.Logging.AttachmentContentDisposition,System.Collections.Specialized.NameValueCollection)">
+    <member name="M:Gallio.Reports.XsltReportFormatter.ApplyTransform(Gallio.Runner.Reports.IReportWriter,Gallio.Model.Logging.AttachmentContentDisposition,Gallio.Runner.Reports.ReportFormatterOptions)">
       <summary>Applies the transform to produce a report.</summary>
     </member>
     <member name="M:Gallio.Reports.XsltReportFormatter.CopyResources(Gallio.Runner.Reports.IReportWriter)">
       <summary>Copies additional resources to the content path within the report.</summary>
     </member>
-    <member name="M:Gallio.Reports.XsltReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,System.Collections.Specialized.NameValueCollection,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+    <member name="M:Gallio.Reports.XsltReportFormatter.Format(Gallio.Runner.Reports.IReportWriter,Gallio.Runner.Reports.ReportFormatterOptions,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
       <summary>Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode" /> is suitable for use in hashing algorithms and data structures like a hash table.</summary>
       <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
     </member>
@@ -72,7 +72,7 @@
       <param name="resolvedXsltPath">The full path of the XSLT</param>
       <returns>The transform</returns>
     </member>
-    <member name="M:Gallio.Reports.XsltReportFormatter.PopulateArguments(System.Xml.Xsl.XsltArgumentList,System.Collections.Specialized.NameValueCollection,System.String)">
+    <member name="M:Gallio.Reports.XsltReportFormatter.PopulateArguments(System.Xml.Xsl.XsltArgumentList,Gallio.Runner.Reports.ReportFormatterOptions,System.String)">
       <summary>Populates the arguments for the XSL template processing.</summary>
     </member>
   </members>

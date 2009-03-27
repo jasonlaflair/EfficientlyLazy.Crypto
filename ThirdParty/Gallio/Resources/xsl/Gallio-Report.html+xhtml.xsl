@@ -92,6 +92,7 @@ html
       <xsl:apply-templates select="g:testModel/g:annotations" mode="annotations"/>
       <xsl:apply-templates select="g:testPackageRun" mode="summary"/>
       <xsl:apply-templates select="g:testPackageRun" mode="details"/>
+      <xsl:apply-templates select="g:logEntries" mode="log"/>
     </div>
   </xsl:template>
   
@@ -155,7 +156,7 @@ html
       </xsl:if>
       
       <xsl:if test="@details">
-        <div class="annotation-location">
+        <div class="annotation-details">
           <xsl:text>Details: </xsl:text>
           <xsl:call-template name="print-text-with-breaks"><xsl:with-param name="text" select="@details" /></xsl:call-template>
         </div>
@@ -280,7 +281,7 @@ html
             </xsl:otherwise>
           </xsl:choose>
 
-          <a href="#testStepRun-{$id}">
+          <a class="crossref" href="#testStepRun-{$id}">
             <xsl:attribute name="onclick">
               <xsl:text>expand([</xsl:text>
               <xsl:for-each select="ancestor-or-self::g:testStepRun">
@@ -364,7 +365,16 @@ html
           </xsl:call-template>
           -->
 
-          <xsl:call-template name="print-text-with-breaks"><xsl:with-param name="text" select="g:testStep/@name" /></xsl:call-template>
+          <xsl:call-template name="code-location-link">
+            <xsl:with-param name="path" select="g:testStep/g:codeLocation/@path" />
+            <xsl:with-param name="line" select="g:testStep/g:codeLocation/@line" />
+            <xsl:with-param name="column" select="g:testStep/g:codeLocation/@column" />
+            <xsl:with-param name="content">
+              <xsl:call-template name="print-text-with-breaks">
+                <xsl:with-param name="text" select="g:testStep/@name" />
+              </xsl:call-template>
+            </xsl:with-param>
+          </xsl:call-template>
 
           <xsl:call-template name="outcome-bar">
             <xsl:with-param name="outcome" select="g:result/g:outcome" />
@@ -532,7 +542,7 @@ html
           </xsl:call-template>
         </xsl:when>
         <xsl:when test="@class = 'Link'">
-          <a href="{g:attributes/g:attribute[@name = 'url']/@value}">
+          <a class="crossref" href="{g:attributes/g:attribute[@name = 'url']/@value}">
             <xsl:apply-templates select="g:contents" mode="stream">
               <xsl:with-param name="attachments" select="$attachments" />
             </xsl:apply-templates>
@@ -720,20 +730,56 @@ html
 
     <xsl:choose>
       <xsl:when test="$path and $line > 0 and $column > 0">
-        <a href="gallio:navigateTo?path={$path}&amp;line={$line}&amp;column={$column}"><xsl:value-of select="$content"/></a>
+        <a class="crossref" href="gallio:navigateTo?path={$path}&amp;line={$line}&amp;column={$column}"><xsl:value-of select="$content"/></a>
       </xsl:when>
       <xsl:when test="$path and $line > 0">
-        <a href="gallio:navigateTo?path={$path}&amp;line={$line}"><xsl:value-of select="$content"/></a>
+        <a class="crossref" href="gallio:navigateTo?path={$path}&amp;line={$line}"><xsl:value-of select="$content"/></a>
       </xsl:when>
       <xsl:when test="$path">
-        <a href="gallio:navigateTo?path={$path}"><xsl:value-of select="$content"/></a>
+        <a class="crossref" href="gallio:navigateTo?path={$path}"><xsl:value-of select="$content"/></a>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="$content"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
+
+  <xsl:template match="g:logEntries" mode="log">
+    <div id="Log" class="section">
+      <h2>Diagnostic Log</h2>
+      <div class="section-content">
+        <ul>
+          <xsl:apply-templates select="g:logEntry[@severity != 'debug']" mode="log" />
+        </ul>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="g:logEntry" mode="log">
+    <li>
+      <xsl:attribute name="class">
+        logEntry logEntry-severity-<xsl:value-of select="@severity"/>
+      </xsl:attribute>
+      <div class="logEntry-text">
+        <xsl:text>[</xsl:text>
+        <xsl:value-of select="@severity"/>
+        <xsl:text>] </xsl:text>
+        <xsl:call-template name="print-text-with-breaks">
+          <xsl:with-param name="text" select="@message" />
+        </xsl:call-template>
+      </div>
+
+      <xsl:if test="@details">
+        <div class="logEntry-details">
+          <xsl:text>Details: </xsl:text>
+          <xsl:call-template name="print-text-with-breaks">
+            <xsl:with-param name="text" select="@details" />
+          </xsl:call-template>
+        </div>
+      </xsl:if>
+    </li>
+  </xsl:template>
+
   <!-- Include the common report template -->
   <xsl:include href="Gallio-Report.common.xsl" />  
 </xsl:stylesheet>
