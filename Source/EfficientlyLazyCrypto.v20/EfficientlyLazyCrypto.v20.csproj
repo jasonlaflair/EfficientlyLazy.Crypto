@@ -45,7 +45,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DPAPINative.cs" />
     <Compile Include="DPAPIEngine.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="RijndaelEngine.cs" />

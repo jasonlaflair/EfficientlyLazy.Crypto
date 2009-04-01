@@ -57,15 +57,19 @@ namespace EfficientlyLazyCrypto
         {
             if (minimum <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimum", "minimum must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimum", minimum, "minimum must be greater than 0");
             }
             if (maximum <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximum", maximum, "maximum must be greater than 0");
             }
             if (minimum > maximum)
             {
                 throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than or equal to minimum");
+            }
+            if (!(includeUppercase || includeLowercase || includeNumbers || includeSpecials))
+            {
+                throw new ArgumentException("at least one character include requirement must be specified");
             }
 
             _minimum = minimum;
@@ -87,11 +91,11 @@ namespace EfficientlyLazyCrypto
         {
             if (minimum <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimum", "minimum must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimum", minimum, "minimum must be greater than 0");
             }
             if (maximum <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximum", maximum, "maximum must be greater than 0");
             }
             if (minimum > maximum)
             {
@@ -138,11 +142,11 @@ namespace EfficientlyLazyCrypto
         {
             if (minimum <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimum", "minimum must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimum", minimum, "minimum must be greater than 0");
             }
             if (maximum <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximum", "maximum must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximum", maximum, "maximum must be greater than 0");
             }
             if (minimum > maximum)
             {
@@ -227,11 +231,11 @@ namespace EfficientlyLazyCrypto
         {
             if (minimumLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", "minimumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
             }
             if (maximumLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
             }
             if (minimumLength > maximumLength)
             {

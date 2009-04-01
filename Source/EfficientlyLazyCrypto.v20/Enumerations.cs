@@ -8,7 +8,7 @@ namespace EfficientlyLazyCrypto
     public enum HashingAlgorithm
     {
         /// <summary>MD5 Hashing</summary>
-        [Obsolete("Should not be used as it has been proven insecure")]
+        [Obsolete("Should not be used as it has been proven insecure", true)]
         MD5 = 5,
         /// <summary>SHA1 Hashing</summary>
         SHA1 = 1,

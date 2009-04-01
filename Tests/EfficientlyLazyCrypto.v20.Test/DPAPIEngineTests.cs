@@ -11,10 +11,10 @@ namespace EfficientlyLazyCrypto.Test
     ///This is a test class for DPAPIEngineTest and is intended
     ///to contain all DPAPIEngineTest Unit Tests
     ///</summary>
-    [TestFixture]
-    public class DPAPIEngineTest : RandomBase
+    [TestFixture, Parallelizable]
+    public class DPAPIEngineTests : RandomBase
     {
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_String_UserKey_NoEntropy()
         {
             string plainText = GenerateClearText();
@@ -30,7 +30,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_Byte_UserKey_NoEntropy()
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
@@ -46,7 +46,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_String_MachineKey_NoEntropy()
         {
             string plainText = GenerateClearText();
@@ -62,7 +62,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_Byte_MachineKey_NoEntropy()
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
@@ -79,7 +79,7 @@ namespace EfficientlyLazyCrypto.Test
         }
 
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_String_UserKey_Entropy()
         {
             string plainText = GenerateClearText();
@@ -97,7 +97,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_Byte_UserKey_Entropy()
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
@@ -115,7 +115,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_String_MachineKey_Entropy()
         {
             string plainText = GenerateClearText();
@@ -133,7 +133,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void DPAPIEngine_EncryptTest_Byte_MachineKey_Entropy()
         {
             byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
@@ -151,7 +151,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
         }
 
-        [Test, Repeat(50), ExpectedException(typeof(CryptographicException))]
+        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
         public void DPAPIEngine_DecryptFailureTest()
         {
             string entropy = GeneratePassPhrase();
@@ -164,7 +164,7 @@ namespace EfficientlyLazyCrypto.Test
             engine.Decrypt(crap);
         }
 
-        [Test, ExpectedException(typeof(NotImplementedException))]
+        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
         public void DPAPIEngine_FileEncryption()
         {
             ICryptoEngine engine = new DPAPIEngine(DPAPIKeyType.UserKey)
@@ -176,7 +176,7 @@ namespace EfficientlyLazyCrypto.Test
             engine.Encrypt(inputFile, outputFile);
         }
 
-        [Test, ExpectedException(typeof(NotImplementedException))]
+        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
         public void DPAPIEngine_FileDecryption()
         {
             ICryptoEngine engine = new DPAPIEngine(DPAPIKeyType.UserKey)

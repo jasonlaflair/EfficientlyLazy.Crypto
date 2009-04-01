@@ -53,9 +53,6 @@
     <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIEngine.cs">
       <Link>DPAPIEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPINative.cs">
-      <Link>DPAPINative.cs</Link>
-    </Compile>
     <Compile Include="..\EfficientlyLazyCrypto.v20\Enumerations.cs">
       <Link>Enumerations.cs</Link>
     </Compile>

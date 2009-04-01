@@ -10,10 +10,10 @@ namespace EfficientlyLazyCrypto.Test
     ///This is a test class for RijndaelEngineTest and is intended
     ///to contain all RijndaelEngineTest Unit Tests
     ///</summary>
-    [TestFixture]
-    public class RijndaelEngineTest : RandomBase
+    [TestFixture, Parallelizable]
+    public class RijndaelEngineTests : RandomBase
     {
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test()
         {
             string clearText = GenerateClearText();
@@ -29,7 +29,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, ExpectedException(typeof(CryptographicException))]
+        [Test, Parallelizable, ExpectedException(typeof(CryptographicException))]
         public void Test0()
         {
             byte[] nullBytes = null;
@@ -43,7 +43,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.Fail("Shouldn't Get Here!");
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test1()
         {
             string clearText = GenerateClearText();
@@ -61,7 +61,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test2()
         {
             string clearText = GenerateClearText();
@@ -79,7 +79,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test3()
         {
             string clearText = GenerateClearText();
@@ -101,7 +101,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test4()
         {
             string clearText = GenerateClearText();
@@ -127,7 +127,7 @@ namespace EfficientlyLazyCrypto.Test
 
         private static long _repeater;
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test5()
         {
             _repeater++;
@@ -162,7 +162,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test6()
         {
             string clearText = GenerateClearText();
@@ -190,7 +190,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void Test7()
         {
             string clearText = GenerateClearText();
@@ -218,7 +218,7 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Repeat(50), ExpectedException(typeof(CryptographicException))]
+        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
         public void Test8()
         {
             string randomData = GenerateClearText();
@@ -234,7 +234,7 @@ namespace EfficientlyLazyCrypto.Test
             engine.Decrypt(fake);
         }
 
-        [Test, ExpectedException(typeof(NotImplementedException))]
+        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
         public void RijndaelEngine_FileEncryption()
         {
             string key = GeneratePassPhrase();
@@ -249,7 +249,7 @@ namespace EfficientlyLazyCrypto.Test
             engine.Encrypt(inputFile, outputFile);
         }
 
-        [Test, ExpectedException(typeof(NotImplementedException))]
+        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
         public void RijndaelEngine_FileDecryption()
         {
             string key = GeneratePassPhrase();

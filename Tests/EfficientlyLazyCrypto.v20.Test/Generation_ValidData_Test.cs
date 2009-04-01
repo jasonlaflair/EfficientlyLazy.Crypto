@@ -6,7 +6,7 @@ namespace EfficientlyLazyCrypto.Test
     /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
-    [TestFixture]
+    [TestFixture, Parallelizable]
     public class Generation_ValidData_Test
     {
         private readonly List<char> uppers = new List<char>(DataGenerator.UppercaseCharacters);
@@ -14,7 +14,7 @@ namespace EfficientlyLazyCrypto.Test
         private readonly List<char> numbers = new List<char>(DataGenerator.NumericCharacters);
         private readonly List<char> puncts = new List<char>(DataGenerator.SpecialCharacters);
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void TestUppers()
         {
             int min = DataGenerator.RandomInteger(3, 500);
@@ -31,7 +31,7 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void TestLowers()
         {
             int min = DataGenerator.RandomInteger(3, 500);
@@ -48,7 +48,7 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void TestNumbers()
         {
             int min = DataGenerator.RandomInteger(3, 500);
@@ -65,7 +65,7 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void TestPuncts()
         {
             int min = DataGenerator.RandomInteger(3, 500);
@@ -82,7 +82,7 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Repeat(50)]
+        [Test, Parallelizable, Repeat(50)]
         public void TestAll()
         {
             int min = DataGenerator.RandomInteger(3, 500);
