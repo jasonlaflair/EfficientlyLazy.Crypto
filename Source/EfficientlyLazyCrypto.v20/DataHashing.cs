@@ -17,6 +17,15 @@ namespace EfficientlyLazyCrypto
         /// <returns>The hash as a hexadecimal string.</returns>
         public static string Compute(HashingAlgorithm hashAlgorithm, string plaintext, Encoding encoding)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException("plainText", "plainText cannot be null");
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
             return Compute(hashAlgorithm, encoding.GetBytes(plaintext));
         }
 
@@ -26,6 +35,11 @@ namespace EfficientlyLazyCrypto
         /// <returns>The hash as a hexadecimal string.</returns>
         public static string Compute(HashingAlgorithm hashAlgorithm, byte[] plaintext)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException("plainText", "plainText cannot be null");
+            }
+            
             byte[] hashValue = HashAlgorithm.Create(hashAlgorithm.ToString()).ComputeHash(plaintext);
 
             string strRet = string.Empty;
@@ -51,6 +65,19 @@ namespace EfficientlyLazyCrypto
         /// <returns>Hashed string</returns>
         public static string ComputeHMAC(HashingAlgorithm hashAlgorithm, string plaintext, string key, Encoding encoding)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException("plainText", "plainText cannot be null");
+            }
+            if (key == null)
+            {
+                throw new ArgumentNullException("key", "key cannot be null");
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
             return ComputeHMAC(hashAlgorithm, encoding.GetBytes(plaintext), encoding.GetBytes(key));
         }
 
@@ -63,6 +90,15 @@ namespace EfficientlyLazyCrypto
         /// <returns>Hashed string</returns>
         public static string ComputeHMAC(HashingAlgorithm hashAlgorithm, byte[] plaintext, byte[] key)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException("plainText", "plainText cannot be null");
+            }
+            if (key == null)
+            {
+                throw new ArgumentNullException("key", "key cannot be null");
+            }
+            
             HMAC hash = HMAC.Create("HMAC" + hashAlgorithm);
             hash.Key = key;
 
@@ -91,6 +127,19 @@ namespace EfficientlyLazyCrypto
         /// <returns>Hashed string</returns>
         public static string ComputeHMAC(HashingAlgorithm hashAlgorithm, FileSystemInfo file, string key, Encoding encoding)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", "file cannot be null");
+            }
+            if (key == null)
+            {
+                throw new ArgumentNullException("key", "key cannot be null");
+            }
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
             return ComputeHMAC(hashAlgorithm, file, encoding.GetBytes(key));
         }
 
@@ -103,6 +152,15 @@ namespace EfficientlyLazyCrypto
         /// <returns>Hashed string</returns>
         public static string ComputeHMAC(HashingAlgorithm hashAlgorithm, FileSystemInfo file, byte[] key)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", "file cannot be null");
+            }
+            if (key == null)
+            {
+                throw new ArgumentNullException("key", "key cannot be null");
+            }
+            
             string strRet = string.Empty;
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
@@ -132,6 +190,11 @@ namespace EfficientlyLazyCrypto
         /// <returns>Hashed string</returns>
         public static string Compute(HashingAlgorithm hashAlgorithm, FileSystemInfo file)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", "file cannot be null");
+            }
+            
             string strRet = string.Empty;
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
@@ -216,6 +279,17 @@ namespace EfficientlyLazyCrypto
         public static bool ValidateHMAC(HashingAlgorithm hashAlgorithm, FileSystemInfo file, string key, string hashValue, Encoding encoding)
         {
             return string.Equals(ComputeHMAC(hashAlgorithm, file, key, encoding), hashValue, StringComparison.CurrentCulture);
+        }
+
+        /// <summary>Checks a text with a hash.</summary>
+        /// <param name="hashAlgorithm"><see cref="HashingAlgorithm"/> to use.</param>
+        /// <param name="file">The file to compare the hash against.</param>
+        /// <param name="key">Key to use in the hash algorithm</param>
+        /// <param name="hashValue">The hash to compare against.</param>
+        /// <returns>True if the hash validates, false otherwise.</returns>
+        public static bool ValidateHMAC(HashingAlgorithm hashAlgorithm, FileSystemInfo file, byte[] key, string hashValue)
+        {
+            return string.Equals(ComputeHMAC(hashAlgorithm, file, key), hashValue, StringComparison.CurrentCulture);
         }
     }
 }

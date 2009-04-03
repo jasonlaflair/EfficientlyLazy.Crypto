@@ -11,15 +11,17 @@ namespace EfficientlyLazyCrypto.Test
     ///This is a test class for DPAPIEngineTest and is intended
     ///to contain all DPAPIEngineTest Unit Tests
     ///</summary>
-    [TestFixture, Parallelizable]
+    [TestFixture]
     public class DPAPIEngineTests : RandomBase
     {
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_String_UserKey_NoEntropy()
+        [Test, Parallelizable]
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void Constructor(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
             
-            var engine = new DPAPIEngine(DPAPIKeyType.UserKey);
+            var engine = new DPAPIEngine(keyType);
 
             string encrypted = engine.Encrypt(plainText);
 
@@ -30,28 +32,15 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_Byte_UserKey_NoEntropy()
-        {
-            byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
-
-            var engine = new DPAPIEngine(DPAPIKeyType.UserKey);
-
-            byte[] encrypted = engine.Encrypt(plainBytes);
-
-            byte[] decrypted = engine.Decrypt(encrypted);
-
-            Assert.AreNotEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(encrypted));
-            Assert.AreNotEqual(Encoding.UTF8.GetString(encrypted), Encoding.UTF8.GetString(decrypted));
-            Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
-        }
-
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_String_MachineKey_NoEntropy()
+        [Test, Parallelizable]
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void SetEntropyString(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
 
-            var engine = new DPAPIEngine(DPAPIKeyType.MachineKey);
+            var engine = new DPAPIEngine(keyType)
+                .SetEntropy("myEntropy");
 
             string encrypted = engine.Encrypt(plainText);
 
@@ -62,30 +51,20 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_Byte_MachineKey_NoEntropy()
-        {
-            byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
-
-            var engine = new DPAPIEngine(DPAPIKeyType.MachineKey);
-
-            byte[] encrypted = engine.Encrypt(plainBytes);
-
-            byte[] decrypted = engine.Decrypt(encrypted);
-
-            Assert.AreNotEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(encrypted));
-            Assert.AreNotEqual(Encoding.UTF8.GetString(encrypted), Encoding.UTF8.GetString(decrypted));
-            Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
-        }
-
-
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_String_UserKey_Entropy()
+        [Test, Parallelizable]
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void SetEntropySecureString(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
-            string entropy = GeneratePassPhrase();
 
-            var engine = new DPAPIEngine(DPAPIKeyType.UserKey)
+            SecureString entropy = new SecureString();
+            foreach (char ch in "myEntropy")
+            {
+                entropy.AppendChar(ch);
+            }
+
+            var engine = new DPAPIEngine(keyType)
                 .SetEntropy(entropy);
 
             string encrypted = engine.Encrypt(plainText);
@@ -97,95 +76,131 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_Byte_UserKey_Entropy()
+        public enum Encodings
         {
-            byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
-            string entropy = GeneratePassPhrase();
+            None,
+            ASCII,
+            Unicode,
+            UTF32,
+            UTF7,
+            UTF8
+        }
 
-            var engine = new DPAPIEngine(DPAPIKeyType.UserKey)
-                .SetEntropy(entropy);
+        [Test, Parallelizable]
+        [Row(DPAPIKeyType.UserKey, Encodings.None, ExpectedException = typeof(ArgumentNullException))]
+        [Row(DPAPIKeyType.UserKey, Encodings.ASCII)]
+        [Row(DPAPIKeyType.UserKey, Encodings.Unicode)]
+        [Row(DPAPIKeyType.UserKey, Encodings.UTF32)]
+        [Row(DPAPIKeyType.UserKey, Encodings.UTF7)]
+        [Row(DPAPIKeyType.UserKey, Encodings.UTF8)]
+        [Row(DPAPIKeyType.MachineKey, Encodings.None, ExpectedException = typeof(ArgumentNullException))]
+        [Row(DPAPIKeyType.MachineKey, Encodings.ASCII)]
+        [Row(DPAPIKeyType.MachineKey, Encodings.Unicode)]
+        [Row(DPAPIKeyType.MachineKey, Encodings.UTF32)]
+        [Row(DPAPIKeyType.MachineKey, Encodings.UTF7)]
+        [Row(DPAPIKeyType.MachineKey, Encodings.UTF8)]
+        public void SetEncoding(DPAPIKeyType keyType, Encodings encodingType)
+        {
+            Encoding encoding = null;
 
-            byte[] encrypted = engine.Encrypt(plainBytes);
+            switch (encodingType)
+            {
+                //case Encodings.None:
+                case Encodings.ASCII:
+                    encoding = Encoding.ASCII;
+                    break;
+                case Encodings.Unicode:
+                    encoding = Encoding.Unicode;
+                    break;
+                case Encodings.UTF32:
+                    encoding = Encoding.UTF32;
+                    break;
+                case Encodings.UTF7:
+                    encoding = Encoding.UTF7;
+                    break;
+                case Encodings.UTF8:
+                    encoding = Encoding.UTF8;
+                    break;
+            }
+            
+            var engine = new DPAPIEngine(keyType)
+                .SetEncoding(encoding);
+
+            byte[] plainText = encoding.GetBytes(GenerateClearText());
+
+            byte[] encrypted = engine.Encrypt(plainText);
 
             byte[] decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(encrypted));
-            Assert.AreNotEqual(Encoding.UTF8.GetString(encrypted), Encoding.UTF8.GetString(decrypted));
-            Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
+            Assert.AreNotEqual(plainText, encrypted);
+            Assert.AreNotEqual(encrypted, decrypted);
+            Assert.AreEqual(plainText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_String_MachineKey_Entropy()
+        [Test, Parallelizable]
+        [Row(DPAPIKeyType.UserKey, DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.UserKey, DPAPIKeyType.MachineKey)]
+        [Row(DPAPIKeyType.MachineKey, DPAPIKeyType.MachineKey)]
+        [Row(DPAPIKeyType.MachineKey, DPAPIKeyType.UserKey)]
+        public void SetKeyType(DPAPIKeyType firstKey, DPAPIKeyType secondKey)
         {
             string plainText = GenerateClearText();
-            string entropy = GeneratePassPhrase();
 
-            var engine = new DPAPIEngine(DPAPIKeyType.MachineKey)
-                .SetEntropy(entropy);
+            var engine = new DPAPIEngine(firstKey);
 
-            string encrypted = engine.Encrypt(plainText);
+            string firstEncrypted = engine.Encrypt(plainText);
+            string firstDecrypted = engine.Decrypt(firstEncrypted);
 
-            string decrypted = engine.Decrypt(encrypted);
+            engine.SetKeyType(secondKey);
+            string secondEncrypted = engine.Encrypt(plainText);
+            string secondDecrypted = engine.Decrypt(secondEncrypted);
 
-            Assert.AreNotEqual(plainText, encrypted);
-            Assert.AreNotEqual(encrypted, decrypted);
-            Assert.AreEqual(plainText, decrypted);
-        }
+            Assert.AreNotEqual(plainText, firstEncrypted);
+            Assert.AreNotEqual(firstEncrypted, firstDecrypted);
+            Assert.AreEqual(plainText, firstDecrypted);
 
-        [Test, Parallelizable, Repeat(50)]
-        public void DPAPIEngine_EncryptTest_Byte_MachineKey_Entropy()
-        {
-            byte[] plainBytes = Encoding.UTF8.GetBytes(GenerateClearText());
-            string entropy = GeneratePassPhrase();
+            Assert.AreNotEqual(plainText, secondEncrypted);
+            Assert.AreNotEqual(secondEncrypted, secondDecrypted);
+            Assert.AreEqual(plainText, secondDecrypted);
 
-            var engine = new DPAPIEngine(DPAPIKeyType.MachineKey)
-                .SetEntropy(entropy);
-
-            byte[] encrypted = engine.Encrypt(plainBytes);
-
-            byte[] decrypted = engine.Decrypt(encrypted);
-
-            Assert.AreNotEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(encrypted));
-            Assert.AreNotEqual(Encoding.UTF8.GetString(encrypted), Encoding.UTF8.GetString(decrypted));
-            Assert.AreEqual(Encoding.UTF8.GetString(plainBytes), Encoding.UTF8.GetString(decrypted));
-        }
-
-        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
-        public void DPAPIEngine_DecryptFailureTest()
-        {
-            string entropy = GeneratePassPhrase();
-
-            var engine = new DPAPIEngine(DPAPIKeyType.MachineKey)
-                .SetEntropy(entropy);
-
-            string crap = Convert.ToBase64String(Encoding.UTF8.GetBytes("JasonLaFlair"));
-
-            engine.Decrypt(crap);
+            if (firstKey != secondKey)
+            {
+                Assert.AreNotEqual(firstEncrypted, secondEncrypted);
+            }
         }
 
         [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
-        public void DPAPIEngine_FileEncryption()
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void EncryptFile(DPAPIKeyType keyType)
         {
-            ICryptoEngine engine = new DPAPIEngine(DPAPIKeyType.UserKey)
-                .SetEntropy("key");
+            var engine = new DPAPIEngine(keyType);
 
-            string inputFile = string.Empty;
-            string outputFile = string.Empty;
-
-            engine.Encrypt(inputFile, outputFile);
+            engine.Encrypt(string.Empty, string.Empty);
         }
 
         [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
-        public void DPAPIEngine_FileDecryption()
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void DecryptFile(DPAPIKeyType keyType)
         {
-            ICryptoEngine engine = new DPAPIEngine(DPAPIKeyType.UserKey)
-                .SetEntropy("key");
+            var engine = new DPAPIEngine(keyType);
 
-            string inputFile = string.Empty;
-            string outputFile = string.Empty;
+            engine.Decrypt(string.Empty, string.Empty);
+        }
 
-            engine.Decrypt(inputFile, outputFile);
+        [Test, Parallelizable, ExpectedException(typeof(CryptographicException))]
+        [Row(DPAPIKeyType.UserKey)]
+        [Row(DPAPIKeyType.MachineKey)]
+        public void Failures(DPAPIKeyType keyType)
+        {
+            string plainText = GenerateClearText();
+
+            var engine = new DPAPIEngine(keyType);
+
+            string badEncrypt = Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
+
+            string decrypted = engine.Decrypt(badEncrypt);
         }
     }
 }

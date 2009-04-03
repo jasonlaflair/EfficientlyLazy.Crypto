@@ -16,13 +16,13 @@ namespace EfficientlyLazyCrypto
         private static Random _random;
 
         ///<summary>Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZ</summary>
-        public const string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         ///<summary>Characters: abcdefghijklmnopqrstuvwxyz</summary>
-        public const string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
+        public const string LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
         ///<summary>Characters: 0123456789</summary>
-        public const string NumericCharacters = "0123456789";
+        public const string NUMERIC_CHARACTERS = "0123456789";
         ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
-        public const string SpecialCharacters = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
+        public const string SPECIAL_CHARACTERS = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
 
         private int _minimum;
         private int _maximum;
@@ -37,7 +37,7 @@ namespace EfficientlyLazyCrypto
         ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
         public DataGenerator(int minimum, int maximum)
-            : this(minimum, maximum, false, false, false, false)
+            : this(minimum, maximum, true, true, true, true)
         {
         }
 
@@ -46,10 +46,10 @@ namespace EfficientlyLazyCrypto
         ///</summary>
         ///<param name="minimum">The inclusive lower bound of the random number or string length returned.</param>
         ///<param name="maximum">The exclusive upper bound of the random number or string length returned. maximum must be greater than or equal to minimum.</param>
-        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
-        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<param name="includeUppercase">Includes the <see cref="UPPERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LOWERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NUMERIC_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SPECIAL_CHARACTERS"/> in the generated random string</param>
         ///<exception cref="ArgumentOutOfRangeException">minimum is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">maximum is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">minimum is greater than maximum.</exception>
@@ -109,10 +109,10 @@ namespace EfficientlyLazyCrypto
         ///<summary>
         /// Defines the character sets used when generated string values.
         ///</summary>
-        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
-        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<param name="includeUppercase">Includes the <see cref="UPPERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LOWERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NUMERIC_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SPECIAL_CHARACTERS"/> in the generated random string</param>
         ///<exception cref="ArgumentException">At least one of the 4 character sets must be used.</exception>
         public void ResetCharacterRequirements(bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
@@ -194,6 +194,10 @@ namespace EfficientlyLazyCrypto
             {
                 throw new ArgumentNullException("buffer", "buffer cannot be null");
             }
+            if (buffer.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException("buffer", "buffer length cannot be 0");
+            }
 
             _random.NextBytes(buffer);
         }
@@ -209,6 +213,10 @@ namespace EfficientlyLazyCrypto
             {
                 throw new ArgumentNullException("buffer", "buffer cannot be null");
             }
+            if (buffer.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException("buffer", "buffer length cannot be 0");
+            }
 
             _random.NextBytes(buffer);
         }
@@ -218,10 +226,10 @@ namespace EfficientlyLazyCrypto
         ///</summary>
         ///<param name="minimumLength">The inclusive lower length of the random string returned.</param>
         ///<param name="maximumLength">The exclusive upper length of the random string returned. maximumLength must be greater than or equal to minimumLength.</param>
-        ///<param name="includeUppercase">Includes the <see cref="UppercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeLowercase">Includes the <see cref="LowercaseCharacters"/> in the generated random string</param>
-        ///<param name="includeNumbers">Includes the <see cref="NumericCharacters"/> in the generated random string</param>
-        ///<param name="includeSpecials">Includes the <see cref="SpecialCharacters"/> in the generated random string</param>
+        ///<param name="includeUppercase">Includes the <see cref="UPPERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeLowercase">Includes the <see cref="LOWERCASE_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeNumbers">Includes the <see cref="NUMERIC_CHARACTERS"/> in the generated random string</param>
+        ///<param name="includeSpecials">Includes the <see cref="SPECIAL_CHARACTERS"/> in the generated random string</param>
         ///<returns>Returns a random string between the specifed lengths using the specified character sets</returns>
         ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
@@ -293,10 +301,10 @@ namespace EfficientlyLazyCrypto
         {
             List<char> masterCharacterPool = new List<char>();
 
-            if (includeUppercase) masterCharacterPool.AddRange(UppercaseCharacters);
-            if (includeLowercase) masterCharacterPool.AddRange(LowercaseCharacters);
-            if (includeNumbers) masterCharacterPool.AddRange(NumericCharacters);
-            if (includeSpecials) masterCharacterPool.AddRange(SpecialCharacters);
+            if (includeUppercase) masterCharacterPool.AddRange(UPPERCASE_CHARACTERS);
+            if (includeLowercase) masterCharacterPool.AddRange(LOWERCASE_CHARACTERS);
+            if (includeNumbers) masterCharacterPool.AddRange(NUMERIC_CHARACTERS);
+            if (includeSpecials) masterCharacterPool.AddRange(SPECIAL_CHARACTERS);
 
             // randomize masterCharacterPool
             for (int randomPasses = 0; randomPasses <= 4; randomPasses++)

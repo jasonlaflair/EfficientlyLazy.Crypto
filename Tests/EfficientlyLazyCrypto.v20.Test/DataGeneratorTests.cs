@@ -1,138 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using MbUnit.Framework;
 
 namespace EfficientlyLazyCrypto.Test
 {
     /// <summary>
-    /// Summary description for UnitTest1
+    /// Summary description for DataGeneratorTests
     /// </summary>
     [TestFixture]
     public class DataGeneratorTests
     {
-        //[Test, Parallelizable]
-        //[Row(10, 20)]
-        //[Row(10, 20, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        //public void Constructor2Params(int min, int max)
-        //{
-        //    DataGenerator dg = new DataGenerator(min, max);
-        //}
-
         [Test, Parallelizable]
-        [Row(5)]
-        [Row(10)]
-        [Row(159135)]
-        public void RandomBytes(int bufferLength)
+        [Row(10, 20)]
+        [Row(10, 5, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(0, 15, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 15, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, -1, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void Constructor2Params(int min, int max)
         {
-            byte[] buffer = new byte[bufferLength];
+            DataGenerator dg = new DataGenerator(min, max);
 
-            Assert.AreEqual(bufferLength, buffer.Length);
-            foreach (byte b in buffer)
-            {
-                Assert.AreEqual(0, b);
-            }
-
-            DataGenerator.RandomBytes(buffer);
-
-            int zeroCount = 0;
-
-            Assert.AreEqual(bufferLength, buffer.Length);
-            foreach (byte b in buffer)
-            {
-                if (b == 0) zeroCount++;
-            }
-
-            Assert.AreNotEqual(zeroCount, bufferLength);
-        }
-
-        [Test, Parallelizable, ExpectedArgumentNullException]
-        public void RandomBytesInvalid()
-        {
-            byte[] buffer = null;
-
-            DataGenerator.RandomBytes(buffer);
-        }
-
-        [Test, Parallelizable]
-        [Row(5)]
-        [Row(900)]
-        [Row(18000)]
-        public void RandomDouble(int loopCount)
-        {
-            SortedDictionary<double, int> tracking = new SortedDictionary<double, int>();
-
-            for (int i = 0; i <= loopCount; i++)
-            {
-                double value = DataGenerator.RandomDouble();
-
-                if (tracking.ContainsKey(value))
-                {
-                    Assert.Fail(string.Format("Track: {0} Value: {1} LoopCount: {2}", tracking.Count, value, loopCount));
-                }
-                else
-                {
-                    tracking.Add(value, 0);
-                }
-            }
-        }
-
-        [Test, Parallelizable]
-        [Row(10, 50)]
-        [Row(12, 90)]
-        [Row(1, 5)]
-        [Row(106, 250)]
-        public void RandomInteger(int min, int max)
-        {
-            SortedList<int, int> values = new SortedList<int, int>();
-
-            for (int i = min; i <= max; i++)
-            {
-                int value = DataGenerator.RandomInteger(min, max);
-
-                if (!values.ContainsKey(value))
-                {
-                    values.Add(value, 0);
-                }
-
-                values[value]++;
-            }
-
-            foreach (var pair in values)
-            {
-                if (pair.Value >= 5)
-                {
-                    Assert.Fail(string.Format("{0} Generated Too Many ({1}) Times ({2}/{3})", pair.Key, pair.Value, min, max));
-                }
-            }
-        }
-
-        [Test, Parallelizable]
-        [Row(-1, 100, -1, "minimum", "minimum must be greater than 0")]
-        [Row(0, 100, 0, "minimum", "minimum must be greater than 0")]
-        [Row(-50, 100, -50, "minimum", "minimum must be greater than 0")]
-        [Row(32, -1, -1, "maximum", "maximum must be greater than 0")]
-        [Row(1, 0, 0, "maximum", "maximum must be greater than 0")]
-        [Row(50, -25, -25, "maximum", "maximum must be greater than 0")]
-        [Row(25, 20, null, "maximum", "maximum must be greater than or equal to minimum")]
-        [Row(2, 1, null, "maximum", "maximum must be greater than or equal to minimum")]
-        public void RandomIntegerInvalid(int min, int max, int? actual, string param, string error)
-        {
-            bool caught = false;
-
-            try
-            {
-                DataGenerator.RandomInteger(min, max);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual(param, ex.ParamName);
-                Assert.StartsWith(ex.Message, error);
-                Assert.AreEqual(actual, ex.ActualValue);
-
-                caught = true;
-            }
-
-            Assert.IsTrue(caught);
+            Assert.IsNotNull(dg);
         }
 
         [Test, Parallelizable]
@@ -151,7 +39,217 @@ namespace EfficientlyLazyCrypto.Test
         [Row(20, 100, false, false, true, true)]
         [Row(20, 100, false, false, true, false)]
         [Row(20, 100, false, false, false, true)]
-        //[Row(20, 100, false, false, false, false)] 
+        [Row(20, 100, false, false, false, false, ExpectedException = typeof(ArgumentException))]
+        [Row(0, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 0, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, -1, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 5, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void Constructor6Params(int minimum, int maximum, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
+        {
+            DataGenerator dg = new DataGenerator(minimum, maximum, includeUppercase, includeLowercase, includeNumbers, includeSpecials);
+
+            Assert.IsNotNull(dg);
+        }
+
+        [Test, Parallelizable]
+        [Row(true, true, true, true)]
+        [Row(true, true, true, false)]
+        [Row(true, true, false, true)]
+        [Row(true, true, false, false)]
+        [Row(true, false, true, true)]
+        [Row(true, false, true, false)]
+        [Row(true, false, false, true)]
+        [Row(true, false, false, false)]
+        [Row(false, true, true, true)]
+        [Row(false, true, true, false)]
+        [Row(false, true, false, true)]
+        [Row(false, true, false, false)]
+        [Row(false, false, true, true)]
+        [Row(false, false, true, false)]
+        [Row(false, false, false, true)]
+        [Row(false, false, false, false, ExpectedException = typeof(ArgumentException))]
+        public void ResetCharacterRequirements(bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
+        {
+            DataGenerator dg = new DataGenerator(100, 200);
+
+            Assert.IsNotNull(dg);
+
+            dg.ResetCharacterRequirements(includeUppercase, includeLowercase, includeNumbers, includeSpecials);
+        }
+
+        [Test, Parallelizable]
+        [Row(10, 20)]
+        [Row(15, 15)]
+        [Row(-1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(0, 15, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, -1, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void ResetLengths(int minimum, int maximum)
+        {
+            DataGenerator dg = new DataGenerator(100, 200);
+
+            Assert.IsNotNull(dg);
+
+            dg.ResetLengths(minimum, maximum);
+        }
+
+        [Test, Parallelizable]
+        [Row(5)]
+        [Row(10)]
+        [Row(159135)]
+        [Row(0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-5, ExpectedException = typeof(OverflowException))]
+        [Row(null, ExpectedException = typeof(ArgumentNullException))]
+        public void RandomBytes(int? bufferLength)
+        {
+            byte[] original = null;
+            byte[] buffer = null;
+
+            if (bufferLength.HasValue)
+            {
+                original = new byte[bufferLength.Value];
+                buffer = new byte[bufferLength.Value];
+            }
+
+            DataGenerator.RandomBytes(buffer);
+
+            if (original == null)
+            {
+                Assert.Fail("Original Is Null");
+                return;
+            }
+
+            int matches = 0;
+
+            for (int i = 0; i < original.Length; i++)
+            {
+                if (original[i] == buffer[i])
+                {
+                    matches++;
+                }
+            }
+
+            Assert.AreNotEqual(matches, original.Length, "{0} - {1}", matches, original.Length);
+        }
+
+        [Test, Parallelizable]
+        [Row(5)]
+        [Row(10)]
+        [Row(159135)]
+        [Row(0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-5, ExpectedException = typeof(OverflowException))]
+        [Row(null, ExpectedException = typeof(ArgumentNullException))]
+        public void NextBytes(int? bufferLength)
+        {
+            byte[] original = null;
+            byte[] buffer = null;
+
+            if (bufferLength.HasValue)
+            {
+                original = new byte[bufferLength.Value];
+                buffer = new byte[bufferLength.Value];
+            }
+
+            DataGenerator dataGenerator = new DataGenerator(10, 100);
+            dataGenerator.NextBytes(buffer);
+
+            if (original == null)
+            {
+                Assert.Fail("Original Is Null");
+                return;
+            }
+
+            int matches = 0;
+
+            for (int i = 0; i < original.Length; i++)
+            {
+                if (original[i] == buffer[i])
+                {
+                    matches++;
+                }
+            }
+
+            Assert.AreNotEqual(matches, original.Length, "{0} - {1}", matches, original.Length);
+        }
+
+        [Test, Parallelizable, Repeat(50)]
+        public void RandomDouble()
+        {
+            double value = DataGenerator.RandomDouble();
+
+            Assert.Between(value, 0, 1);
+        }
+
+        [Test, Parallelizable, Repeat(50)]
+        public void NextDouble()
+        {
+            DataGenerator dataGenerator = new DataGenerator(10, 100);
+         
+            double value = dataGenerator.NextDouble();
+
+            Assert.Between(value, 0, 1);
+        }
+
+        [Test, Parallelizable, Repeat(50)]
+        [Row(10, 50)]
+        [Row(12, 90)]
+        [Row(1, 5)]
+        [Row(106, 250)]
+        [Row(0, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, -1, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(15, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void RandomInteger(int min, int max)
+        {
+            int value = DataGenerator.RandomInteger(min, max);
+
+            Assert.Between(value, min, max);
+        }
+
+        [Test, Parallelizable, Repeat(50)]
+        [Row(10, 50)]
+        [Row(12, 90)]
+        [Row(1, 5)]
+        [Row(106, 250)]
+        [Row(0, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, 0, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(10, -1, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(15, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void NextInteger(int min, int max)
+        {
+            DataGenerator dataGenerator = new DataGenerator(min, max);
+
+            int value = dataGenerator.NextInteger();
+
+            Assert.Between(value, min, max);
+        }
+
+        [Test, Parallelizable]
+        [Row(20, 100, true, true, true, true)]
+        [Row(20, 100, true, true, true, false)]
+        [Row(20, 100, true, true, false, true)]
+        [Row(20, 100, true, true, false, false)]
+        [Row(20, 100, true, false, true, true)]
+        [Row(20, 100, true, false, true, false)]
+        [Row(20, 100, true, false, false, true)]
+        [Row(20, 100, true, false, false, false)]
+        [Row(20, 100, false, true, true, true)]
+        [Row(20, 100, false, true, true, false)]
+        [Row(20, 100, false, true, false, true)]
+        [Row(20, 100, false, true, false, false)]
+        [Row(20, 100, false, false, true, true)]
+        [Row(20, 100, false, false, true, false)]
+        [Row(20, 100, false, false, false, true)]
+        [Row(20, 100, false, false, false, false, ExpectedException=typeof(ArgumentException))]
+        [Row(0, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, 0, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, -1, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, 10, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
         public void RandomString(int min, int max, bool upper, bool lower, bool numbers, bool special)
         {
             string value = DataGenerator.RandomString(min, max, upper, lower, numbers, special);
@@ -160,38 +258,34 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable]
-        [Row(-1, 100, -1, "minimumLength", "minimumLength must be greater than 0")]
-        [Row(0, 100, 0, "minimumLength", "minimumLength must be greater than 0")]
-        [Row(-50, 100, -50, "minimumLength", "minimumLength must be greater than 0")]
-        [Row(32, -1, -1, "maximumLength", "maximumLength must be greater than 0")]
-        [Row(1, 0, 0, "maximumLength", "maximumLength must be greater than 0")]
-        [Row(50, -25, -25, "maximumLength", "maximumLength must be greater than 0")]
-        [Row(25, 20, null, "maximumLength", "maximumLength must be greater than or equal to minimumLength")]
-        [Row(2, 1, null, "maximumLength", "maximumLength must be greater than or equal to minimumLength")]
-        public void RandomStringInvalidLength(int min, int max, int? actual, string param, string error)
+        [Row(20, 100, true, true, true, true)]
+        [Row(20, 100, true, true, true, false)]
+        [Row(20, 100, true, true, false, true)]
+        [Row(20, 100, true, true, false, false)]
+        [Row(20, 100, true, false, true, true)]
+        [Row(20, 100, true, false, true, false)]
+        [Row(20, 100, true, false, false, true)]
+        [Row(20, 100, true, false, false, false)]
+        [Row(20, 100, false, true, true, true)]
+        [Row(20, 100, false, true, true, false)]
+        [Row(20, 100, false, true, false, true)]
+        [Row(20, 100, false, true, false, false)]
+        [Row(20, 100, false, false, true, true)]
+        [Row(20, 100, false, false, true, false)]
+        [Row(20, 100, false, false, false, true)]
+        [Row(20, 100, false, false, false, false, ExpectedException = typeof(ArgumentException))]
+        [Row(0, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(-1, 100, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, 0, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, -1, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(20, 10, true, true, true, true, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void NextString(int min, int max, bool upper, bool lower, bool numbers, bool special)
         {
-            bool caught = false;
+            DataGenerator dataGenerator = new DataGenerator(min, max, upper, lower, numbers, special);
+            
+            string value = dataGenerator.NextString();
 
-            try
-            {
-                DataGenerator.RandomString(min, max, true, true, true, true);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual(param, ex.ParamName);
-                Assert.StartsWith(ex.Message, error);
-                Assert.AreEqual(actual, ex.ActualValue);
-
-                caught = true;
-            }
-
-            Assert.IsTrue(caught);
-        }
-
-        [Test, Parallelizable, ExpectedArgumentException]
-        public void RandomStringInvalidCharacters()
-        {
-            DataGenerator.RandomString(10, 20, false, false, false, false);
+            Assert.Between(value.Length, min, max);
         }
     }
 }
