@@ -1703,18 +1703,6 @@
       <param name="assemblyScope">The assembly scope</param>
       <param name="assembly">The assembly</param>
     </member>
-    <member name="T:MbUnit.Framework.DependsOnAssemblyAttribute">
-      <summary>Creates a dependency from this test assembly, test fixture or test method on all tests in some other test assembly.</summary>
-    </member>
-    <member name="P:MbUnit.Framework.DependsOnAssemblyAttribute.TestAssemblyName">
-      <summary>Gets the dependent test assembly name.</summary>
-    </member>
-    <member name="M:MbUnit.Framework.DependsOnAssemblyAttribute.GetDependency(Gallio.Framework.Pattern.IPatternScope,Gallio.Reflection.ICodeElementInfo)">
-      <summary>Gets the code element that declares the tests on which this test should depend.</summary>
-      <param name="scope">The scope</param>
-      <param name="codeElement">The code element</param>
-      <returns>The code element representing the dependency</returns>
-    </member>
     <member name="T:MbUnit.Framework.DependsOnAttribute">
       <summary>Creates a dependency from this test assembly, test fixture or test method on some other test fixture or test method.</summary>
     </member>

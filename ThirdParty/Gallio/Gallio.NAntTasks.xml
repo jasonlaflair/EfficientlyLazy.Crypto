@@ -30,7 +30,7 @@
       <summary>Sets whether to echo results to the screen as tests finish. If this option is set to true, the default, test results are echoed to the console in varying detail depending on the current verbosity level. Otherwise only the final summary statistics are displayed.</summary>
     </member>
     <member name="P:Gallio.NAntTasks.GallioTask.Filter">
-      <summary>Sets the filter expression to apply, which consists of one or more filter rules that may be combined using 'and', 'or', and 'not' and grouped with parentheses. A filter rule consists of a filter key followed by one or more comma-delimited matching values in the form 'key: value, "quoted value", /regular expression/'.</summary>
+      <summary>Sets the filter set to apply, which consists of a sequence of one or more inclusion or exclusion filter rules prefixed using 'include' (optional) or 'exclude'. A filter rule consists of zero or more filter expressions that may be combined using 'and', 'or', and 'not' and grouped with parentheses. A filter expression consists of a filter key followed by one or more comma-delimited matching values in the form 'key: value, "quoted value", /regular expression/'.</summary>
     </member>
     <member name="P:Gallio.NAntTasks.GallioTask.HintDirectories">
       <summary>The list of directories used for loading assemblies and other dependent resources.</summary>

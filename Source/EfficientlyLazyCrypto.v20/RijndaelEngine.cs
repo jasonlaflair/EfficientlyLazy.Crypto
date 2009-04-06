@@ -79,38 +79,6 @@ namespace EfficientlyLazyCrypto
 
         ///<summary>
         ///</summary>
-        ///<param name="key"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetKey(string key)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException("key", "Key cannot be null");
-            }
-
-            Key = ToSecureString(key);
-
-            GenerateEngine();
-
-            return this;
-        }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="key"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetKey(SecureString key)
-        {
-            key.MakeReadOnly();
-            Key = key;
-
-            GenerateEngine();
-
-            return this;
-        }
-
-        ///<summary>
-        ///</summary>
         ///<param name="initVector"></param>
         ///<returns></returns>
         public RijndaelEngine SetInitVector(string initVector)
@@ -122,7 +90,7 @@ namespace EfficientlyLazyCrypto
 
             if (!(initVector.Length == 0 || initVector.Length == 16))
             {
-                throw new ArgumentException("InitVector must be a length of 0 or 16", "initVector");
+                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
             }
 
             InitVector = ToSecureString(initVector);
@@ -138,6 +106,16 @@ namespace EfficientlyLazyCrypto
         ///<returns></returns>
         public RijndaelEngine SetInitVector(SecureString initVector)
         {
+            if (initVector == null)
+            {
+                throw new ArgumentNullException("initVector", "InitVector cannot be null");
+            }
+
+            if (!(initVector.Length == 0 || initVector.Length == 16))
+            {
+                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
+            }
+
             initVector.MakeReadOnly();
             InitVector = initVector;
 
@@ -154,11 +132,11 @@ namespace EfficientlyLazyCrypto
         ///<exception cref="ArgumentOutOfRangeException"></exception>
         public RijndaelEngine SetRandomSaltLength(int minimumLength, int maximumLength)
         {
-            if (minimumLength < 0)
+            if (minimumLength <= 0)
             {
                 throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 0");
             }
-            if (maximumLength < 0)
+            if (maximumLength <= 0)
             {
                 throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 0");
             }
@@ -181,6 +159,11 @@ namespace EfficientlyLazyCrypto
         ///<returns></returns>
         public RijndaelEngine SetSalt(string salt)
         {
+            if (salt == null)
+            {
+                throw new ArgumentNullException("salt", "salt cannot be null");
+            }
+
             Salt = ToSecureString(salt);
 
             GenerateEngine();
@@ -194,6 +177,11 @@ namespace EfficientlyLazyCrypto
         ///<returns></returns>
         public RijndaelEngine SetSalt(SecureString salt)
         {
+            if (salt == null)
+            {
+                throw new ArgumentNullException("salt", "salt cannot be null");
+            }
+
             salt.MakeReadOnly();
             Salt = salt;
 

@@ -1,11 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Security;
 
 namespace EfficientlyLazyCrypto.Test
 {
     public class RandomBase
     {
+        public enum Encodings
+        {
+            None,
+            ASCII,
+            Unicode,
+            UTF32,
+            UTF7,
+            UTF8
+        }
+
+        protected static SecureString ToSS(string value)
+        {
+            SecureString ss = new SecureString();
+            foreach (char ch in value)
+            {
+                ss.AppendChar(ch);
+            }
+
+            return ss;
+        }
+
         protected static string GenerateText(int min, int max)
         {
             return DataGenerator.RandomString(min, max, true, true, true, true);

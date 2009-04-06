@@ -14,7 +14,7 @@ namespace EfficientlyLazyCrypto.Test
     public class RijndaelEngineTests : RandomBase
     {
         [Test, Parallelizable, Repeat(50)]
-        public void Test()
+        public void ConstructorString()
         {
             string clearText = GenerateClearText();
 
@@ -29,22 +29,24 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, ExpectedException(typeof(CryptographicException))]
-        public void Test0()
+        [Test, Parallelizable, Repeat(50)]
+        public void ConstructorSecureString()
         {
-            byte[] nullBytes = null;
+            string clearText = GenerateClearText();
 
-            string key = GeneratePassPhrase();
+            SecureString key = ToSS(GeneratePassPhrase());
 
             ICryptoEngine engine = new RijndaelEngine(key);
 
-            engine.Encrypt(nullBytes);
+            string encrypted = engine.Encrypt(clearText);
+            string decrypted = engine.Decrypt(encrypted);
 
-            Assert.Fail("Shouldn't Get Here!");
+            Assert.AreNotEqual(clearText, encrypted);
+            Assert.AreEqual(clearText, decrypted);
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test1()
+        public void SetInitVectorString()
         {
             string clearText = GenerateClearText();
 
@@ -62,12 +64,12 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test2()
+        public void SetInitVectorSecureString()
         {
             string clearText = GenerateClearText();
 
             string key = GeneratePassPhrase();
-            string init = GenerateInitVector();
+            SecureString init = ToSS(GenerateInitVector());
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init);
@@ -80,7 +82,7 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test3()
+        public void SetRandomSaltLength()
         {
             string clearText = GenerateClearText();
 
@@ -102,7 +104,7 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test4()
+        public void SetSaltString()
         {
             string clearText = GenerateClearText();
 
@@ -125,13 +127,36 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        private static long _repeater;
+        [Test, Parallelizable, Repeat(50)]
+        public void SetSaltSecureString()
+        {
+            string clearText = GenerateClearText();
+
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
+
+            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            SecureString saltKey = ToSS(GenerateRandomSalt());
+
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetInitVector(init)
+                .SetRandomSaltLength(minSalt, maxSalt)
+                .SetSalt(saltKey);
+
+            string encrypted = engine.Encrypt(clearText);
+            string decrypted = engine.Decrypt(encrypted);
+
+            Assert.AreNotEqual(clearText, encrypted);
+            Assert.AreEqual(clearText, decrypted);
+        }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test5()
+        [Row(RijndaelKeySize.Key128Bit)]
+        [Row(RijndaelKeySize.Key192Bit)]
+        [Row(RijndaelKeySize.Key256Bit)]
+        public void SetKeySize(RijndaelKeySize keySize)
         {
-            _repeater++;
-
             string clearText = GenerateClearText();
 
             string key = GeneratePassPhrase();
@@ -140,14 +165,6 @@ namespace EfficientlyLazyCrypto.Test
             byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
             byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
-
-            int mod = (int)(_repeater % 3);
-
-            RijndaelKeySize keySize;
-
-            if (mod == 0) keySize = RijndaelKeySize.Key128Bit;
-            else if (mod == 1) keySize = RijndaelKeySize.Key192Bit;
-            else keySize = RijndaelKeySize.Key256Bit;
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
@@ -163,7 +180,7 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test6()
+        public void SetPasswordIterations()
         {
             string clearText = GenerateClearText();
 
@@ -191,47 +208,48 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test, Parallelizable, Repeat(50)]
-        public void Test7()
+        [Row(Encodings.None, ExpectedException = typeof(ArgumentNullException))]
+        [Row(Encodings.ASCII)]
+        [Row(Encodings.Unicode)]
+        [Row(Encodings.UTF32)]
+        [Row(Encodings.UTF7)]
+        [Row(Encodings.UTF8)]
+        public void SetEncoding(Encodings encodingType)
         {
+            Encoding encoding = null;
+
+            switch (encodingType)
+            {
+                //case Encodings.None:
+                case Encodings.ASCII:
+                    encoding = Encoding.ASCII;
+                    break;
+                case Encodings.Unicode:
+                    encoding = Encoding.Unicode;
+                    break;
+                case Encodings.UTF32:
+                    encoding = Encoding.UTF32;
+                    break;
+                case Encodings.UTF7:
+                    encoding = Encoding.UTF7;
+                    break;
+                case Encodings.UTF8:
+                    encoding = Encoding.UTF8;
+                    break;
+            }
+
             string clearText = GenerateClearText();
 
             string key = GeneratePassPhrase();
-            string init = GenerateInitVector();
-
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
-            string saltKey = GenerateRandomSalt();
-
-            byte iterations = (byte)DataGenerator.RandomInteger(1, 10);
 
             ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init)
-                .SetRandomSaltLength(minSalt, maxSalt)
-                .SetSalt(saltKey)
-                .SetKeySize(RijndaelKeySize.Key256Bit)
-                .SetPasswordIterations(iterations);
+                .SetEncoding(encoding);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
             Assert.AreNotEqual(clearText, encrypted);
             Assert.AreEqual(clearText, decrypted);
-        }
-
-        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
-        public void Test8()
-        {
-            string randomData = GenerateClearText();
-
-            string fake = Convert.ToBase64String(Encoding.UTF8.GetBytes(randomData));
-
-            string key = GeneratePassPhrase();
-            string init = GenerateInitVector();
-
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init);
-
-            engine.Decrypt(fake);
         }
 
         [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
@@ -241,7 +259,8 @@ namespace EfficientlyLazyCrypto.Test
             string init = GenerateInitVector();
 
             ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init);
+                .SetInitVector(init)
+                .SetKeySize(RijndaelKeySize.Key256Bit);
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -256,7 +275,8 @@ namespace EfficientlyLazyCrypto.Test
             string init = GenerateInitVector();
 
             ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init);
+                .SetInitVector(init)
+                .SetKeySize(RijndaelKeySize.Key256Bit);
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -264,149 +284,110 @@ namespace EfficientlyLazyCrypto.Test
             engine.Decrypt(inputFile, outputFile);
         }
 
-        //[Test]
-        //public void ParameterValidation_NULL()
-        //{
-        //    try
-        //    {
-        //        RijndaelEngine.ValidateParameters(null);
-        //    }
-        //    catch (InvalidRijndaelParameterException ex)
-        //    {
-        //        Assert.AreEqual("IRijndaelRarameters cannot be null", ex.Message);
-        //        Assert.AreEqual(string.Empty, ex.InvalidProperty);
-
-        //        return;
-        //    }
-
-        //    Assert.Fail("Shouldn't Get Here!!");
-        //}
-
-        [Test]
-        public void ParameterValidation_BadInitVector_small()
+        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
+        public void InvalidDecryption()
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetInitVector("four");
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.AreEqual("InitVector must be a length of 0 or 16\r\nParameter name: initVector", ex.Message);
-                Assert.AreEqual("initVector", ex.ParamName);
+            string randomData = GenerateClearText();
 
-                return;
-            }
+            string fake = Convert.ToBase64String(Encoding.UTF8.GetBytes(randomData));
 
-            Assert.Fail("Shouldn't Get Here!!");
+            string key = GeneratePassPhrase();
+            string init = GenerateInitVector();
+
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetInitVector(init);
+
+            engine.Decrypt(fake);
+            
+            Assert.Fail("Should never get here");
         }
 
-        [Test]
-        public void ParameterValidation_BadInitVector_null()
+        [Test, Parallelizable, Repeat(50)]
+        [Row(null, ExpectedException=typeof(ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void SetInitVectorStringInvalid(string invalidValue)
         {
-            try
-            {
-                string iv = null;
+            string key = GeneratePassPhrase();
 
-                new RijndaelEngine(string.Empty).SetInitVector(iv);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.AreEqual("InitVector cannot be null\r\nParameter name: initVector", ex.Message);
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetInitVector(invalidValue);
 
-                return;
-            }
-
-            Assert.Fail("Shouldn't Get Here!!");
+            Assert.Fail("Should never get here");
         }
 
-        [Test]
-        public void ParameterValidation_InvaidPasswordIterations()
+        [Test, Parallelizable, Repeat(50)]
+        [Row(null, ExpectedException = typeof(ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void SetInitVectorSecureStringInvalid(string invalidValue)
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetPasswordIterations(0);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual("iterations must be greater than 0\r\nParameter name: iterations\r\nActual value was 0.", ex.Message);
-                Assert.AreEqual("iterations", ex.ParamName);
+            string key = GeneratePassPhrase();
 
-                return;
-            }
+            SecureString invalidSecureString = string.IsNullOrEmpty(invalidValue) ? null : ToSS(invalidValue);
 
-            Assert.Fail("Shouldn't Get Here!!");
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetInitVector(invalidSecureString);
+
+            Assert.Fail("Should never get here");
         }
 
-        [Test]
-        public void ParameterValidation_InvalidSaltRange()
+        [Test, Parallelizable] //, Repeat(50)]
+        [ExpectedArgumentOutOfRangeException]
+        [Row(0, 20)]
+        [Row(-1, 20)]
+        [Row(10, 0)]
+        [Row(10, -1)]
+        [Row(15, 10)]
+        public void SetRandomSaltLengthInvalid(int min, int max)
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetRandomSaltLength(20, 15);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual("maximumLength (15) must be greater than or equal to minimumLength (20)\r\nParameter name: maximumLength", ex.Message);
-                Assert.AreEqual("maximumLength", ex.ParamName);
+            string key = GeneratePassPhrase();
 
-                return;
-            }
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetRandomSaltLength(min, max);
 
-            Assert.Fail("Shouldn't Get Here!!");
+            Assert.Fail("Should never get here");  
         }
 
-        [Test]
-        public void ParameterValidation_InvalidSaltMin()
+        [Test, Parallelizable, Repeat(50)]
+        [ExpectedArgumentNullException]
+        public void SetSaltStringInvalid()
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetRandomSaltLength(-1, 10);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual("minimumLength must be greater than or equal to 0\r\nParameter name: minimumLength\r\nActual value was -1.", ex.Message);
-                Assert.AreEqual("minimumLength", ex.ParamName);
+            string key = GeneratePassPhrase();
+            string salt = null;
 
-                return;
-            }
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetSalt(salt);
 
-            Assert.Fail("Shouldn't Get Here!!");
+            Assert.Fail("Should never get here");
         }
 
-        [Test]
-        public void ParameterValidation_InvalidSaltMax()
+        [Test, Parallelizable, Repeat(50)]
+        [ExpectedArgumentNullException]
+        public void SetSaltSecureStringInvalid()
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetRandomSaltLength(5, -1);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Assert.AreEqual("maximumLength must be greater than or equal to 0\r\nParameter name: maximumLength\r\nActual value was -1.", ex.Message);
-                Assert.AreEqual("maximumLength", ex.ParamName);
+            string key = GeneratePassPhrase();
 
-                return;
-            }
+            SecureString salt = null;
 
-            Assert.Fail("Shouldn't Get Here!!");
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetSalt(salt);
+
+            Assert.Fail("Should never get here");
         }
 
-        [Test]
-        public void ParameterValidation_MissingEncoding()
+        [Test, Parallelizable, Repeat(50)]
+        [ExpectedArgumentOutOfRangeException]
+        [Row(0)]
+        [Row(-1)]
+        public void SetPasswordIterationsInvalid(int times)
         {
-            try
-            {
-                new RijndaelEngine(string.Empty).SetEncoding(null);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Assert.AreEqual("encoding cannot be null\r\nParameter name: encoding", ex.Message);
-                Assert.AreEqual("encoding", ex.ParamName);
+            string key = GeneratePassPhrase();
 
-                return;
-            }
+            ICryptoEngine engine = new RijndaelEngine(key)
+                .SetPasswordIterations(times);
 
-            Assert.Fail("Shouldn't Get Here!!");
+            Assert.Fail("Should never get here");
         }
     }
 }

@@ -7505,14 +7505,14 @@
     <member name="T:Gallio.Model.Execution.TestCommandFactory">
       <summary>Creates test commands. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
     </member>
-    <member name="M:Gallio.Model.Execution.TestCommandFactory.BuildCommands(Gallio.Model.TestModel,Gallio.Model.Filters.Filter{Gallio.Model.ITest},System.Boolean,Gallio.Model.Execution.ITestContextManager)">
+    <member name="M:Gallio.Model.Execution.TestCommandFactory.BuildCommands(Gallio.Model.TestModel,Gallio.Model.Filters.FilterSet{Gallio.Model.ITest},System.Boolean,Gallio.Model.Execution.ITestContextManager)">
       <summary>Recursively builds a tree of test commands.</summary>
       <param name="testModel">The test model</param>
-      <param name="filter">The filter for the test model</param>
+      <param name="filterSet">The filter set for the test model</param>
       <param name="exactFilter">If true, only the specified tests are included, otherwise children of the selected tests are automatically included</param>
       <param name="contextManager">The test context manager</param>
       <returns>The root test command or null if none of the tests in the subtree including <paramref name="testModel" /> matched the filter</returns>
-      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="testModel" />, <paramref name="filter" /> or <paramref name="contextManager" /> is null</exception>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="testModel" />, <paramref name="filterSet" /> or <paramref name="contextManager" /> is null</exception>
       <exception cref="T:Gallio.Model.ModelException">Thrown if an invalid test dependency is found</exception>
     </member>
     <member name="T:Gallio.Model.Execution.TestContextTrackerAccessor">
@@ -7528,9 +7528,9 @@
       <summary>Gets or sets whether the filter exactly specifies all tests to select. If false, then children of the selected tests are also included.</summary>
       <value>Defaults to false.</value>
     </member>
-    <member name="P:Gallio.Model.Execution.TestExecutionOptions.Filter">
-      <summary>Gets or sets the filter.</summary>
-      <value>Defaults to an instance of <see cref="T:Gallio.Model.Filters.AnyFilter`1" />.</value>
+    <member name="P:Gallio.Model.Execution.TestExecutionOptions.FilterSet">
+      <summary>Gets or sets the filter set.</summary>
+      <value>Defaults to an empty filter set.</value>
       <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is null</exception>
     </member>
     <member name="P:Gallio.Model.Execution.TestExecutionOptions.SkipDynamicTests">
@@ -7738,7 +7738,7 @@
       <summary>A filter combinator that matches a value when all of its constituent filters match the value.</summary>
     </member>
     <member name="P:Gallio.Model.Filters.AndFilter`1.Filters">
-      <summary>Gets the filters that must jointly be matched. If the array is empty, the filter matches everything.</summary>
+      <summary>Gets the filters that must jointly be matched. If the list is empty, the filter matches everything.</summary>
     </member>
     <member name="T:Gallio.Model.Filters.AnyFilter`1">
       <summary>A filter that matches anything and always returns true.</summary>
@@ -7813,10 +7813,52 @@
     <member name="T:Gallio.Model.Filters.FilterParser`1">
       <summary>A filter parser constructs filters from its textual representation as a filter expression.</summary>
     </member>
-    <member name="M:Gallio.Model.Filters.FilterParser`1.Parse(System.String)">
+    <member name="M:Gallio.Model.Filters.FilterParser`1.ParseFilter(System.String)">
       <summary>Creates a filter from its textual representation as a filter expression.</summary>
       <param name="filterExpr">The filter expression</param>
       <returns>The parsed filter</returns>
+    </member>
+    <member name="M:Gallio.Model.Filters.FilterParser`1.ParseFilterSet(System.String)">
+      <summary>Creates a filter set from its textual representation as a filter set expression consisting of inclusion and exclusion rules.</summary>
+      <param name="filterSetExpr">The filter set expression</param>
+      <returns>The parsed filter set</returns>
+    </member>
+    <member name="T:Gallio.Model.Filters.FilterRule`1">
+      <summary>Specifies an inclusion or exclusion filter rule. This class cannot be inherited.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterRule`1.Filter">
+      <summary>Gets the filter.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterRule`1.RuleType">
+      <summary>Gets the filter rule type: inclusion or exclusion.</summary>
+    </member>
+    <member name="T:Gallio.Model.Filters.FilterSet`1">
+      <summary>A filterset combines zero or more filters as a sequence of inclusion and exclusion rules. This class cannot be inherited.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterSet`1.Empty">
+      <summary>Returns an empty filter set.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterSet`1.HasInclusionRules">
+      <summary>Returns true if the filter set has at least one inclusion rule.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterSet`1.IsEmpty">
+      <summary>Returns true if the filter set is empty.</summary>
+    </member>
+    <member name="P:Gallio.Model.Filters.FilterSet`1.Rules">
+      <summary>Gets the read-only list of filter rules.</summary>
+    </member>
+    <member name="M:Gallio.Model.Filters.FilterSet`1.Evaluate(`0)">
+      <summary>Evaluates the rules of this filter set and indicates whether the item is included, excluded or not matched by the list of rules.</summary>
+      <param name="item">The item</param>
+      <returns>The result</returns>
+    </member>
+    <member name="M:Gallio.Model.Filters.FilterSet`1.ToFilterSetExpr">
+      <summary>Formats the filter set to a string suitable for parsing by <see cref="T:Gallio.Model.Filters.FilterParser`1" />.</summary>
+      <returns>The formatted filter set expression</returns>
+    </member>
+    <member name="M:Gallio.Model.Filters.FilterSet`1.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
     </member>
     <member name="T:Gallio.Model.Filters.FilterUtils">
       <summary>Provides utilities for manipulating filters. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
@@ -7825,6 +7867,11 @@
       <summary>Parses a test filter.</summary>
       <param name="filterExpr">The filter expression</param>
       <returns>The parsed filter</returns>
+    </member>
+    <member name="M:Gallio.Model.Filters.FilterUtils.ParseTestFilterSet(System.String)">
+      <summary>Parses a test filter set.</summary>
+      <param name="filterExpr">The filter expression</param>
+      <returns>The parsed filter set</returns>
     </member>
     <member name="T:Gallio.Model.Filters.IdFilter`1">
       <summary>A filter that matches objects whose <see cref="P:Gallio.Model.ITestComponent.Id" /> matches the specified id filter.</summary>
@@ -7864,7 +7911,7 @@
       <summary>A filter combinator that matches a value when at least one of its constituent filters matches the value.</summary>
     </member>
     <member name="P:Gallio.Model.Filters.OrFilter`1.Filters">
-      <summary>Gets the filters from which at least one match must be found. If the array is empty, the filter matches everything.</summary>
+      <summary>Gets the filters from which at least one match must be found. If the list is empty, the filter matches everything.</summary>
     </member>
     <member name="T:Gallio.Model.Filters.PropertyFilter`1">
       <summary>Abstract base class for filters that encapsulate a rule for selecting some property of an object to be compared against a string value filter. This class is <see langword="abstract" /> and so cannot be instantiated.</summary>
@@ -7928,6 +7975,27 @@
     <member name="M:Gallio.Model.Filters.IFilterVisitor.VisitRegexFilter(Gallio.Model.Filters.RegexFilter)">
       <summary>Visits a <see cref="T:Gallio.Model.Filters.RegexFilter" />.</summary>
       <param name="filter">The filter</param>
+    </member>
+    <member name="T:Gallio.Model.Filters.FilterRuleType">
+      <summary>Specifies whether a filter rule is an inclusion or exclusion rule.</summary>
+    </member>
+    <member name="F:Gallio.Model.Filters.FilterRuleType.Inclusion">
+      <summary>The filter rule is an inclusion rule.</summary>
+    </member>
+    <member name="F:Gallio.Model.Filters.FilterRuleType.Exclusion">
+      <summary>The filter rule is an exclusion rule.</summary>
+    </member>
+    <member name="T:Gallio.Model.Filters.FilterSetResult">
+      <summary>Specifies whether a filter set includes, excludes or does not match a particular item.</summary>
+    </member>
+    <member name="F:Gallio.Model.Filters.FilterSetResult.Unmatched">
+      <summary>The filter set neither includes nor excludes the item.</summary>
+    </member>
+    <member name="F:Gallio.Model.Filters.FilterSetResult.Include">
+      <summary>The filter set includes the item.</summary>
+    </member>
+    <member name="F:Gallio.Model.Filters.FilterSetResult.Exclude">
+      <summary>The filter set excludes the item.</summary>
     </member>
     <member name="T:Gallio.Model.Logging.Attachment">
       <summary>An attachment is an embedded object in an execution log. An attachment must specify a content type (a MIME type), and some contents. This class is <see langword="abstract" /> and so cannot be instantiated.</summary>
@@ -9438,6 +9506,12 @@
     <member name="T:Gallio.Reflection.AssemblyUtils">
       <summary>Provides helpers for working with assemblies. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
     </member>
+    <member name="M:Gallio.Reflection.AssemblyUtils.GetApplicationVersion(System.Reflection.Assembly)">
+      <summary>Gets the application version given its primary assembly. Uses the assembly file version if available.</summary>
+      <param name="assembly">The assembly</param>
+      <returns>The assembly's file version</returns>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="assembly" /> is null</exception>
+    </member>
     <member name="M:Gallio.Reflection.AssemblyUtils.GetAssemblyLocalPath(System.Reflection.Assembly)">
       <summary>Gets the local path of the assembly prior to shadow copying. Returns null if the original location of the assembly is not local.</summary>
       <param name="assembly">The assembly</param>
@@ -9454,6 +9528,7 @@
       <summary>Gets the culture component of an assembly name.</summary>
       <param name="assemblyName">The assembly name</param>
       <returns>The culture name</returns>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="assemblyName" /> is null</exception>
     </member>
     <member name="M:Gallio.Reflection.AssemblyUtils.GetFriendlyAssemblyCodeBase(System.Reflection.Assembly)">
       <summary>If the assembly codebase is a local file, returns it as a local path. Otherwise, returns the assembly codebase Uri.</summary>
@@ -17236,6 +17311,15 @@
       <typeparam name="T">The root object type</typeparam>
       <param name="root">The root object</param>
       <param name="filename">The filename</param>
+    </member>
+    <member name="T:Gallio.Utilities.XmlUtils">
+      <summary>Provides utilities for manipulating Xml. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="M:Gallio.Utilities.XmlUtils.WriteToXPathDocument(System.Action{System.Xml.XmlWriter})">
+      <summary>Produces an XPathDocument given an action applied to an XmlWriter.</summary>
+      <param name="writeAction">The action to perform</param>
+      <returns>The XPathDocument</returns>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="writeAction" /> is null</exception>
     </member>
     <member name="T:Gallio.Utilities.Hash64">
       <summary>A 64bit hash code value type. Provides somewhat more protection against collisions than 32 bit hashes.</summary>

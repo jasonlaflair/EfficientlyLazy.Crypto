@@ -76,16 +76,6 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(plainText, decrypted);
         }
 
-        public enum Encodings
-        {
-            None,
-            ASCII,
-            Unicode,
-            UTF32,
-            UTF7,
-            UTF8
-        }
-
         [Test, Parallelizable]
         [Row(DPAPIKeyType.UserKey, Encodings.None, ExpectedException = typeof(ArgumentNullException))]
         [Row(DPAPIKeyType.UserKey, Encodings.ASCII)]
