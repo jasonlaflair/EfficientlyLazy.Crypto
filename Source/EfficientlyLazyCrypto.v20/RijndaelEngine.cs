@@ -1,49 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
-using System.Security.Cryptography;
-using System.IO;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Security;
+    using System.Security.Cryptography;
+    using System.Text;
+
     /// <summary>
     /// Encryption/Decryption using <see cref="RijndaelManaged"/>.
     /// </summary>
     public sealed class RijndaelEngine : ICryptoEngine
     {
-        private ICryptoTransform _encryptor;
         private ICryptoTransform _decryptor;
+        private ICryptoTransform _encryptor;
 
         ///<summary>
+        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
         ///</summary>
-        public SecureString Key { get; private set; }
-        ///<summary>
-        ///</summary>
-        public SecureString InitVector { get; private set; }
-        ///<summary>
-        ///</summary>
-        public int RandomSaltMinimumLength { get; private set; }
-        ///<summary>
-        ///</summary>
-        public int RandomSaltMaximumLength { get; private set; }
-        ///<summary>
-        ///</summary>
-        public SecureString Salt { get; private set; }
-        ///<summary>
-        ///</summary>
-        public RijndaelKeySize KeySize { get; private set; }
-        ///<summary>
-        ///</summary>
-        public int PasswordIterations { get; private set; }
-        ///<summary>
-        ///</summary>
-        public Encoding Encoding { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="key"></param>
+        ///<param name="key">Represents the secret key for the algorithm</param>
         public RijndaelEngine(string key)
         {
             Key = ToSecureString(key);
@@ -51,7 +41,7 @@ namespace EfficientlyLazyCrypto
             RandomSaltMinimumLength = 0;
             RandomSaltMaximumLength = 0;
             Salt = ToSecureString(string.Empty);
-            KeySize = RijndaelKeySize.Key256Bit;
+            KeySize = KeySize.Key256Bit;
             PasswordIterations = 10;
             Encoding = Encoding.UTF8;
 
@@ -59,8 +49,9 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
         ///</summary>
-        ///<param name="key"></param>
+        ///<param name="key">Represents the secret key for the algorithm</param>
         public RijndaelEngine(SecureString key)
         {
             key.MakeReadOnly();
@@ -70,7 +61,7 @@ namespace EfficientlyLazyCrypto
             RandomSaltMinimumLength = 0;
             RandomSaltMaximumLength = 0;
             Salt = ToSecureString(string.Empty);
-            KeySize = RijndaelKeySize.Key256Bit;
+            KeySize = KeySize.Key256Bit;
             PasswordIterations = 10;
             Encoding = Encoding.UTF8;
 
@@ -78,192 +69,46 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
+        /// Represents the secret key for the algorithm
         ///</summary>
-        ///<param name="initVector"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetInitVector(string initVector)
-        {
-            if (initVector == null)
-            {
-                throw new ArgumentNullException("initVector", "InitVector cannot be null");
-            }
-
-            if (!(initVector.Length == 0 || initVector.Length == 16))
-            {
-                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
-            }
-
-            InitVector = ToSecureString(initVector);
-
-            GenerateEngine();
-
-            return this;
-        }
+        public SecureString Key { get; private set; }
 
         ///<summary>
+        /// Represents the initialization vector (IV) for the algorithm
         ///</summary>
-        ///<param name="initVector"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetInitVector(SecureString initVector)
-        {
-            if (initVector == null)
-            {
-                throw new ArgumentNullException("initVector", "InitVector cannot be null");
-            }
-
-            if (!(initVector.Length == 0 || initVector.Length == 16))
-            {
-                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
-            }
-
-            initVector.MakeReadOnly();
-            InitVector = initVector;
-
-            GenerateEngine();
-
-            return this;
-        }
+        public SecureString InitVector { get; private set; }
 
         ///<summary>
+        /// Minimum length of the random salt used in encryption/decryption.  If 0, no random salt will be used.
         ///</summary>
-        ///<param name="minimumLength"></param>
-        ///<param name="maximumLength"></param>
-        ///<returns></returns>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public RijndaelEngine SetRandomSaltLength(int minimumLength, int maximumLength)
-        {
-            if (minimumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 0");
-            }
-            if (maximumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 0");
-            }
-            if (maximumLength < minimumLength)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", string.Format("maximumLength ({0}) must be greater than or equal to minimumLength ({1})", maximumLength, minimumLength));
-            }
-
-            RandomSaltMinimumLength = minimumLength;
-            RandomSaltMaximumLength = maximumLength;
-
-            GenerateEngine();
-
-            return this;
-        }
+        public int RandomSaltMinimumLength { get; private set; }
 
         ///<summary>
+        /// Maximum length of the random salt used in encryption/decryption.  If 0, no random salt will be used.
         ///</summary>
-        ///<param name="salt"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetSalt(string salt)
-        {
-            if (salt == null)
-            {
-                throw new ArgumentNullException("salt", "salt cannot be null");
-            }
-
-            Salt = ToSecureString(salt);
-
-            GenerateEngine();
-
-            return this;
-        }
+        public int RandomSaltMaximumLength { get; private set; }
 
         ///<summary>
+        /// Key salt used to derive the key
         ///</summary>
-        ///<param name="salt"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetSalt(SecureString salt)
-        {
-            if (salt == null)
-            {
-                throw new ArgumentNullException("salt", "salt cannot be null");
-            }
-
-            salt.MakeReadOnly();
-            Salt = salt;
-
-            GenerateEngine();
-
-            return this;
-        }
+        public SecureString Salt { get; private set; }
 
         ///<summary>
+        /// Represents the size, in bits, of the secret key used by the algorithm
         ///</summary>
-        ///<param name="keySize"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetKeySize(RijndaelKeySize keySize)
-        {
-            KeySize = keySize;
-
-            GenerateEngine();
-
-            return this;
-        }
+        public KeySize KeySize { get; private set; }
 
         ///<summary>
+        /// The number of iterations for the operation
         ///</summary>
-        ///<param name="iterations"></param>
-        ///<returns></returns>
-        ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public RijndaelEngine SetPasswordIterations(int iterations)
-        {
-            if (iterations <= 0)
-            {
-                throw new ArgumentOutOfRangeException("iterations", iterations, "iterations must be greater than 0");
-            }
-
-            PasswordIterations = iterations;
-
-            GenerateEngine();
-
-            return this;
-        }
+        public int PasswordIterations { get; private set; }
 
         ///<summary>
+        /// Represents the character encoding
         ///</summary>
-        ///<param name="encoding"></param>
-        ///<returns></returns>
-        public RijndaelEngine SetEncoding(Encoding encoding)
-        {
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding", "encoding cannot be null");
-            }
+        public Encoding Encoding { get; private set; }
 
-            Encoding = encoding;
-
-            GenerateEngine();
-
-            return this;
-        }
-
-        private void GenerateEngine()
-        {
-            // Initialization vector converted to a byte array.  Get bytes of initialization vector.
-            byte[] initVectorBytes = Encoding.GetBytes(ToString(InitVector));
-
-            // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
-            // Get bytes of salt (used in hashing).
-            byte[] saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
-
-            var symmetricKey = new RijndaelManaged();
-
-            var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
-
-            // Convert key to a byte array adjusting the size from bits to bytes.
-            byte[] keyBytes = password.GetBytes((int)KeySize / 8);
-
-            // If we do not have initialization vector, we cannot use the CBC mode.
-            // The only alternative is the ECB mode (which is not as good).
-            symmetricKey.Mode = (initVectorBytes.Length == 0) ? CipherMode.ECB : CipherMode.CBC;
-
-            // Create encryptor and decryptor, which we will use for cryptographic operations.
-            _encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
-            _decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
-        }
+        #region ICryptoEngine Members
 
         /// <summary>
         /// Encrypts the specified plain text.
@@ -407,6 +252,8 @@ namespace EfficientlyLazyCrypto
             throw new NotImplementedException();
         }
 
+        #endregion
+
         #region Rijndael Helper functions
 
         /// <summary>
@@ -511,5 +358,209 @@ namespace EfficientlyLazyCrypto
         }
 
         #endregion
+
+        ///<summary>
+        /// Sets the initialization vector (IV) for the algorithm
+        ///</summary>
+        ///<param name="initVector">The initialization vector (IV) for the algorithm</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetInitVector(string initVector)
+        {
+            if (initVector == null)
+            {
+                throw new ArgumentNullException("initVector", "InitVector cannot be null");
+            }
+
+            if (!(initVector.Length == 0 || initVector.Length == 16))
+            {
+                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
+            }
+
+            InitVector = ToSecureString(initVector);
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the initialization vector (IV) for the algorithm
+        ///</summary>
+        ///<param name="initVector">The initialization vector (IV) for the algorithm</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetInitVector(SecureString initVector)
+        {
+            if (initVector == null)
+            {
+                throw new ArgumentNullException("initVector", "InitVector cannot be null");
+            }
+
+            if (!(initVector.Length == 0 || initVector.Length == 16))
+            {
+                throw new ArgumentOutOfRangeException("initVector", "InitVector must be a length of 0 or 16");
+            }
+
+            initVector.MakeReadOnly();
+            InitVector = initVector;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the minimum and maximum lengths of the random salt used in encryption/decryption
+        ///</summary>
+        /// <remarks>If both are set to 0, no random salt will be used.</remarks>
+        ///<param name="minimumLength">Minimum salt length, must be greater than 0 (unless both minimum and maximum are set to 0)</param>
+        ///<param name="maximumLength">Maximum salt length, must be greater than 0 (unless both minimum and maximum are set to 0)</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetRandomSaltLength(int minimumLength, int maximumLength)
+        {
+            if (minimumLength <= 0)
+            {
+                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 0");
+            }
+            if (maximumLength <= 0)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 0");
+            }
+            if (maximumLength < minimumLength)
+            {
+                throw new ArgumentOutOfRangeException("maximumLength", string.Format("maximumLength ({0}) must be greater than or equal to minimumLength ({1})", maximumLength, minimumLength));
+            }
+
+            RandomSaltMinimumLength = minimumLength;
+            RandomSaltMaximumLength = maximumLength;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the key salt used to derive the key
+        ///</summary>
+        ///<param name="salt">Key salt used to derive the key</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        public RijndaelEngine SetSalt(string salt)
+        {
+            if (salt == null)
+            {
+                throw new ArgumentNullException("salt", "salt cannot be null");
+            }
+
+            Salt = ToSecureString(salt);
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the key salt used to derive the key
+        ///</summary>
+        ///<param name="salt">Key salt used to derive the key</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        public RijndaelEngine SetSalt(SecureString salt)
+        {
+            if (salt == null)
+            {
+                throw new ArgumentNullException("salt", "salt cannot be null");
+            }
+
+            salt.MakeReadOnly();
+            Salt = salt;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the size of the secret key used by the algorithm
+        ///</summary>
+        ///<param name="keySize">The size of the secret key used by the algorithm</param>
+        ///<returns></returns>
+        public RijndaelEngine SetKeySize(KeySize keySize)
+        {
+            KeySize = keySize;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the number of iterations for the operation
+        ///</summary>
+        ///<param name="iterations">The number of iterations for the operation</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentOutOfRangeException"></exception>
+        public RijndaelEngine SetIterations(int iterations)
+        {
+            if (iterations <= 0)
+            {
+                throw new ArgumentOutOfRangeException("iterations", iterations, "iterations must be greater than 0");
+            }
+
+            PasswordIterations = iterations;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the character encoding
+        ///</summary>
+        ///<param name="encoding">The character encoding</param>
+        ///<returns></returns>
+        ///<exception cref="ArgumentNullException"></exception>
+        public RijndaelEngine SetEncoding(Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
+            Encoding = encoding;
+
+            GenerateEngine();
+
+            return this;
+        }
+
+        private void GenerateEngine()
+        {
+            // Initialization vector converted to a byte array.  Get bytes of initialization vector.
+            byte[] initVectorBytes = Encoding.GetBytes(ToString(InitVector));
+
+            // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
+            // Get bytes of salt (used in hashing).
+            byte[] saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
+
+            var symmetricKey = new RijndaelManaged();
+
+            var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
+
+            // Convert key to a byte array adjusting the size from bits to bytes.
+            byte[] keyBytes = password.GetBytes((int)KeySize / 8);
+
+            // If we do not have initialization vector, we cannot use the CBC mode.
+            // The only alternative is the ECB mode (which is not as good).
+            symmetricKey.Mode = (initVectorBytes.Length == 0) ? CipherMode.ECB : CipherMode.CBC;
+
+            // Create encryptor and decryptor, which we will use for cryptographic operations.
+            _encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
+            _decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
+        }
     }
 }

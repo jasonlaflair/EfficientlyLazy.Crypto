@@ -28,13 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		Source\SharedAssemblyInfo.cs = Source\SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Style Enforcer", "Code Style Enforcer", "{1E4D1A12-0DB8-4A15-AD21-A08FAF2C976E}"
-	ProjectSection(SolutionItems) = preProject
-		Code Style Enforcer\ImplementationRules.xml = Code Style Enforcer\ImplementationRules.xml
-		Code Style Enforcer\NameRules.xml = Code Style Enforcer\NameRules.xml
-		Code Style Enforcer\VisibilityRules.xml = Code Style Enforcer\VisibilityRules.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,7 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_RulesLocation = 1
 		CodeStyleEnforcer_Active = -1
+		CodeStyleEnforcer_RulesLocation = 1
 	EndGlobalSection
 EndGlobal

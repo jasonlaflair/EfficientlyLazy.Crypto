@@ -1,10 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
+// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Cryptography;
+    using System.Text;
+
     /// <summary>
     /// Generation of true random data.
     /// This overcomes the limitations of .NET Framework's Random
@@ -13,20 +27,28 @@ namespace EfficientlyLazyCrypto
     /// </summary>
     public class DataGenerator
     {
-        private static Random _random;
-
-        ///<summary>Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZ</summary>
-        public const string UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         ///<summary>Characters: abcdefghijklmnopqrstuvwxyz</summary>
         public const string LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
+
         ///<summary>Characters: 0123456789</summary>
         public const string NUMERIC_CHARACTERS = "0123456789";
+
         ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
         public const string SPECIAL_CHARACTERS = "`~!@#$%^&*()-_=+[]{}\\|;:'\",<.>/?";
 
-        private int _minimum;
-        private int _maximum;
+        ///<summary>Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZ</summary>
+        public const string UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        private static Random _random;
+
         private List<char> _characterPool;
+        private int _maximum;
+        private int _minimum;
+
+        static DataGenerator()
+        {
+            _random = new Random(GenerateSeedValue());
+        }
 
         ///<summary>
         /// Represents a pseudo-random number generator, a device that produces a sequence of numbers that meet certain statistical requirements for randomness.
@@ -122,11 +144,6 @@ namespace EfficientlyLazyCrypto
             }
 
             _characterPool = GenerateCharacterPool(includeUppercase, includeLowercase, includeNumbers, includeSpecials);
-        }
-
-        static DataGenerator()
-        {
-            _random = new Random(GenerateSeedValue());
         }
 
         /// <summary>
@@ -271,7 +288,7 @@ namespace EfficientlyLazyCrypto
         private static string RandomString(IList<char> characterPool, int minimumLength, int maximumLength)
         {
             int length = _random.Next(minimumLength, maximumLength);
-            
+
             StringBuilder data = new StringBuilder();
 
             for (int i = 0; i < length; i++)
@@ -301,10 +318,22 @@ namespace EfficientlyLazyCrypto
         {
             List<char> masterCharacterPool = new List<char>();
 
-            if (includeUppercase) masterCharacterPool.AddRange(UPPERCASE_CHARACTERS);
-            if (includeLowercase) masterCharacterPool.AddRange(LOWERCASE_CHARACTERS);
-            if (includeNumbers) masterCharacterPool.AddRange(NUMERIC_CHARACTERS);
-            if (includeSpecials) masterCharacterPool.AddRange(SPECIAL_CHARACTERS);
+            if (includeUppercase)
+            {
+                masterCharacterPool.AddRange(UPPERCASE_CHARACTERS);
+            }
+            if (includeLowercase)
+            {
+                masterCharacterPool.AddRange(LOWERCASE_CHARACTERS);
+            }
+            if (includeNumbers)
+            {
+                masterCharacterPool.AddRange(NUMERIC_CHARACTERS);
+            }
+            if (includeSpecials)
+            {
+                masterCharacterPool.AddRange(SPECIAL_CHARACTERS);
+            }
 
             // randomize masterCharacterPool
             for (int randomPasses = 0; randomPasses <= 4; randomPasses++)

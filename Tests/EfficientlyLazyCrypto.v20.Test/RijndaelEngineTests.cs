@@ -1,19 +1,36 @@
-﻿using System;
-using System.Security;
-using System.Security.Cryptography;
-using MbUnit.Framework;
-using System.Text;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto.Test
 {
+    using System;
+    using System.Security;
+    using System.Security.Cryptography;
+    using System.Text;
+    using MbUnit.Framework;
+
     /// <summary>
     ///This is a test class for RijndaelEngineTest and is intended
     ///to contain all RijndaelEngineTest Unit Tests
     ///</summary>
-    [TestFixture, Parallelizable]
+    [TestFixture]
+    [Parallelizable]
     public class RijndaelEngineTests : RandomBase
     {
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void ConstructorString()
         {
             string clearText = GenerateClearText();
@@ -29,7 +46,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void ConstructorSecureString()
         {
             string clearText = GenerateClearText();
@@ -45,7 +64,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetInitVectorString()
         {
             string clearText = GenerateClearText();
@@ -63,7 +84,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetInitVectorSecureString()
         {
             string clearText = GenerateClearText();
@@ -81,7 +104,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetRandomSaltLength()
         {
             string clearText = GenerateClearText();
@@ -103,7 +128,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetSaltString()
         {
             string clearText = GenerateClearText();
@@ -127,7 +154,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetSaltSecureString()
         {
             string clearText = GenerateClearText();
@@ -151,11 +180,13 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        [Row(RijndaelKeySize.Key128Bit)]
-        [Row(RijndaelKeySize.Key192Bit)]
-        [Row(RijndaelKeySize.Key256Bit)]
-        public void SetKeySize(RijndaelKeySize keySize)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        [Row(KeySize.Key128Bit)]
+        [Row(KeySize.Key192Bit)]
+        [Row(KeySize.Key256Bit)]
+        public void SetKeySize(KeySize keySize)
         {
             string clearText = GenerateClearText();
 
@@ -179,7 +210,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         public void SetPasswordIterations()
         {
             string clearText = GenerateClearText();
@@ -197,8 +230,8 @@ namespace EfficientlyLazyCrypto.Test
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt)
                 .SetSalt(saltKey)
-                .SetKeySize(RijndaelKeySize.Key256Bit)
-                .SetPasswordIterations(iterations);
+                .SetKeySize(KeySize.Key256Bit)
+                .SetIterations(iterations);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
@@ -207,8 +240,10 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        [Row(Encodings.None, ExpectedException = typeof(ArgumentNullException))]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        [Row(Encodings.None, ExpectedException = typeof (ArgumentNullException))]
         [Row(Encodings.ASCII)]
         [Row(Encodings.Unicode)]
         [Row(Encodings.UTF32)]
@@ -220,20 +255,20 @@ namespace EfficientlyLazyCrypto.Test
 
             switch (encodingType)
             {
-                //case Encodings.None:
-                case Encodings.ASCII:
+                    //case Encodings.None:
+                case Encodings.ASCII :
                     encoding = Encoding.ASCII;
                     break;
-                case Encodings.Unicode:
+                case Encodings.Unicode :
                     encoding = Encoding.Unicode;
                     break;
-                case Encodings.UTF32:
+                case Encodings.UTF32 :
                     encoding = Encoding.UTF32;
                     break;
-                case Encodings.UTF7:
+                case Encodings.UTF7 :
                     encoding = Encoding.UTF7;
                     break;
-                case Encodings.UTF8:
+                case Encodings.UTF8 :
                     encoding = Encoding.UTF8;
                     break;
             }
@@ -252,7 +287,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.AreEqual(clearText, decrypted);
         }
 
-        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
+        [Test]
+        [Parallelizable]
+        [ExpectedException(typeof (NotImplementedException))]
         public void RijndaelEngine_FileEncryption()
         {
             string key = GeneratePassPhrase();
@@ -260,7 +297,7 @@ namespace EfficientlyLazyCrypto.Test
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetKeySize(RijndaelKeySize.Key256Bit);
+                .SetKeySize(KeySize.Key256Bit);
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -268,7 +305,9 @@ namespace EfficientlyLazyCrypto.Test
             engine.Encrypt(inputFile, outputFile);
         }
 
-        [Test, Parallelizable, ExpectedException(typeof(NotImplementedException))]
+        [Test]
+        [Parallelizable]
+        [ExpectedException(typeof (NotImplementedException))]
         public void RijndaelEngine_FileDecryption()
         {
             string key = GeneratePassPhrase();
@@ -276,7 +315,7 @@ namespace EfficientlyLazyCrypto.Test
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
-                .SetKeySize(RijndaelKeySize.Key256Bit);
+                .SetKeySize(KeySize.Key256Bit);
 
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -284,7 +323,10 @@ namespace EfficientlyLazyCrypto.Test
             engine.Decrypt(inputFile, outputFile);
         }
 
-        [Test, Parallelizable, Repeat(50), ExpectedException(typeof(CryptographicException))]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        [ExpectedException(typeof (CryptographicException))]
         public void InvalidDecryption()
         {
             string randomData = GenerateClearText();
@@ -298,14 +340,16 @@ namespace EfficientlyLazyCrypto.Test
                 .SetInitVector(init);
 
             engine.Decrypt(fake);
-            
+
             Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        [Row(null, ExpectedException=typeof(ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        [Row(null, ExpectedException = typeof (ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void SetInitVectorStringInvalid(string invalidValue)
         {
             string key = GeneratePassPhrase();
@@ -316,10 +360,12 @@ namespace EfficientlyLazyCrypto.Test
             Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        [Row(null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        [Row(null, ExpectedException = typeof (ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void SetInitVectorSecureStringInvalid(string invalidValue)
         {
             string key = GeneratePassPhrase();
@@ -332,7 +378,8 @@ namespace EfficientlyLazyCrypto.Test
             Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable] //, Repeat(50)]
+        [Test]
+        [Parallelizable] //, Repeat(50)]
         [ExpectedArgumentOutOfRangeException]
         [Row(0, 20)]
         [Row(-1, 20)]
@@ -346,10 +393,12 @@ namespace EfficientlyLazyCrypto.Test
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetRandomSaltLength(min, max);
 
-            Assert.Fail("Should never get here");  
+            Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         [ExpectedArgumentNullException]
         public void SetSaltStringInvalid()
         {
@@ -362,7 +411,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         [ExpectedArgumentNullException]
         public void SetSaltSecureStringInvalid()
         {
@@ -376,7 +427,9 @@ namespace EfficientlyLazyCrypto.Test
             Assert.Fail("Should never get here");
         }
 
-        [Test, Parallelizable, Repeat(50)]
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
         [ExpectedArgumentOutOfRangeException]
         [Row(0)]
         [Row(-1)]
@@ -385,7 +438,7 @@ namespace EfficientlyLazyCrypto.Test
             string key = GeneratePassPhrase();
 
             ICryptoEngine engine = new RijndaelEngine(key)
-                .SetPasswordIterations(times);
+                .SetIterations(times);
 
             Assert.Fail("Should never get here");
         }

@@ -1,10 +1,24 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using MbUnit.Framework;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto.Test
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using MbUnit.Framework;
+
     /// <summary>
     ///This is a test class for HashingTest and is intended
     ///to contain all HashingTest Unit Tests
@@ -12,25 +26,27 @@ namespace EfficientlyLazyCrypto.Test
     [TestFixture]
     public class DataHashingTests : RandomBase
     {
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false, false)]
-        [Row(HashingAlgorithm.SHA256, false, false)]
-        [Row(HashingAlgorithm.SHA384, false, false)]
-        [Row(HashingAlgorithm.SHA512, false, false)]
-        [Row(HashingAlgorithm.SHA1, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHash(HashingAlgorithm algorithm, bool useNullString, bool useNullEncoding)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false, false)]
+        [Row(Algorithm.SHA256, false, false)]
+        [Row(Algorithm.SHA384, false, false)]
+        [Row(Algorithm.SHA512, false, false)]
+        [Row(Algorithm.SHA1, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHash(Algorithm algorithm, bool useNullString, bool useNullEncoding)
         {
             string normalText = useNullString ? null : GenerateText(100, 500);
             Encoding encoding = useNullEncoding ? null : Encoding.UTF8;
@@ -40,17 +56,19 @@ namespace EfficientlyLazyCrypto.Test
             Assert.IsTrue(DataHashing.Validate(algorithm, normalText, hashed, encoding));
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false)]
-        [Row(HashingAlgorithm.SHA256, false)]
-        [Row(HashingAlgorithm.SHA384, false)]
-        [Row(HashingAlgorithm.SHA512, false)]
-        [Row(HashingAlgorithm.SHA1, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHash(HashingAlgorithm algorithm, bool useNullByte)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false)]
+        [Row(Algorithm.SHA256, false)]
+        [Row(Algorithm.SHA384, false)]
+        [Row(Algorithm.SHA512, false)]
+        [Row(Algorithm.SHA1, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHash(Algorithm algorithm, bool useNullByte)
         {
             byte[] bytes = null;
 
@@ -64,17 +82,19 @@ namespace EfficientlyLazyCrypto.Test
             Assert.IsTrue(DataHashing.Validate(algorithm, bytes, hashed));
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false)]
-        [Row(HashingAlgorithm.SHA256, false)]
-        [Row(HashingAlgorithm.SHA384, false)]
-        [Row(HashingAlgorithm.SHA512, false)]
-        [Row(HashingAlgorithm.SHA1, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHashFile(HashingAlgorithm algorithm, bool useNullFile)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false)]
+        [Row(Algorithm.SHA256, false)]
+        [Row(Algorithm.SHA384, false)]
+        [Row(Algorithm.SHA512, false)]
+        [Row(Algorithm.SHA1, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHashFile(Algorithm algorithm, bool useNullFile)
         {
             FileInfo file = null;
 
@@ -104,41 +124,43 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false, false, false)]
-        [Row(HashingAlgorithm.SHA256, false, false, false)]
-        [Row(HashingAlgorithm.SHA384, false, false, false)]
-        [Row(HashingAlgorithm.SHA512, false, false, false)]
-        [Row(HashingAlgorithm.SHA1, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHMACHash(HashingAlgorithm algorithm, bool useNullText, bool useNullKey, bool useNullEncoding)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false, false, false)]
+        [Row(Algorithm.SHA256, false, false, false)]
+        [Row(Algorithm.SHA384, false, false, false)]
+        [Row(Algorithm.SHA512, false, false, false)]
+        [Row(Algorithm.SHA1, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHMACHash(Algorithm algorithm, bool useNullText, bool useNullKey, bool useNullEncoding)
         {
             string normalText = useNullText ? null : GenerateText(3, 500);
             string keyText = useNullKey ? null : GenerateText(10, 50);
@@ -149,25 +171,27 @@ namespace EfficientlyLazyCrypto.Test
             Assert.IsTrue(DataHashing.ValidateHMAC(algorithm, normalText, keyText, hashed, encoding));
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false, false)]
-        [Row(HashingAlgorithm.SHA256, false, false)]
-        [Row(HashingAlgorithm.SHA384, false, false)]
-        [Row(HashingAlgorithm.SHA512, false, false)]
-        [Row(HashingAlgorithm.SHA1, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHMACHash(HashingAlgorithm algorithm, bool useNullBytes, bool useNullKey)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false, false)]
+        [Row(Algorithm.SHA256, false, false)]
+        [Row(Algorithm.SHA384, false, false)]
+        [Row(Algorithm.SHA512, false, false)]
+        [Row(Algorithm.SHA1, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHMACHash(Algorithm algorithm, bool useNullBytes, bool useNullKey)
         {
             byte[] bytes = useNullBytes ? null : Encoding.UTF8.GetBytes(GenerateText(100, 500));
             byte[] key = useNullKey ? null : Encoding.UTF8.GetBytes(GenerateText(10, 50));
@@ -177,41 +201,43 @@ namespace EfficientlyLazyCrypto.Test
             Assert.IsTrue(DataHashing.ValidateHMAC(algorithm, bytes, key, hashed));
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false, false, false)]
-        [Row(HashingAlgorithm.SHA256, false, false, false)]
-        [Row(HashingAlgorithm.SHA384, false, false, false)]
-        [Row(HashingAlgorithm.SHA512, false, false, false)]
-        [Row(HashingAlgorithm.SHA1, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHMACHashFile(HashingAlgorithm algorithm, bool useNullFile, bool useNullKey, bool useNullEncoding)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false, false, false)]
+        [Row(Algorithm.SHA256, false, false, false)]
+        [Row(Algorithm.SHA384, false, false, false)]
+        [Row(Algorithm.SHA512, false, false, false)]
+        [Row(Algorithm.SHA1, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHMACHashFile(Algorithm algorithm, bool useNullFile, bool useNullKey, bool useNullEncoding)
         {
             FileInfo file = null;
 
@@ -244,25 +270,27 @@ namespace EfficientlyLazyCrypto.Test
             }
         }
 
-        [Test, Parallelizable, Repeat(50)]
-        //[Row(HashingAlgorithm.MD5)]
-        [Row(HashingAlgorithm.SHA1, false, false)]
-        [Row(HashingAlgorithm.SHA256, false, false)]
-        [Row(HashingAlgorithm.SHA384, false, false)]
-        [Row(HashingAlgorithm.SHA512, false, false)]
-        [Row(HashingAlgorithm.SHA1, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, false, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, false, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA1, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA256, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA384, true, true, ExpectedException = typeof(ArgumentNullException))]
-        [Row(HashingAlgorithm.SHA512, true, true, ExpectedException = typeof(ArgumentNullException))]
-        public void GetHMACHashFile(HashingAlgorithm algorithm, bool useNullFile, bool useNullKey)
+        [Test]
+        [Parallelizable]
+        [Repeat(50)]
+        //[Row(Algorithm.MD5)]
+        [Row(Algorithm.SHA1, false, false)]
+        [Row(Algorithm.SHA256, false, false)]
+        [Row(Algorithm.SHA384, false, false)]
+        [Row(Algorithm.SHA512, false, false)]
+        [Row(Algorithm.SHA1, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, false, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, false, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA1, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA256, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA384, true, true, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Algorithm.SHA512, true, true, ExpectedException = typeof (ArgumentNullException))]
+        public void GetHMACHashFile(Algorithm algorithm, bool useNullFile, bool useNullKey)
         {
             FileInfo file = null;
 

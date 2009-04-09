@@ -1,36 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
-using System.Security.Cryptography;
-using System.Security;
-using System.Security.Permissions;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Runtime.InteropServices;
+    using System.Security;
+    using System.Security.Cryptography;
+    using System.Security.Permissions;
+    using System.Text;
+
     /// <summary>
     /// Encryption/Decryption using the windows crypto API.
     /// </summary>
     public sealed class DPAPIEngine : ICryptoEngine
     {
         ///<summary>
-        /// Additional entropy used for encryption/decryption.
+        /// Initializes a new instance of the <see cref="DPAPIEngine"/> object.
         ///</summary>
-        public SecureString Entropy { get; private set; }
-        ///<summary>
-        /// Method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.
-        ///</summary>
-        public DPAPIKeyType KeyType { get; private set; }
-        ///<summary>
-        /// Character encoding to use during encryption/decryption.
-        ///</summary>
-        public Encoding Encoding { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="keyType">Defines the method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.</param>
-        public DPAPIEngine(DPAPIKeyType keyType)
+        ///<param name="keyType">Defines the method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.</param>
+        public DPAPIEngine(KeyType keyType)
         {
             KeyType = keyType;
             Entropy = ToSecureString(string.Empty);
@@ -38,55 +40,21 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
-        /// Sets additional entropy used for encryption/decryption
+        /// Additional entropy used for encryption/decryption.
         ///</summary>
-        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
-        public DPAPIEngine SetEntropy(string entropy)
-        {
-            Entropy = ToSecureString(entropy);
-
-            return this;
-        }
+        public SecureString Entropy { get; private set; }
 
         ///<summary>
-        /// Sets additional entropy used for encryption/decryption
+        /// Method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.
         ///</summary>
-        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
-        public DPAPIEngine SetEntropy(SecureString entropy)
-        {
-            entropy.MakeReadOnly();
-            Entropy = entropy;
-
-            return this;
-        }
+        public KeyType KeyType { get; private set; }
 
         ///<summary>
-        /// Method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.
+        /// Character encoding to use during encryption/decryption.
         ///</summary>
-        ///<param name="keyType">Sets type (<see cref="DPAPIKeyType"/>) of encryption/decryption.</param>
-        public DPAPIEngine SetKeyType(DPAPIKeyType keyType)
-        {
-            KeyType = keyType;
+        public Encoding Encoding { get; private set; }
 
-            return this;
-        }
-
-        ///<summary>
-        /// Sets character encoding to use during encryption/decryption.
-        ///</summary>
-        ///<param name="encoding">Character encoding to use during encryption/decryption.</param>
-        ///<exception cref="ArgumentNullException">encoding is null</exception>
-        public DPAPIEngine SetEncoding(Encoding encoding)
-        {
-            if (encoding == null)
-            {
-                throw new ArgumentNullException("encoding", "encoding cannot be null");
-            }
-
-            Encoding = encoding;
-
-            return this;
-        }
+        #region ICryptoEngine Members
 
         /// <summary>
         /// Encrypts the specified plain text to a byte array.
@@ -156,14 +124,16 @@ namespace EfficientlyLazyCrypto
             throw new NotImplementedException();
         }
 
+        #endregion
+
         #region DPAPI Helper functions
 
         // DPAPI key initialization flags.
-        private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
         private const int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
+        private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        private static byte[] DPAPIEncrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
+        private static byte[] DPAPIEncrypt(KeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
             var plainTextBlob = DPAPINativeDATABLOB.Null();
@@ -187,7 +157,10 @@ namespace EfficientlyLazyCrypto
                 int flags = CRYPTPROTECT_UI_FORBIDDEN;
 
                 // When using machine-specific key, set up machine flag.
-                if (keyType == DPAPIKeyType.MachineKey) flags |= CRYPTPROTECT_LOCAL_MACHINE;
+                if (keyType == KeyType.MachineKey)
+                {
+                    flags |= CRYPTPROTECT_LOCAL_MACHINE;
+                }
 
                 // Call DPAPI to encrypt data.
                 bool success = ProtectData(ref plainTextBlob, string.Empty, ref entropyBlob, IntPtr.Zero, ref prompt, flags, ref cipherTextBlob);
@@ -253,7 +226,7 @@ namespace EfficientlyLazyCrypto
 
                 // Call DPAPI to decrypt data.
                 bool success = UnprotectData(ref cipherTextBlob, ref description, ref entropyBlob, IntPtr.Zero, ref prompt,
-                                                            CRYPTPROTECT_UI_FORBIDDEN, ref plainTextBlob);
+                                             CRYPTPROTECT_UI_FORBIDDEN, ref plainTextBlob);
 
                 // Check the result.
                 if (!success)
@@ -339,16 +312,15 @@ namespace EfficientlyLazyCrypto
         ///<param name="cipherText">Structure that receives the encrypted data.</param>
         ///<returns>If the function succeeds, then <c>TRUE</c> else <c>FALSE</c>.</returns>
         private static bool ProtectData(ref DPAPINativeDATABLOB plainText,
-                                string description,
-                                ref DPAPINativeDATABLOB entropy,
-                                IntPtr reserved,
-                                ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
-                                int flags,
-                                ref DPAPINativeDATABLOB cipherText)
+                                        string description,
+                                        ref DPAPINativeDATABLOB entropy,
+                                        IntPtr reserved,
+                                        ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
+                                        int flags,
+                                        ref DPAPINativeDATABLOB cipherText)
         {
             return CryptProtectData(ref plainText, description, ref entropy, reserved, ref prompt, flags, ref cipherText);
         }
-
 
         // Wrapper for DPAPI CryptProtectData function.
         [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -373,12 +345,12 @@ namespace EfficientlyLazyCrypto
         ///<param name="plainText">Structure that receives the decrypted data.</param>
         ///<returns>If the function succeeds, then <c>TRUE</c> else <c>FALSE</c>.</returns>
         private static bool UnprotectData(ref DPAPINativeDATABLOB cipherText,
-                                  ref string description,
-                                  ref DPAPINativeDATABLOB entropy,
-                                  IntPtr reserved,
-                                  ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
-                                  int flags,
-                                  ref DPAPINativeDATABLOB plainText)
+                                          ref string description,
+                                          ref DPAPINativeDATABLOB entropy,
+                                          IntPtr reserved,
+                                          ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
+                                          int flags,
+                                          ref DPAPINativeDATABLOB plainText)
         {
             return CryptUnprotectData(ref cipherText, ref description, ref entropy, reserved, ref prompt, flags, ref plainText);
         }
@@ -398,76 +370,7 @@ namespace EfficientlyLazyCrypto
 
         #region DPAPI Structures
 
-        ///<summary>
-        /// Structure that holds the encrypted data.
-        ///</summary>
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct DPAPINativeDATABLOB : IDisposable
-        {
-            ///<summary>
-            /// Holds the length of the data
-            ///</summary>
-            public int DataLength { get; set; }
-
-            ///<summary>
-            /// Pointer to the byte string that contains the text to be encrypted.
-            ///</summary>
-            public IntPtr DataPointer { get; set; }
-
-            ///<summary>
-            /// Creates an empty DATA_BLOB.
-            ///</summary>
-            ///<returns>An empty DATA_BLOB</returns>
-            public static DPAPINativeDATABLOB Null()
-            {
-                return new DPAPINativeDATABLOB
-                {
-                    DataLength = 0,
-                    DataPointer = IntPtr.Zero
-                };
-            }
-
-            ///<summary>
-            /// Creates the structure that holds byte[] data to be encrypted.
-            ///</summary>
-            ///<param name="data">Data to be encrypted.</param>
-            ///<returns>Structure that holds byte[] data to be encrypted.</returns>
-            ///<exception cref="MemberAccessException">Unable to allocate data buffer for BLOB structure</exception>
-            public static DPAPINativeDATABLOB Init(byte[] data)
-            {
-                // Use empty array for null parameter.
-                if (data == null) data = new byte[0];
-
-                var blob = new DPAPINativeDATABLOB
-                {
-                    DataPointer = Marshal.AllocHGlobal(data.Length),
-                    DataLength = data.Length
-                };
-
-                // Make sure that memory allocation was successful.
-                // With the null check on the data parameter, I don't think this is needed.
-                //if (blob.pbData == IntPtr.Zero)
-                //    throw new MemberAccessException("Unable to allocate data buffer for BLOB structure.");
-
-                // Copy data from original source to the BLOB structure.
-                Marshal.Copy(data, 0, blob.DataPointer, data.Length);
-
-                return blob;
-            }
-
-            /// <summary>
-            /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            /// </summary>
-            public void Dispose()
-            {
-                if (DataPointer != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(DataPointer);
-                }
-
-                GC.SuppressFinalize(this);
-            }
-        }
+        #region Nested type: DPAPINativeCryptProtectPromptFlags
 
         ///<summary>
         /// Indicates when prompts to the user are to be displayed.
@@ -485,6 +388,10 @@ namespace EfficientlyLazyCrypto
             ///</summary>
             PromptOnProtect = 0x2
         }
+
+        #endregion
+
+        #region Nested type: DPAPINativeCRYPTPROTECTPROMPTSTRUCT
 
         /// <summary>
         /// Provides the text of a prompt and information about when and where that prompt is to be displayed when using the CryptProtectData and CryptUnprotectData functions.
@@ -519,12 +426,12 @@ namespace EfficientlyLazyCrypto
             public static DPAPINativeCRYPTPROTECTPROMPTSTRUCT Default()
             {
                 return new DPAPINativeCRYPTPROTECTPROMPTSTRUCT
-                {
-                    Size = Marshal.SizeOf(typeof(DPAPINativeCRYPTPROTECTPROMPTSTRUCT)),
-                    PromptFlags = 0,
-                    Handle = IntPtr.Zero,
-                    Prompt = null
-                };
+                           {
+                               Size = Marshal.SizeOf(typeof (DPAPINativeCRYPTPROTECTPROMPTSTRUCT)),
+                               PromptFlags = 0,
+                               Handle = IntPtr.Zero,
+                               Prompt = null
+                           };
             }
 
             /// <summary>
@@ -542,5 +449,136 @@ namespace EfficientlyLazyCrypto
         }
 
         #endregion
+
+        #region Nested type: DPAPINativeDATABLOB
+
+        ///<summary>
+        /// Structure that holds the encrypted data.
+        ///</summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct DPAPINativeDATABLOB : IDisposable
+        {
+            ///<summary>
+            /// Holds the length of the data
+            ///</summary>
+            public int DataLength { get; set; }
+
+            ///<summary>
+            /// Pointer to the byte string that contains the text to be encrypted.
+            ///</summary>
+            public IntPtr DataPointer { get; set; }
+
+            ///<summary>
+            /// Creates an empty DATA_BLOB.
+            ///</summary>
+            ///<returns>An empty DATA_BLOB</returns>
+            public static DPAPINativeDATABLOB Null()
+            {
+                return new DPAPINativeDATABLOB
+                           {
+                               DataLength = 0,
+                               DataPointer = IntPtr.Zero
+                           };
+            }
+
+            ///<summary>
+            /// Creates the structure that holds byte[] data to be encrypted.
+            ///</summary>
+            ///<param name="data">Data to be encrypted.</param>
+            ///<returns>Structure that holds byte[] data to be encrypted.</returns>
+            ///<exception cref="MemberAccessException">Unable to allocate data buffer for BLOB structure</exception>
+            public static DPAPINativeDATABLOB Init(byte[] data)
+            {
+                // Use empty array for null parameter.
+                if (data == null)
+                {
+                    data = new byte[0];
+                }
+
+                var blob = new DPAPINativeDATABLOB
+                               {
+                                   DataPointer = Marshal.AllocHGlobal(data.Length),
+                                   DataLength = data.Length
+                               };
+
+                // Make sure that memory allocation was successful.
+                // With the null check on the data parameter, I don't think this is needed.
+                //if (blob.pbData == IntPtr.Zero)
+                //    throw new MemberAccessException("Unable to allocate data buffer for BLOB structure.");
+
+                // Copy data from original source to the BLOB structure.
+                Marshal.Copy(data, 0, blob.DataPointer, data.Length);
+
+                return blob;
+            }
+
+            /// <summary>
+            /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            /// </summary>
+            public void Dispose()
+            {
+                if (DataPointer != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(DataPointer);
+                }
+
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        ///<summary>
+        /// Sets additional entropy used for encryption/decryption
+        ///</summary>
+        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
+        public DPAPIEngine SetEntropy(string entropy)
+        {
+            Entropy = ToSecureString(entropy);
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets additional entropy used for encryption/decryption
+        ///</summary>
+        ///<param name="entropy">Additional entropy used for encryption/decryption</param>
+        public DPAPIEngine SetEntropy(SecureString entropy)
+        {
+            entropy.MakeReadOnly();
+            Entropy = entropy;
+
+            return this;
+        }
+
+        ///<summary>
+        /// Method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.
+        ///</summary>
+        ///<param name="keyType">Sets type (<see cref="EfficientlyLazyCrypto.KeyType"/>) of encryption/decryption.</param>
+        public DPAPIEngine SetKeyType(KeyType keyType)
+        {
+            KeyType = keyType;
+
+            return this;
+        }
+
+        ///<summary>
+        /// Sets character encoding to use during encryption/decryption.
+        ///</summary>
+        ///<param name="encoding">Character encoding to use during encryption/decryption.</param>
+        ///<exception cref="ArgumentNullException">encoding is null</exception>
+        public DPAPIEngine SetEncoding(Encoding encoding)
+        {
+            if (encoding == null)
+            {
+                throw new ArgumentNullException("encoding", "encoding cannot be null");
+            }
+
+            Encoding = encoding;
+
+            return this;
+        }
     }
 }

@@ -1,11 +1,25 @@
-﻿using System;
-using System.ComponentModel;
-using System.Security.Cryptography;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto
 {
+    using System;
+    using System.ComponentModel;
+    using System.Security.Cryptography;
+
     /// <summary>Algorithms used for Data Hashing</summary>
-    public enum HashingAlgorithm
+    public enum Algorithm
     {
         /// <summary>MD5 Hashing</summary>
         [Obsolete("Should not be used as it has been proven insecure", true)]
@@ -21,7 +35,7 @@ namespace EfficientlyLazyCrypto
     }
 
     /// <summary>DPAPI Key Type</summary>
-    public enum DPAPIKeyType
+    public enum KeyType
     {
         /// <summary>Encrypt at the User Level</summary>
         [Description("User Level")]
@@ -32,7 +46,7 @@ namespace EfficientlyLazyCrypto
     }
 
     /// <summary><see cref="Rijndael"/> Key Size</summary>
-    public enum RijndaelKeySize
+    public enum KeySize
     {
         /// <summary>128bit key length</summary>
         [Description("128bit")]

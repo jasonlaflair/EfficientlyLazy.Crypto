@@ -1,17 +1,31 @@
-﻿using System;
-using System.Text;
-using System.Windows.Forms;
-
+﻿// // Copyright 2008-2009 LaFlair.NET
+// // 
+// // Licensed under the Apache License, Version 2.0 (the "License");
+// // you may not use this file except in compliance with the License.
+// // You may obtain a copy of the License at
+// // 
+// //     http://www.apache.org/licenses/LICENSE-2.0
+// // 
+// // Unless required by applicable law or agreed to in writing, software
+// // distributed under the License is distributed on an "AS IS" BASIS,
+// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// // See the License for the specific language governing permissions and
+// // limitations under the License.
+// 
 namespace EfficientlyLazyCrypto.Demo
 {
+    using System;
+    using System.Text;
+    using System.Windows.Forms;
+
     public partial class RijndaelEngineControl : UserControl
     {
         public RijndaelEngineControl()
         {
             InitializeComponent();
 
-            cbxKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(RijndaelKeySize));
-            cbxKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(RijndaelKeySize.Key256Bit);
+            cbxKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof (KeySize));
+            cbxKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(KeySize.Key256Bit);
 
             cbxEncoding.DisplayMember = "EncodingName";
             cbxEncoding.Items.Add(Encoding.ASCII);
@@ -36,7 +50,6 @@ namespace EfficientlyLazyCrypto.Demo
 
         private void RijndaelEngineControl_Load(object sender, EventArgs e)
         {
-
         }
 
         private void cmdEncrypt_Click(object sender, EventArgs e)
@@ -73,14 +86,14 @@ namespace EfficientlyLazyCrypto.Demo
 
         private ICryptoEngine GenerateEngine()
         {
-            RijndaelKeySize keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cbxKeySize.SelectedItem.ToString());
+            KeySize keySize = EnumerationConversions.GetEnumName<KeySize>(cbxKeySize.SelectedItem.ToString());
 
             return new RijndaelEngine(txtKey.Text)
                 .SetKeySize(keySize)
                 .SetInitVector(txtInitVector.Text)
                 .SetSalt(txtSalt.Text)
-                .SetRandomSaltLength((int) nudSaltMin.Value, (int) nudSaltMax.Value)
-                .SetPasswordIterations((int) nudIterations.Value)
+                .SetRandomSaltLength((int)nudSaltMin.Value, (int)nudSaltMax.Value)
+                .SetIterations((int)nudIterations.Value)
                 .SetEncoding(cbxEncoding.SelectedItem as Encoding);
         }
     }
