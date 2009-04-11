@@ -29,6 +29,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,6 +43,12 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="HashingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HashingControl.Designer.cs">
+      <DependentUpon>HashingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DPAPIEngineControl.cs">
       <SubType>UserControl</SubType>
@@ -68,6 +76,9 @@
     <Compile Include="RijndaelEngineControl.Designer.cs">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HashingControl.resx">
+      <DependentUpon>HashingControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DPAPIEngineControl.resx">
       <DependentUpon>DPAPIEngineControl.cs</DependentUpon>
     </EmbeddedResource>

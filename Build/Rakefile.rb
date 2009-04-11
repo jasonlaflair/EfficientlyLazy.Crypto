@@ -81,7 +81,15 @@ task :packageup do
   package = "#{$artifacts}/Package"
   rm_r(package) if File.exist?(package)
   mkdir(package)
+
+  folderDemo = "#{$artifacts}/Package/Demo"
+  mkdir(folderDemo) unless File.exist?(folderDemo)
   
+  files = FileList["#{$solutionRoot}/Source/EfficientlyLazyCrypto.Demo/bin/Release/*.*"].exclude(/^.*vshost.*/, /^.*pdb/, /^.*xml/)
+  files.each do |file|
+    cp(file, folderDemo)
+  end
+
   folderv20 = "#{$artifacts}/Package/v20"
   mkdir(folderv20) unless File.exist?(folderv20)
 
