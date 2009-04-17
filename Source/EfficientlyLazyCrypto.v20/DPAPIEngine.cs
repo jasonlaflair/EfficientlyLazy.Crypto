@@ -554,17 +554,6 @@ namespace EfficientlyLazyCrypto
         }
 
         ///<summary>
-        /// Method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.
-        ///</summary>
-        ///<param name="keyType">Sets type (<see cref="EfficientlyLazyCrypto.KeyType"/>) of encryption/decryption.</param>
-        public DPAPIEngine SetKeyType(KeyType keyType)
-        {
-            KeyType = keyType;
-
-            return this;
-        }
-
-        ///<summary>
         /// Sets character encoding to use during encryption/decryption.
         ///</summary>
         ///<param name="encoding">Character encoding to use during encryption/decryption.</param>

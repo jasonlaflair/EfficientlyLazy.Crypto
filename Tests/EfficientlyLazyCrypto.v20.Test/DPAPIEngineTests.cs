@@ -146,39 +146,6 @@ namespace EfficientlyLazyCrypto.Test
 
         [Test]
         [Parallelizable]
-        [Row(KeyType.UserKey, KeyType.UserKey)]
-        [Row(KeyType.UserKey, KeyType.MachineKey)]
-        [Row(KeyType.MachineKey, KeyType.MachineKey)]
-        [Row(KeyType.MachineKey, KeyType.UserKey)]
-        public void SetKeyType(KeyType firstKey, KeyType secondKey)
-        {
-            string plainText = GenerateClearText();
-
-            var engine = new DPAPIEngine(firstKey);
-
-            string firstEncrypted = engine.Encrypt(plainText);
-            string firstDecrypted = engine.Decrypt(firstEncrypted);
-
-            engine.SetKeyType(secondKey);
-            string secondEncrypted = engine.Encrypt(plainText);
-            string secondDecrypted = engine.Decrypt(secondEncrypted);
-
-            Assert.AreNotEqual(plainText, firstEncrypted);
-            Assert.AreNotEqual(firstEncrypted, firstDecrypted);
-            Assert.AreEqual(plainText, firstDecrypted);
-
-            Assert.AreNotEqual(plainText, secondEncrypted);
-            Assert.AreNotEqual(secondEncrypted, secondDecrypted);
-            Assert.AreEqual(plainText, secondDecrypted);
-
-            if (firstKey != secondKey)
-            {
-                Assert.AreNotEqual(firstEncrypted, secondEncrypted);
-            }
-        }
-
-        [Test]
-        [Parallelizable]
         [ExpectedException(typeof (NotImplementedException))]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]
