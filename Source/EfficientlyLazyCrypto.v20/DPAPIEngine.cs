@@ -36,7 +36,7 @@ namespace EfficientlyLazyCrypto
         {
             KeyType = keyType;
             Entropy = ToSecureString(string.Empty);
-            Encoding = Encoding.UTF8;
+            Encoding = Encoding.Default;
         }
 
         ///<summary>
@@ -426,12 +426,12 @@ namespace EfficientlyLazyCrypto
             public static DPAPINativeCRYPTPROTECTPROMPTSTRUCT Default()
             {
                 return new DPAPINativeCRYPTPROTECTPROMPTSTRUCT
-                           {
-                               Size = Marshal.SizeOf(typeof (DPAPINativeCRYPTPROTECTPROMPTSTRUCT)),
-                               PromptFlags = 0,
-                               Handle = IntPtr.Zero,
-                               Prompt = null
-                           };
+                       {
+                           Size = Marshal.SizeOf(typeof (DPAPINativeCRYPTPROTECTPROMPTSTRUCT)),
+                           PromptFlags = 0,
+                           Handle = IntPtr.Zero,
+                           Prompt = null
+                       };
             }
 
             /// <summary>
@@ -475,10 +475,10 @@ namespace EfficientlyLazyCrypto
             public static DPAPINativeDATABLOB Null()
             {
                 return new DPAPINativeDATABLOB
-                           {
-                               DataLength = 0,
-                               DataPointer = IntPtr.Zero
-                           };
+                       {
+                           DataLength = 0,
+                           DataPointer = IntPtr.Zero
+                       };
             }
 
             ///<summary>
@@ -496,10 +496,10 @@ namespace EfficientlyLazyCrypto
                 }
 
                 var blob = new DPAPINativeDATABLOB
-                               {
-                                   DataPointer = Marshal.AllocHGlobal(data.Length),
-                                   DataLength = data.Length
-                               };
+                           {
+                               DataPointer = Marshal.AllocHGlobal(data.Length),
+                               DataLength = data.Length
+                           };
 
                 // Make sure that memory allocation was successful.
                 // With the null check on the data parameter, I don't think this is needed.

@@ -117,6 +117,8 @@
       <Abbreviation Text="HMAC" />
       <Abbreviation Text="MD" />
       <Abbreviation Text="SHA" />
+      <Abbreviation Text="DATABLOB" />
+      <Abbreviation Text="CRYPTPROTECTPROMPTSTRUCT" />
     </Naming2>
   </CodeStyleSettings>
 </Configuration>

@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -45,7 +46,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CertificateEngine.cs" />
+    <Compile Include="ConnectionStrings.cs" />
     <Compile Include="DPAPIEngine.cs" />
+    <Compile Include="IConnectionStringSetting.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="Enumerations.cs" />

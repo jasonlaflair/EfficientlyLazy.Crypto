@@ -43,7 +43,7 @@ namespace EfficientlyLazyCrypto
             Salt = ToSecureString(string.Empty);
             KeySize = KeySize.Key256Bit;
             PasswordIterations = 10;
-            Encoding = Encoding.UTF8;
+            Encoding = Encoding.Default;
 
             GenerateEngine();
         }
@@ -63,7 +63,7 @@ namespace EfficientlyLazyCrypto
             Salt = ToSecureString(string.Empty);
             KeySize = KeySize.Key256Bit;
             PasswordIterations = 10;
-            Encoding = Encoding.UTF8;
+            Encoding = Encoding.Default;
 
             GenerateEngine();
         }

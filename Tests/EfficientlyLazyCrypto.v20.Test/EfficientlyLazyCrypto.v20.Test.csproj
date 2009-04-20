@@ -44,10 +44,12 @@
       <HintPath>..\..\ThirdParty\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionStringsTests.cs" />
     <Compile Include="DPAPIEngineTests.cs" />
     <Compile Include="RandomBase.cs" />
     <Compile Include="RijndaelEngineTests.cs" />
@@ -60,6 +62,9 @@
       <Project>{7B961222-8130-44C1-B2A7-0A5273282DCB}</Project>
       <Name>EfficientlyLazyCrypto.v20</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
