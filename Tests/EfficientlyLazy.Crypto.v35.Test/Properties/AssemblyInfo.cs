@@ -19,11 +19,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("EfficientlyLazyCrypto.v20.Test")]
+[assembly: AssemblyTitle("EfficientlyLazy.Crypto.v35.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("EfficientlyLazyCrypto.v20.Test")]
+[assembly: AssemblyProduct("EfficientlyLazy.Crypto.v35.Test")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("6fec10c0-ee48-4d85-9b9c-6071528bfaee")]
+[assembly: Guid("dde99639-1586-486c-b89a-318abad2a4bf")]
 
 // Version information for an assembly consists of the following four values:
 //

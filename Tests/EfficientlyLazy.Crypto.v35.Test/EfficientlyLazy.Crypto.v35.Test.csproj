@@ -8,8 +8,8 @@
     <ProjectGuid>{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EfficientlyLazyCrypto.Test</RootNamespace>
-    <AssemblyName>EfficientlyLazyCrypto.Test</AssemblyName>
+    <RootNamespace>EfficientlyLazy.Crypto.Test</RootNamespace>
+    <AssemblyName>EfficientlyLazy.Crypto.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>Client</TargetFrameworkSubset>

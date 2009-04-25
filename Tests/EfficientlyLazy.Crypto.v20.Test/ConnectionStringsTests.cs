@@ -12,9 +12,8 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto.Test
+namespace EfficientlyLazy.Crypto.Test
 {
-    using System;
     using System.Configuration;
     using System.Data.SqlClient;
     using MbUnit.Framework;
@@ -129,7 +128,7 @@ namespace EfficientlyLazyCrypto.Test
         }
 
         [Test(Order = 50)]
-        [ExpectedException(typeof (NullReferenceException))]
+        [ExpectedArgumentException]
         public void UpdateConnectionStringWithInvalidConnectionStringName()
         {
             SecureConnectionStrings conn = new SecureConnectionStrings(_engine);

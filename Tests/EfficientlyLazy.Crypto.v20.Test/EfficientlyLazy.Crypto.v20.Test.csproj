@@ -8,8 +8,8 @@
     <ProjectGuid>{E77C43E2-B506-4148-95F9-E08917DA55A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EfficientlyLazyCrypto.Test</RootNamespace>
-    <AssemblyName>EfficientlyLazyCrypto.Test</AssemblyName>
+    <RootNamespace>EfficientlyLazy.Crypto.Test</RootNamespace>
+    <AssemblyName>EfficientlyLazy.Crypto.Test</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,9 +58,9 @@
     <Compile Include="DataHashingTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\EfficientlyLazyCrypto.v20\EfficientlyLazyCrypto.v20.csproj">
+    <ProjectReference Include="..\..\Source\EfficientlyLazy.Crypto.v20\EfficientlyLazy.Crypto.v20.csproj">
       <Project>{7B961222-8130-44C1-B2A7-0A5273282DCB}</Project>
-      <Name>EfficientlyLazyCrypto.v20</Name>
+      <Name>EfficientlyLazy.Crypto.v20</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
