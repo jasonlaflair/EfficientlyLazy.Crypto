@@ -69,8 +69,8 @@ task :generateDocs do
     exit
   end
   
-  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v20/EfficientlyLazyCrypto.v20.csproj", "2.0.50727", $version, "EfficientlyLazyCrypto.v20")
-  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazyCrypto.v35/EfficientlyLazyCrypto.v35.csproj", "3.5", $version, "EfficientlyLazyCrypto.v35")
+  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v20/EfficientlyLazy.Crypto.v20.csproj", "2.0.50727", $version, "EfficientlyLazy.Crypto.v20")
+  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v35/EfficientlyLazy.Crypto.v35.csproj", "3.5", $version, "EfficientlyLazy.Crypto.v35")
   
 end
 
@@ -85,7 +85,7 @@ task :packageup do
   folderDemo = "#{$artifacts}/Package/Demo"
   mkdir(folderDemo) unless File.exist?(folderDemo)
   
-  files = FileList["#{$solutionRoot}/Source/EfficientlyLazyCrypto.Demo/bin/Release/*.*"].exclude(/^.*vshost.*/, /^.*pdb/, /^.*xml/)
+  files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.Demo/bin/Release/*.*"].exclude(/^.*vshost.*/, /^.*pdb/, /^.*xml/)
   files.each do |file|
     cp(file, folderDemo)
   end
@@ -93,24 +93,24 @@ task :packageup do
   folderv20 = "#{$artifacts}/Package/v20"
   mkdir(folderv20) unless File.exist?(folderv20)
 
-  files = FileList["#{$solutionRoot}/Source/EfficientlyLazyCrypto.v20/bin/Release/*.*"]
+  files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v20/bin/Release/*.*"]
   files.each do |file|
     cp(file, folderv20)
   end
   
-  mv("#{$artifacts}/EfficientlyLazyCrypto.v20.chm", "#{folderv20}/EfficientlyLazyCrypto.chm")
+  mv("#{$artifacts}/EfficientlyLazy.Crypto.v20.chm", "#{folderv20}/EfficientlyLazy.Crypto.chm")
 
   folderv35 = "#{$artifacts}/Package/v35"
   mkdir(folderv35) unless File.exist?(folderv35)
 
-  files = FileList["#{$solutionRoot}/Source/EfficientlyLazyCrypto.v35/bin/Release/*.*"]
+  files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v35/bin/Release/*.*"]
   files.each do |file|
     cp(file, folderv35)
   end
 
-  mv("#{$artifacts}/EfficientlyLazyCrypto.v35.chm", "#{folderv35}/EfficientlyLazyCrypto.chm")
+  mv("#{$artifacts}/EfficientlyLazy.Crypto.v35.chm", "#{folderv35}/EfficientlyLazy.Crypto.chm")
   
-  zipfilename = "#{$artifacts}/EfficientlyLazyCrypto-#{$version}.zip"
+  zipfilename = "#{$artifacts}/EfficientlyLazy.Crypto-#{$version}.zip"
   
   rm(zipfilename) if File.exist?(zipfilename)
   
