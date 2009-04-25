@@ -8,13 +8,13 @@
     <ProjectGuid>{69AEB289-367B-4627-B759-AD1E5699485D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EfficientlyLazyCrypto</RootNamespace>
-    <AssemblyName>EfficientlyLazyCrypto</AssemblyName>
+    <RootNamespace>EfficientlyLazy.Crypto</RootNamespace>
+    <AssemblyName>EfficientlyLazy.Crypto</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>Client</TargetFrameworkSubset>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\efficientlylazycrypto.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\EfficientlyLazy.Crypto.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\EfficientlyLazy.Crypto.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\EfficientlyLazyCrypto.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\EfficientlyLazy.Crypto.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
@@ -44,22 +44,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DataGenerator.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\DataGenerator.cs">
       <Link>DataGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DataHashing.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\DataHashing.cs">
       <Link>DataHashing.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\DPAPIEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\DPAPIEngine.cs">
       <Link>DPAPIEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\Enumerations.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Enumerations.cs">
       <Link>Enumerations.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\ICryptoEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\ICryptoEngine.cs">
       <Link>ICryptoEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazyCrypto.v20\RijndaelEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\RijndaelEngine.cs">
       <Link>RijndaelEngine.cs</Link>
     </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">

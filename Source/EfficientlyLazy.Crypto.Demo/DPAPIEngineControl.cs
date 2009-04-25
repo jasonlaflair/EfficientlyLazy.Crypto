@@ -12,13 +12,12 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto.Demo
+namespace EfficientlyLazy.Crypto.Demo
 {
     using System;
     using System.Text;
-    using System.Windows.Forms;
 
-    public partial class DPAPIEngineControl : UserControl
+    public partial class DPAPIEngineControl : CryptoUserControl
     {
         public DPAPIEngineControl()
         {
@@ -29,47 +28,24 @@ namespace EfficientlyLazyCrypto.Demo
 
             cbxEncoding.DisplayMember = "EncodingName";
             cbxEncoding.Items.Add(Encoding.ASCII);
+            cbxEncoding.Items.Add(Encoding.Default);
             cbxEncoding.Items.Add(Encoding.Unicode);
             cbxEncoding.Items.Add(Encoding.UTF32);
             cbxEncoding.Items.Add(Encoding.UTF7);
             cbxEncoding.Items.Add(Encoding.UTF8);
-            cbxEncoding.SelectedItem = Encoding.UTF32;
+            cbxEncoding.SelectedItem = Encoding.Default;
+        }
+
+        public override string DisplayName
+        {
+            get
+            {
+                return "DPAPI Encryption/Decryption";
+            }
         }
 
         private void DPAPIEngineControl_Load(object sender, EventArgs e)
         {
-        }
-
-        private void cmdEncrypt_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ICryptoEngine engine = GenerateEngine();
-
-                rtxtEncrypted.Text = engine.Encrypt(rtxtClear.Text);
-            }
-            catch (Exception ex)
-            {
-                rtxtEncrypted.Text = string.Empty;
-
-                MessageBox.Show(ex.Message, "Encryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void cmdDecrypt_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ICryptoEngine engine = GenerateEngine();
-
-                rtxtClear.Text = engine.Decrypt(rtxtEncrypted.Text);
-            }
-            catch (Exception ex)
-            {
-                rtxtClear.Text = string.Empty;
-
-                MessageBox.Show(ex.Message, "Decryption Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private ICryptoEngine GenerateEngine()
@@ -79,6 +55,20 @@ namespace EfficientlyLazyCrypto.Demo
             return new DPAPIEngine(keyType)
                 .SetEntropy(txtEntropy.Text)
                 .SetEncoding(cbxEncoding.SelectedItem as Encoding);
+        }
+
+        public override string Encrypt(string clearText)
+        {
+            ICryptoEngine engine = GenerateEngine();
+
+            return engine.Encrypt(clearText);
+        }
+
+        public override string Decrypt(string encryptedText)
+        {
+            ICryptoEngine engine = GenerateEngine();
+
+            return engine.Decrypt(encryptedText);
         }
     }
 }

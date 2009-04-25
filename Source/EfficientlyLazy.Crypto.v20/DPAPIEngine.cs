@@ -12,7 +12,7 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto
+namespace EfficientlyLazy.Crypto
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace EfficientlyLazyCrypto
         ///<summary>
         /// Initializes a new instance of the <see cref="DPAPIEngine"/> object.
         ///</summary>
-        ///<param name="keyType">Defines the method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.</param>
+        ///<param name="keyType">Defines the method (<see cref="EfficientlyLazy.Crypto.KeyType"/>) to use for encryption/decryption.</param>
         public DPAPIEngine(KeyType keyType)
         {
             KeyType = keyType;
@@ -45,7 +45,7 @@ namespace EfficientlyLazyCrypto
         public SecureString Entropy { get; private set; }
 
         ///<summary>
-        /// Method (<see cref="EfficientlyLazyCrypto.KeyType"/>) to use for encryption/decryption.
+        /// Method (<see cref="EfficientlyLazy.Crypto.KeyType"/>) to use for encryption/decryption.
         ///</summary>
         public KeyType KeyType { get; private set; }
 

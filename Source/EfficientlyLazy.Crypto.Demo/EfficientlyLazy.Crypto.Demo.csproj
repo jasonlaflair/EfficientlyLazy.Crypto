@@ -8,8 +8,8 @@
     <ProjectGuid>{BCD03428-E119-458F-8D8E-680BCD8A2FB5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EfficientlyLazyCrypto.Demo</RootNamespace>
-    <AssemblyName>EfficientlyLazyCrypto.Demo</AssemblyName>
+    <RootNamespace>EfficientlyLazy.Crypto.Demo</RootNamespace>
+    <AssemblyName>EfficientlyLazy.Crypto.Demo</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,6 +44,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CryptoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="frmSQLConnectionStringBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSQLConnectionStringBuilder.Designer.cs">
+      <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
+    </Compile>
     <Compile Include="HashingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,6 +85,9 @@
     <Compile Include="RijndaelEngineControl.Designer.cs">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
+      <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HashingControl.resx">
       <DependentUpon>HashingControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,9 +106,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EfficientlyLazyCrypto.v20\EfficientlyLazyCrypto.v20.csproj">
+    <ProjectReference Include="..\EfficientlyLazy.Crypto.v20\EfficientlyLazy.Crypto.v20.csproj">
       <Project>{7B961222-8130-44C1-B2A7-0A5273282DCB}</Project>
-      <Name>EfficientlyLazyCrypto.v20</Name>
+      <Name>EfficientlyLazy.Crypto.v20</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace EfficientlyLazyCrypto.Demo
+﻿namespace EfficientlyLazy.Crypto.Demo
 {
     partial class RijndaelEngineControl
     {
@@ -45,18 +45,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cbxEncoding = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.rtxtEncrypted = new System.Windows.Forms.RichTextBox();
-            this.rtxtClear = new System.Windows.Forms.RichTextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cmdDecrypt = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cmdEncrypt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMax)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtKey
@@ -201,9 +193,11 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.nudIterations);
-            this.groupBox1.Location = new System.Drawing.Point(13, 9);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(435, 212);
+            this.groupBox1.Size = new System.Drawing.Size(435, 210);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rijndael Parameters";
@@ -227,99 +221,22 @@
             this.cbxEncoding.Size = new System.Drawing.Size(113, 21);
             this.cbxEncoding.TabIndex = 7;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.rtxtEncrypted);
-            this.groupBox2.Controls.Add(this.rtxtClear);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.cmdDecrypt);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.cmdEncrypt);
-            this.groupBox2.Location = new System.Drawing.Point(13, 227);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(435, 208);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            // 
-            // rtxtEncrypted
-            // 
-            this.rtxtEncrypted.Location = new System.Drawing.Point(105, 127);
-            this.rtxtEncrypted.Name = "rtxtEncrypted";
-            this.rtxtEncrypted.Size = new System.Drawing.Size(313, 69);
-            this.rtxtEncrypted.TabIndex = 3;
-            this.rtxtEncrypted.Text = "";
-            // 
-            // rtxtClear
-            // 
-            this.rtxtClear.Location = new System.Drawing.Point(105, 19);
-            this.rtxtClear.Name = "rtxtClear";
-            this.rtxtClear.Size = new System.Drawing.Size(313, 69);
-            this.rtxtClear.TabIndex = 0;
-            this.rtxtClear.Text = "";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(59, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(40, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Clear:";
-            // 
-            // cmdDecrypt
-            // 
-            this.cmdDecrypt.Image = global::EfficientlyLazyCrypto.Demo.Properties.Resources.decrypted_16x16;
-            this.cmdDecrypt.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdDecrypt.Location = new System.Drawing.Point(281, 94);
-            this.cmdDecrypt.Name = "cmdDecrypt";
-            this.cmdDecrypt.Size = new System.Drawing.Size(137, 27);
-            this.cmdDecrypt.TabIndex = 2;
-            this.cmdDecrypt.Text = "Decrypt";
-            this.cmdDecrypt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.cmdDecrypt.UseVisualStyleBackColor = false;
-            this.cmdDecrypt.Click += new System.EventHandler(this.cmdDecrypt_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(31, 130);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 13);
-            this.label10.TabIndex = 5;
-            this.label10.Text = "Encrypted:";
-            // 
-            // cmdEncrypt
-            // 
-            this.cmdEncrypt.Image = global::EfficientlyLazyCrypto.Demo.Properties.Resources.encrypted_16x16;
-            this.cmdEncrypt.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cmdEncrypt.Location = new System.Drawing.Point(106, 94);
-            this.cmdEncrypt.Name = "cmdEncrypt";
-            this.cmdEncrypt.Size = new System.Drawing.Size(137, 27);
-            this.cmdEncrypt.TabIndex = 1;
-            this.cmdEncrypt.Text = "Encrypt";
-            this.cmdEncrypt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.cmdEncrypt.UseVisualStyleBackColor = true;
-            this.cmdEncrypt.Click += new System.EventHandler(this.cmdEncrypt_Click);
-            // 
             // RijndaelEngineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "RijndaelEngineControl";
-            this.Size = new System.Drawing.Size(462, 449);
+            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Size = new System.Drawing.Size(455, 230);
             this.Load += new System.EventHandler(this.RijndaelEngineControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMax)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -343,12 +260,5 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cbxEncoding;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button cmdDecrypt;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button cmdEncrypt;
-        private System.Windows.Forms.RichTextBox rtxtEncrypted;
-        private System.Windows.Forms.RichTextBox rtxtClear;
     }
 }

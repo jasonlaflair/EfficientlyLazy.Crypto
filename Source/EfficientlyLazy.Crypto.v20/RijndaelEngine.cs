@@ -12,7 +12,7 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto
+namespace EfficientlyLazy.Crypto
 {
     using System;
     using System.Collections.Generic;
@@ -422,13 +422,13 @@ namespace EfficientlyLazyCrypto
         ///<exception cref="ArgumentOutOfRangeException"></exception>
         public RijndaelEngine SetRandomSaltLength(int minimumLength, int maximumLength)
         {
-            if (minimumLength <= 0)
+            if (minimumLength < 4 && maximumLength >= 4)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 0");
+                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than or equal to 4 or equal to 0");
             }
-            if (maximumLength <= 0)
+            if (maximumLength < 4 & minimumLength >= 4)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 0");
+                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than or equal to 4 or equal to 0");
             }
             if (maximumLength < minimumLength)
             {

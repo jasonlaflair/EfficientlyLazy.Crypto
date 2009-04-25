@@ -12,7 +12,7 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto.Demo
+namespace EfficientlyLazy.Crypto.Demo
 {
     using System;
     using System.Windows.Forms;
@@ -27,7 +27,6 @@ namespace EfficientlyLazyCrypto.Demo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             Application.Run(new frmMain());
         }
     }

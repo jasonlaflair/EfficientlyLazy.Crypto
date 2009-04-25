@@ -12,20 +12,22 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-namespace EfficientlyLazyCrypto.Demo
+namespace EfficientlyLazy.Crypto.Demo
 {
-    using System;
     using System.Windows.Forms;
 
-    public partial class frmMain : Form
+    public class CryptoUserControl : UserControl
     {
-        public frmMain()
+        public virtual string DisplayName { get; private set; }
+
+        public virtual string Encrypt(string clearText)
         {
-            InitializeComponent();
+            return string.Empty;
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
+        public virtual string Decrypt(string encryptedText)
         {
+            return string.Empty;
         }
     }
 }
