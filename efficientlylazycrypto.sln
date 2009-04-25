@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v20", "Source\EfficientlyLazyCrypto.v20\EfficientlyLazyCrypto.v20.csproj", "{7B961222-8130-44C1-B2A7-0A5273282DCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20", "Source\EfficientlyLazy.Crypto.v20\EfficientlyLazy.Crypto.v20.csproj", "{7B961222-8130-44C1-B2A7-0A5273282DCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v35", "Source\EfficientlyLazyCrypto.v35\EfficientlyLazyCrypto.v35.csproj", "{69AEB289-367B-4627-B759-AD1E5699485D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35", "Source\EfficientlyLazy.Crypto.v35\EfficientlyLazy.Crypto.v35.csproj", "{69AEB289-367B-4627-B759-AD1E5699485D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v20.Test", "Tests\EfficientlyLazyCrypto.v20.Test\EfficientlyLazyCrypto.v20.Test.csproj", "{E77C43E2-B506-4148-95F9-E08917DA55A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20.Test", "Tests\EfficientlyLazy.Crypto.v20.Test\EfficientlyLazy.Crypto.v20.Test.csproj", "{E77C43E2-B506-4148-95F9-E08917DA55A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.v35.Test", "Tests\EfficientlyLazyCrypto.v35.Test\EfficientlyLazyCrypto.v35.Test.csproj", "{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35.Test", "Tests\EfficientlyLazy.Crypto.v35.Test\EfficientlyLazy.Crypto.v35.Test.csproj", "{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazyCrypto.Demo", "Source\EfficientlyLazyCrypto.Demo\EfficientlyLazyCrypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Demo", "Source\EfficientlyLazy.Crypto.Demo\EfficientlyLazy.Crypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
 	ProjectSection(SolutionItems) = preProject
