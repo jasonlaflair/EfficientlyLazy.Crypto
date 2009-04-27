@@ -47,9 +47,9 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CertificateEngine.cs" />
-    <Compile Include="ConnectionStrings.cs" />
+    <Compile Include="SecuredConnectionStrings.cs" />
     <Compile Include="DPAPIEngine.cs" />
-    <Compile Include="IConnectionStringSetting.cs" />
+    <Compile Include="SecuredConnectionStringSetting.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="Enumerations.cs" />

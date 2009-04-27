@@ -14,10 +14,6 @@ $nCoverConfig = "#{$rootBuildPath}/config.ncover"
 
 $GallioEcho = "\"#{$solutionRoot}/ThirdParty/Gallio/Gallio.Echo.exe\""
 
-$shfb64 = "C:/Program Files (x86)/EWSoftware/Sandcastle Help File Builder/SandcastleBuilderConsole.exe"
-$shfb32 = "C:/Program Files/EWSoftware/Sandcastle Help File Builder/SandcastleBuilderConsole.exe"
-$shfb = ""
-
 $version = "0.0.0.0"
 
 require "#{$rootBuildPath}/MSBuild.rb"
@@ -25,12 +21,6 @@ require "#{$rootBuildPath}/Gallio.rb"
 require "#{$rootBuildPath}/NCover.rb"
 require "#{$rootBuildPath}/SandCastle.rb"
 require "#{$rootBuildPath}/ZipTools.rb"
-
-task :test do
-  
-  
-end
-
 
 task :default => :development
 
@@ -60,18 +50,7 @@ task :runCoverage do
 end
 
 task :generateDocs do
-  
-  $shfb = $shfb32 if File.exist?($shfb32)
-  $shfb = $shfb64 if File.exist?($shfb64)
-  
-  if ($shfb == "")
-    puts "Unable to find Sandcastle Help File Builder"
-    exit
-  end
-  
-  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v20/EfficientlyLazy.Crypto.v20.csproj", "2.0.50727", $version, "EfficientlyLazy.Crypto.v20")
-  SandCastle.buildDocumentation("#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v35/EfficientlyLazy.Crypto.v35.csproj", "3.5", $version, "EfficientlyLazy.Crypto.v35")
-  
+  SandCastle.buildDocumentation
 end
 
 task :packageup do

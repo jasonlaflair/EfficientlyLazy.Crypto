@@ -21,189 +21,152 @@ namespace EfficientlyLazy.Crypto.Test
     [TestFixture]
     public class ConnectionStringsTests
     {
+        private const string DEFAULT_NAME = "connStringName";
         private static readonly ICryptoEngine _engine = new RijndaelEngine("myKey");
+
+        private void SetConnectionString(string connectionString)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            ConnectionStringSettings current = config.ConnectionStrings.ConnectionStrings[DEFAULT_NAME];
+
+            current.ConnectionString = connectionString;
+
+            config.Save(ConfigurationSaveMode.Modified);
+
+            ConfigurationManager.RefreshSection("connectionStrings");
+        }
+
+        private SqlConnectionStringBuilder GenerateRandomConnectionString()
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
+                                                 {
+                                                     DataSource = DataGenerator.RandomString(10, 15, true, true, false, false),
+                                                     InitialCatalog = DataGenerator.RandomString(10, 15, true, true, false, false),
+                                                     UserID = DataGenerator.RandomString(10, 15, true, true, false, false),
+                                                     Password = DataGenerator.RandomString(10, 15, true, true, false, false),
+                                                     IntegratedSecurity = false
+                                                 };
+
+            SetConnectionString(builder.ToString());
+
+            return builder;
+        }
 
         [Test(Order = 10)]
         public void InvalidConnectionStringName()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SecuredConnectionStrings conn = new SecuredConnectionStrings(_engine);
 
             var setting = conn.Get("pookie1");
 
-            Assert.IsNull(setting);
+            Assert.AreEqual(ConnectionStringStates.NotFound, setting.State);
         }
 
         [Test(Order = 20)]
         public void ValidConnectionStringNameClearText()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SqlConnectionStringBuilder expected = GenerateRandomConnectionString();
 
-            var setting = conn.Get("validClearText");
+            SecuredConnectionStrings conn = new SecuredConnectionStrings(_engine);
 
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(setting.ConnectionString);
+            var setting = conn.Get(DEFAULT_NAME);
 
-            Assert.AreEqual("initialcatalog1", builder.InitialCatalog);
-            Assert.AreEqual("datasource1", builder.DataSource);
-            Assert.AreEqual("username1", builder.UserID);
-            Assert.AreEqual("password1", builder.Password);
+            Assert.AreEqual(ConnectionStringStates.ClearText, setting.State);
+
+            SqlConnectionStringBuilder actual = new SqlConnectionStringBuilder(setting.ConnectionString);
+
+            Assert.AreEqual(expected.InitialCatalog, actual.InitialCatalog);
+            Assert.AreEqual(expected.DataSource, actual.DataSource);
+            Assert.AreEqual(expected.UserID, actual.UserID);
+            Assert.AreEqual(expected.Password, actual.Password);
         }
 
         [Test(Order = 30)]
         public void ValidConnectionStringNameEncrypted()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SqlConnectionStringBuilder expected = GenerateRandomConnectionString();
 
-            var setting = conn.Get("validEncrypted");
+            SecuredConnectionStrings conn1 = new SecuredConnectionStrings(_engine);
+            conn1.Update(DEFAULT_NAME, expected.ToString(), true);
 
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(setting.ConnectionString);
+            SecuredConnectionStrings conn2 = new SecuredConnectionStrings(_engine);
+            conn2.Update(DEFAULT_NAME, expected.ToString(), true);
 
-            Assert.AreEqual("initialcatalog2", builder.InitialCatalog);
-            Assert.AreEqual("datasource2", builder.DataSource);
-            Assert.AreEqual("username2", builder.UserID);
-            Assert.AreEqual("password2", builder.Password);
+            var setting = conn2.Get(DEFAULT_NAME);
+
+            Assert.AreEqual(ConnectionStringStates.Decrypted, setting.State);
+
+            SqlConnectionStringBuilder actual = new SqlConnectionStringBuilder(setting.ConnectionString);
+
+            Assert.AreEqual(expected.InitialCatalog, actual.InitialCatalog);
+            Assert.AreEqual(expected.DataSource, actual.DataSource);
+            Assert.AreEqual(expected.UserID, actual.UserID);
+            Assert.AreEqual(expected.Password, actual.Password);
         }
 
         [Test(Order = 40)]
         public void UpdateConnectionStringAsClearText()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SqlConnectionStringBuilder expected = GenerateRandomConnectionString();
 
-            var setting = conn.Get("updateClearText");
+            SecuredConnectionStrings conn1 = new SecuredConnectionStrings(_engine);
+            conn1.Update(DEFAULT_NAME, expected.ToString(), true);
 
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(setting.ConnectionString);
+            SecuredConnectionStrings conn2 = new SecuredConnectionStrings(_engine);
+            conn2.Update(DEFAULT_NAME, expected.ToString(), false);
 
-            Assert.AreEqual("initialcatalog3", builder.InitialCatalog);
-            Assert.AreEqual("datasource3", builder.DataSource);
-            Assert.AreEqual("username3", builder.UserID);
-            Assert.AreEqual("password3", builder.Password);
+            var setting = conn2.Get(DEFAULT_NAME);
 
-            builder.InitialCatalog = "initialcatalog_3";
-            builder.DataSource = "datasource_3";
-            builder.UserID = "username_3";
-            builder.Password = "password_3";
+            Assert.AreEqual(ConnectionStringStates.ClearText, setting.State);
 
-            conn.Update("updateClearText", builder.ConnectionString, false);
+            SqlConnectionStringBuilder actual = new SqlConnectionStringBuilder(setting.ConnectionString);
 
-            string newString = ConfigurationManager.ConnectionStrings["updateClearText"].ConnectionString;
-
-            SqlConnectionStringBuilder newBuilder = new SqlConnectionStringBuilder(newString);
-
-            Assert.AreEqual("initialcatalog_3", newBuilder.InitialCatalog);
-            Assert.AreEqual("datasource_3", newBuilder.DataSource);
-            Assert.AreEqual("username_3", newBuilder.UserID);
-            Assert.AreEqual("password_3", newBuilder.Password);
+            Assert.AreEqual(expected.InitialCatalog, actual.InitialCatalog);
+            Assert.AreEqual(expected.DataSource, actual.DataSource);
+            Assert.AreEqual(expected.UserID, actual.UserID);
+            Assert.AreEqual(expected.Password, actual.Password);
         }
 
         [Test(Order = 50)]
         public void UpdateConnectionStringAsEncrypted()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SqlConnectionStringBuilder expected = GenerateRandomConnectionString();
 
-            var setting = conn.Get("updateEncrypted");
+            SecuredConnectionStrings conn1 = new SecuredConnectionStrings(_engine);
+            conn1.Update(DEFAULT_NAME, expected.ToString(), true);
 
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(setting.ConnectionString);
+            SecuredConnectionStrings conn2 = new SecuredConnectionStrings(_engine);
+            conn2.Update(DEFAULT_NAME, expected.ToString(), true);
 
-            Assert.AreEqual("initialcatalog4", builder.InitialCatalog);
-            Assert.AreEqual("datasource4", builder.DataSource);
-            Assert.AreEqual("username4", builder.UserID);
-            Assert.AreEqual("password4", builder.Password);
+            var setting = conn2.Get(DEFAULT_NAME);
 
-            builder.InitialCatalog = "initialcatalog_4";
-            builder.DataSource = "datasource_4";
-            builder.UserID = "username_4";
-            builder.Password = "password_4";
+            Assert.AreEqual(ConnectionStringStates.Decrypted, setting.State);
 
-            conn.Update("updateEncrypted", builder.ConnectionString, true);
+            SqlConnectionStringBuilder actual = new SqlConnectionStringBuilder(setting.ConnectionString);
 
-            string newString = ConfigurationManager.ConnectionStrings["updateEncrypted"].ConnectionString;
-
-            newString = _engine.Decrypt(newString);
-
-            SqlConnectionStringBuilder newBuilder = new SqlConnectionStringBuilder(newString);
-
-            Assert.AreEqual("initialcatalog_4", newBuilder.InitialCatalog);
-            Assert.AreEqual("datasource_4", newBuilder.DataSource);
-            Assert.AreEqual("username_4", newBuilder.UserID);
-            Assert.AreEqual("password_4", newBuilder.Password);
-        }
-
-        [Test(Order = 50)]
-        [ExpectedArgumentException]
-        public void UpdateConnectionStringWithInvalidConnectionStringName()
-        {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
-
-            var setting = conn.Get("updateInvalidName");
-
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(setting.ConnectionString);
-
-            Assert.AreEqual("initialcatalog5", builder.InitialCatalog);
-            Assert.AreEqual("datasource5", builder.DataSource);
-            Assert.AreEqual("username5", builder.UserID);
-            Assert.AreEqual("password5", builder.Password);
-
-            builder.InitialCatalog = "initialcatalog_xx";
-            builder.DataSource = "datasource_xx";
-            builder.UserID = "username_xx";
-            builder.Password = "password_xx";
-
-            conn.Update("invalidConnectionStringName", builder.ConnectionString, true);
+            Assert.AreEqual(expected.InitialCatalog, actual.InitialCatalog);
+            Assert.AreEqual(expected.DataSource, actual.DataSource);
+            Assert.AreEqual(expected.UserID, actual.UserID);
+            Assert.AreEqual(expected.Password, actual.Password);
         }
 
         [Test(Order = 60)]
-        public void Decrypt()
+        [ExpectedArgumentException]
+        public void UpdateConnectionStringWithInvalidConnectionStringName()
         {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
+            SecuredConnectionStrings conn = new SecuredConnectionStrings(_engine);
 
-            string encrypted = ConfigurationManager.ConnectionStrings["encrypted"].ConnectionString;
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
+                                                 {
+                                                     DataSource = "pookie",
+                                                     InitialCatalog = "myDb",
+                                                     UserID = "dummy",
+                                                     Password = "guess",
+                                                     IntegratedSecurity = false
+                                                 };
 
-            Assert.DoesNotContain(encrypted, "username");
-
-            conn.Decrypt("encrypted");
-
-            string decrypted = ConfigurationManager.ConnectionStrings["encrypted"].ConnectionString;
-
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(decrypted);
-
-            Assert.AreEqual("initialcatalog6", builder.InitialCatalog);
-            Assert.AreEqual("datasource6", builder.DataSource);
-            Assert.AreEqual("username6", builder.UserID);
-            Assert.AreEqual("password6", builder.Password);
-        }
-
-        [Test(Order = 70)]
-        public void Encrypt()
-        {
-            SecureConnectionStrings conn = new SecureConnectionStrings(_engine);
-
-            string decrypted = ConfigurationManager.ConnectionStrings["decrypted"].ConnectionString;
-
-            Assert.Contains(decrypted, "username");
-
-            conn.Encrypt("decrypted");
-
-            string encrypted = ConfigurationManager.ConnectionStrings["decrypted"].ConnectionString;
-
-            Assert.AreEqual(_engine.Encrypt(decrypted), encrypted);
-        }
-
-        [Test(Order = 80)]
-        public void HasMixedEncryptedDecrypted()
-        {
-            int total = 0;
-            int clear = 0;
-
-            foreach (ConnectionStringSettings setting in ConfigurationManager.ConnectionStrings)
-            {
-                total++;
-                if (setting.ConnectionString.Contains("username"))
-                {
-                    clear++;
-                }
-            }
-
-            Assert.AreNotEqual(total, clear);
-            Assert.AreNotEqual(total, 0);
+            conn.Update("invalidConnectionStringName", builder.ConnectionString, true);
         }
     }
 }

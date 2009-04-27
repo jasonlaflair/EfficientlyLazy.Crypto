@@ -19,32 +19,37 @@ namespace EfficientlyLazy.Crypto
     ///<summary>
     /// Represents a single, named connection string in the connection strings configuration file section. 
     ///</summary>
-    public interface IConnectionStringSetting
+    public sealed class SecuredConnectionStringSetting
     {
+        ///<summary>
+        /// Initializes a new instance of the <see cref="SecuredConnectionStringSetting"/> object.
+        ///</summary>
+        public SecuredConnectionStringSetting()
+        {
+            Name = string.Empty;
+            ConnectionString = string.Empty;
+            ProviderName = string.Empty;
+            State = ConnectionStringStates.NotFound;
+        }
+
         ///<summary>
         /// Gets the <see cref="ConnectionStringSettings"/> name
         ///</summary>
-        string Name { get; }
+        public string Name { get; internal set; }
 
         ///<summary>
         /// Gets the connection string.
         ///</summary>
-        string ConnectionString { get; }
+        public string ConnectionString { get; internal set; }
 
         ///<summary>
         /// Gets the provider name property.
         ///</summary>
-        string ProviderName { get; }
-    }
+        public string ProviderName { get; internal set; }
 
-    internal class ConnectionStringSetting : IConnectionStringSetting
-    {
-        #region IConnectionStringSetting Members
-
-        public string Name { get; set; }
-        public string ConnectionString { get; set; }
-        public string ProviderName { get; set; }
-
-        #endregion
+        ///<summary>
+        /// Gets the current <see cref="ConnectionStringStates">state</see> of the connection string
+        ///</summary>
+        public ConnectionStringStates State { get; internal set; }
     }
 }

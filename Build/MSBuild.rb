@@ -2,7 +2,7 @@ class MSBuild
   
   def self.compile
 
-    params = "/t:Rebuild /nologo /m /v:q /p:Configuration=#{$buildLevel}"
+    params = "/t:Clean /t:Rebuild /nologo /m /v:q /p:Configuration=#{$buildLevel}"
     
     # loop through in case of 2+ sln files
     $solutionFiles.each do |solFile|
