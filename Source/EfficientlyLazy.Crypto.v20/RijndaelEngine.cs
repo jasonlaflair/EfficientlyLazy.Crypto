@@ -16,11 +16,13 @@ namespace EfficientlyLazy.Crypto
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.IO;
     using System.Runtime.InteropServices;
     using System.Security;
     using System.Security.Cryptography;
     using System.Text;
+    using Configuration;
 
     /// <summary>
     /// Encryption/Decryption using <see cref="RijndaelManaged"/>.
@@ -128,10 +130,10 @@ namespace EfficientlyLazy.Crypto
                     // Add salt at the beginning of the plain text bytes (if needed).
                     byte[] plainTextBytesWithSalt = AddSalt(plaintext);
 
-                    using (MemoryStream memoryStream = new MemoryStream())
+                    using (var memoryStream = new MemoryStream())
                     {
                         // To perform encryption, we must use the Write mode.
-                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, _encryptor, CryptoStreamMode.Write))
+                        using (var cryptoStream = new CryptoStream(memoryStream, _encryptor, CryptoStreamMode.Write))
                         {
                             // Start encrypting data.
                             cryptoStream.Write(plainTextBytesWithSalt, 0, plainTextBytesWithSalt.Length);
@@ -186,10 +188,10 @@ namespace EfficientlyLazy.Crypto
 
                     int decryptedByteCount;
 
-                    using (MemoryStream ms = new MemoryStream(cipherText))
+                    using (var ms = new MemoryStream(cipherText))
                     {
                         // To perform decryption, we must use the Read mode.
-                        using (CryptoStream cs = new CryptoStream(ms, _decryptor, CryptoStreamMode.Read))
+                        using (var cs = new CryptoStream(ms, _decryptor, CryptoStreamMode.Read))
                         {
                             decryptedByteCount = cs.Read(decryptedBytes, 0, decryptedBytes.Length);
                         }
@@ -228,6 +230,78 @@ namespace EfficientlyLazy.Crypto
         public string Decrypt(string cipherText)
         {
             return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key">Key name given to the setting in the config file.</param>
+        ///<returns>The setting value if available, if not, String.Empty is returned.</returns>
+        public string GetSettingFromConfiguration(string key)
+        {
+            return GetSettingFromConfiguration(key, string.Empty);
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key">Name given to the setting in the config file.</param>
+        ///<param name="defaultValue">Value returned if the setting key is not found.</param>
+        ///<returns>The setting value if available, if not, the defaultValue is returned.</returns>
+        public string GetSettingFromConfiguration(string key, string defaultValue)
+        {
+            string decryptedValue = defaultValue;
+
+            ConfigurationManager.RefreshSection("encryptedConfig");
+
+            var encryptedConfigHandler = (EncryptedConfigurationSection)ConfigurationManager.GetSection("encryptedConfig");
+
+            foreach (EncryptedSettingElement element in encryptedConfigHandler.Settings)
+            {
+                if (string.Compare(element.Key, key, StringComparison.CurrentCultureIgnoreCase) != 0)
+                {
+                    continue;
+                }
+
+                decryptedValue = Decrypt(element.EncryptedValue);
+                break;
+            }
+
+            return decryptedValue;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="alias">Alias name given to the connection string in the config file.</param>
+        ///<returns>The connection string value if available, if not, String.Empty is returned.</returns>
+        public string GetConnectionStringFromConfiguration(string alias)
+        {
+            return GetConnectionStringFromConfiguration(alias, string.Empty);
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="alias">Alias given to the connection string in the config file.</param>
+        ///<param name="defaultValue">Value returned if the connection string alias is not found.</param>
+        ///<returns>The connection string value if available, if not, the defaultValue is returned.</returns>
+        public string GetConnectionStringFromConfiguration(string alias, string defaultValue)
+        {
+            string decryptedConnectionString = defaultValue;
+
+            ConfigurationManager.RefreshSection("encryptedConfig");
+
+            var encryptedConfigHandler = (EncryptedConfigurationSection)ConfigurationManager.GetSection("encryptedConfig");
+
+            foreach (EncryptedConnectionStringElement element in encryptedConfigHandler.Settings)
+            {
+                if (string.Compare(element.Alias, alias, StringComparison.CurrentCultureIgnoreCase) != 0)
+                {
+                    continue;
+                }
+
+                decryptedConnectionString = Decrypt(element.EncryptedConnectionString);
+                break;
+            }
+
+            return decryptedConnectionString;
         }
 
         #endregion

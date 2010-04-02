@@ -39,11 +39,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Configuration\EncryptedConfigurationSection.cs">
+      <Link>Configuration\EncryptedConfigurationSection.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Configuration\EncryptedConnectionStringCollection.cs">
+      <Link>Configuration\EncryptedConnectionStringCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Configuration\EncryptedConnectionStringElement.cs">
+      <Link>Configuration\EncryptedConnectionStringElement.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Configuration\EncryptedSettingCollection.cs">
+      <Link>Configuration\EncryptedSettingCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v20\Configuration\EncryptedSettingElement.cs">
+      <Link>Configuration\EncryptedSettingElement.cs</Link>
+    </Compile>
     <Compile Include="..\EfficientlyLazy.Crypto.v20\DataGenerator.cs">
       <Link>DataGenerator.cs</Link>
     </Compile>

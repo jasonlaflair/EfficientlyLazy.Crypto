@@ -58,23 +58,4 @@ namespace EfficientlyLazy.Crypto
         [Description("256bit")]
         Key256Bit = 256
     }
-
-    ///<summary>
-    /// Identifies the state of the connection string
-    ///</summary>
-    public enum ConnectionStringStates
-    {
-        ///<summary>
-        /// The connection string was not found.
-        ///</summary>
-        NotFound,
-        ///<summary>
-        /// The connection string was encrypted and successfully decrypted.
-        ///</summary>
-        Decrypted,
-        ///<summary>
-        /// The connection string was in clear text, or was unable to be decrypted.
-        ///</summary>
-        ClearText
-    }
 }

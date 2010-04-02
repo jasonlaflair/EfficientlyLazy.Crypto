@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionStringsTests.cs" />
     <Compile Include="DPAPIEngineTests.cs" />
     <Compile Include="RandomBase.cs" />
     <Compile Include="RijndaelEngineTests.cs" />
