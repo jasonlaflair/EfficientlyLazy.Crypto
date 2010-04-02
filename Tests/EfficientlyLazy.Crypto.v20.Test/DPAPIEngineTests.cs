@@ -146,30 +146,6 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Parallelizable]
-        [ExpectedException(typeof (NotImplementedException))]
-        [Row(KeyType.UserKey)]
-        [Row(KeyType.MachineKey)]
-        public void EncryptFile(KeyType keyType)
-        {
-            var engine = new DPAPIEngine(keyType);
-
-            engine.Encrypt(string.Empty, string.Empty);
-        }
-
-        [Test]
-        [Parallelizable]
-        [ExpectedException(typeof (NotImplementedException))]
-        [Row(KeyType.UserKey)]
-        [Row(KeyType.MachineKey)]
-        public void DecryptFile(KeyType keyType)
-        {
-            var engine = new DPAPIEngine(keyType);
-
-            engine.Decrypt(string.Empty, string.Empty);
-        }
-
-        [Test]
-        [Parallelizable]
         [ExpectedException(typeof (CryptographicException))]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]

@@ -289,42 +289,6 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Parallelizable]
-        [ExpectedException(typeof (NotImplementedException))]
-        public void RijndaelEngine_FileEncryption()
-        {
-            string key = GeneratePassPhrase();
-            string init = GenerateInitVector();
-
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init)
-                .SetKeySize(KeySize.Key256Bit);
-
-            string inputFile = string.Empty;
-            string outputFile = string.Empty;
-
-            engine.Encrypt(inputFile, outputFile);
-        }
-
-        [Test]
-        [Parallelizable]
-        [ExpectedException(typeof (NotImplementedException))]
-        public void RijndaelEngine_FileDecryption()
-        {
-            string key = GeneratePassPhrase();
-            string init = GenerateInitVector();
-
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(init)
-                .SetKeySize(KeySize.Key256Bit);
-
-            string inputFile = string.Empty;
-            string outputFile = string.Empty;
-
-            engine.Decrypt(inputFile, outputFile);
-        }
-
-        [Test]
-        [Parallelizable]
         [Repeat(50)]
         [ExpectedException(typeof (CryptographicException))]
         public void InvalidDecryption()

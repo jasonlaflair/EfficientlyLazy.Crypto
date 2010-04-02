@@ -38,15 +38,6 @@ namespace EfficientlyLazy.Crypto
         string Encrypt(string plaintext);
 
         /// <summary>
-        /// Encrypts the specified input file.
-        /// </summary>
-        /// <param name="inputFile">The input file.</param>
-        /// <param name="outputFile">The encrypted file.</param>
-        /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        bool Encrypt(string inputFile, string outputFile);
-
-        /// <summary>
         /// Decrypts the specified cipher text.
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
@@ -61,14 +52,5 @@ namespace EfficientlyLazy.Crypto
         /// <returns></returns>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         string Decrypt(string cipherText);
-
-        /// <summary>
-        /// Decrypts the specified encrypted file.
-        /// </summary>
-        /// <param name="inputFile">The encrypted file.</param>
-        /// <param name="outputFile">The output file.</param>
-        /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        bool Decrypt(string inputFile, string outputFile);
     }
 }

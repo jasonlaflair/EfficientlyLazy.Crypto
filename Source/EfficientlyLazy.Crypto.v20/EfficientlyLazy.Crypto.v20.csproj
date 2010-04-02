@@ -47,9 +47,12 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CertificateEngine.cs" />
-    <Compile Include="SecuredConnectionStrings.cs" />
+    <Compile Include="Configuration\EncryptedConfigurationSection.cs" />
+    <Compile Include="Configuration\EncryptedConnectionStringCollection.cs" />
+    <Compile Include="Configuration\EncryptedConnectionStringElement.cs" />
+    <Compile Include="Configuration\EncryptedSettingCollection.cs" />
+    <Compile Include="Configuration\EncryptedSettingElement.cs" />
     <Compile Include="DPAPIEngine.cs" />
-    <Compile Include="SecuredConnectionStringSetting.cs" />
     <Compile Include="ICryptoEngine.cs" />
     <Compile Include="RijndaelEngine.cs" />
     <Compile Include="Enumerations.cs" />
