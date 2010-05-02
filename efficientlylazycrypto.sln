@@ -1,16 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20", "Source\EfficientlyLazy.Crypto.v20\EfficientlyLazy.Crypto.v20.csproj", "{7B961222-8130-44C1-B2A7-0A5273282DCB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35", "Source\EfficientlyLazy.Crypto.v35\EfficientlyLazy.Crypto.v35.csproj", "{69AEB289-367B-4627-B759-AD1E5699485D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20.Test", "Tests\EfficientlyLazy.Crypto.v20.Test\EfficientlyLazy.Crypto.v20.Test.csproj", "{E77C43E2-B506-4148-95F9-E08917DA55A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35.Test", "Tests\EfficientlyLazy.Crypto.v35.Test\EfficientlyLazy.Crypto.v35.Test.csproj", "{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Demo", "Source\EfficientlyLazy.Crypto.Demo\EfficientlyLazy.Crypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
 	ProjectSection(SolutionItems) = preProject
 		Build\config.ncover = Build\config.ncover
@@ -27,6 +17,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Source\SharedAssemblyInfo.cs = Source\SharedAssemblyInfo.cs
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20", "Source\EfficientlyLazy.Crypto.v20\EfficientlyLazy.Crypto.v20.csproj", "{7B961222-8130-44C1-B2A7-0A5273282DCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35", "Source\EfficientlyLazy.Crypto.v35\EfficientlyLazy.Crypto.v35.csproj", "{69AEB289-367B-4627-B759-AD1E5699485D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v20.Test", "Tests\EfficientlyLazy.Crypto.v20.Test\EfficientlyLazy.Crypto.v20.Test.csproj", "{E77C43E2-B506-4148-95F9-E08917DA55A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.v35.Test", "Tests\EfficientlyLazy.Crypto.v35.Test\EfficientlyLazy.Crypto.v35.Test.csproj", "{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Demo", "Source\EfficientlyLazy.Crypto.Demo\EfficientlyLazy.Crypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,7 +59,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_RulesLocation = 1
 		CodeStyleEnforcer_Active = -1
+		CodeStyleEnforcer_RulesLocation = 1
 	EndGlobalSection
 EndGlobal
