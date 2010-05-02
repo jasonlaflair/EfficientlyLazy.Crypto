@@ -68,22 +68,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\DataGenerator.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\CryptoManager.cs">
+      <Link>CryptoManager.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DataGenerator.cs">
       <Link>DataGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\DataHashing.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DataHashing.cs">
       <Link>DataHashing.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\DPAPIEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DPAPIEngine.cs">
       <Link>DPAPIEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\Enumerations.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Enumerations.cs">
       <Link>Enumerations.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\ICryptoEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\ExtensionMethods.cs">
+      <Link>ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\ICryptoEngine.cs">
       <Link>ICryptoEngine.cs</Link>
     </Compile>
-    <Compile Include="..\EfficientlyLazy.Crypto.v20\RijndaelEngine.cs">
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\RijndaelEngine.cs">
       <Link>RijndaelEngine.cs</Link>
     </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">

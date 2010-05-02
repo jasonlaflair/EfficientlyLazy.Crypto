@@ -1,4 +1,4 @@
-// // Copyright 2008-2009 LaFlair.NET
+﻿// // Copyright 2008-2009 LaFlair.NET
 // // 
 // // Licensed under the Apache License, Version 2.0 (the "License");
 // // you may not use this file except in compliance with the License.
@@ -12,18 +12,8 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
-using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("EfficientlyLazy.Crypto")]
-[assembly: AssemblyDescription("Simplifying .NET Cryptography")]
-[assembly: AssemblyConfiguration("RC")]
-[assembly: AssemblyCompany("LaFlair.NET")]
-[assembly: AssemblyProduct("EfficientlyLazy.Crypto for .NET")]
-[assembly: AssemblyCopyright("Copyright © LaFlair.NET 2009,2010")]
-[assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.9.2010.2906")]
-[assembly: AssemblyFileVersion("0.9.2010.2906")]
-[assembly: AssemblyInformationalVersion("0.9.2010.2906")]
+// The following GUID is for the ID of the typelib if this project is exposed to COM
 
-// Major.Minor.Year.HourIntoYear
+[assembly: Guid("f079beed-b3fe-42ec-b62e-fadafa4cb579")]

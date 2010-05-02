@@ -64,16 +64,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\CryptoManager.cs">
+      <Link>CryptoManager.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DataGenerator.cs">
+      <Link>DataGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DataHashing.cs">
+      <Link>DataHashing.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\DPAPIEngine.cs">
+      <Link>DPAPIEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Enumerations.cs">
+      <Link>Enumerations.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\ICryptoEngine.cs">
+      <Link>ICryptoEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\RijndaelEngine.cs">
+      <Link>RijndaelEngine.cs</Link>
+    </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DPAPIEngine.cs" />
-    <Compile Include="ICryptoEngine.cs" />
-    <Compile Include="RijndaelEngine.cs" />
-    <Compile Include="Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataGenerator.cs" />
-    <Compile Include="DataHashing.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
