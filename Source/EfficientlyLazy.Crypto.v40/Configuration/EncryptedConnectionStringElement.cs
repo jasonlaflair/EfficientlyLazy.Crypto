@@ -20,11 +20,11 @@ namespace EfficientlyLazy.Crypto.Configuration
         ///<summary>
         /// The encrypted connection string within the element
         ///</summary>
-        [ConfigurationProperty("encryptedConnectionString", DefaultValue = "", IsKey = false, IsRequired = true)]
+        [ConfigurationProperty("value", DefaultValue = "", IsKey = false, IsRequired = true)]
         public string EncryptedConnectionString
         {
-            get { return base["encryptedConnectionString"].ToString(); }
-            set { base["encryptedConnectionString"] = value; }
+            get { return base["value"].ToString(); }
+            set { base["value"] = value; }
         }
     }
 }

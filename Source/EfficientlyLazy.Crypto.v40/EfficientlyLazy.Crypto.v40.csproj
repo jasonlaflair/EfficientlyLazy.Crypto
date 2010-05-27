@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +49,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Configuration\EncryptedConfigurationSection.cs" />
+    <Compile Include="Configuration\EncryptedConnectionStringCollection.cs" />
+    <Compile Include="Configuration\EncryptedConnectionStringElement.cs" />
+    <Compile Include="Configuration\EncryptedSettingCollection.cs" />
+    <Compile Include="Configuration\EncryptedSettingElement.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="CryptoManager.cs" />
     <Compile Include="DataGenerator.cs" />
