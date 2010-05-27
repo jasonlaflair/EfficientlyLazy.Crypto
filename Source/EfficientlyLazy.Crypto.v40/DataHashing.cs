@@ -24,6 +24,8 @@ namespace EfficientlyLazy.Crypto
     /// </summary>
     public static class DataHashing
     {
+        #region Compute
+
         /// <summary>Generates the hash of a text.</summary>
         /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
         /// <param name="plaintext">The input to compute the hash code for.</param>
@@ -78,6 +80,41 @@ namespace EfficientlyLazy.Crypto
 
             return strRet;
         }
+
+        /// <summary>
+        /// Get File Hash
+        /// </summary>
+        /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
+        /// <param name="file">The file to compute the hash code for.</param>
+        /// <returns>Hashed string</returns>
+        public static string Compute(Algorithm algorithm, FileSystemInfo file)
+        {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", "file cannot be null");
+            }
+
+            string strRet = string.Empty;
+
+            using (var fs = new FileStream(file.FullName, FileMode.Open))
+            {
+                byte[] hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(fs);
+
+                if (hashValue != null)
+                {
+                    foreach (byte b in hashValue)
+                    {
+                        strRet += String.Format("{0:x2}", b);
+                    }
+                }
+            }
+
+            return strRet;
+        }
+
+        #endregion
+
+        #region ComputeHMAC
 
         /// <summary>
         /// Hash-based Message Authentication Code Hashing
@@ -232,46 +269,9 @@ namespace EfficientlyLazy.Crypto
             return strRet;
         }
 
-        /// <summary>
-        /// Get File Hash
-        /// </summary>
-        /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
-        /// <param name="file">The file to compute the hash code for.</param>
-        /// <returns>Hashed string</returns>
-        public static string Compute(Algorithm algorithm, FileSystemInfo file)
-        {
-            if (file == null)
-            {
-                throw new ArgumentNullException("file", "file cannot be null");
-            }
+        #endregion
 
-            string strRet = string.Empty;
-
-            using (var fs = new FileStream(file.FullName, FileMode.Open))
-            {
-                byte[] hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(fs);
-
-                if (hashValue != null)
-                {
-                    foreach (byte b in hashValue)
-                    {
-                        strRet += String.Format("{0:x2}", b);
-                    }
-                }
-            }
-
-            return strRet;
-        }
-
-        /// <summary>Checks a text with a hash.</summary>
-        /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
-        /// <param name="originalValue">The text to compare the hash against.</param>
-        /// <param name="hashValue">The hash to compare against.</param>
-        /// <returns>True if the hash validates, false otherwise.</returns>
-        public static bool Validate(Algorithm algorithm, byte[] originalValue, string hashValue)
-        {
-            return string.Equals(Compute(algorithm, originalValue), hashValue, StringComparison.CurrentCulture);
-        }
+        #region Validate
 
         /// <summary>Checks a text with a hash.</summary>
         /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
@@ -295,6 +295,16 @@ namespace EfficientlyLazy.Crypto
             return Validate(algorithm, encoding.GetBytes(originalValue), hashValue);
         }
 
+        /// <summary>Checks a text with a hash.</summary>
+        /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
+        /// <param name="originalValue">The text to compare the hash against.</param>
+        /// <param name="hashValue">The hash to compare against.</param>
+        /// <returns>True if the hash validates, false otherwise.</returns>
+        public static bool Validate(Algorithm algorithm, byte[] originalValue, string hashValue)
+        {
+            return string.Equals(Compute(algorithm, originalValue), hashValue, StringComparison.CurrentCulture);
+        }
+
         /// <summary>
         /// Checks the file with a hash.
         /// </summary>
@@ -306,6 +316,10 @@ namespace EfficientlyLazy.Crypto
         {
             return string.Equals(Compute(algorithm, file), hashValue, StringComparison.CurrentCulture);
         }
+
+        #endregion
+
+        #region ValidateHMAC
 
         /// <summary>Checks a text with a hash.</summary>
         /// <param name="algorithm"><see cref="Algorithm"/> to use.</param>
@@ -376,5 +390,7 @@ namespace EfficientlyLazy.Crypto
         {
             return string.Equals(ComputeHMAC(algorithm, file, key), hashValue, StringComparison.CurrentCulture);
         }
+
+        #endregion
     }
 }

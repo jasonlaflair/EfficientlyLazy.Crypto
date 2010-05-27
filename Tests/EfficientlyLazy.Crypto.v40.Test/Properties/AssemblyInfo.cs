@@ -1,4 +1,4 @@
-// // Copyright 2008-2009 LaFlair.NET
+﻿// // Copyright 2008-2009 LaFlair.NET
 // // 
 // // Licensed under the Apache License, Version 2.0 (the "License");
 // // you may not use this file except in compliance with the License.
@@ -15,14 +15,5 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyDescription("Simplifying .NET Cryptography")]
-[assembly: AssemblyConfiguration("RC")]
-[assembly: AssemblyCompany("LaFlair.NET")]
-[assembly: AssemblyProduct("EfficientlyLazy.Crypto for .NET")]
-[assembly: AssemblyCopyright("Copyright © LaFlair.NET 2009,2010")]
-[assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.9.2010.3516")]
-[assembly: AssemblyFileVersion("0.9.2010.3516")]
-[assembly: AssemblyInformationalVersion("0.9.2010.3516")]
-
-// Major.Minor.Year.HourIntoYear
+[assembly: AssemblyTitle("EfficientlyLazy.Crypto.Test")]
+[assembly: Guid("db15e8a1-33cb-438b-9589-316951e75ad5")]

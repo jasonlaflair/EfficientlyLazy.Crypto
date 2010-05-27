@@ -29,7 +29,6 @@ namespace EfficientlyLazy.Crypto.Test
         [Test]
         [Parallelizable]
         [Repeat(50)]
-        //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false, false)]
         [Row(Algorithm.SHA256, false, false)]
         [Row(Algorithm.SHA384, false, false)]

@@ -53,6 +53,22 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\Gallio\Gallio.dll</HintPath>
+    </Reference>
+    <Reference Include="Gallio35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\Gallio\Gallio35.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\Gallio\MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\Gallio\MbUnit35.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -67,6 +83,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40.Test\DataGeneratorTests.cs">
+      <Link>DataGeneratorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40.Test\DataHashingTests.cs">
+      <Link>DataHashingTests.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40.Test\DPAPIEngineTests.cs">
+      <Link>DPAPIEngineTests.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40.Test\RandomBase.cs">
+      <Link>RandomBase.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40.Test\RijndaelEngineTests.cs">
+      <Link>RijndaelEngineTests.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +119,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\EfficientlyLazy.Crypto.v35\EfficientlyLazy.Crypto.v35.csproj">
+      <Project>{69AEB289-367B-4627-B759-AD1E5699485D}</Project>
+      <Name>EfficientlyLazy.Crypto.v35</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

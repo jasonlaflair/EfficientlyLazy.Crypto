@@ -12,8 +12,8 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-
+[assembly: AssemblyTitle("EfficientlyLazy.Crypto")]
 [assembly: Guid("51b0a00e-3d10-4a0d-b63c-7f05b240a1f1")]
