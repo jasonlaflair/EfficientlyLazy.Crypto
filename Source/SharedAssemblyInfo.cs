@@ -1,4 +1,4 @@
-// // Copyright 2008-2009 LaFlair.NET
+﻿// // Copyright 2008-2009 LaFlair.NET
 // // 
 // // Licensed under the Apache License, Version 2.0 (the "License");
 // // you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("EfficientlyLazy.Crypto for .NET")]
 [assembly: AssemblyCopyright("Copyright © LaFlair.NET 2009,2010")]
 [assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.9.2010.3516")]
-[assembly: AssemblyFileVersion("0.9.2010.3516")]
-[assembly: AssemblyInformationalVersion("0.9.2010.3516")]
+[assembly: AssemblyVersion("0.9.2010.4822")]
+[assembly: AssemblyFileVersion("0.9.2010.4822")]
+[assembly: AssemblyInformationalVersion("0.9.2010.4822")]
 
 // Major.Minor.Year.HourIntoYear

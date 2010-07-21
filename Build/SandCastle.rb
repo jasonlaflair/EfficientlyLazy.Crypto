@@ -8,7 +8,7 @@ class SandCastle
     
     # loop through in case of 2+ sln files
     docFiles.each do |docFile|
-      sh "#{$msbuild} #{params} \"#{docFile}\""
+      sh "#{$msbuild35} #{params} \"#{docFile}\""
     end
     
   end

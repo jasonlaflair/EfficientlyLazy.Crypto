@@ -6,7 +6,8 @@ mkdir ($artifacts) unless File.exist?($artifacts)
 
 $buildLevel = NIL
 
-$msbuild = "\"C:/WINDOWS/Microsoft.NET/Framework/v3.5/MSBuild.exe\""
+$msbuild = "\"C:/WINDOWS/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe\""
+$msbuild35 = "\"C:/WINDOWS/Microsoft.NET/Framework/v3.5/MSBuild.exe\""
 $solutionFiles = FileList[$solutionRoot + "/*.sln"]
 
 $nCoverExplorer = "\"c:/Program Files/NCover/NCoverExplorer.Console.exe\""
@@ -89,11 +90,21 @@ task :packageup do
 
   mv("#{$artifacts}/EfficientlyLazy.Crypto.v35.chm", "#{folderv35}/EfficientlyLazy.Crypto.chm")
   
+  folderv40 = "#{$artifacts}/Package/v40"
+  mkdir(folderv40) unless File.exist?(folderv40)
+
+  files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v40/bin/Release/*.*"]
+  files.each do |file|
+    cp(file, folderv40)
+  end
+
+  mv("#{$artifacts}/EfficientlyLazy.Crypto.v40.chm", "#{folderv40}/EfficientlyLazy.Crypto.chm")
+  
   zipfilename = "#{$artifacts}/EfficientlyLazy.Crypto-#{$version}.zip"
   
   rm(zipfilename) if File.exist?(zipfilename)
   
-  ZipTools.create_zip(zipfilename, "#{package}/")
+  ZipTools.create_zip(zipfilename, "#{package}")
   
   rm_r(package)
 

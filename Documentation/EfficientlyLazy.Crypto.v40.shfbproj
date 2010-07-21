@@ -17,7 +17,7 @@
     <OutputPath>..\Build\Artifacts\</OutputPath>
     <HtmlHelpName>EfficientlyLazy.Crypto.v40</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Source\EfficientlyLazy.Crypto.v35\EfficientlyLazy.Crypto.v40.csproj" />
+      <DocumentationSource sourceFile="..\Source\EfficientlyLazy.Crypto.v40\EfficientlyLazy.Crypto.v40.csproj" />
     </DocumentationSources>
     <KeepLogFile>False</KeepLogFile>
     <CopyrightHref>http://code.google.com/p/efficientlylazycrypto</CopyrightHref>
