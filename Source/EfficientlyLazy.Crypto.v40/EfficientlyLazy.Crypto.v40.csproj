@@ -49,11 +49,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Configuration\EncryptedConfigurationSection.cs" />
-    <Compile Include="Configuration\EncryptedConnectionStringCollection.cs" />
-    <Compile Include="Configuration\EncryptedConnectionStringElement.cs" />
-    <Compile Include="Configuration\EncryptedSettingCollection.cs" />
-    <Compile Include="Configuration\EncryptedSettingElement.cs" />
+    <Compile Include="Configuration\ISecureSetting.cs" />
+    <Compile Include="Configuration\SecureCollection.cs" />
+    <Compile Include="Configuration\SecureSection.cs" />
+    <Compile Include="Configuration\SecureSectionHandler.cs" />
+    <Compile Include="Configuration\SecureSetting.cs" />
+    <Compile Include="Configuration\SqlConnectionString.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="CryptoManager.cs" />
     <Compile Include="DataGenerator.cs" />

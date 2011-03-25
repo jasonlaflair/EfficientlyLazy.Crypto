@@ -12,6 +12,10 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
+using System.Configuration;
+using System.Data.SqlClient;
+using EfficientlyLazy.Crypto.Configuration;
+
 namespace EfficientlyLazy.Crypto
 {
     using System;
@@ -100,77 +104,52 @@ namespace EfficientlyLazy.Crypto
             return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
         }
 
-        /////<summary>
-        /////</summary>
-        /////<param name="key">Key name given to the setting in the config file.</param>
-        /////<returns>The setting value if available, if not, String.Empty is returned.</returns>
-        //public string GetSettingFromConfiguration(string key)
-        //{
-        //    return GetSettingFromConfiguration(key, string.Empty);
-        //}
+        private static SecureSection GetSecureConfigSection()
+        {
+            ConfigurationManager.RefreshSection("SecureConfig");
+            return (SecureSection)ConfigurationManager.GetSection("SecureConfig");
+        }
 
-        /////<summary>
-        /////</summary>
-        /////<param name="key">Name given to the setting in the config file.</param>
-        /////<param name="defaultValue">Value returned if the setting key is not found.</param>
-        /////<returns>The setting value if available, if not, the defaultValue is returned.</returns>
-        //public string GetSettingFromConfiguration(string key, string defaultValue)
-        //{
-        //    string decryptedValue = defaultValue;
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public string GetSetting(string key)
+        {
+            var config = GetSecureConfigSection();
 
-        //    ConfigurationManager.RefreshSection("encryptedConfig");
+            if (config == null)
+            {
+                return string.Empty;
+            }
 
-        //    var encryptedConfigHandler = (EncryptedConfigurationSection)ConfigurationManager.GetSection("encryptedConfig");
+            var setting = config.Settings[key];
 
-        //    foreach (EncryptedSettingElement element in encryptedConfigHandler.Settings)
-        //    {
-        //        if (string.Compare(element.Key, key, StringComparison.CurrentCultureIgnoreCase) != 0)
-        //        {
-        //            continue;
-        //        }
+            if (setting == null)
+            {
+                return string.Empty;
+            }
 
-        //        decryptedValue = Decrypt(element.EncryptedValue);
-        //        break;
-        //    }
+            return setting.IsEncrypted ? Decrypt(setting.Value) : setting.Value;
+        }
 
-        //    return decryptedValue;
-        //}
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public SqlConnectionStringBuilder GetSqlConnectionString(string key)
+        {
+            var config = GetSecureConfigSection();
 
-        /////<summary>
-        /////</summary>
-        /////<param name="alias">Alias name given to the connection string in the config file.</param>
-        /////<returns>The connection string value if available, if not, String.Empty is returned.</returns>
-        //public string GetConnectionStringFromConfiguration(string alias)
-        //{
-        //    return GetConnectionStringFromConfiguration(alias, string.Empty);
-        //}
+            if (config == null)
+            {
+                return null;
+            }
 
-        /////<summary>
-        /////</summary>
-        /////<param name="alias">Alias given to the connection string in the config file.</param>
-        /////<param name="defaultValue">Value returned if the connection string alias is not found.</param>
-        /////<returns>The connection string value if available, if not, the defaultValue is returned.</returns>
-        //public string GetConnectionStringFromConfiguration(string alias, string defaultValue)
-        //{
-        //    string decryptedConnectionString = defaultValue;
+            var conn = config.SqlConnectionStrings[key];
 
-        //    ConfigurationManager.RefreshSection("encryptedConfig");
-
-        //    var encryptedConfigHandler = (EncryptedConfigurationSection)ConfigurationManager.GetSection("encryptedConfig");
-
-        //    foreach (EncryptedConnectionStringElement element in encryptedConfigHandler.Settings)
-        //    {
-        //        if (string.Compare(element.Alias, alias, StringComparison.CurrentCultureIgnoreCase) != 0)
-        //        {
-        //            continue;
-        //        }
-
-        //        decryptedConnectionString = Decrypt(element.EncryptedConnectionString);
-        //        break;
-        //    }
-
-        //    return decryptedConnectionString;
-        //}
+            return conn == null ? null : conn.GetBuilder(this);
+        }
 
         #endregion
 

@@ -12,6 +12,10 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
+using System.Configuration;
+using System.Data.SqlClient;
+using EfficientlyLazy.Crypto.Configuration;
+
 namespace EfficientlyLazy.Crypto
 {
     using System;
@@ -228,6 +232,53 @@ namespace EfficientlyLazy.Crypto
         public string Decrypt(string cipherText)
         {
             return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
+        }
+
+        private static SecureSection GetSecureConfigSection()
+        {
+            ConfigurationManager.RefreshSection("SecureConfig");
+            return (SecureSection)ConfigurationManager.GetSection("SecureConfig");
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public string GetSetting(string key)
+        {
+            var config = GetSecureConfigSection();
+
+            if (config == null)
+            {
+                return string.Empty;
+            }
+
+            var setting = config.Settings[key];
+
+            if (setting == null)
+            {
+                return string.Empty;
+            }
+
+            return setting.IsEncrypted ? Decrypt(setting.Value) : setting.Value;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public SqlConnectionStringBuilder GetSqlConnectionString(string key)
+        {
+            var config = GetSecureConfigSection();
+
+            if (config == null)
+            {
+                return null;
+            }
+
+            var conn = config.SqlConnectionStrings[key];
+
+            return conn == null ? null : conn.GetBuilder(this);
         }
 
         /////<summary>

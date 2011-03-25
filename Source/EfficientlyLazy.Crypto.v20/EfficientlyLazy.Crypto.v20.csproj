@@ -64,6 +64,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\ISecureSetting.cs">
+      <Link>Configuration\ISecureSetting.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\SecureCollection.cs">
+      <Link>Configuration\SecureCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\SecureSection.cs">
+      <Link>Configuration\SecureSection.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\SecureSectionHandler.cs">
+      <Link>Configuration\SecureSectionHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\SecureSetting.cs">
+      <Link>Configuration\SecureSetting.cs</Link>
+    </Compile>
+    <Compile Include="..\EfficientlyLazy.Crypto.v40\Configuration\SqlConnectionString.cs">
+      <Link>Configuration\SqlConnectionString.cs</Link>
+    </Compile>
     <Compile Include="..\EfficientlyLazy.Crypto.v40\CryptoManager.cs">
       <Link>CryptoManager.cs</Link>
     </Compile>

@@ -12,6 +12,8 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 // 
+using System.Data.SqlClient;
+
 namespace EfficientlyLazy.Crypto
 {
     using System.Security.Permissions;
@@ -53,6 +55,17 @@ namespace EfficientlyLazy.Crypto
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         string Decrypt(string cipherText);
 
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        string GetSetting(string key);
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        SqlConnectionStringBuilder GetSqlConnectionString(string key);
 
         /////<summary>
         /////</summary>
