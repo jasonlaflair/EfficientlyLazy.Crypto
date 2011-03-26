@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>AutoCAD Integration Plugin UI</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>AutoCAD plugin UI components.</description>
     <icon>plugin://Gallio.AutoCAD/Resources/Gallio.AutoCAD.ico</icon>
   </traits>
@@ -21,7 +21,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.AutoCAD.UI, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.AutoCAD.UI, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.AutoCAD.UI.dll"
               qualifyPartialName="true" />
   </assemblies>

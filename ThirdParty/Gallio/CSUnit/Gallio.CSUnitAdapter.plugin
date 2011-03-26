@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>csUnit Adapter Plugin</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides support for running csUnit tests.</description>
     <icon>plugin://Gallio.CSUnitAdapter/Resources/csUnit.ico</icon>
   </traits>
@@ -27,7 +27,7 @@
   </files>
   
   <assemblies>
-    <assembly fullName="Gallio.CSUnitAdapter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"
+    <assembly fullName="Gallio.CSUnitAdapter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"
               codeBase="Gallio.CSUnitAdapter.dll"
               qualifyPartialName="true"/>
 

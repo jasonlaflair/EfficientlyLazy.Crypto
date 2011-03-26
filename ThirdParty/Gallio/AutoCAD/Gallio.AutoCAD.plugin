@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>AutoCAD Integration Plugin</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides support for testing ObjectARX extensions within AutoCAD.</description>
     <icon>plugin://Gallio.AutoCAD/Resources/Gallio.AutoCAD.ico</icon>
   </traits>
@@ -17,12 +17,11 @@
     <file path="Gallio.AutoCAD.plugin" />
     <file path="Gallio.AutoCAD.dll" />
     <file path="Gallio.AutoCAD.Plugin.dll" />
-    <file path="objectarx_license.doc" />
     <file path="Resources\Gallio.AutoCAD.ico" />
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.AutoCAD, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.AutoCAD, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.AutoCAD.dll"
               qualifyPartialName="true" />
   </assemblies>

@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>MbUnit v2 Adapter Plugin</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides support for running MbUnit v2 tests.</description>
     <icon>plugin://Gallio.MbUnit2Adapter/Resources/MbUnit.ico</icon>
   </traits>
@@ -34,7 +34,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.MbUnit2Adapter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"
+    <assembly fullName="Gallio.MbUnit2Adapter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"
               codeBase="Gallio.MbUnit2Adapter.dll"
               qualifyPartialName="true" />
 

@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>MSTest Adapter Plugin</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides support for running MSTest tests.  Requires MSTest to be installed separately.</description>
   </traits>
 
@@ -19,7 +19,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.MSTestAdapter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"
+    <assembly fullName="Gallio.MSTestAdapter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"
               codeBase="Gallio.MSTestAdapter.dll"
               qualifyPartialName="true" />
   </assemblies>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <plugin pluginId="Gallio.VisualStudio.Shell90"
         recommendedInstallationPath="VisualStudio\v9.0"
-        enableCondition="${process:DEVENV.EXE_V9.0} or ${process:VSTESTHOST.EXE_V9.0}"
+        enableCondition="${process:DEVENV.EXE_V9.0} or ${process:VSTESTHOST.EXE_V9.0} or ${process:MSTEST.EXE_V9.0} or ${framework:NET35}"
         xmlns="http://www.gallio.org/">
   <traits>
     <name>Visual Studio 2008 Integration Shell</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides a framework for hosting Gallio plugins within Visual Studio 2008.</description>
   </traits>
 
@@ -24,11 +24,9 @@
   </probingPaths>
   
   <assemblies>
-    <assembly fullName="Gallio.VisualStudio.Shell90, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.VisualStudio.Shell90, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.VisualStudio.Shell90.dll"
               qualifyPartialName="true" />
-    
-    <assembly fullName="Gallio.Loader, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"/>
   </assemblies>
 
   <components>

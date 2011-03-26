@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>RSpec Adapter Plugin</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>Provides support for running RSpec tests.</description>
   </traits>
 
@@ -193,7 +193,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.RSpecAdapter, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"
+    <assembly fullName="Gallio.RSpecAdapter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"
               codeBase="Gallio.RSpecAdapter.dll"
               qualifyPartialName="true" />
   </assemblies>

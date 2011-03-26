@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>TestDriven.Net Runner UI</name>
-    <version>3.1.0.0</version>
+    <version>3.2.0.0</version>
     <description>TestDriven.Net runner UI components.</description>
     <icon>plugin://Gallio.TDNetRunner/Resources/TestDriven.ico</icon>
   </traits>
@@ -21,7 +21,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.TDNetRunner.UI, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.TDNetRunner.UI, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.TDNetRunner.UI.dll"
               qualifyPartialName="true" />
   </assemblies>
@@ -42,6 +42,15 @@
         <path>TestDriven.Net/Frameworks</path>
         <icon>plugin://Gallio.TDNetRunner/Resources/TestDriven.ico</icon>
         <scope>Machine</scope>
+      </traits>
+    </component>
+
+    <component componentId="TDNetRunner.UI.RunnerReportPreferencePaneProvider"
+              serviceId="Gallio.UI.PreferencePaneProvider"
+              componentType="Gallio.TDNetRunner.UI.Preferences.TDNetRunnerReportPreferencePaneProvider, Gallio.TDNetRunner.UI">
+      <traits>
+        <path>TestDriven.Net/Reports</path>
+        <icon>plugin://Gallio.TDNetRunner/Resources/TestDriven.ico</icon>
       </traits>
     </component>
   </components>
