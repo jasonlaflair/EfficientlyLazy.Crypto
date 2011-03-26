@@ -53,69 +53,77 @@
             // 
             // txtKey
             // 
-            this.txtKey.Location = new System.Drawing.Point(105, 46);
+            this.txtKey.Location = new System.Drawing.Point(140, 57);
+            this.txtKey.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtKey.Name = "txtKey";
-            this.txtKey.Size = new System.Drawing.Size(313, 20);
+            this.txtKey.Size = new System.Drawing.Size(416, 22);
             this.txtKey.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(67, 49);
+            this.label1.Location = new System.Drawing.Point(89, 60);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
+            this.label1.Size = new System.Drawing.Size(40, 17);
             this.label1.TabIndex = 9;
             this.label1.Text = "Key:";
             // 
             // txtInitVector
             // 
-            this.txtInitVector.Location = new System.Drawing.Point(105, 72);
+            this.txtInitVector.Location = new System.Drawing.Point(140, 89);
+            this.txtInitVector.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtInitVector.Name = "txtInitVector";
-            this.txtInitVector.Size = new System.Drawing.Size(313, 20);
+            this.txtInitVector.Size = new System.Drawing.Size(416, 22);
             this.txtInitVector.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(29, 75);
+            this.label2.Location = new System.Drawing.Point(39, 92);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.Size = new System.Drawing.Size(87, 17);
             this.label2.TabIndex = 12;
             this.label2.Text = "Init Vector:";
             // 
             // txtSalt
             // 
-            this.txtSalt.Location = new System.Drawing.Point(105, 98);
+            this.txtSalt.Location = new System.Drawing.Point(140, 121);
+            this.txtSalt.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSalt.Name = "txtSalt";
-            this.txtSalt.Size = new System.Drawing.Size(313, 20);
+            this.txtSalt.Size = new System.Drawing.Size(416, 22);
             this.txtSalt.TabIndex = 3;
             // 
             // cbxKeySize
             // 
             this.cbxKeySize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxKeySize.FormattingEnabled = true;
-            this.cbxKeySize.Location = new System.Drawing.Point(105, 19);
+            this.cbxKeySize.Location = new System.Drawing.Point(140, 23);
+            this.cbxKeySize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxKeySize.Name = "cbxKeySize";
-            this.cbxKeySize.Size = new System.Drawing.Size(114, 21);
+            this.cbxKeySize.Size = new System.Drawing.Size(151, 24);
             this.cbxKeySize.TabIndex = 0;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(41, 101);
+            this.label3.Location = new System.Drawing.Point(55, 124);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 17;
             this.label3.Text = "Key Salt:";
             // 
             // nudIterations
             // 
-            this.nudIterations.Location = new System.Drawing.Point(337, 126);
+            this.nudIterations.Location = new System.Drawing.Point(449, 155);
+            this.nudIterations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nudIterations.Name = "nudIterations";
-            this.nudIterations.Size = new System.Drawing.Size(81, 20);
+            this.nudIterations.Size = new System.Drawing.Size(108, 22);
             this.nudIterations.TabIndex = 6;
             this.nudIterations.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -123,17 +131,19 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(14, 126);
+            this.label4.Location = new System.Drawing.Point(19, 155);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 13);
+            this.label4.Size = new System.Drawing.Size(108, 17);
             this.label4.TabIndex = 19;
             this.label4.Text = "Salt Minimum:";
             // 
             // nudSaltMin
             // 
-            this.nudSaltMin.Location = new System.Drawing.Point(106, 124);
+            this.nudSaltMin.Location = new System.Drawing.Point(141, 153);
+            this.nudSaltMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nudSaltMin.Name = "nudSaltMin";
-            this.nudSaltMin.Size = new System.Drawing.Size(81, 20);
+            this.nudSaltMin.Size = new System.Drawing.Size(108, 22);
             this.nudSaltMin.TabIndex = 4;
             this.nudSaltMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -141,9 +151,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(11, 152);
+            this.label5.Location = new System.Drawing.Point(15, 187);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 13);
+            this.label5.Size = new System.Drawing.Size(111, 17);
             this.label5.TabIndex = 15;
             this.label5.Text = "Salt Maximum:";
             // 
@@ -151,17 +162,19 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(39, 22);
+            this.label7.Location = new System.Drawing.Point(52, 27);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(60, 13);
+            this.label7.Size = new System.Drawing.Size(76, 17);
             this.label7.TabIndex = 16;
             this.label7.Text = "Key Size:";
             // 
             // nudSaltMax
             // 
-            this.nudSaltMax.Location = new System.Drawing.Point(106, 150);
+            this.nudSaltMax.Location = new System.Drawing.Point(141, 185);
+            this.nudSaltMax.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nudSaltMax.Name = "nudSaltMax";
-            this.nudSaltMax.Size = new System.Drawing.Size(81, 20);
+            this.nudSaltMax.Size = new System.Drawing.Size(108, 22);
             this.nudSaltMax.TabIndex = 5;
             this.nudSaltMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -169,9 +182,10 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(209, 128);
+            this.label6.Location = new System.Drawing.Point(279, 158);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 13);
+            this.label6.Size = new System.Drawing.Size(155, 17);
             this.label6.TabIndex = 14;
             this.label6.Text = "Password Iterations:";
             // 
@@ -194,10 +208,11 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.nudIterations);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Location = new System.Drawing.Point(13, 12);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(435, 210);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(581, 259);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rijndael Parameters";
@@ -206,9 +221,10 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(35, 179);
+            this.label8.Location = new System.Drawing.Point(47, 220);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 13);
+            this.label8.Size = new System.Drawing.Size(80, 17);
             this.label8.TabIndex = 22;
             this.label8.Text = "Encoding:";
             // 
@@ -216,21 +232,22 @@
             // 
             this.cbxEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxEncoding.FormattingEnabled = true;
-            this.cbxEncoding.Location = new System.Drawing.Point(106, 176);
+            this.cbxEncoding.Location = new System.Drawing.Point(141, 217);
+            this.cbxEncoding.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxEncoding.Name = "cbxEncoding";
-            this.cbxEncoding.Size = new System.Drawing.Size(113, 21);
+            this.cbxEncoding.Size = new System.Drawing.Size(293, 24);
             this.cbxEncoding.TabIndex = 7;
             // 
             // RijndaelEngineControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "RijndaelEngineControl";
-            this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(455, 230);
+            this.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.Size = new System.Drawing.Size(607, 283);
             this.Load += new System.EventHandler(this.RijndaelEngineControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).EndInit();

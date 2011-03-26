@@ -43,18 +43,20 @@
             // 
             this.cbxAlgorithm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAlgorithm.FormattingEnabled = true;
-            this.cbxAlgorithm.Location = new System.Drawing.Point(103, 19);
+            this.cbxAlgorithm.Location = new System.Drawing.Point(137, 23);
+            this.cbxAlgorithm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxAlgorithm.Name = "cbxAlgorithm";
-            this.cbxAlgorithm.Size = new System.Drawing.Size(114, 21);
+            this.cbxAlgorithm.Size = new System.Drawing.Size(151, 24);
             this.cbxAlgorithm.TabIndex = 0;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(34, 22);
+            this.label7.Location = new System.Drawing.Point(45, 27);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(63, 13);
+            this.label7.Size = new System.Drawing.Size(81, 17);
             this.label7.TabIndex = 16;
             this.label7.Text = "Algorithm:";
             // 
@@ -68,9 +70,11 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.cbxAlgorithm);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Location = new System.Drawing.Point(13, 12);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(435, 210);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(581, 259);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hashing Parameters";
@@ -78,9 +82,10 @@
             // cbxUseHMAC
             // 
             this.cbxUseHMAC.AutoSize = true;
-            this.cbxUseHMAC.Location = new System.Drawing.Point(103, 50);
+            this.cbxUseHMAC.Location = new System.Drawing.Point(137, 62);
+            this.cbxUseHMAC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxUseHMAC.Name = "cbxUseHMAC";
-            this.cbxUseHMAC.Size = new System.Drawing.Size(79, 17);
+            this.cbxUseHMAC.Size = new System.Drawing.Size(98, 21);
             this.cbxUseHMAC.TabIndex = 2;
             this.cbxUseHMAC.Text = "Use HMAC";
             this.cbxUseHMAC.UseVisualStyleBackColor = true;
@@ -89,19 +94,21 @@
             // txtEntropy
             // 
             this.txtEntropy.Enabled = false;
-            this.txtEntropy.Location = new System.Drawing.Point(103, 73);
+            this.txtEntropy.Location = new System.Drawing.Point(137, 90);
+            this.txtEntropy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtEntropy.Multiline = true;
             this.txtEntropy.Name = "txtEntropy";
-            this.txtEntropy.Size = new System.Drawing.Size(313, 49);
+            this.txtEntropy.Size = new System.Drawing.Size(416, 59);
             this.txtEntropy.TabIndex = 3;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(33, 131);
+            this.label8.Location = new System.Drawing.Point(44, 161);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 13);
+            this.label8.Size = new System.Drawing.Size(80, 17);
             this.label8.TabIndex = 22;
             this.label8.Text = "Encoding:";
             // 
@@ -109,9 +116,10 @@
             // 
             this.cbxEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxEncoding.FormattingEnabled = true;
-            this.cbxEncoding.Location = new System.Drawing.Point(103, 128);
+            this.cbxEncoding.Location = new System.Drawing.Point(137, 158);
+            this.cbxEncoding.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbxEncoding.Name = "cbxEncoding";
-            this.cbxEncoding.Size = new System.Drawing.Size(114, 21);
+            this.cbxEncoding.Size = new System.Drawing.Size(293, 24);
             this.cbxEncoding.TabIndex = 1;
             // 
             // lblEntropy
@@ -119,22 +127,23 @@
             this.lblEntropy.AutoSize = true;
             this.lblEntropy.Enabled = false;
             this.lblEntropy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEntropy.Location = new System.Drawing.Point(43, 76);
+            this.lblEntropy.Location = new System.Drawing.Point(57, 94);
+            this.lblEntropy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblEntropy.Name = "lblEntropy";
-            this.lblEntropy.Size = new System.Drawing.Size(54, 13);
+            this.lblEntropy.Size = new System.Drawing.Size(69, 17);
             this.lblEntropy.TabIndex = 16;
             this.lblEntropy.Text = "Entropy:";
             // 
             // HashingControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "HashingControl";
-            this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(455, 230);
+            this.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.Size = new System.Drawing.Size(607, 283);
             this.Load += new System.EventHandler(this.HashingControl_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
