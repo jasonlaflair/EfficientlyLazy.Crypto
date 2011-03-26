@@ -57,6 +57,7 @@ Global
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,12 +73,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E77C43E2-B506-4148-95F9-E08917DA55A3} = {E566176F-9F09-4D19-8003-BE7B2BBF24D6}
 		{494EBE55-5ABA-47DB-9A84-F5FCC08963C0} = {E566176F-9F09-4D19-8003-BE7B2BBF24D6}
 		{482A895B-3A9D-4FE6-945B-D6C31BD4011C} = {E566176F-9F09-4D19-8003-BE7B2BBF24D6}
+		{E77C43E2-B506-4148-95F9-E08917DA55A3} = {E566176F-9F09-4D19-8003-BE7B2BBF24D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_Active = -1
 		CodeStyleEnforcer_RulesLocation = 1
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal
