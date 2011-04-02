@@ -28,7 +28,6 @@ namespace EfficientlyLazy.Crypto.Test
     public class DPAPIEngineTests : RandomBase
     {
         [Test]
-        [Parallelizable]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]
         public void Constructor(KeyType keyType)
@@ -47,7 +46,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]
         public void SetEntropyString(KeyType keyType)
@@ -67,14 +65,13 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]
         public void SetEntropySecureString(KeyType keyType)
         {
             string plainText = GenerateClearText();
 
-            SecureString entropy = new SecureString();
+            var entropy = new SecureString();
             foreach (char ch in "myEntropy")
             {
                 entropy.AppendChar(ch);
@@ -93,7 +90,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(KeyType.UserKey, Encodings.None, ExpectedException = typeof (ArgumentNullException))]
         [Row(KeyType.UserKey, Encodings.ASCII)]
         [Row(KeyType.UserKey, Encodings.Unicode)]
@@ -145,7 +141,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [ExpectedException(typeof (CryptographicException))]
         [Row(KeyType.UserKey)]
         [Row(KeyType.MachineKey)]
@@ -157,7 +152,7 @@ namespace EfficientlyLazy.Crypto.Test
 
             string badEncrypt = Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
 
-            string decrypted = engine.Decrypt(badEncrypt);
+            engine.Decrypt(badEncrypt);
         }
     }
 }

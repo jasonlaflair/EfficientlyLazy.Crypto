@@ -60,6 +60,7 @@
     <Compile Include="..\..\Source\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ConfigurationTests.cs" />
     <Compile Include="DataGeneratorTests.cs" />
     <Compile Include="DataHashingTests.cs" />
     <Compile Include="DPAPIEngineTests.cs" />
@@ -73,6 +74,11 @@
       <Project>{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}</Project>
       <Name>EfficientlyLazy.Crypto.v40</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -25,11 +25,9 @@ namespace EfficientlyLazy.Crypto.Test
     ///to contain all RijndaelEngineTest Unit Tests
     ///</summary>
     [TestFixture]
-    [Parallelizable]
     public class RijndaelEngineTests : RandomBase
     {
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void ConstructorString()
         {
@@ -47,7 +45,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void ConstructorSecureString()
         {
@@ -65,7 +62,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetInitVectorString()
         {
@@ -85,7 +81,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetInitVectorSecureString()
         {
@@ -105,7 +100,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetRandomSaltLength()
         {
@@ -114,8 +108,8 @@ namespace EfficientlyLazy.Crypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            var minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
@@ -129,7 +123,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetSaltString()
         {
@@ -138,8 +131,8 @@ namespace EfficientlyLazy.Crypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            var minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -155,7 +148,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetSaltSecureString()
         {
@@ -164,8 +156,8 @@ namespace EfficientlyLazy.Crypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            var minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             SecureString saltKey = ToSS(GenerateRandomSalt());
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -181,7 +173,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(KeySize.Key128Bit)]
         [Row(KeySize.Key192Bit)]
@@ -193,8 +184,8 @@ namespace EfficientlyLazy.Crypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            var minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -211,7 +202,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void SetPasswordIterations()
         {
@@ -220,11 +210,11 @@ namespace EfficientlyLazy.Crypto.Test
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            byte minSalt = (byte)DataGenerator.RandomInteger(4, 100);
-            byte maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
+            var minSalt = (byte)DataGenerator.RandomInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.RandomInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            byte iterations = (byte)DataGenerator.RandomInteger(1, 10);
+            var iterations = (byte)DataGenerator.RandomInteger(1, 10);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
@@ -241,7 +231,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(Encodings.None, ExpectedException = typeof (ArgumentNullException))]
         [Row(Encodings.ASCII)]
@@ -288,7 +277,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [ExpectedException(typeof (CryptographicException))]
         public void InvalidDecryption()
@@ -309,7 +297,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(null, ExpectedException = typeof (ArgumentNullException))]
         [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
@@ -325,7 +312,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(null, ExpectedException = typeof (ArgumentNullException))]
         [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
@@ -343,7 +329,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable] //, Repeat(50)]
         [ExpectedArgumentOutOfRangeException]
         [Row(0, 20)]
         [Row(-1, 20)]
@@ -361,7 +346,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [ExpectedArgumentNullException]
         public void SetSaltStringInvalid()
@@ -376,7 +360,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [ExpectedArgumentNullException]
         public void SetSaltSecureStringInvalid()
@@ -392,7 +375,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [ExpectedArgumentOutOfRangeException]
         [Row(0)]

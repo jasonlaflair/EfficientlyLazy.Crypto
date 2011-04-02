@@ -24,7 +24,6 @@ namespace EfficientlyLazy.Crypto.Test
     public class DataGeneratorTests
     {
         [Test]
-        [Parallelizable]
         [Row(10, 20)]
         [Row(10, 5, ExpectedException = typeof (ArgumentOutOfRangeException))]
         [Row(0, 15, ExpectedException = typeof (ArgumentOutOfRangeException))]
@@ -33,13 +32,12 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(10, -1, ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void Constructor2Params(int min, int max)
         {
-            DataGenerator dg = new DataGenerator(min, max);
+            var dg = new DataGenerator(min, max);
 
             Assert.IsNotNull(dg);
         }
 
         [Test]
-        [Parallelizable]
         [Row(20, 100, true, true, true, true)]
         [Row(20, 100, true, true, true, false)]
         [Row(20, 100, true, true, false, true)]
@@ -63,13 +61,12 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(10, 5, true, true, true, true, ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void Constructor6Params(int minimum, int maximum, bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
-            DataGenerator dg = new DataGenerator(minimum, maximum, includeUppercase, includeLowercase, includeNumbers, includeSpecials);
+            var dg = new DataGenerator(minimum, maximum, includeUppercase, includeLowercase, includeNumbers, includeSpecials);
 
             Assert.IsNotNull(dg);
         }
 
         [Test]
-        [Parallelizable]
         [Row(true, true, true, true)]
         [Row(true, true, true, false)]
         [Row(true, true, false, true)]
@@ -88,7 +85,7 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(false, false, false, false, ExpectedException = typeof (ArgumentException))]
         public void ResetCharacterRequirements(bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
-            DataGenerator dg = new DataGenerator(100, 200);
+            var dg = new DataGenerator(100, 200);
 
             Assert.IsNotNull(dg);
 
@@ -96,7 +93,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(10, 20)]
         [Row(15, 15)]
         [Row(-1, 10, ExpectedException = typeof (ArgumentOutOfRangeException))]
@@ -106,7 +102,7 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(20, 10, ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void ResetLengths(int minimum, int maximum)
         {
-            DataGenerator dg = new DataGenerator(100, 200);
+            var dg = new DataGenerator(100, 200);
 
             Assert.IsNotNull(dg);
 
@@ -114,7 +110,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(5)]
         [Row(10)]
         [Row(159135)]
@@ -154,7 +149,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(5)]
         [Row(10)]
         [Row(159135)]
@@ -172,7 +166,7 @@ namespace EfficientlyLazy.Crypto.Test
                 buffer = new byte[bufferLength.Value];
             }
 
-            DataGenerator dataGenerator = new DataGenerator(10, 100);
+            var dataGenerator = new DataGenerator(10, 100);
             dataGenerator.NextBytes(buffer);
 
             if (original == null)
@@ -195,7 +189,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void RandomDouble()
         {
@@ -205,11 +198,10 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         public void NextDouble()
         {
-            DataGenerator dataGenerator = new DataGenerator(10, 100);
+            var dataGenerator = new DataGenerator(10, 100);
 
             double value = dataGenerator.NextDouble();
 
@@ -217,7 +209,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(10, 50)]
         [Row(12, 90)]
@@ -236,7 +227,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(10, 50)]
         [Row(12, 90)]
@@ -249,7 +239,7 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(15, 10, ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void NextInteger(int min, int max)
         {
-            DataGenerator dataGenerator = new DataGenerator(min, max);
+            var dataGenerator = new DataGenerator(min, max);
 
             int value = dataGenerator.NextInteger();
 
@@ -257,7 +247,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(20, 100, true, true, true, true)]
         [Row(20, 100, true, true, true, false)]
         [Row(20, 100, true, true, false, true)]
@@ -287,7 +276,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Row(20, 100, true, true, true, true)]
         [Row(20, 100, true, true, true, false)]
         [Row(20, 100, true, true, false, true)]
@@ -311,7 +299,7 @@ namespace EfficientlyLazy.Crypto.Test
         [Row(20, 10, true, true, true, true, ExpectedException = typeof (ArgumentOutOfRangeException))]
         public void NextString(int min, int max, bool upper, bool lower, bool numbers, bool special)
         {
-            DataGenerator dataGenerator = new DataGenerator(min, max, upper, lower, numbers, special);
+            var dataGenerator = new DataGenerator(min, max, upper, lower, numbers, special);
 
             string value = dataGenerator.NextString();
 

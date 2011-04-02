@@ -27,7 +27,6 @@ namespace EfficientlyLazy.Crypto.Test
     public class DataHashingTests : RandomBase
     {
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         [Row(Algorithm.SHA1, false, false)]
         [Row(Algorithm.SHA256, false, false)]
@@ -56,7 +55,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false)]
@@ -82,7 +80,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false)]
@@ -124,7 +121,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false, false, false)]
@@ -171,7 +167,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false, false)]
@@ -201,7 +196,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false, false, false)]
@@ -270,7 +264,6 @@ namespace EfficientlyLazy.Crypto.Test
         }
 
         [Test]
-        [Parallelizable]
         [Repeat(50)]
         //[Row(Algorithm.MD5)]
         [Row(Algorithm.SHA1, false, false)]

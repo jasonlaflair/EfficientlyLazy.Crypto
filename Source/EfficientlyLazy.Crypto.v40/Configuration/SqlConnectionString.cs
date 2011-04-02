@@ -99,8 +99,19 @@ namespace EfficientlyLazy.Crypto.Configuration
 
             if (!UseWinAuth)
             {
-                builder.Password = string.IsNullOrEmpty(EncryptedPassword) ? Password : encryptionEngine.Decrypt(EncryptedPassword);
-                builder.UserID = string.IsNullOrEmpty(EncryptedUserID) ? UserID : encryptionEngine.Decrypt(EncryptedUserID);
+                //builder.Password = string.IsNullOrEmpty(EncryptedPassword) ? Password : encryptionEngine.Decrypt(EncryptedPassword);
+                //builder.UserID = string.IsNullOrEmpty(EncryptedUserID) ? UserID : encryptionEngine.Decrypt(EncryptedUserID);
+
+                if (!string.IsNullOrEmpty(Password) || !string.IsNullOrEmpty(UserID))
+                {
+                    builder.UserID = UserID;
+                    builder.Password = Password;
+                }
+                else if (!string.IsNullOrEmpty(EncryptedPassword) && !string.IsNullOrEmpty(EncryptedUserID))
+                {
+                    builder.UserID = encryptionEngine.Decrypt(EncryptedUserID);
+                    builder.Password = encryptionEngine.Decrypt(EncryptedPassword);
+                }
             }
 
             if (!string.IsNullOrEmpty(ApplicationName)) builder.ApplicationName = ApplicationName;
