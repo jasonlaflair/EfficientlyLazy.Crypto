@@ -17,41 +17,71 @@ $GallioEcho = "\"#{$solutionRoot}/ThirdParty/Gallio/Gallio.Echo.exe\""
 
 $version = "0.0.0.0"
 
-require "#{$rootBuildPath}/MSBuild.rb"
-require "#{$rootBuildPath}/Gallio.rb"
-require "#{$rootBuildPath}/NCover.rb"
-require "#{$rootBuildPath}/SandCastle.rb"
-require "#{$rootBuildPath}/ZipTools.rb"
+#require "#{$rootBuildPath}/MSBuild.rb"
+#require "#{$rootBuildPath}/SandCastle.rb"
+#require "#{$rootBuildPath}/ZipTools.rb"
 
 task :default => :development
 
-task :development => [:setBuildLevelDebug, :compile, :runUnitTests, :runCoverage]
-task :package => [:setBuildLevelRelease, :compile, :generateDocs, :packageup]
+task :development => [:setBuildLevelDebug, :compile]
+#task :package => [:setBuildLevelRelease, :compile, :generateDocs, :nuget, :packageup]
+task :package => [:setBuildLevelRelease, :compile, :packageup]
 
 task :setBuildLevelDebug do
   $buildLevel = "Debug"
-  $version = MSBuild.getVersion
+  $version = getVersion
 end
 
 task :setBuildLevelRelease do
   $buildLevel = "Release"
-  $version = MSBuild.getVersion
+  $version = getVersion
+end
+
+task :nuget do
+	sh "nuget.exe pack ./EfficientlyLazy.Crypto.nuspec -outputDirectory ./Artifacts"
 end
 
 task :compile do
-  MSBuild.compile
-end
 
-task :runUnitTests do
-  Gallio.runUnitTests
-end
+    params = "/t:Clean /t:Rebuild /nologo /m /v:q /p:Configuration=#{$buildLevel}"
+    
+    # loop through in case of 2+ sln files
+    $solutionFiles.each do |solFile|
+      sh "#{$msbuild} #{params} \"#{solFile}\""
+    end
+    end
 
-task :runCoverage do
-  NCover.runNCover
-end
+  def self.getVersion
+
+    versionFile = "#{$solutionRoot}/Source/SharedAssemblyInfo.cs"
+    version = ""
+    
+    lines = ""
+    File.open(versionFile, 'r') do |f|
+        lines = f.readlines
+      end
+
+    lines.each do |line|
+      if line.include?("AssemblyVersion")
+        firstq = line.index('"') + 1
+        lastq = line.index('"', firstq + 1)
+        version = line[firstq, lastq - firstq]
+      end
+    end
+    
+    return version
+    
+  end
 
 task :generateDocs do
-  SandCastle.buildDocumentation
+  docFiles = FileList[$solutionRoot + "/Documentation/*.shfbproj"]
+    
+    params = "/nologo /m /v:q /p:Configuration=#{$buildLevel}"
+    
+    # loop through in case of 2+ sln files
+    docFiles.each do |docFile|
+      sh "#{$msbuild35} #{params} \"#{docFile}\""
+    end
 end
 
 task :packageup do
@@ -59,6 +89,7 @@ task :packageup do
   require "fileutils"
   
   package = "#{$artifacts}/Package"
+
   rm_r(package) if File.exist?(package)
   mkdir(package)
 
@@ -70,7 +101,7 @@ task :packageup do
     cp(file, folderDemo)
   end
 
-  folderv20 = "#{$artifacts}/Package/v20"
+  folderv20 = "#{$artifacts}/Package/net20"
   mkdir(folderv20) unless File.exist?(folderv20)
 
   files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v20/bin/Release/*.*"]
@@ -80,7 +111,7 @@ task :packageup do
   
   mv("#{$artifacts}/EfficientlyLazy.Crypto.v20.chm", "#{folderv20}/EfficientlyLazy.Crypto.chm")
 
-  folderv35 = "#{$artifacts}/Package/v35"
+  folderv35 = "#{$artifacts}/Package/net35"
   mkdir(folderv35) unless File.exist?(folderv35)
 
   files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v35/bin/Release/*.*"]
@@ -90,7 +121,7 @@ task :packageup do
 
   mv("#{$artifacts}/EfficientlyLazy.Crypto.v35.chm", "#{folderv35}/EfficientlyLazy.Crypto.chm")
   
-  folderv40 = "#{$artifacts}/Package/v40"
+  folderv40 = "#{$artifacts}/Package/net40"
   mkdir(folderv40) unless File.exist?(folderv40)
 
   files = FileList["#{$solutionRoot}/Source/EfficientlyLazy.Crypto.v40/bin/Release/*.*"]
@@ -99,18 +130,32 @@ task :packageup do
   end
 
   mv("#{$artifacts}/EfficientlyLazy.Crypto.v40.chm", "#{folderv40}/EfficientlyLazy.Crypto.chm")
-  
+
   zipfilename = "#{$artifacts}/EfficientlyLazy.Crypto-#{$version}.zip"
   
   rm(zipfilename) if File.exist?(zipfilename)
   
-  ZipTools.create_zip(zipfilename, "#{package}")
+  create_zip(zipfilename, "#{package}")
+  
+  sh "nuget.exe pack ./EfficientlyLazy.Crypto.nuspec -outputDirectory ./Artifacts"
   
   rm_r(package)
 
 end
 
+def self.create_zip(new_zip_file, root)
 
+require 'find'
+  require 'zip/zip'
+  
+	Zip::ZipFile.open(new_zip_file, Zip::ZipFile::CREATE) do |zipfile|
+		Find.find(root) do |path|
+			Find.prune if File.basename(path)[0] == ?.
+			dest = /Package\/(\w.*)/.match(path)
+			zipfile.add(dest[1],path) if dest
+		end
+	end
+  end
 
 
 

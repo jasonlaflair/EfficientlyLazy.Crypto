@@ -19,10 +19,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("RC")]
 [assembly: AssemblyCompany("LaFlair.NET")]
 [assembly: AssemblyProduct("EfficientlyLazy.Crypto for .NET")]
-[assembly: AssemblyCopyright("Copyright © LaFlair.NET 2009,2010")]
+[assembly: AssemblyCopyright("Copyright © LaFlair.NET 2009,2010,2011")]
 [assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.9.2010.4822")]
-[assembly: AssemblyFileVersion("0.9.2010.4822")]
-[assembly: AssemblyInformationalVersion("0.9.2010.4822")]
+[assembly: AssemblyVersion("0.9.2")]
+[assembly: AssemblyFileVersion("0.9.2")]
+[assembly: AssemblyInformationalVersion("0.9.2")]
 
 // Major.Minor.Year.HourIntoYear

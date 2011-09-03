@@ -2,24 +2,27 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>EfficientlyLazy.Crypto</id>
-    <version>0.9</version>
+    <version>0.9.2</version>
     <title>EfficientlyLazy.Crypto</title>
     <authors>Jason LaFlair</authors>
     <owners>Jason LaFlair</owners>
     <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
-    <projectUrl>http://code.google.com/p/efficientlylazycrypto/</projectUrl>
+    <projectUrl>https://github.com/jasonlaflair/EfficientlyLazy.Crypto</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.Net library to simplify cryptography in so developers will actually use it</description>
     <summary />
     <language>es-US</language>
-    <tags>security, cryptography, encryption, AES, configuration, library, random, csharp, hash, data</tags>
+    <tags>security cryptography encryption AES configuration library random csharp hash data</tags>
   </metadata>
   <files>
-	<file src="..\Source\EfficientlyLazy.Crypto.v20\bin\Release\EfficientlyLazy.Crypto.dll" target="lib\net20" />
-	<file src="..\Source\EfficientlyLazy.Crypto.v20\bin\Release\EfficientlyLazy.Crypto.xml" target="lib\net20" />
-	<file src="..\Source\EfficientlyLazy.Crypto.v35\bin\Release\EfficientlyLazy.Crypto.dll" target="lib\net35" />
-	<file src="..\Source\EfficientlyLazy.Crypto.v35\bin\Release\EfficientlyLazy.Crypto.xml" target="lib\net35" />
-	<file src="..\Source\EfficientlyLazy.Crypto.v40\bin\Release\EfficientlyLazy.Crypto.dll" target="lib\net40" />
-	<file src="..\Source\EfficientlyLazy.Crypto.v40\bin\Release\EfficientlyLazy.Crypto.xml" target="lib\net40" />
+	<file src="Artifacts\Package\net20\EfficientlyLazy.Crypto.dll" target="lib\net20" />
+	<file src="Artifacts\Package\net20\EfficientlyLazy.Crypto.xml" target="lib\net20" />
+	<file src="Artifacts\Package\net20\EfficientlyLazy.Crypto.chm" target="content\docs\net20" />
+	<file src="Artifacts\Package\net35\EfficientlyLazy.Crypto.dll" target="lib\net35" />
+	<file src="Artifacts\Package\net35\EfficientlyLazy.Crypto.xml" target="lib\net35" />
+	<file src="Artifacts\Package\net35\EfficientlyLazy.Crypto.chm" target="content\docs\net35" />
+	<file src="Artifacts\Package\net40\EfficientlyLazy.Crypto.dll" target="lib\net40" />
+	<file src="Artifacts\Package\net40\EfficientlyLazy.Crypto.xml" target="lib\net40" />
+	<file src="Artifacts\Package\net40\EfficientlyLazy.Crypto.chm" target="content\docs\net40" />
   </files>
 </package>
