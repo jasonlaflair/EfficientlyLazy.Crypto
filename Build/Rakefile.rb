@@ -17,15 +17,10 @@ $GallioEcho = "\"#{$solutionRoot}/ThirdParty/Gallio/Gallio.Echo.exe\""
 
 $version = "0.0.0.0"
 
-#require "#{$rootBuildPath}/MSBuild.rb"
-#require "#{$rootBuildPath}/SandCastle.rb"
-#require "#{$rootBuildPath}/ZipTools.rb"
-
 task :default => :development
 
 task :development => [:setBuildLevelDebug, :compile]
-#task :package => [:setBuildLevelRelease, :compile, :generateDocs, :nuget, :packageup]
-task :package => [:setBuildLevelRelease, :compile, :packageup]
+task :package => [:setBuildLevelRelease, :compile, :generateDocs, :packageup]
 
 task :setBuildLevelDebug do
   $buildLevel = "Debug"
@@ -37,10 +32,6 @@ task :setBuildLevelRelease do
   $version = getVersion
 end
 
-task :nuget do
-	sh "nuget.exe pack ./EfficientlyLazy.Crypto.nuspec -outputDirectory ./Artifacts"
-end
-
 task :compile do
 
     params = "/t:Clean /t:Rebuild /nologo /m /v:q /p:Configuration=#{$buildLevel}"
@@ -49,7 +40,7 @@ task :compile do
     $solutionFiles.each do |solFile|
       sh "#{$msbuild} #{params} \"#{solFile}\""
     end
-    end
+end
 
   def self.getVersion
 
