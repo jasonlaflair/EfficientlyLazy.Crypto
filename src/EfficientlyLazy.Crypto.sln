@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{F522BD75-C4E9-428A-9CC3-A29FAAFA8226}"
+	ProjectSection(SolutionItems) = preProject
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto", "EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.csproj", "{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Demo", "EfficientlyLazy.Crypto.Demo\EfficientlyLazy.Crypto.Demo.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Test", "EfficientlyLazy.Crypto.Tests\EfficientlyLazy.Crypto.Test.csproj", "{482A895B-3A9D-4FE6-945B-D6C31BD4011C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD03428-E119-458F-8D8E-680BCD8A2FB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{482A895B-3A9D-4FE6-945B-D6C31BD4011C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{482A895B-3A9D-4FE6-945B-D6C31BD4011C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{482A895B-3A9D-4FE6-945B-D6C31BD4011C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{482A895B-3A9D-4FE6-945B-D6C31BD4011C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		CodeStyleEnforcer_Active = -1
+		CodeStyleEnforcer_RulesLocation = 1
+	EndGlobalSection
+EndGlobal
