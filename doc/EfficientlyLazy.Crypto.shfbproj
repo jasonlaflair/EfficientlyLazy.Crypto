@@ -14,14 +14,14 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\Build\Artifacts\</OutputPath>
+    <OutputPath>..\build\Artifacts\</OutputPath>
     <HtmlHelpName>EfficientlyLazy.Crypto.v40</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Source\EfficientlyLazy.Crypto.v40\EfficientlyLazy.Crypto.v40.csproj" />
+      <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.csproj" />
     </DocumentationSources>
     <KeepLogFile>False</KeepLogFile>
-    <CopyrightHref>http://code.google.com/p/efficientlylazycrypto</CopyrightHref>
-    <CopyrightText>LaFlair.NET - 2009</CopyrightText>
+    <CopyrightHref>https://github.com/jasonlaflair/EfficientlyLazy.Crypto</CopyrightHref>
+    <CopyrightText>LaFlair.NET - 2009-2011</CopyrightText>
     <HelpTitle>EfficientlyLazy.Crypto</HelpTitle>
     <Preliminary>True</Preliminary>
     <BinaryTOC>True</BinaryTOC>
@@ -33,7 +33,7 @@
     <SyntaxFilters>CSharp, VisualBasic</SyntaxFilters>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter</MissingTags>
     <ShowFeedbackControl>False</ShowFeedbackControl>
-    <FrameworkVersion>4.0.30319</FrameworkVersion>
+    <FrameworkVersion>2.0.50727</FrameworkVersion>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->

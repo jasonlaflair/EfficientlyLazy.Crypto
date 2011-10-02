@@ -1,6 +1,6 @@
 Properties { 
   $base_dir  = resolve-path .
-  $sln_file = "$base_dir\..\efficientlylazycrypto.sln"
+  $sln_file = "$base_dir\..\src\EfficientlyLazy.Crypto.sln"
   $sln_config = "Release"
   $version = "0.9.2.0"
 } 
@@ -9,11 +9,11 @@ $framework = '4.0'
 
 include .\psake_ext.ps1
 
-task default -depends Compile
+task default -depends UnitTests
 
 task Init {
 Generate-Assembly-Info `
-		-file "$base_dir\..\Source\SharedAssemblyInfo.cs" `
+		-file "$base_dir\..\src\SharedAssemblyInfo.cs" `
 		-description "Simplifying .NET Cryptography" `
 		-company "LaFlair.NET" `
 		-product "EfficientlyLazy.Crypto for .NET" `
@@ -26,9 +26,7 @@ task Compile -depends Clean {
 }
 
 task BuildDocs -depends Compile {
-	Exec { msbuild "$base_dir\..\Documentation\EfficientlyLazy.Crypto.v20.shfbproj" /nologo /m /v:q /p:Configuration="$sln_config" }
-	Exec { msbuild "$base_dir\..\Documentation\EfficientlyLazy.Crypto.v35.shfbproj" /nologo /m /v:q /p:Configuration="$sln_config" }
-	Exec { msbuild "$base_dir\..\Documentation\EfficientlyLazy.Crypto.v40.shfbproj" /nologo /m /v:q /p:Configuration="$sln_config" }
+	Exec { msbuild "$base_dir\..\doc\EfficientlyLazy.Crypto.shfbproj" /nologo /m /v:q /p:Configuration="$sln_config" }
 }
 
 task Clean -depends Init {
@@ -41,7 +39,5 @@ task UnitTests -depends Compile {
 		Add-PsSnapin Gallio
 	}
 
-	Run-Gallio "..\Tests\EfficientlyLazy.Crypto.v20.Test\bin\Release\EfficientlyLazy.Crypto.Test.dll", `
-				"..\Tests\EfficientlyLazy.Crypto.v35.Test\bin\Release\EfficientlyLazy.Crypto.Test.dll", `
-				"..\Tests\EfficientlyLazy.Crypto.v40.Test\bin\Release\EfficientlyLazy.Crypto.Test.dll"
+	Run-Gallio "..\src\EfficientlyLazy.Crypto.Tests\bin\$sln_config\EfficientlyLazy.Crypto.Tests.dll"
 }
