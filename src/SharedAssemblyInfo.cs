@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisibleAttribute(false)]
 
-[assembly: AssemblyVersionAttribute("0.9.2.0")]
-[assembly: AssemblyFileVersionAttribute("0.9.2.0")]
-[assembly: AssemblyInformationalVersionAttribute("0.9.2.0")]
+[assembly: AssemblyVersionAttribute("0.9.3.0")]
+[assembly: AssemblyFileVersionAttribute("0.9.3.0")]
+[assembly: AssemblyInformationalVersionAttribute("0.9.3.0")]
 

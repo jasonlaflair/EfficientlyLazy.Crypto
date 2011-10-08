@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Scripts", "Build Scripts", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\default.ps1 = ..\Build\default.ps1
+		..\Build\EfficientlyLazy.Crypto.nuspec = ..\Build\EfficientlyLazy.Crypto.nuspec
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{F522BD75-C4E9-428A-9CC3-A29FAAFA8226}"
 	ProjectSection(SolutionItems) = preProject
@@ -37,7 +41,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		CodeStyleEnforcer_Active = -1
 		CodeStyleEnforcer_RulesLocation = 1
+		CodeStyleEnforcer_Active = -1
 	EndGlobalSection
 EndGlobal

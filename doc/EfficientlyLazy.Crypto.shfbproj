@@ -14,8 +14,8 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\build\Artifacts\</OutputPath>
-    <HtmlHelpName>EfficientlyLazy.Crypto.v40</HtmlHelpName>
+    <OutputPath>.\build</OutputPath>
+    <HtmlHelpName>EfficientlyLazy.Crypto</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.csproj" />
     </DocumentationSources>
