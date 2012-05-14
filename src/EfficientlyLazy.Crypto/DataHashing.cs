@@ -31,7 +31,7 @@ namespace EfficientlyLazy.Crypto
         {
             if (plaintext == null)
             {
-                throw new ArgumentNullException("plainText", "plainText cannot be null");
+                throw new ArgumentNullException("plaintext", "plainText cannot be null");
             }
             if (encoding == null)
             {
@@ -49,19 +49,16 @@ namespace EfficientlyLazy.Crypto
         {
             if (plaintext == null)
             {
-                throw new ArgumentNullException("plainText", "plainText cannot be null");
+                throw new ArgumentNullException("plaintext", "plainText cannot be null");
             }
 
             byte[] hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(plaintext);
 
             string strRet = string.Empty;
 
-            if (hashValue != null)
+            foreach (byte b in hashValue)
             {
-                foreach (byte b in hashValue)
-                {
-                    strRet += String.Format("{0:x2}", b);
-                }
+                strRet += String.Format("{0:x2}", b);
             }
 
             return strRet;
@@ -84,14 +81,11 @@ namespace EfficientlyLazy.Crypto
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
             {
-                byte[] hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(fs);
+                var hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(fs);
 
-                if (hashValue != null)
+                foreach (var b in hashValue)
                 {
-                    foreach (byte b in hashValue)
-                    {
-                        strRet += String.Format("{0:x2}", b);
-                    }
+                    strRet += String.Format("{0:x2}", b);
                 }
             }
 
@@ -127,7 +121,7 @@ namespace EfficientlyLazy.Crypto
         {
             if (plaintext == null)
             {
-                throw new ArgumentNullException("plainText", "plainText cannot be null");
+                throw new ArgumentNullException("plaintext", "plainText cannot be null");
             }
             if (key == null)
             {
@@ -152,26 +146,23 @@ namespace EfficientlyLazy.Crypto
         {
             if (plaintext == null)
             {
-                throw new ArgumentNullException("plainText", "plainText cannot be null");
+                throw new ArgumentNullException("plaintext", "plainText cannot be null");
             }
             if (key == null)
             {
                 throw new ArgumentNullException("key", "key cannot be null");
             }
 
-            HMAC hash = HMAC.Create("HMAC" + algorithm);
+            var hash = HMAC.Create("HMAC" + algorithm);
             hash.Key = key;
 
-            byte[] hashValue = hash.ComputeHash(plaintext);
+            var hashValue = hash.ComputeHash(plaintext);
 
-            string strRet = string.Empty;
+            var strRet = string.Empty;
 
-            if (hashValue != null)
+            foreach (var b in hashValue)
             {
-                foreach (byte b in hashValue)
-                {
-                    strRet += string.Format("{0:x2}", b);
-                }
+                strRet += string.Format("{0:x2}", b);
             }
 
             return strRet;
@@ -243,12 +234,9 @@ namespace EfficientlyLazy.Crypto
 
                 byte[] hashValue = hash.ComputeHash(fs);
 
-                if (hashValue != null)
+                foreach (byte b in hashValue)
                 {
-                    foreach (byte b in hashValue)
-                    {
-                        strRet += string.Format("{0:x2}", b);
-                    }
+                    strRet += string.Format("{0:x2}", b);
                 }
             }
 

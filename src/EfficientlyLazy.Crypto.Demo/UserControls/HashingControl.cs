@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EfficientlyLazy.Crypto.Demo
+namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
     public partial class HashingControl : CryptoUserControl
     {
@@ -10,7 +10,7 @@ namespace EfficientlyLazy.Crypto.Demo
         {
             InitializeComponent();
 
-            List<string> algorithms = new List<string>
+            var algorithms = new List<string>
                                       {
                                           Algorithm.SHA1.ToString(),
                                           Algorithm.SHA256.ToString(),
@@ -49,17 +49,26 @@ namespace EfficientlyLazy.Crypto.Demo
             txtEntropy.Enabled = cbxUseHMAC.Checked;
         }
 
-        public override string Encrypt(string clearText)
+        protected override bool ValidateParameters()
         {
-            Algorithm algorithm = (Algorithm)Enum.Parse(typeof (Algorithm), cbxAlgorithm.SelectedItem.ToString());
-            Encoding encoding = (Encoding)cbxEncoding.SelectedItem;
+            return true;
+        }
+
+        public override bool CanEncrypt { get { return true; } }
+
+        protected override string EngineEncrypt(string clearText)
+        {
+            var algorithm = (Algorithm)Enum.Parse(typeof (Algorithm), cbxAlgorithm.SelectedItem.ToString());
+            var encoding = (Encoding)cbxEncoding.SelectedItem;
 
             return cbxUseHMAC.Checked
                        ? DataHashing.ComputeHMAC(algorithm, clearText, txtEntropy.Text, encoding)
                        : DataHashing.Compute(algorithm, clearText, encoding);
         }
 
-        public override string Decrypt(string encryptedText)
+        public override bool CanDecrypt { get { return false; } }
+
+        protected override string EngineDecrypt(string encryptedText)
         {
             throw new NotSupportedException("Hashing cannot be reversed");
         }

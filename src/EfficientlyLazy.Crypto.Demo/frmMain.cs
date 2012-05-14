@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using EfficientlyLazy.Crypto.Demo.UserControls;
 
 namespace EfficientlyLazy.Crypto.Demo
 {
@@ -9,24 +10,24 @@ namespace EfficientlyLazy.Crypto.Demo
         {
             InitializeComponent();
 
-            RijndaelEngineControl rijndaelEngineControl = new RijndaelEngineControl();
-            ToolStripMenuItem rijndaelEngineControlMenu = new ToolStripMenuItem(rijndaelEngineControl.DisplayName)
+            var rijndaelEngineControl = new RijndaelEngineControl();
+            var rijndaelEngineControlMenu = new ToolStripMenuItem(rijndaelEngineControl.DisplayName)
                                                           {
                                                               Tag = rijndaelEngineControl
                                                           };
             rijndaelEngineControlMenu.Click += MenuClick;
             configurationToolStripMenuItem.DropDownItems.Add(rijndaelEngineControlMenu);
 
-            DPAPIEngineControl dpapiEngineControl = new DPAPIEngineControl();
-            ToolStripMenuItem dpapiEngineControlMenu = new ToolStripMenuItem(dpapiEngineControl.DisplayName)
+            var dpapiEngineControl = new DPAPIEngineControl();
+            var dpapiEngineControlMenu = new ToolStripMenuItem(dpapiEngineControl.DisplayName)
                                                        {
                                                            Tag = dpapiEngineControl
                                                        };
             dpapiEngineControlMenu.Click += MenuClick;
             configurationToolStripMenuItem.DropDownItems.Add(dpapiEngineControlMenu);
 
-            HashingControl hashingControl = new HashingControl();
-            ToolStripMenuItem hashingControlMenu = new ToolStripMenuItem(hashingControl.DisplayName)
+            var hashingControl = new HashingControl();
+            var hashingControlMenu = new ToolStripMenuItem(hashingControl.DisplayName)
                                                    {
                                                        Tag = hashingControl
                                                    };
@@ -36,7 +37,7 @@ namespace EfficientlyLazy.Crypto.Demo
             rijndaelEngineControlMenu.PerformClick();
         }
 
-        void MenuClick(object sender, EventArgs e)
+        private void MenuClick(object sender, EventArgs e)
         {
             panel1.Controls.Clear();
 
@@ -45,7 +46,7 @@ namespace EfficientlyLazy.Crypto.Demo
                 dropDownItem.Checked = false;
             }
 
-            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            var item = sender as ToolStripMenuItem;
 
             if (item == null)
             {
@@ -57,7 +58,7 @@ namespace EfficientlyLazy.Crypto.Demo
 
             item.Checked = true;
 
-            CryptoUserControl cryptoUserControl =  item.Tag as CryptoUserControl;
+            var cryptoUserControl =  item.Tag as CryptoUserControl;
 
             if (cryptoUserControl == null)
             {
@@ -68,13 +69,12 @@ namespace EfficientlyLazy.Crypto.Demo
             }
 
             lblConfiguration.Text = cryptoUserControl.DisplayName;
+            cmdEncrypt.Enabled = cryptoUserControl.CanEncrypt;
+            cmdDecrypt.Enabled = cryptoUserControl.CanDecrypt;
 
             cryptoUserControl.Dock = DockStyle.Fill;
             panel1.BorderStyle = BorderStyle.None;
             panel1.Controls.Add(cryptoUserControl);
-
-            cmdEncrypt.Enabled = true;
-            cmdDecrypt.Enabled = true;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace EfficientlyLazy.Crypto.Demo
 
         private void cmdEncrypt_Click(object sender, EventArgs e)
         {
-            CryptoUserControl cryptoUserControl = panel1.Controls[0] as CryptoUserControl;
+            var cryptoUserControl = panel1.Controls[0] as CryptoUserControl;
 
             try
             {
@@ -102,7 +102,7 @@ namespace EfficientlyLazy.Crypto.Demo
 
         private void cmdDecrypt_Click(object sender, EventArgs e)
         {
-            CryptoUserControl cryptoUserControl = panel1.Controls[0] as CryptoUserControl;
+            var cryptoUserControl = panel1.Controls[0] as CryptoUserControl;
 
             try
             {
@@ -121,7 +121,7 @@ namespace EfficientlyLazy.Crypto.Demo
 
         private void generateConnectionStringToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (frmSQLConnectionStringBuilder builder = new frmSQLConnectionStringBuilder())
+            using (var builder = new frmSQLConnectionStringBuilder())
             {
                 if (builder.ShowDialog() == DialogResult.OK)
                 {

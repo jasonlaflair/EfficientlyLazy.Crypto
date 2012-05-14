@@ -65,7 +65,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CryptoControl.cs">
+    <Compile Include="UserControls\CryptoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="frmSQLConnectionStringBuilder.cs">
@@ -74,16 +74,16 @@
     <Compile Include="frmSQLConnectionStringBuilder.Designer.cs">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="HashingControl.cs">
+    <Compile Include="UserControls\HashingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="HashingControl.Designer.cs">
+    <Compile Include="UserControls\HashingControl.Designer.cs">
       <DependentUpon>HashingControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DPAPIEngineControl.cs">
+    <Compile Include="UserControls\DPAPIEngineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DPAPIEngineControl.Designer.cs">
+    <Compile Include="UserControls\DPAPIEngineControl.Designer.cs">
       <DependentUpon>DPAPIEngineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="EnumerationConversions.cs" />
@@ -100,19 +100,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RijndaelEngineControl.cs">
+    <Compile Include="UserControls\RijndaelEngineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RijndaelEngineControl.Designer.cs">
+    <Compile Include="UserControls\RijndaelEngineControl.Designer.cs">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HashingControl.resx">
+    <EmbeddedResource Include="UserControls\HashingControl.resx">
       <DependentUpon>HashingControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DPAPIEngineControl.resx">
+    <EmbeddedResource Include="UserControls\DPAPIEngineControl.resx">
       <DependentUpon>DPAPIEngineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
@@ -122,7 +122,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RijndaelEngineControl.resx">
+    <EmbeddedResource Include="UserControls\RijndaelEngineControl.resx">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

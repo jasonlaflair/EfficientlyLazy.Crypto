@@ -37,10 +37,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateConnectionStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblConfiguration = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,13 +50,13 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(12, 50);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(455, 230);
+            this.panel1.Size = new System.Drawing.Size(554, 258);
             this.panel1.TabIndex = 0;
             // 
             // cmdEncrypt
             // 
             this.cmdEncrypt.Enabled = false;
-            this.cmdEncrypt.Location = new System.Drawing.Point(581, 153);
+            this.cmdEncrypt.Location = new System.Drawing.Point(756, 169);
             this.cmdEncrypt.Name = "cmdEncrypt";
             this.cmdEncrypt.Size = new System.Drawing.Size(75, 23);
             this.cmdEncrypt.TabIndex = 1;
@@ -66,24 +66,24 @@
             // 
             // txtClearText
             // 
-            this.txtClearText.Location = new System.Drawing.Point(473, 50);
+            this.txtClearText.Location = new System.Drawing.Point(575, 50);
             this.txtClearText.Multiline = true;
             this.txtClearText.Name = "txtClearText";
-            this.txtClearText.Size = new System.Drawing.Size(264, 101);
+            this.txtClearText.Size = new System.Drawing.Size(337, 109);
             this.txtClearText.TabIndex = 3;
             // 
             // txtEncrypted
             // 
-            this.txtEncrypted.Location = new System.Drawing.Point(473, 178);
+            this.txtEncrypted.Location = new System.Drawing.Point(575, 199);
             this.txtEncrypted.Multiline = true;
             this.txtEncrypted.Name = "txtEncrypted";
-            this.txtEncrypted.Size = new System.Drawing.Size(264, 101);
+            this.txtEncrypted.Size = new System.Drawing.Size(337, 109);
             this.txtEncrypted.TabIndex = 3;
             // 
             // cmdDecrypt
             // 
             this.cmdDecrypt.Enabled = false;
-            this.cmdDecrypt.Location = new System.Drawing.Point(662, 153);
+            this.cmdDecrypt.Location = new System.Drawing.Point(837, 169);
             this.cmdDecrypt.Name = "cmdDecrypt";
             this.cmdDecrypt.Size = new System.Drawing.Size(75, 23);
             this.cmdDecrypt.TabIndex = 4;
@@ -95,7 +95,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(480, 34);
+            this.label1.Location = new System.Drawing.Point(582, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
             this.label1.TabIndex = 5;
@@ -105,7 +105,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(473, 163);
+            this.label2.Location = new System.Drawing.Point(575, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 5;
@@ -118,7 +118,7 @@
             this.configurationToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(747, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(924, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -129,34 +129,34 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // configurationToolStripMenuItem
-            // 
-            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.configurationToolStripMenuItem.Text = "Configuration";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // generateConnectionStringToolStripMenuItem
             // 
             this.generateConnectionStringToolStripMenuItem.Name = "generateConnectionStringToolStripMenuItem";
             this.generateConnectionStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.generateConnectionStringToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.generateConnectionStringToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.generateConnectionStringToolStripMenuItem.Text = "Generate Connection String";
             this.generateConnectionStringToolStripMenuItem.Click += new System.EventHandler(this.generateConnectionStringToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(243, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // configurationToolStripMenuItem
+            // 
+            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.configurationToolStripMenuItem.Text = "Configuration";
             // 
             // lblConfiguration
             // 
@@ -172,7 +172,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 291);
+            this.ClientSize = new System.Drawing.Size(924, 319);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblConfiguration);
             this.Controls.Add(this.label1);

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace EfficientlyLazy.Crypto.Demo
@@ -28,7 +23,7 @@ namespace EfficientlyLazy.Crypto.Demo
         {
             try
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                var builder = new SqlConnectionStringBuilder();
 
                 if (!string.IsNullOrEmpty(txtApplicationName.Text))
                 {

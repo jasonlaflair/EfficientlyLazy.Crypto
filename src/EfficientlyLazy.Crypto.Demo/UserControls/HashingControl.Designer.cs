@@ -1,4 +1,4 @@
-﻿namespace EfficientlyLazy.Crypto.Demo
+﻿namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
     partial class HashingControl
     {
