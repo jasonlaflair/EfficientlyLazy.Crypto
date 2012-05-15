@@ -56,11 +56,13 @@
             // cmdEncrypt
             // 
             this.cmdEncrypt.Enabled = false;
-            this.cmdEncrypt.Location = new System.Drawing.Point(756, 169);
+            this.cmdEncrypt.Image = global::EfficientlyLazy.Crypto.Demo.Properties.Resources.encrypted_16x16;
+            this.cmdEncrypt.Location = new System.Drawing.Point(732, 168);
             this.cmdEncrypt.Name = "cmdEncrypt";
-            this.cmdEncrypt.Size = new System.Drawing.Size(75, 23);
+            this.cmdEncrypt.Size = new System.Drawing.Size(87, 23);
             this.cmdEncrypt.TabIndex = 1;
             this.cmdEncrypt.Text = "Encrypt";
+            this.cmdEncrypt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cmdEncrypt.UseVisualStyleBackColor = true;
             this.cmdEncrypt.Click += new System.EventHandler(this.cmdEncrypt_Click);
             // 
@@ -83,11 +85,13 @@
             // cmdDecrypt
             // 
             this.cmdDecrypt.Enabled = false;
-            this.cmdDecrypt.Location = new System.Drawing.Point(837, 169);
+            this.cmdDecrypt.Image = global::EfficientlyLazy.Crypto.Demo.Properties.Resources.decrypted_16x16;
+            this.cmdDecrypt.Location = new System.Drawing.Point(825, 168);
             this.cmdDecrypt.Name = "cmdDecrypt";
-            this.cmdDecrypt.Size = new System.Drawing.Size(75, 23);
+            this.cmdDecrypt.Size = new System.Drawing.Size(87, 23);
             this.cmdDecrypt.TabIndex = 4;
             this.cmdDecrypt.Text = "Decrypt";
+            this.cmdDecrypt.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cmdDecrypt.UseVisualStyleBackColor = true;
             this.cmdDecrypt.Click += new System.EventHandler(this.cmdDecrypt_Click);
             // 
