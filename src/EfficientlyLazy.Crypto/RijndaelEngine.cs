@@ -97,6 +97,11 @@ namespace EfficientlyLazy.Crypto
         ///</summary>
         public Encoding Encoding { get; private set; }
 
+        /// <summary>
+        /// Used in old key generation using the now Obsolite PasswordDeriveBytes
+        /// </summary>
+        public string HashAlgorithm { get; private set; }
+
         #region ICryptoEngine Members
 
         /// <summary>
@@ -552,26 +557,60 @@ namespace EfficientlyLazy.Crypto
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hashAlgorithm"></param>
+        /// <returns></returns>
+        [Obsolete("Used in old key generation using the now Obsolite PasswordDeriveBytes", false)]
+        public RijndaelEngine SetHashAlgorithm(string hashAlgorithm)
+        {
+            HashAlgorithm = hashAlgorithm;
+
+            GenerateEngine();
+
+            return this;
+        }
+
         private void GenerateEngine()
         {
             // Initialization vector converted to a byte array.  Get bytes of initialization vector.
             byte[] initVectorBytes = Encoding.GetBytes(ToString(InitVector));
 
-            // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
-            // Get bytes of salt (used in hashing).
-            byte[] saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
+            byte[] keyBytes;
 
-            var symmetricKey = new RijndaelManaged();
+            if (!string.IsNullOrEmpty(HashAlgorithm))
+            {
+                // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
+                // Get bytes of salt (used in hashing).
+                var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[0] : Encoding.GetBytes(ToString(Salt));
+                
+                var password = new PasswordDeriveBytes(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations);
 
-            var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
+                // Convert key to a byte array adjusting the size from bits to bytes.
+                keyBytes = password.GetBytes((int)KeySize / 8);
+            }
+            else
+            {
+                // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
+                // Get bytes of salt (used in hashing).
+                var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
 
-            // Convert key to a byte array adjusting the size from bits to bytes.
-            byte[] keyBytes = password.GetBytes((int)KeySize / 8);
+                var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
+
+                // Convert key to a byte array adjusting the size from bits to bytes.
+                keyBytes = password.GetBytes((int) KeySize/8);
+            }
 
             // If we do not have initialization vector, we cannot use the CBC mode.
             // The only alternative is the ECB mode (which is not as good).
-            symmetricKey.Mode = (initVectorBytes.Length == 0) ? CipherMode.ECB : CipherMode.CBC;
-
+            var symmetricKey = new RijndaelManaged
+                                   {
+                                       Mode = (initVectorBytes.Length == 0)
+                                                  ? CipherMode.ECB
+                                                  : CipherMode.CBC
+                                   };
+            
             // Create encryptor and decryptor, which we will use for cryptographic operations.
             _encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
             _decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);

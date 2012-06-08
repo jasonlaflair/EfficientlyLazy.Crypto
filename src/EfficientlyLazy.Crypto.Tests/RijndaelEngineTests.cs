@@ -218,7 +218,7 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Repeat(50)]
-        [Row(Encodings.None, ExpectedException = typeof (ArgumentNullException))]
+        [Row(Encodings.None, ExpectedException = typeof(ArgumentNullException))]
         [Row(Encodings.ASCII)]
         [Row(Encodings.Unicode)]
         [Row(Encodings.UTF32)]
@@ -230,20 +230,20 @@ namespace EfficientlyLazy.Crypto.Test
 
             switch (encodingType)
             {
-                    //case Encodings.None:
-                case Encodings.ASCII :
+                //case Encodings.None:
+                case Encodings.ASCII:
                     encoding = Encoding.ASCII;
                     break;
-                case Encodings.Unicode :
+                case Encodings.Unicode:
                     encoding = Encoding.Unicode;
                     break;
-                case Encodings.UTF32 :
+                case Encodings.UTF32:
                     encoding = Encoding.UTF32;
                     break;
-                case Encodings.UTF7 :
+                case Encodings.UTF7:
                     encoding = Encoding.UTF7;
                     break;
-                case Encodings.UTF8 :
+                case Encodings.UTF8:
                     encoding = Encoding.UTF8;
                     break;
             }
@@ -264,7 +264,7 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Repeat(50)]
-        [ExpectedException(typeof (CryptographicException))]
+        [ExpectedException(typeof(CryptographicException))]
         public void InvalidDecryption()
         {
             string randomData = GenerateClearText();
@@ -284,9 +284,9 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Repeat(50)]
-        [Row(null, ExpectedException = typeof (ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof (ArgumentOutOfRangeException))]
+        [Row(null, ExpectedException = typeof(ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
         public void SetInitVectorStringInvalid(string invalidValue)
         {
             string key = GeneratePassPhrase();
@@ -299,9 +299,9 @@ namespace EfficientlyLazy.Crypto.Test
 
         [Test]
         [Repeat(50)]
-        [Row(null, ExpectedException = typeof (ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof (ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof (ArgumentOutOfRangeException))]
+        [Row(null, ExpectedException = typeof(ArgumentNullException))]
+        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
         public void SetInitVectorSecureStringInvalid(string invalidValue)
         {
             string key = GeneratePassPhrase();
@@ -373,6 +373,18 @@ namespace EfficientlyLazy.Crypto.Test
                 .SetIterations(times);
 
             Assert.Fail("Should never get here");
+        }
+
+        [Test]
+        public void SetHashAlgorithm_To_Test_Backwards_Compatability()
+        {
+            ICryptoEngine engine = new RijndaelEngine("ggsssdsdgfsdfgagawrgarg345gae5gdsargfsxgzfsga")
+                .SetHashAlgorithm("SHA1")
+                .SetIterations(1);
+
+            var plain = engine.Decrypt("ByFZ5i5rMdprzBE/WVoUJQ==");
+
+            Assert.AreEqual("Hello There!!", plain);
         }
     }
 }
