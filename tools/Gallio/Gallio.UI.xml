@@ -25,26 +25,26 @@
         <member name="M:Gallio.UI.Common.Policies.UnhandledExceptionPolicy.Report(System.String,System.Exception)">
             <inheritdoc />
         </member>
-        <member name="T:Gallio.UI.Common.Synchronization.SynchronizationContext">
+        <member name="T:Gallio.UI.Common.Synchronization.SyncContext">
             <summary>
              Holder for the current sync context (e.g. the winforms current).
             </summary>
         </member>
-        <member name="M:Gallio.UI.Common.Synchronization.SynchronizationContext.Send(System.Threading.SendOrPostCallback,System.Object)">
+        <member name="M:Gallio.UI.Common.Synchronization.SyncContext.Send(System.Threading.SendOrPostCallback,System.Object)">
             <summary>
             Wrapper for Send on the shared sync context.
             </summary>
             <param name="sendOrPostCallback">The SendOrPostCallback delegate to call.</param>
             <param name="state">The object passed to the delegate.</param>
         </member>
-        <member name="M:Gallio.UI.Common.Synchronization.SynchronizationContext.Post(System.Threading.SendOrPostCallback,System.Object)">
+        <member name="M:Gallio.UI.Common.Synchronization.SyncContext.Post(System.Threading.SendOrPostCallback,System.Object)">
             <summary>
             Wrapper for Post on the shared sync context.
             </summary>
             <param name="sendOrPostCallback">The SendOrPostCallback delegate to call.</param>
             <param name="state">The object passed to the delegate.</param>
         </member>
-        <member name="P:Gallio.UI.Common.Synchronization.SynchronizationContext.Current">
+        <member name="P:Gallio.UI.Common.Synchronization.SyncContext.Current">
             <summary>
              Returns a shared SynchronizationContext instance.
             </summary>

@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>Visual Studio Interoperability Plugin</name>
-    <version>3.3.0.0</version>
+    <version>3.4.0.0</version>
     <description>Provides support for opening files in Visual Studio and launching the debugger.</description>
   </traits>
 
@@ -18,7 +18,7 @@
   </files>
 
   <assemblies>
-    <assembly fullName="Gallio.VisualStudio.Interop, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.VisualStudio.Interop, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.VisualStudio.Interop.dll"
               qualifyPartialName="true" />
   </assemblies>

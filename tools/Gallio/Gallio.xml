@@ -722,7 +722,63 @@
             </summary>
             <param name="message">The message to send.</param>
         </member>
-        <member name="T:Gallio.Common.Messaging.MessageConsumer">
+        <member name="T:Gallio.Common.Messaging.MessageFormatters.BinaryMessageFormatter">
+            <summary>
+             IMessageFormatter impl using the .net BinaryFormatter.
+            </summary>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageFormatters.IMessageFormatter">
+            <summary>
+            Serialise or deserialise a message for the wire.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageFormatters.IMessageFormatter.Serialise(Gallio.Common.Messaging.Message)">
+            <summary>
+             Serialise a message.
+            </summary>
+            <param name="message">The message to serialise.</param>
+            <returns>A byte array containing the serialised data.</returns>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageFormatters.IMessageFormatter.Deserialise(System.Byte[])">
+            <summary>
+             Deserialise a message.
+            </summary>
+            <param name="messageData">The raw message data.</param>
+            <returns>The deserialised message.</returns>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageFormatters.BinaryMessageFormatter.#ctor">
+            <summary>
+             Default ctor.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageFormatters.BinaryMessageFormatter.Serialise(Gallio.Common.Messaging.Message)">
+            <summary>
+             Serialise a message.
+            </summary>
+            <param name="message">The message to serialise.</param>
+            <returns>A byte array containing the serialised data.</returns>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageFormatters.BinaryMessageFormatter.Deserialise(System.Byte[])">
+            <summary>
+             Deserialise a message.
+            </summary>
+            <param name="messageData">The raw message data.</param>
+            <returns>The deserialised message.</returns>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.IMessageSink">
+            <summary>
+            Publishes messages directly to a subscriber.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.IMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <summary>
+            Publishes a message.
+            </summary>
+            <param name="message">The message.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
+            <exception cref="T:Gallio.Common.Validation.ValidationException">Thrown if <paramref name="message"/> is not valid.</exception>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.MessageConsumer">
             <summary>
             A message consumer provides a simple pattern for handling messages based on their type.
             </summary>
@@ -746,25 +802,12 @@
             </code>
             </example>
         </member>
-        <member name="T:Gallio.Common.Messaging.IMessageSink">
-            <summary>
-            Publishes messages directly to a subscriber.
-            </summary>
-        </member>
-        <member name="M:Gallio.Common.Messaging.IMessageSink.Publish(Gallio.Common.Messaging.Message)">
-            <summary>
-            Publishes a message.
-            </summary>
-            <param name="message">The message.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
-            <exception cref="T:Gallio.Common.Validation.ValidationException">Thrown if <paramref name="message"/> is not valid.</exception>
-        </member>
-        <member name="M:Gallio.Common.Messaging.MessageConsumer.#ctor">
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageConsumer.#ctor">
             <summary>
             Creates a new message consumer with no handler clauses.
             </summary>
         </member>
-        <member name="M:Gallio.Common.Messaging.MessageConsumer.Consume(Gallio.Common.Messaging.Message)">
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageConsumer.Consume(Gallio.Common.Messaging.Message)">
             <summary>
             Consumes a message.
             </summary>
@@ -773,7 +816,7 @@
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
             <exception cref="T:Gallio.Common.Validation.ValidationException">Thrown if <paramref name="message"/> is not valid.</exception>
         </member>
-        <member name="M:Gallio.Common.Messaging.MessageConsumer.Handle``1(System.Action{``0})">
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageConsumer.Handle``1(System.Action{``0})">
             <summary>
             Adds a handler for a particular message type.
             </summary>
@@ -782,13 +825,204 @@
             <returns>The message consumer.</returns>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="handlerAction"/> is null.</exception>
         </member>
-        <member name="M:Gallio.Common.Messaging.MessageConsumer.Otherwise(System.Action{Gallio.Common.Messaging.Message})">
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageConsumer.Otherwise(System.Action{Gallio.Common.Messaging.Message})">
             <summary>
             Adds a catch-all handler.
             </summary>
             <param name="handlerAction">The message handler action.</param>
             <returns>The message consumer.</returns>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="handlerAction"/> is null.</exception>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.MessageExchange">
+            <summary>
+            A message exchange mediates interactions between a server and a client.
+            </summary>
+            <remarks>
+            <para>
+            This is interim API to be used until the new message broker is ready.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Gallio.Common.Remoting.LongLivedMarshalByRefObject">
+            <summary>
+            Base class for long-lived marshal by ref objects.
+            </summary>
+            <remarks>
+            <para>
+            A <see cref="T:Gallio.Common.Remoting.LongLivedMarshalByRefObject"/> represents a remote
+            object whose lifetime is managed explicitly.  It ensures that long-lived
+            services are not inadvertently disconnected by the remoting infrastructure
+            and remain accessible until the application discards them.
+            </para>
+            <para>
+            However, it is important to keep a reference to the marshalled object
+            to ensure it does not get garbage collected prematurely.  A marshalled
+            object can also be explicitly disconnected via <see cref="M:System.Runtime.Remoting.RemotingServices.Disconnect(System.MarshalByRefObject)"/>.
+            </para>
+            <para>
+            This class overrides <see cref="M:Gallio.Common.Remoting.LongLivedMarshalByRefObject.InitializeLifetimeService"/>
+            to return <c>null</c> which disables the automatic lease-management
+            performed by the default lifetime service.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Gallio.Common.Remoting.LongLivedMarshalByRefObject.InitializeLifetimeService">
+            <inheritdoc />
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageExchange.#ctor(Gallio.Common.Messaging.MessageSinks.IMessageSink)">
+            <summary>
+            Creates a message exchange.
+            </summary>
+            <param name="messageSink">The message sink to which messages sent by the client should
+            be directed.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageExchange.GetClientLink">
+            <summary>
+            Gets an interface that a client can use to asynchronously receive and
+            synchronously send messages.
+            </summary>
+            <returns>The client link.</returns>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageExchange.Publish(Gallio.Common.Messaging.Message)">
+            <summary>
+            Sends a message to the client.
+            </summary>
+            <param name="message">The message to send.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
+            <exception cref="T:Gallio.Common.Validation.ValidationException">Thrown if <paramref name="message"/> is not valid.</exception>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageExchange.WaitForPublishedMessagesToBeReceived(System.TimeSpan)">
+            <summary>
+            Waits for all published messages to be received by the client.
+            </summary>
+            <param name="timeout">The timeout.</param>
+            <returns>True if all messages were received, false if a timeout occurred.</returns>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.MessageSinkFactory">
+            <summary>
+            Message sink factory.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageSinkFactory.GetRunnerMessageSink(Gallio.Model.Isolation.TestIsolationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink)">
+            <summary>
+            Gets the right message sink for the runner, based on the test isolation options.
+            </summary>
+            <param name="testIsolationOptions">The test isolation options.</param>
+            <param name="messageSink">The message sink to wrap.</param>
+            <returns>An appropriate message sink for the runner.</returns>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.MessageSinkFactory.GetHostMessageSink(Gallio.Model.Isolation.TestIsolationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink)">
+            <summary>
+            Gets the right message sink for the host, based on the test isolation options.
+            </summary>
+            <param name="testIsolationOptions">The test isolation options.</param>
+            <param name="messageSink">The message sink to wrap.</param>
+            <returns>An appropriate message sink for the runner.</returns>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.NullMessageSink">
+            <summary>
+            A null message sink discards all messages sent to it.
+            </summary>
+        </member>
+        <member name="F:Gallio.Common.Messaging.MessageSinks.NullMessageSink.Instance">
+            <summary>
+            Gets the singleton instance of the null message sink.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.NullMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <inheritdoc />
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.QueuedMessageSink">
+            <summary>
+            Wraps a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/> and queues messages so that messages are
+            published asynchronously.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.QueuedMessageSink.#ctor(Gallio.Common.Messaging.MessageSinks.IMessageSink)">
+            <summary>
+            Creates a queued message sink.
+            </summary>
+            <param name="messageSink">The message sink to wrap.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.QueuedMessageSink.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.QueuedMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.QueuedMessageSink.Flush">
+            <summary>
+            Flushes the queue.
+            </summary>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.RemoteMessageSink">
+            <summary>
+            Wraps a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/> so that messages can be sent remotely.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.RemoteMessageSink.#ctor(Gallio.Common.Messaging.MessageSinks.IMessageSink)">
+            <summary>
+            Creates a remote message sink.
+            </summary>
+            <param name="messageSink">The message sink to wrap.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.RemoteMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <inheritdoc />
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpListenerMessageSink">
+            <summary>
+            Wraps a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/> so that messages can be sent remotely.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpListenerMessageSink.#ctor(Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Common.Messaging.MessageFormatters.IMessageFormatter,System.Nullable{System.Int32})">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpListenerMessageSink.Dispose">
+            <summary>
+            Closes the TCP client.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpListenerMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <inheritdoc />
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpServerMessageSink">
+            <summary>
+            Async TCP based message sink.
+            </summary>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpServerMessageSink.#ctor(Gallio.Common.Messaging.MessageFormatters.IMessageFormatter,System.Nullable{System.Int32})">
+            <summary>
+             Async TCP based message sink.
+            </summary>
+            <param name="messageFormatter">The formatter to use.</param>
+            <param name="port">The port to use.</param>
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpServerMessageSink.Publish(Gallio.Common.Messaging.Message)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gallio.Common.Messaging.MessageSinks.Tcp.AsyncTcpServerMessageSink.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.Tcp.FramedMessage">
+            <summary>
+            Wraps a Message, and adds the message length before when writing to a socket.
+            </summary>
+        </member>
+        <member name="T:Gallio.Common.Messaging.MessageSinks.Tcp.SocketErrorCodes">
+            <summary>
+            Socket error codes - http://msdn.microsoft.com/en-us/library/windows/desktop/ms740668(v=vs.85).aspx
+            </summary>
+        </member>
+        <member name="F:Gallio.Common.Messaging.MessageSinks.Tcp.SocketErrorCodes.WSAECONNREFUSED">
+            <summary>
+            Connection refused.
+            </summary>
         </member>
         <member name="T:Gallio.Common.Messaging.NamespaceDoc">
             <summary>
@@ -3996,72 +4230,6 @@
             Gets the width of the screenshots that will be taken.
             </summary>
             <exception cref="T:System.ObjectDisposedException">Thrown if the object has been disposed.</exception>
-        </member>
-        <member name="T:Gallio.Common.Messaging.MessageExchange">
-            <summary>
-            A message exchange mediates interactions between a server and a client.
-            </summary>
-            <remarks>
-            <para>
-            This is interim API to be used until the new message broker is ready.
-            </para>
-            </remarks>
-        </member>
-        <member name="T:Gallio.Common.Remoting.LongLivedMarshalByRefObject">
-            <summary>
-            Base class for long-lived marshal by ref objects.
-            </summary>
-            <remarks>
-            <para>
-            A <see cref="T:Gallio.Common.Remoting.LongLivedMarshalByRefObject"/> represents a remote
-            object whose lifetime is managed explicitly.  It ensures that long-lived
-            services are not inadvertently disconnected by the remoting infrastructure
-            and remain accessible until the application discards them.
-            </para>
-            <para>
-            However, it is important to keep a reference to the marshalled object
-            to ensure it does not get garbage collected prematurely.  A marshalled
-            object can also be explicitly disconnected via <see cref="M:System.Runtime.Remoting.RemotingServices.Disconnect(System.MarshalByRefObject)"/>.
-            </para>
-            <para>
-            This class overrides <see cref="M:Gallio.Common.Remoting.LongLivedMarshalByRefObject.InitializeLifetimeService"/>
-            to return <c>null</c> which disables the automatic lease-management
-            performed by the default lifetime service.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:Gallio.Common.Remoting.LongLivedMarshalByRefObject.InitializeLifetimeService">
-            <inheritdoc />
-        </member>
-        <member name="M:Gallio.Common.Messaging.MessageExchange.#ctor(Gallio.Common.Messaging.IMessageSink)">
-            <summary>
-            Creates a message exchange.
-            </summary>
-            <param name="messageSink">The message sink to which messages sent by the client should
-            be directed.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
-        </member>
-        <member name="M:Gallio.Common.Messaging.MessageExchange.GetClientLink">
-            <summary>
-            Gets an interface that a client can use to asynchronously receive and
-            synchronously send messages.
-            </summary>
-            <returns>The client link.</returns>
-        </member>
-        <member name="M:Gallio.Common.Messaging.MessageExchange.Publish(Gallio.Common.Messaging.Message)">
-            <summary>
-            Sends a message to the client.
-            </summary>
-            <param name="message">The message to send.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
-            <exception cref="T:Gallio.Common.Validation.ValidationException">Thrown if <paramref name="message"/> is not valid.</exception>
-        </member>
-        <member name="M:Gallio.Common.Messaging.MessageExchange.WaitForPublishedMessagesToBeReceived(System.TimeSpan)">
-            <summary>
-            Waits for all published messages to be received by the client.
-            </summary>
-            <param name="timeout">The timeout.</param>
-            <returns>True if all messages were received, false if a timeout occurred.</returns>
         </member>
         <member name="T:Gallio.Common.Messaging.Topic">
             <summary>
@@ -10869,7 +11037,7 @@
             The Gallio.Model.Contexts namespace provides an optional abstraction for
             associating a <see cref="T:Gallio.Model.Contexts.ITestContext"/> with a thread which can then
             be used to track the current test and to publish test messages to a
-            <see cref="T:Gallio.Common.Messaging.IMessageSink"/>.
+            <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/>.
             </summary>
             <remarks>
             <para>
@@ -10963,7 +11131,7 @@
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="reflectionPolicy"/>
             or <paramref name="codeElement"/> is null.</exception>
         </member>
-        <member name="M:Gallio.Model.ITestDriver.Describe(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.ITestDriver.Describe(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Describes tests via reflection over code elements.
             </summary>
@@ -10977,7 +11145,7 @@
             <paramref name="codeElements"/>, <paramref name="testExplorationOptions"/>, <paramref name="messageSink"/>
             or <paramref name="progressMonitor"/> is null.</exception>
         </member>
-        <member name="M:Gallio.Model.ITestDriver.Explore(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.ITestDriver.Explore(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Explores tests in a test package.
             </summary>
@@ -10991,7 +11159,7 @@
             <paramref name="testPackage"/>, <paramref name="testExplorationOptions"/>, <paramref name="messageSink"/>
             or <paramref name="progressMonitor"/> is null.</exception>
         </member>
-        <member name="M:Gallio.Model.ITestDriver.Run(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.ITestDriver.Run(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Runs tests from a test package.
             </summary>
@@ -11009,13 +11177,13 @@
         <member name="M:Gallio.Model.BaseTestDriver.GetTestParts(Gallio.Common.Reflection.IReflectionPolicy,Gallio.Common.Reflection.ICodeElementInfo)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.Describe(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.Describe(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.Explore(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.Explore(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.Run(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.Run(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
         <member name="M:Gallio.Model.BaseTestDriver.GetTestPartsImpl(Gallio.Common.Reflection.IReflectionPolicy,Gallio.Common.Reflection.ICodeElementInfo)">
@@ -11032,7 +11200,7 @@
             <param name="codeElement">The code element, not null.</param>
             <returns>The test parts, or an empty array if none.</returns>
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Describes tests via reflection over code elements.
             </summary>
@@ -11049,7 +11217,7 @@
             <param name="messageSink">The message sink to receive test exploration messages, not null.</param>
             <param name="progressMonitor">The progress monitor, not null.</param>
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Explores tests from a test package.
             </summary>
@@ -11066,7 +11234,7 @@
             <param name="progressMonitor">The progress monitor, not null.</param>
             <returns>The test report.</returns>
         </member>
-        <member name="M:Gallio.Model.BaseTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.BaseTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Runs tests from a test package.
             </summary>
@@ -11091,13 +11259,13 @@
             <param name="testFrameworkOptions">The test framework options.</param>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="testFrameworkOptions"/> is null.</exception>
         </member>
-        <member name="M:Gallio.Model.FallbackTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.FallbackTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.FallbackTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.FallbackTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.FallbackTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.FallbackTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
         <member name="P:Gallio.Model.FallbackTestDriver.FallbackExplanation">
@@ -11692,7 +11860,7 @@
             with these details.
             </para>
             <para>
-            Both the <see cref="M:Gallio.Model.DotNetTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)"/> and <see cref="M:Gallio.Model.DotNetTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)"/> methods execute on
+            Both the <see cref="M:Gallio.Model.DotNetTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)"/> and <see cref="M:Gallio.Model.DotNetTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)"/> methods execute on
             a remote created instance of the test driver within the test host.
             If the test driver does not have a default constructor then it must implement the
             <see cref="M:Gallio.Model.DotNetTestDriver.GetRemoteTestDriverArguments"/> method to provide the required constructor
@@ -11700,7 +11868,7 @@
             </para>
             </remarks>
         </member>
-        <member name="M:Gallio.Model.DotNetTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.DotNetTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Explores tests in an assembly.
             </summary>
@@ -11719,7 +11887,7 @@
             <param name="messageSink">The message sink, not null.</param>
             <param name="progressMonitor">The progress monitor, not null.</param>
         </member>
-        <member name="M:Gallio.Model.DotNetTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.DotNetTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <summary>
             Runs tests in an assembly.
             </summary>
@@ -11768,10 +11936,10 @@
             </remarks>
             <returns></returns>
         </member>
-        <member name="M:Gallio.Model.DotNetTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.DotNetTestDriver.ExploreImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.DotNetTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.DotNetTestDriver.RunImpl(Gallio.Model.Isolation.ITestIsolationContext,Gallio.Model.TestPackage,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
         <member name="M:Gallio.Model.DotNetTestDriver.CreateHostSetup(Gallio.Model.TestPackage,System.String,Gallio.Common.Reflection.AssemblyMetadata)">
@@ -11824,13 +11992,13 @@
             Runs the task.
             </summary>
         </member>
-        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.DescribeImpl(Gallio.Common.Reflection.IReflectionPolicy,System.Collections.Generic.IList{Gallio.Common.Reflection.ICodeElementInfo},Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.ExploreAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
-        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
+        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.RunAssembly(System.Reflection.Assembly,Gallio.Model.TestExplorationOptions,Gallio.Model.TestExecutionOptions,Gallio.Common.Messaging.MessageSinks.IMessageSink,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">
             <inheritdoc />
         </member>
         <member name="M:Gallio.Model.Helpers.SimpleTestDriver.CreateTestExplorer">
@@ -11871,7 +12039,7 @@
             </remarks>
             <returns>The test command factory.</returns>
         </member>
-        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.CreateTestContextManager(Gallio.Common.Messaging.IMessageSink)">
+        <member name="M:Gallio.Model.Helpers.SimpleTestDriver.CreateTestContextManager(Gallio.Common.Messaging.MessageSinks.IMessageSink)">
             <summary>
             Creates a test context manager for tracking test context and publishing
             test messages to a message sink.
@@ -11880,7 +12048,7 @@
             <para>
             The default implementation returns a new <see cref="T:Gallio.Model.Contexts.ObservableTestContextManager"/>
             attached to the current <see cref="P:Gallio.Model.Contexts.TestContextTrackerAccessor.Instance"/>
-            and the <see cref="T:Gallio.Common.Messaging.IMessageSink"/>.
+            and the <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/>.
             </para>
             </remarks>
             <param name="messageSink">The message sink to which test messages are published.</param>
@@ -11959,6 +12127,11 @@
             </para>
             </remarks>
         </member>
+        <member name="P:Gallio.Model.Isolation.ITestIsolationContext.TestIsolationOptions">
+            <summary>
+            Any extra parameters for test isolation.
+            </summary>
+        </member>
         <member name="M:Gallio.Model.Isolation.BaseTestIsolationContext.Dispose">
             <summary>
             Disposes the test isolation context.
@@ -12000,6 +12173,11 @@
         </member>
         <member name="P:Gallio.Model.Isolation.BaseTestIsolationContext.RequiresSingleThreadedExecution">
             <inheritdoc />
+        </member>
+        <member name="P:Gallio.Model.Isolation.BaseTestIsolationContext.TestIsolationOptions">
+            <summary>
+            Gets the test isolation options.
+            </summary>
         </member>
         <member name="T:Gallio.Model.Isolation.BaseTestIsolationProvider">
             <summary>
@@ -12233,11 +12411,6 @@
             Gets the host factory.
             </summary>
         </member>
-        <member name="P:Gallio.Model.Isolation.HostedTestIsolationContext.TestIsolationOptions">
-            <summary>
-            Gets the test isolation options.
-            </summary>
-        </member>
         <member name="P:Gallio.Model.Isolation.HostedTestIsolationContext.Logger">
             <summary>
             Gets the logger.
@@ -12431,7 +12604,7 @@
             messages and back.
             </summary>
         </member>
-        <member name="M:Gallio.Model.Messages.TestModelSerializer.PublishTestModel(Gallio.Model.Tree.TestModel,Gallio.Common.Messaging.IMessageSink)">
+        <member name="M:Gallio.Model.Messages.TestModelSerializer.PublishTestModel(Gallio.Model.Tree.TestModel,Gallio.Common.Messaging.MessageSinks.IMessageSink)">
             <summary>
             Publishes the contents of the test model to a message sink as test
             and annotation discovered messages.
@@ -29023,58 +29196,6 @@
             The process is running as a Windows service.
             </summary>
         </member>
-        <member name="T:Gallio.Common.Messaging.NullMessageSink">
-            <summary>
-            A null message sink discards all messages sent to it.
-            </summary>
-        </member>
-        <member name="F:Gallio.Common.Messaging.NullMessageSink.Instance">
-            <summary>
-            Gets the singleton instance of the null message sink.
-            </summary>
-        </member>
-        <member name="M:Gallio.Common.Messaging.NullMessageSink.Publish(Gallio.Common.Messaging.Message)">
-            <inheritdoc />
-        </member>
-        <member name="T:Gallio.Common.Messaging.QueuedMessageSink">
-            <summary>
-            Wraps a <see cref="T:Gallio.Common.Messaging.IMessageSink"/> and queues messages so that messages are
-            published asynchronously.
-            </summary>
-        </member>
-        <member name="M:Gallio.Common.Messaging.QueuedMessageSink.#ctor(Gallio.Common.Messaging.IMessageSink)">
-            <summary>
-            Creates a queued message sink.
-            </summary>
-            <param name="messageSink">The message sink to wrap.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
-        </member>
-        <member name="M:Gallio.Common.Messaging.QueuedMessageSink.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="M:Gallio.Common.Messaging.QueuedMessageSink.Publish(Gallio.Common.Messaging.Message)">
-            <inheritdoc />
-        </member>
-        <member name="M:Gallio.Common.Messaging.QueuedMessageSink.Flush">
-            <summary>
-            Flushes the queue.
-            </summary>
-        </member>
-        <member name="T:Gallio.Common.Messaging.RemoteMessageSink">
-            <summary>
-            Wraps a <see cref="T:Gallio.Common.Messaging.IMessageSink"/> so that messages can be sent remotely.
-            </summary>
-        </member>
-        <member name="M:Gallio.Common.Messaging.RemoteMessageSink.#ctor(Gallio.Common.Messaging.IMessageSink)">
-            <summary>
-            Creates a remote message sink.
-            </summary>
-            <param name="messageSink">The message sink to wrap.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="messageSink"/> is null.</exception>
-        </member>
-        <member name="M:Gallio.Common.Messaging.RemoteMessageSink.Publish(Gallio.Common.Messaging.Message)">
-            <inheritdoc />
-        </member>
         <member name="T:Gallio.Common.Messaging.MessagingException">
             <summary>
             An exception thrown during a messaging failure.
@@ -35520,7 +35641,7 @@
         <member name="T:Gallio.Model.Contexts.ObservableTestContext">
             <summary>
             An observable test context monitors translates state changes on the
-            test context into notifications on a <see cref="T:Gallio.Common.Messaging.IMessageSink"/>.
+            test context into notifications on a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/>.
             </summary>
         </member>
         <member name="T:Gallio.Model.Contexts.ITestContext">
@@ -35741,7 +35862,7 @@
         <member name="T:Gallio.Model.Contexts.ObservableTestContextManager">
             <summary>
             An observable test context manager creates and tracks test contexts and
-            publishes test messages back to a <see cref="T:Gallio.Common.Messaging.IMessageSink"/>.
+            publishes test messages back to a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/>.
             </summary>
         </member>
         <member name="T:Gallio.Model.Contexts.ITestContextManager">
@@ -35770,7 +35891,7 @@
             Gets the test context tracker.
             </summary>
         </member>
-        <member name="M:Gallio.Model.Contexts.ObservableTestContextManager.#ctor(Gallio.Model.Contexts.ITestContextTracker,Gallio.Common.Messaging.IMessageSink)">
+        <member name="M:Gallio.Model.Contexts.ObservableTestContextManager.#ctor(Gallio.Model.Contexts.ITestContextTracker,Gallio.Common.Messaging.MessageSinks.IMessageSink)">
             <summary>
             Creates a test context manager.
             </summary>
@@ -35792,10 +35913,10 @@
         </member>
         <member name="T:Gallio.Model.Contexts.ObservableTestLogWriter">
             <summary>
-            A log writer that sends messages to a <see cref="T:Gallio.Common.Messaging.IMessageSink"/>.
+            A log writer that sends messages to a <see cref="T:Gallio.Common.Messaging.MessageSinks.IMessageSink"/>.
             </summary>
         </member>
-        <member name="M:Gallio.Model.Contexts.ObservableTestLogWriter.#ctor(Gallio.Common.Messaging.IMessageSink,System.String)">
+        <member name="M:Gallio.Model.Contexts.ObservableTestLogWriter.#ctor(Gallio.Common.Messaging.MessageSinks.IMessageSink,System.String)">
             <summary>
             Creates a log writer.
             </summary>
@@ -39613,6 +39734,13 @@
             <param name="progressMonitor">The progress monitor.</param>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="progressMonitor"/> is null.</exception>
         </member>
+        <member name="M:Gallio.Runner.Reports.IReportWriter.WithUpdatedContentPathsAndDisposition(Gallio.Common.Markup.AttachmentContentDisposition,Gallio.Common.Action)">
+            <summary>
+            Perform an action with updated content paths and dispositions
+            </summary>
+            <param name="attachmentContentDisposition">The attachment content disposition to use.</param>
+            <param name="action">The action to perform.</param>
+        </member>
         <member name="P:Gallio.Runner.Reports.IReportWriter.Report">
             <summary>
             Gets the report being generated.
@@ -39648,6 +39776,9 @@
             <inheritdoc />
         </member>
         <member name="M:Gallio.Runner.Reports.DefaultReportWriter.SerializeReport(System.Xml.XmlWriter,Gallio.Common.Markup.AttachmentContentDisposition)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gallio.Runner.Reports.DefaultReportWriter.WithUpdatedContentPathsAndDisposition(Gallio.Common.Markup.AttachmentContentDisposition,Gallio.Common.Action)">
             <inheritdoc />
         </member>
         <member name="M:Gallio.Runner.Reports.DefaultReportWriter.SaveReport(Gallio.Common.Markup.AttachmentContentDisposition,Gallio.Runtime.ProgressMonitoring.IProgressMonitor)">

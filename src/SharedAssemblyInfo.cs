@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescriptionAttribute("Simplifying .NET Cryptography")]
 [assembly: AssemblyCompanyAttribute("LaFlair.NET")]
 [assembly: AssemblyProductAttribute("EfficientlyLazy.Crypto for .NET")]
-[assembly: AssemblyCopyrightAttribute("Copyright © Jason LaFlair & LaFlair.NET 2009-2011")]
+[assembly: AssemblyCopyrightAttribute("Copyright © LaFlair.NET 2009-2012")]
 
 [assembly: ComVisibleAttribute(false)]
 

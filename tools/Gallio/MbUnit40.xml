@@ -4,6 +4,14 @@
         <name>MbUnit40</name>
     </assembly>
     <members>
+        <member name="T:MbUnit.Framework.AsyncTestAttribute">
+            <summary>
+            Test async methods.
+            </summary>
+        </member>
+        <member name="M:MbUnit.Framework.AsyncTestAttribute.Execute(Gallio.Framework.Pattern.PatternTestInstanceState)">
+            <inheritdoc />
+        </member>
         <member name="T:MbUnit.Framework.TabularDataFileType">
             <summary>
             Specifies the type of File user by TabularDataAttribute

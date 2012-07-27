@@ -4,7 +4,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>Gallio Reports Library</name>
-    <version>3.3.0.0</version>
+    <version>3.4.0.0</version>
     <description>Provides several common report formats including Xml, Html, XHtml, MHtml and Text.</description>
     <icon>plugin://Gallio/Resources/Gallio.ico</icon>
   </traits>
@@ -56,7 +56,7 @@
 
   <assemblies>
     <assembly 
-      fullName="Gallio.Reports, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+      fullName="Gallio.Reports, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
       codeBase="Gallio.Reports.dll"
       qualifyPartialName="true" />
   </assemblies>

@@ -5,7 +5,7 @@
         xmlns="http://www.gallio.org/">
   <traits>
     <name>Visual Studio 2010 Test Runner</name>
-    <version>3.3.0.0</version>
+    <version>3.4.0.0</version>
     <description>Enables Visual Studio 2010 to run Gallio tests via the Test View.</description>
   </traits>
 
@@ -27,16 +27,16 @@
   </probingPaths>
   
   <assemblies>
-    <assembly fullName="Gallio.VisualStudio.Tip100, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+    <assembly fullName="Gallio.VisualStudio.Tip100, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
               codeBase="Gallio.VisualStudio.Tip100.dll"
               qualifyPartialName="true" />
     
-    <assembly fullName="Gallio.VisualStudio.Tip100.Proxy, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e" />
+    <assembly fullName="Gallio.VisualStudio.Tip100.Proxy, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e" />
   </assemblies>
 
   <services>
     <service serviceId="Tip100.ProxyHandler"
-             serviceType="Gallio.VisualStudio.Tip.IProxyHandler, Gallio.VisualStudio.Tip100.Proxy, Version=3.3.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
+             serviceType="Gallio.VisualStudio.Tip.IProxyHandler, Gallio.VisualStudio.Tip100.Proxy, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
   </services>
   
   <components>
