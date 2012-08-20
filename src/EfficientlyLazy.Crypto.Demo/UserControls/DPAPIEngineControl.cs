@@ -62,7 +62,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         protected override string EngineEncrypt(string clearText)
         {
-            ICryptoEngine engine = GenerateEngine();
+            var engine = GenerateEngine();
 
             return engine.Encrypt(clearText);
         }
@@ -71,7 +71,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         protected override string EngineDecrypt(string encryptedText)
         {
-            ICryptoEngine engine = GenerateEngine();
+            var engine = GenerateEngine();
 
             return engine.Decrypt(encryptedText);
         }

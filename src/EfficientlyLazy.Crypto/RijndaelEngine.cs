@@ -120,7 +120,7 @@ namespace EfficientlyLazy.Crypto
                 try
                 {
                     // Add salt at the beginning of the plain text bytes (if needed).
-                    byte[] plainTextBytesWithSalt = AddSalt(plaintext);
+                    var plainTextBytesWithSalt = AddSalt(plaintext);
 
                     using (var memoryStream = new MemoryStream())
                     {
@@ -189,7 +189,7 @@ namespace EfficientlyLazy.Crypto
                         }
                     }
 
-                    int saltLen = 0;
+                    var saltLen = 0;
 
                     // If we are using salt, get its length from the first 4 bytes of plain text data.
                     if (RandomSaltMaximumLength > 0 && RandomSaltMaximumLength >= RandomSaltMinimumLength)
@@ -295,7 +295,7 @@ namespace EfficientlyLazy.Crypto
             }
 
             // Generate the salt.
-            byte[] saltBytes = GenerateSalt();
+            var saltBytes = GenerateSalt();
 
             // Allocate array which will hold salt and plain text bytes.
             var plainTextBytesWithSalt = new byte[plainTextBytes.Length + saltBytes.Length];
@@ -347,7 +347,7 @@ namespace EfficientlyLazy.Crypto
         {
             var ss = new SecureString();
 
-            foreach (char ch in text)
+            foreach (var ch in text)
             {
                 ss.AppendChar(ch);
             }
@@ -361,7 +361,7 @@ namespace EfficientlyLazy.Crypto
         {
             string text;
 
-            IntPtr ptr = IntPtr.Zero;
+            var ptr = IntPtr.Zero;
 
             try
             {
@@ -575,7 +575,7 @@ namespace EfficientlyLazy.Crypto
         private void GenerateEngine()
         {
             // Initialization vector converted to a byte array.  Get bytes of initialization vector.
-            byte[] initVectorBytes = Encoding.GetBytes(ToString(InitVector));
+            var initVectorBytes = Encoding.GetBytes(ToString(InitVector));
 
             byte[] keyBytes;
 
@@ -588,7 +588,9 @@ namespace EfficientlyLazy.Crypto
                 var password = new PasswordDeriveBytes(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations);
 
                 // Convert key to a byte array adjusting the size from bits to bytes.
+#pragma warning disable 612,618
                 keyBytes = password.GetBytes((int)KeySize / 8);
+#pragma warning restore 612,618
             }
             else
             {

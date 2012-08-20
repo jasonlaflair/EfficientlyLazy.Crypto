@@ -52,11 +52,11 @@ namespace EfficientlyLazy.Crypto
                 throw new ArgumentNullException("plaintext", "plainText cannot be null");
             }
 
-            byte[] hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(plaintext);
+            var hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(plaintext);
 
-            string strRet = string.Empty;
+            var strRet = string.Empty;
 
-            foreach (byte b in hashValue)
+            foreach (var b in hashValue)
             {
                 strRet += String.Format("{0:x2}", b);
             }
@@ -77,7 +77,7 @@ namespace EfficientlyLazy.Crypto
                 throw new ArgumentNullException("file", "file cannot be null");
             }
 
-            string strRet = string.Empty;
+            var strRet = string.Empty;
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
             {
@@ -225,16 +225,16 @@ namespace EfficientlyLazy.Crypto
                 throw new ArgumentNullException("key", "key cannot be null");
             }
 
-            string strRet = string.Empty;
+            var strRet = string.Empty;
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
             {
-                HMAC hash = HMAC.Create("HMAC" + algorithm);
+                var hash = HMAC.Create("HMAC" + algorithm);
                 hash.Key = key;
 
-                byte[] hashValue = hash.ComputeHash(fs);
+                var hashValue = hash.ComputeHash(fs);
 
-                foreach (byte b in hashValue)
+                foreach (var b in hashValue)
                 {
                     strRet += string.Format("{0:x2}", b);
                 }

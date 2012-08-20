@@ -166,7 +166,7 @@ namespace EfficientlyLazy.Crypto
                 entropyBlob = DPAPINativeDATABLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
 
                 // Disable any types of UI.
-                int flags = CRYPTPROTECT_UI_FORBIDDEN;
+                var flags = CRYPTPROTECT_UI_FORBIDDEN;
 
                 // When using machine-specific key, set up machine flag.
                 if (keyType == KeyType.MachineKey)
@@ -175,13 +175,13 @@ namespace EfficientlyLazy.Crypto
                 }
 
                 // Call DPAPI to encrypt data.
-                bool success = ProtectData(ref plainTextBlob, string.Empty, ref entropyBlob, IntPtr.Zero, ref prompt, flags, ref cipherTextBlob);
+                var success = ProtectData(ref plainTextBlob, string.Empty, ref entropyBlob, IntPtr.Zero, ref prompt, flags, ref cipherTextBlob);
 
                 // Check the result.
                 if (!success)
                 {
                     // If operation failed, retrieve last Win32 error.
-                    int errCode = Marshal.GetLastWin32Error();
+                    var errCode = Marshal.GetLastWin32Error();
 
                     // Win32Exception will contain error message corresponding
                     // to the Windows error code.
@@ -234,17 +234,17 @@ namespace EfficientlyLazy.Crypto
                 entropyBlob = DPAPINativeDATABLOB.Init(entropy);
 
                 // Initialize description string.
-                string description = String.Empty;
+                var description = String.Empty;
 
                 // Call DPAPI to decrypt data.
-                bool success = UnprotectData(ref cipherTextBlob, ref description, ref entropyBlob, IntPtr.Zero, ref prompt,
+                var success = UnprotectData(ref cipherTextBlob, ref description, ref entropyBlob, IntPtr.Zero, ref prompt,
                                              CRYPTPROTECT_UI_FORBIDDEN, ref plainTextBlob);
 
                 // Check the result.
                 if (!success)
                 {
                     // If operation failed, retrieve last Win32 error.
-                    int errCode = Marshal.GetLastWin32Error();
+                    var errCode = Marshal.GetLastWin32Error();
 
                     // Win32Exception will contain error message corresponding
                     // to the Windows error code.
@@ -279,7 +279,7 @@ namespace EfficientlyLazy.Crypto
         {
             var ss = new SecureString();
 
-            foreach (char ch in text)
+            foreach (var ch in text)
             {
                 ss.AppendChar(ch);
             }
@@ -293,7 +293,7 @@ namespace EfficientlyLazy.Crypto
         {
             string text;
 
-            IntPtr ptr = IntPtr.Zero;
+            var ptr = IntPtr.Zero;
 
             try
             {

@@ -257,7 +257,7 @@ namespace EfficientlyLazy.Crypto
                 throw new ArgumentException("at least one character include requirement must be specified");
             }
 
-            List<char> characterPool = GenerateCharacterPool(includeUppercase, includeLowercase, includeNumbers, includeSpecials);
+            var characterPool = GenerateCharacterPool(includeUppercase, includeLowercase, includeNumbers, includeSpecials);
 
             return RandomString(characterPool, minimumLength, maximumLength);
         }
@@ -273,13 +273,13 @@ namespace EfficientlyLazy.Crypto
 
         private static string RandomString(IList<char> characterPool, int minimumLength, int maximumLength)
         {
-            int length = _random.Next(minimumLength, maximumLength);
+            var length = _random.Next(minimumLength, maximumLength);
 
-            StringBuilder data = new StringBuilder();
+            var data = new StringBuilder();
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                char randomChar = characterPool[_random.Next(0, characterPool.Count - 1)];
+                var randomChar = characterPool[_random.Next(0, characterPool.Count - 1)];
                 data.Append(randomChar);
             }
 
@@ -295,14 +295,14 @@ namespace EfficientlyLazy.Crypto
             var rng = new RNGCryptoServiceProvider();
             rng.GetBytes(randomBytes);
 
-            int seed = ((randomBytes[0] & 0x7f) << 24) | (randomBytes[1] << 16) | (randomBytes[2] << 8) | (randomBytes[3]);
+            var seed = ((randomBytes[0] & 0x7f) << 24) | (randomBytes[1] << 16) | (randomBytes[2] << 8) | (randomBytes[3]);
 
             return seed;
         }
 
         private static List<char> GenerateCharacterPool(bool includeUppercase, bool includeLowercase, bool includeNumbers, bool includeSpecials)
         {
-            List<char> masterCharacterPool = new List<char>();
+            var masterCharacterPool = new List<char>();
 
             if (includeUppercase)
             {
@@ -322,12 +322,12 @@ namespace EfficientlyLazy.Crypto
             }
 
             // randomize masterCharacterPool
-            for (int randomPasses = 0; randomPasses <= 4; randomPasses++)
+            for (var randomPasses = 0; randomPasses <= 4; randomPasses++)
             {
-                for (int idx = masterCharacterPool.Count - 1; idx > 0; --idx)
+                for (var idx = masterCharacterPool.Count - 1; idx > 0; --idx)
                 {
-                    int tempPosition = _random.Next(idx);
-                    char tempChar = masterCharacterPool[idx];
+                    var tempPosition = _random.Next(idx);
+                    var tempChar = masterCharacterPool[idx];
                     masterCharacterPool[idx] = masterCharacterPool[tempPosition];
                     masterCharacterPool[tempPosition] = tempChar;
                 }

@@ -51,6 +51,9 @@
             this.cbxUseKeySize = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtHashAlgorithm = new System.Windows.Forms.TextBox();
+            this.cbxUseHashAlgorithm = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMax)).BeginInit();
@@ -62,7 +65,7 @@
             this.txtKey.Location = new System.Drawing.Point(206, 19);
             this.txtKey.Name = "txtKey";
             this.txtKey.Size = new System.Drawing.Size(313, 20);
-            this.txtKey.TabIndex = 1;
+            this.txtKey.TabIndex = 0;
             // 
             // label1
             // 
@@ -80,7 +83,7 @@
             this.txtInitVector.Location = new System.Drawing.Point(205, 72);
             this.txtInitVector.Name = "txtInitVector";
             this.txtInitVector.Size = new System.Drawing.Size(313, 20);
-            this.txtInitVector.TabIndex = 2;
+            this.txtInitVector.TabIndex = 4;
             // 
             // label2
             // 
@@ -98,7 +101,7 @@
             this.txtSalt.Location = new System.Drawing.Point(205, 98);
             this.txtSalt.Name = "txtSalt";
             this.txtSalt.Size = new System.Drawing.Size(313, 20);
-            this.txtSalt.TabIndex = 3;
+            this.txtSalt.TabIndex = 6;
             // 
             // cmbKeySize
             // 
@@ -108,7 +111,7 @@
             this.cmbKeySize.Location = new System.Drawing.Point(206, 45);
             this.cmbKeySize.Name = "cmbKeySize";
             this.cmbKeySize.Size = new System.Drawing.Size(114, 21);
-            this.cmbKeySize.TabIndex = 0;
+            this.cmbKeySize.TabIndex = 2;
             // 
             // label3
             // 
@@ -136,7 +139,7 @@
             0});
             this.nudIterations.Name = "nudIterations";
             this.nudIterations.Size = new System.Drawing.Size(82, 20);
-            this.nudIterations.TabIndex = 6;
+            this.nudIterations.TabIndex = 11;
             this.nudIterations.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nudIterations.Value = new decimal(new int[] {
             10,
@@ -165,7 +168,7 @@
             0});
             this.nudSaltMin.Name = "nudSaltMin";
             this.nudSaltMin.Size = new System.Drawing.Size(82, 20);
-            this.nudSaltMin.TabIndex = 4;
+            this.nudSaltMin.TabIndex = 8;
             this.nudSaltMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label5
@@ -199,7 +202,7 @@
             0});
             this.nudSaltMax.Name = "nudSaltMax";
             this.nudSaltMax.Size = new System.Drawing.Size(82, 20);
-            this.nudSaltMax.TabIndex = 5;
+            this.nudSaltMax.TabIndex = 9;
             this.nudSaltMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label6
@@ -217,6 +220,7 @@
             this.groupBox1.Controls.Add(this.cbxUseEncoding);
             this.groupBox1.Controls.Add(this.cbxUsePasswordIterations);
             this.groupBox1.Controls.Add(this.cbxUseRandomSalt);
+            this.groupBox1.Controls.Add(this.cbxUseHashAlgorithm);
             this.groupBox1.Controls.Add(this.cbxUseKeySalt);
             this.groupBox1.Controls.Add(this.cbxUseInitVector);
             this.groupBox1.Controls.Add(this.cbxUseKeySize);
@@ -230,9 +234,11 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtHashAlgorithm);
             this.groupBox1.Controls.Add(this.txtSalt);
             this.groupBox1.Controls.Add(this.nudSaltMin);
             this.groupBox1.Controls.Add(this.cmbKeySize);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.nudIterations);
@@ -240,7 +246,7 @@
             this.groupBox1.Location = new System.Drawing.Point(10, 10);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(534, 238);
+            this.groupBox1.Size = new System.Drawing.Size(534, 262);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rijndael Parameters";
@@ -251,7 +257,7 @@
             this.cbxUseEncoding.Location = new System.Drawing.Point(184, 205);
             this.cbxUseEncoding.Name = "cbxUseEncoding";
             this.cbxUseEncoding.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseEncoding.TabIndex = 23;
+            this.cbxUseEncoding.TabIndex = 12;
             this.cbxUseEncoding.UseVisualStyleBackColor = true;
             this.cbxUseEncoding.CheckedChanged += new System.EventHandler(this.cbxUseEncoding_CheckedChanged);
             // 
@@ -261,7 +267,7 @@
             this.cbxUsePasswordIterations.Location = new System.Drawing.Point(184, 178);
             this.cbxUsePasswordIterations.Name = "cbxUsePasswordIterations";
             this.cbxUsePasswordIterations.Size = new System.Drawing.Size(15, 14);
-            this.cbxUsePasswordIterations.TabIndex = 23;
+            this.cbxUsePasswordIterations.TabIndex = 10;
             this.cbxUsePasswordIterations.UseVisualStyleBackColor = true;
             this.cbxUsePasswordIterations.CheckedChanged += new System.EventHandler(this.cbxUsePasswordIterations_CheckedChanged);
             // 
@@ -271,7 +277,7 @@
             this.cbxUseRandomSalt.Location = new System.Drawing.Point(184, 126);
             this.cbxUseRandomSalt.Name = "cbxUseRandomSalt";
             this.cbxUseRandomSalt.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseRandomSalt.TabIndex = 23;
+            this.cbxUseRandomSalt.TabIndex = 7;
             this.cbxUseRandomSalt.UseVisualStyleBackColor = true;
             this.cbxUseRandomSalt.CheckedChanged += new System.EventHandler(this.cbxUseRandomSalt_CheckedChanged);
             // 
@@ -281,7 +287,7 @@
             this.cbxUseKeySalt.Location = new System.Drawing.Point(184, 101);
             this.cbxUseKeySalt.Name = "cbxUseKeySalt";
             this.cbxUseKeySalt.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseKeySalt.TabIndex = 23;
+            this.cbxUseKeySalt.TabIndex = 5;
             this.cbxUseKeySalt.UseVisualStyleBackColor = true;
             this.cbxUseKeySalt.CheckedChanged += new System.EventHandler(this.cbxUseKeySalt_CheckedChanged);
             // 
@@ -291,7 +297,7 @@
             this.cbxUseInitVector.Location = new System.Drawing.Point(184, 75);
             this.cbxUseInitVector.Name = "cbxUseInitVector";
             this.cbxUseInitVector.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseInitVector.TabIndex = 23;
+            this.cbxUseInitVector.TabIndex = 3;
             this.cbxUseInitVector.UseVisualStyleBackColor = true;
             this.cbxUseInitVector.CheckedChanged += new System.EventHandler(this.cbxUseInitVector_CheckedChanged);
             // 
@@ -301,7 +307,7 @@
             this.cbxUseKeySize.Location = new System.Drawing.Point(184, 48);
             this.cbxUseKeySize.Name = "cbxUseKeySize";
             this.cbxUseKeySize.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseKeySize.TabIndex = 23;
+            this.cbxUseKeySize.TabIndex = 1;
             this.cbxUseKeySize.UseVisualStyleBackColor = true;
             this.cbxUseKeySize.CheckedChanged += new System.EventHandler(this.cbxUseKeySize_CheckedChanged);
             // 
@@ -323,7 +329,35 @@
             this.cmbEncoding.Location = new System.Drawing.Point(206, 202);
             this.cmbEncoding.Name = "cmbEncoding";
             this.cmbEncoding.Size = new System.Drawing.Size(221, 21);
-            this.cmbEncoding.TabIndex = 7;
+            this.cmbEncoding.TabIndex = 13;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(35, 232);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(96, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Hash Algorithm:";
+            // 
+            // txtHashAlgorithm
+            // 
+            this.txtHashAlgorithm.Enabled = false;
+            this.txtHashAlgorithm.Location = new System.Drawing.Point(205, 229);
+            this.txtHashAlgorithm.Name = "txtHashAlgorithm";
+            this.txtHashAlgorithm.Size = new System.Drawing.Size(313, 20);
+            this.txtHashAlgorithm.TabIndex = 15;
+            // 
+            // cbxUseHashAlgorithm
+            // 
+            this.cbxUseHashAlgorithm.AutoSize = true;
+            this.cbxUseHashAlgorithm.Location = new System.Drawing.Point(184, 232);
+            this.cbxUseHashAlgorithm.Name = "cbxUseHashAlgorithm";
+            this.cbxUseHashAlgorithm.Size = new System.Drawing.Size(15, 14);
+            this.cbxUseHashAlgorithm.TabIndex = 14;
+            this.cbxUseHashAlgorithm.UseVisualStyleBackColor = true;
+            this.cbxUseHashAlgorithm.CheckedChanged += new System.EventHandler(this.cbxUseHashAlgorithm_CheckedChanged);
             // 
             // RijndaelEngineControl
             // 
@@ -334,7 +368,7 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "RijndaelEngineControl";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(554, 258);
+            this.Size = new System.Drawing.Size(554, 282);
             this.Load += new System.EventHandler(this.RijndaelEngineControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).EndInit();
@@ -370,5 +404,8 @@
         private System.Windows.Forms.CheckBox cbxUseKeySalt;
         private System.Windows.Forms.CheckBox cbxUseInitVector;
         private System.Windows.Forms.CheckBox cbxUseKeySize;
+        private System.Windows.Forms.CheckBox cbxUseHashAlgorithm;
+        private System.Windows.Forms.TextBox txtHashAlgorithm;
+        private System.Windows.Forms.Label label9;
     }
 }

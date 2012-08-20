@@ -1,10 +1,17 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
-    public abstract class CryptoUserControl : UserControl
+    public class CryptoUserControl : UserControl
     {
-        public abstract string DisplayName { get; }
+        public virtual string DisplayName
+        {
+            get
+            {
+                throw new InvalidOperationException("Method needs to be overridden");
+            }
+        }
 
         public virtual string Encrypt(string clearText)
         {
@@ -20,12 +27,35 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
                        : string.Empty;
         }
 
-        protected abstract bool ValidateParameters();
+        protected virtual bool ValidateParameters()
+        {
+            throw new InvalidOperationException("Method needs to be overridden");
+        }
 
-        public abstract bool CanEncrypt { get; }
-        protected abstract string EngineEncrypt(string clearText);
+        public virtual bool CanEncrypt
+        {
+            get
+            {
+                throw new InvalidOperationException("Method needs to be overridden");
+            }
+        }
 
-        public abstract bool CanDecrypt { get; }
-        protected abstract string EngineDecrypt(string encryptedText);
+        protected virtual string EngineEncrypt(string clearText)
+        {
+            throw new InvalidOperationException("Method needs to be overridden");
+        }
+
+        public virtual bool CanDecrypt
+        {
+            get
+            {
+                throw new InvalidOperationException("Method needs to be overridden");
+            }
+        }
+
+        protected virtual string EngineDecrypt(string encryptedText)
+        {
+            throw new InvalidOperationException("Method needs to be overridden");
+        }
     }
 }

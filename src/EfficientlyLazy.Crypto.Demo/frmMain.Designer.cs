@@ -50,14 +50,14 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(12, 50);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 258);
+            this.panel1.Size = new System.Drawing.Size(554, 282);
             this.panel1.TabIndex = 0;
             // 
             // cmdEncrypt
             // 
             this.cmdEncrypt.Enabled = false;
             this.cmdEncrypt.Image = global::EfficientlyLazy.Crypto.Demo.Properties.Resources.encrypted_16x16;
-            this.cmdEncrypt.Location = new System.Drawing.Point(732, 168);
+            this.cmdEncrypt.Location = new System.Drawing.Point(729, 179);
             this.cmdEncrypt.Name = "cmdEncrypt";
             this.cmdEncrypt.Size = new System.Drawing.Size(87, 23);
             this.cmdEncrypt.TabIndex = 1;
@@ -71,22 +71,22 @@
             this.txtClearText.Location = new System.Drawing.Point(575, 50);
             this.txtClearText.Multiline = true;
             this.txtClearText.Name = "txtClearText";
-            this.txtClearText.Size = new System.Drawing.Size(337, 109);
+            this.txtClearText.Size = new System.Drawing.Size(337, 120);
             this.txtClearText.TabIndex = 3;
             // 
             // txtEncrypted
             // 
-            this.txtEncrypted.Location = new System.Drawing.Point(575, 199);
+            this.txtEncrypted.Location = new System.Drawing.Point(572, 212);
             this.txtEncrypted.Multiline = true;
             this.txtEncrypted.Name = "txtEncrypted";
-            this.txtEncrypted.Size = new System.Drawing.Size(337, 109);
+            this.txtEncrypted.Size = new System.Drawing.Size(337, 120);
             this.txtEncrypted.TabIndex = 3;
             // 
             // cmdDecrypt
             // 
             this.cmdDecrypt.Enabled = false;
             this.cmdDecrypt.Image = global::EfficientlyLazy.Crypto.Demo.Properties.Resources.decrypted_16x16;
-            this.cmdDecrypt.Location = new System.Drawing.Point(825, 168);
+            this.cmdDecrypt.Location = new System.Drawing.Point(822, 179);
             this.cmdDecrypt.Name = "cmdDecrypt";
             this.cmdDecrypt.Size = new System.Drawing.Size(87, 23);
             this.cmdDecrypt.TabIndex = 4;
@@ -109,7 +109,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(575, 184);
+            this.label2.Location = new System.Drawing.Point(572, 197);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 5;
@@ -133,33 +133,33 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // generateConnectionStringToolStripMenuItem
             // 
             this.generateConnectionStringToolStripMenuItem.Name = "generateConnectionStringToolStripMenuItem";
             this.generateConnectionStringToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-            this.generateConnectionStringToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.generateConnectionStringToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.generateConnectionStringToolStripMenuItem.Text = "Generate Connection String";
             this.generateConnectionStringToolStripMenuItem.Click += new System.EventHandler(this.generateConnectionStringToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(243, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(259, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // configurationToolStripMenuItem
             // 
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Text = "Configuration";
             // 
             // lblConfiguration
@@ -176,7 +176,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 319);
+            this.ClientSize = new System.Drawing.Size(924, 346);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblConfiguration);
             this.Controls.Add(this.label1);

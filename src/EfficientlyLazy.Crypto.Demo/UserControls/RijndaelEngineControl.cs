@@ -78,6 +78,11 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
                 engine.SetEncoding(cmbEncoding.SelectedItem as Encoding);
             }
 
+            if (!string.IsNullOrEmpty(txtHashAlgorithm.Text))
+            {
+                engine.SetHashAlgorithm(txtHashAlgorithm.Text);
+            }
+
             return engine;
         }
 
@@ -109,7 +114,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         protected override string EngineEncrypt(string clearText)
         {
-            ICryptoEngine engine = GenerateEngine();
+            var engine = GenerateEngine();
 
             return engine.Encrypt(clearText);
         }
@@ -118,7 +123,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         protected override string EngineDecrypt(string encryptedText)
         {
-            ICryptoEngine engine = GenerateEngine();
+            var engine = GenerateEngine();
 
             return engine.Decrypt(encryptedText);
         }
@@ -152,6 +157,11 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
         private void cbxUseEncoding_CheckedChanged(object sender, EventArgs e)
         {
             cmbEncoding.Enabled = cbxUseEncoding.Checked;
+        }
+
+        private void cbxUseHashAlgorithm_CheckedChanged(object sender, EventArgs e)
+        {
+            txtHashAlgorithm.Enabled = cbxUseHashAlgorithm.Checked;
         }
     }
 }

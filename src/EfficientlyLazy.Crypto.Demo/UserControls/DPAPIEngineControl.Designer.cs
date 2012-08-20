@@ -33,10 +33,10 @@
             this.cmbKeyType = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxUseEncoding = new System.Windows.Forms.CheckBox();
+            this.cbxUseEntropy = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
-            this.cbxUseEntropy = new System.Windows.Forms.CheckBox();
-            this.cbxUseEncoding = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,10 +90,30 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(10, 10);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(534, 238);
+            this.groupBox1.Size = new System.Drawing.Size(534, 262);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "DPAPI Parameters";
+            // 
+            // cbxUseEncoding
+            // 
+            this.cbxUseEncoding.AutoSize = true;
+            this.cbxUseEncoding.Location = new System.Drawing.Point(106, 75);
+            this.cbxUseEncoding.Name = "cbxUseEncoding";
+            this.cbxUseEncoding.Size = new System.Drawing.Size(15, 14);
+            this.cbxUseEncoding.TabIndex = 23;
+            this.cbxUseEncoding.UseVisualStyleBackColor = true;
+            this.cbxUseEncoding.CheckedChanged += new System.EventHandler(this.cbxUseEncoding_CheckedChanged);
+            // 
+            // cbxUseEntropy
+            // 
+            this.cbxUseEntropy.AutoSize = true;
+            this.cbxUseEntropy.Location = new System.Drawing.Point(106, 49);
+            this.cbxUseEntropy.Name = "cbxUseEntropy";
+            this.cbxUseEntropy.Size = new System.Drawing.Size(15, 14);
+            this.cbxUseEntropy.TabIndex = 23;
+            this.cbxUseEntropy.UseVisualStyleBackColor = true;
+            this.cbxUseEntropy.CheckedChanged += new System.EventHandler(this.cbxUseEntropy_CheckedChanged);
             // 
             // label8
             // 
@@ -115,36 +135,16 @@
             this.cmbEncoding.Size = new System.Drawing.Size(221, 21);
             this.cmbEncoding.TabIndex = 2;
             // 
-            // cbxUseEntropy
-            // 
-            this.cbxUseEntropy.AutoSize = true;
-            this.cbxUseEntropy.Location = new System.Drawing.Point(106, 49);
-            this.cbxUseEntropy.Name = "cbxUseEntropy";
-            this.cbxUseEntropy.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseEntropy.TabIndex = 23;
-            this.cbxUseEntropy.UseVisualStyleBackColor = true;
-            this.cbxUseEntropy.CheckedChanged += new System.EventHandler(this.cbxUseEntropy_CheckedChanged);
-            // 
-            // cbxUseEncoding
-            // 
-            this.cbxUseEncoding.AutoSize = true;
-            this.cbxUseEncoding.Location = new System.Drawing.Point(106, 75);
-            this.cbxUseEncoding.Name = "cbxUseEncoding";
-            this.cbxUseEncoding.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseEncoding.TabIndex = 23;
-            this.cbxUseEncoding.UseVisualStyleBackColor = true;
-            this.cbxUseEncoding.CheckedChanged += new System.EventHandler(this.cbxUseEncoding_CheckedChanged);
-            // 
             // DPAPIEngineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "DPAPIEngineControl";
-            this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
-            this.Size = new System.Drawing.Size(554, 258);
+            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Size = new System.Drawing.Size(554, 282);
             this.Load += new System.EventHandler(this.DPAPIEngineControl_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
