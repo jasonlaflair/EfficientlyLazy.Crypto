@@ -1,13 +1,99 @@
 require 'albacore'
 
-task :default => [:assemblyinfo, :build, :nugetpack]
+VERSION_NUMBER = ENV["version"] || '0.9.5.0'
+CONFIG = ENV["config"] || "Debug"
 
+task :release => [:updateAssemblyInfo, :buildSolution, :runUnitTests, :mergeDemoApp, :copyOutputFiles, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
+task :default => [:updateAssemblyInfo, :buildSolution, :runUnitTests]
+
+desc "Zip"
+zip :zipBinaries do |zip|
+     zip.directories_to_zip "Build"
+     zip.output_file = "EfficientlyLazy.Crypto.#{VERSION_NUMBER}.zip"
+     zip.output_path = "Build"
+end
+
+desc "Version Build Documentation"
+task :versionDocs do
+     lines = ""
+     versionFile = "doc/EfficientlyLazy.Crypto.shfbproj"
+     File.open(versionFile, 'r') do |f|
+          lines = f.readlines
+     end
+      
+     File.open(versionFile, 'w') do |content|
+          lines.each do |line|
+               if line.include?("<SHFBSchemaVersion>")
+                    content.puts "    <SHFBSchemaVersion>#{VERSION_NUMBER}</SHFBSchemaVersion>"
+               else
+                    content.puts line
+               end
+	       end
+     end
+end
+
+task :cleanup do
+	FileUtils.rm_rf "Build/content" if File.exists?("Build/content")
+	FileUtils.rm_rf "Build/lib" if File.exists?("Build/lib")
+	FileUtils.rm_rf "Build/tools" if File.exists?("Build/tools")
+	FileUtils.rm_rf "Build/EfficientlyLazy.Crypto.nuspec" if File.exists?("Build/EfficientlyLazy.Crypto.nuspec")
+end
+
+desc "XUnit Test Runner"
+xunit :runUnitTests do |xunit|
+	xunit.command = "tools/xunit/xunit.console.exe"
+	xunit.assembly = "src/EfficientlyLazy.Crypto.Tests/bin/#{CONFIG}/EfficientlyLazy.Crypto.Test.dll"
+end
+
+desc "copy"
+output :copyOutputFiles do |out|
+  out.from '.'
+  out.to 'Build'
+  out.file "src/EfficientlyLazy.Crypto/bin/#{CONFIG}/EfficientlyLazy.Crypto.dll", :as=>'lib/net20/EfficientlyLazy.Crypto.dll'
+  out.file "src/EfficientlyLazy.Crypto/bin/#{CONFIG}/EfficientlyLazy.Crypto.xml", :as=>'lib/net20/EfficientlyLazy.Crypto.xml'
+  out.file "src/EfficientlyLazy.Crypto.Demo/bin/#{CONFIG}/EfficientlyLazy.Crypto.Demo.Merged.exe", :as=>'tools/net20/EfficientlyLazy.Crypto.Demo.exe'
+end
+
+desc "create the nuget package"
+nuspec :createNuspecFile do |nuspec|
+   nuspec.id="EfficientlyLazy.Crypto"
+   nuspec.version = "#{VERSION_NUMBER}"
+   nuspec.authors = "Jason LaFlair"
+   nuspec.owners = "Jason LaFlair"
+   nuspec.description = ".Net library to simplify cryptography in so developers will actually use it"
+   nuspec.title = "EfficientlyLazy.Crypto"
+   nuspec.language = "en-US"
+   nuspec.licenseUrl = "http://opensource.org/licenses/Apache-2.0"
+   nuspec.projectUrl = "https://github.com/jasonlaflair/EfficientlyLazy.Crypto"
+   nuspec.working_directory = "Build"
+   nuspec.output_file = "EfficientlyLazy.Crypto.nuspec"
+   nuspec.tags = "security cryptography encryption AES configuration library random csharp hash data"
+   nuspec.file "lib\\net20\\EfficientlyLazy.Crypto.dll", "lib\\net20\\EfficientlyLazy.Crypto.dll"
+   nuspec.file "lib\\net20\\EfficientlyLazy.Crypto.xml", "lib\\net20\\EfficientlyLazy.Crypto.xml"
+   nuspec.file "tools\\net20\\EfficientlyLazy.Crypto.Demo.exe", "tools\\net20\\EfficientlyLazy.Crypto.Demo.exe"
+   nuspec.file "content\\net20\\EfficientlyLazy.Crypto.chm", "content\\net20\\EfficientlyLazy.Crypto.chm"
+end
+
+desc "create the nuget package"
+nugetpack :createNugetPackage do |nuget|
+   nuget.command     = "tools/Nuget/nuget.exe"
+   nuget.nuspec      = "Build/EfficientlyLazy.Crypto.nuspec"
+   nuget.base_folder = "Build/"
+   nuget.output      = "Build/"
+end
+
+desc "Merge"
+ilmerge :mergeDemoApp do |cfg|
+  cfg.command = 'tools\ILMerge\ILMerge.exe'
+  cfg.assemblies "src/EfficientlyLazy.Crypto.Demo/bin/#{CONFIG}/EfficientlyLazy.Crypto.Demo.exe", "src/EfficientlyLazy.Crypto.Demo/bin/#{CONFIG}/EfficientlyLazy.Crypto.dll"
+  cfg.output = "src/EfficientlyLazy.Crypto.Demo/bin/#{CONFIG}/EfficientlyLazy.Crypto.Demo.Merged.exe"
+end
 
 desc "Version"
-assemblyinfo :assemblyinfo do |asm|
-  asm.version = "0.9.5.0"
-  asm.file_version = "0.9.5.0"
-  asm.custom_attributes :AssemblyInformationalVersionAttribute => "0.9.5.0"
+assemblyinfo :updateAssemblyInfo do |asm|
+  asm.version = "#{VERSION_NUMBER}"
+  asm.file_version = "#{VERSION_NUMBER}"
+  asm.custom_attributes :AssemblyInformationalVersionAttribute => "#{VERSION_NUMBER}"
   asm.company_name = "LaFlair.NET"
   asm.description = "Simplifying .NET Cryptography"
   asm.product_name = "EfficientlyLazy.Crypto for .NET"
@@ -16,17 +102,20 @@ assemblyinfo :assemblyinfo do |asm|
   asm.com_visible = false
 end
 
-desc "Build"
-msbuild :build do |msb|
-  msb.properties = { :configuration => :Release }
-  msb.targets = [ :Clean, :Rebuild ]
-  msb.solution = "src/EfficientlyLazy.Crypto.sln"
+desc "Build Documentation"
+msbuild :buildDocumentation => :versionDocs do |msb|
+  msb.properties = { :configuration => CONFIG }
+  msb.targets = [ :clean, :build ]
+  msb.solution = "doc/EfficientlyLazy.Crypto.shfbproj"
+  msb.verbosity = "minimal"
+  msb.other_switches :toolsVersion => 4.0
 end
 
-desc "create the nuget package"
-nugetpack :nugetpack do |nuget|
-   nuget.command     = "Build/nuget.exe"
-   nuget.nuspec      = "Build/EfficientlyLazy.Crypto.nuspec"
-   nuget.base_folder = "build/"
-   nuget.output      = "build/Release/"
+desc "Build"
+msbuild :buildSolution do |msb|
+  msb.properties = { :configuration => CONFIG }
+  msb.targets = [ :clean, :build ]
+  msb.solution = "src/EfficientlyLazy.Crypto.sln"
+  msb.verbosity = "minimal"
+  msb.other_switches :toolsVersion => 4.0
 end

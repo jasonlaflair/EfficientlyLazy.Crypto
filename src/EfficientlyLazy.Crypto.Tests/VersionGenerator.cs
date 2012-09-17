@@ -1,25 +1,24 @@
-﻿using MbUnit.Framework;
-using System;
+﻿using System;
+using Xunit;
 
 namespace EfficientlyLazy.Crypto.Test
 {
-    [TestFixture]
     public class VersionGenerator
     {
-        [Test]
+        [Fact]
         public void Generate()
         {
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
 
-            DateTime jan1 = new DateTime(now.Year, 1, 1, 0, 0, 0);
+            var jan1 = new DateTime(now.Year, 1, 1, 0, 0, 0);
 
-            TimeSpan hourTimespan = TimeSpan.FromTicks(now.Ticks - jan1.Ticks);
+            var hourTimespan = TimeSpan.FromTicks(now.Ticks - jan1.Ticks);
 
-            int hours = (int)hourTimespan.TotalHours;
+            var hours = (int)hourTimespan.TotalHours;
 
-            string version = string.Format("{0}.{1}.{2}.{3}", "x", "x", now.Year, hours.ToString().Replace(",", ""));
+            var version = string.Format("{0}.{1}.{2}.{3}", "x", "x", now.Year, hours.ToString().Replace(",", ""));
 
-            Assert.IsNotNull(version);
+            Assert.NotNull(version);
         }
     }
 }

@@ -2,7 +2,8 @@
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using MbUnit.Framework;
+using Xunit;
+using Xunit.Extensions;
 
 namespace EfficientlyLazy.Crypto.Test
 {
@@ -10,11 +11,9 @@ namespace EfficientlyLazy.Crypto.Test
     ///This is a test class for RijndaelEngineTest and is intended
     ///to contain all RijndaelEngineTest Unit Tests
     ///</summary>
-    [TestFixture]
     public class RijndaelEngineTests : RandomBase
     {
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void ConstructorString()
         {
             string clearText = GenerateClearText();
@@ -26,12 +25,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void ConstructorSecureString()
         {
             string clearText = GenerateClearText();
@@ -43,12 +41,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetInitVectorString()
         {
             string clearText = GenerateClearText();
@@ -62,12 +59,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetInitVectorSecureString()
         {
             string clearText = GenerateClearText();
@@ -81,12 +77,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetRandomSaltLength()
         {
             string clearText = GenerateClearText();
@@ -104,12 +99,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetSaltString()
         {
             string clearText = GenerateClearText();
@@ -129,12 +123,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetSaltSecureString()
         {
             string clearText = GenerateClearText();
@@ -154,15 +147,14 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
-        [Row(KeySize.Key128Bit)]
-        [Row(KeySize.Key192Bit)]
-        [Row(KeySize.Key256Bit)]
+        [Theory]
+        [InlineData(KeySize.Key128Bit)]
+        [InlineData(KeySize.Key192Bit)]
+        [InlineData(KeySize.Key256Bit)]
         public void SetKeySize(KeySize keySize)
         {
             string clearText = GenerateClearText();
@@ -183,12 +175,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
+        [Fact]
         public void SetPasswordIterations()
         {
             string clearText = GenerateClearText();
@@ -212,18 +203,17 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
-        [Row(Encodings.None, ExpectedException = typeof(ArgumentNullException))]
-        [Row(Encodings.ASCII)]
-        [Row(Encodings.Unicode)]
-        [Row(Encodings.UTF32)]
-        [Row(Encodings.UTF7)]
-        [Row(Encodings.UTF8)]
+        [Theory]
+        //[InlineData(Encodings.None)] // TODO : ExpectedException = typeof(ArgumentNullException))]
+        [InlineData(Encodings.ASCII)]
+        [InlineData(Encodings.Unicode)]
+        [InlineData(Encodings.UTF32)]
+        [InlineData(Encodings.UTF7)]
+        [InlineData(Encodings.UTF8)]
         public void SetEncoding(Encodings encodingType)
         {
             Encoding encoding = null;
@@ -258,13 +248,11 @@ namespace EfficientlyLazy.Crypto.Test
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
 
-            Assert.AreNotEqual(clearText, encrypted);
-            Assert.AreEqual(clearText, decrypted);
+            Assert.NotEqual(clearText, encrypted);
+            Assert.Equal(clearText, decrypted);
         }
 
-        [Test]
-        [Repeat(50)]
-        [ExpectedException(typeof(CryptographicException))]
+        [Fact]
         public void InvalidDecryption()
         {
             string randomData = GenerateClearText();
@@ -277,105 +265,103 @@ namespace EfficientlyLazy.Crypto.Test
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init);
 
-            engine.Decrypt(fake);
-
-            Assert.Fail("Should never get here");
+            Assert.Throws<CryptographicException>(delegate
+            {
+                engine.Decrypt(fake);
+            });
         }
 
-        [Test]
-        [Repeat(50)]
-        [Row(null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void SetInitVectorStringInvalid(string invalidValue)
-        {
-            string key = GeneratePassPhrase();
+        // TODO : FIX
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(invalidValue);
+        //[Fact]
+        //[InlineData(null)] // TODO : ExpectedException = typeof(ArgumentNullException))]
+        //[InlineData("123456789012345")] // TODO : ExpectedException = typeof(ArgumentOutOfRangeException))]
+        //[InlineData("12345678901234567")] // TODO : ExpectedException = typeof(ArgumentOutOfRangeException))]
+        //public void SetInitVectorStringInvalid(string invalidValue)
+        //{
+        //    string key = GeneratePassPhrase();
 
-            Assert.Fail("Should never get here");
-        }
+        //    ICryptoEngine engine = new RijndaelEngine(key)
+        //        .SetInitVector(invalidValue);
 
-        [Test]
-        [Repeat(50)]
-        [Row(null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("123456789012345", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row("12345678901234567", ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void SetInitVectorSecureStringInvalid(string invalidValue)
-        {
-            string key = GeneratePassPhrase();
+        //    //Assert.Fail("Should never get here");
+        //}
 
-            SecureString invalidSecureString = string.IsNullOrEmpty(invalidValue) ? null : ToSS(invalidValue);
+        //[Fact]
+        //[InlineData(null)] // TODO : ExpectedException = typeof(ArgumentNullException))]
+        //[InlineData("123456789012345")] // TODO : ExpectedException = typeof(ArgumentOutOfRangeException))]
+        //[InlineData("12345678901234567")] // TODO : ExpectedException = typeof(ArgumentOutOfRangeException))]
+        //public void SetInitVectorSecureStringInvalid(string invalidValue)
+        //{
+        //    string key = GeneratePassPhrase();
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetInitVector(invalidSecureString);
+        //    SecureString invalidSecureString = string.IsNullOrEmpty(invalidValue) ? null : ToSS(invalidValue);
 
-            Assert.Fail("Should never get here");
-        }
+        //    ICryptoEngine engine = new RijndaelEngine(key)
+        //        .SetInitVector(invalidSecureString);
 
-        [Test]
-        [ExpectedArgumentOutOfRangeException]
-        [Row(0, 20)]
-        [Row(-1, 20)]
-        [Row(10, 0)]
-        [Row(10, -1)]
-        [Row(15, 10)]
+        //    //Assert.Fail("Should never get here");
+        //}
+
+        [Theory]
+        [InlineData(0, 20)]
+        [InlineData(-1, 20)]
+        [InlineData(10, 0)]
+        [InlineData(10, -1)]
+        [InlineData(15, 10)]
         public void SetRandomSaltLengthInvalid(int min, int max)
         {
             string key = GeneratePassPhrase();
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetRandomSaltLength(min, max);
-
-            Assert.Fail("Should never get here");
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                ICryptoEngine engine = new RijndaelEngine(key)
+                    .SetRandomSaltLength(min, max);
+            });
         }
 
-        [Test]
-        [Repeat(50)]
-        [ExpectedArgumentNullException]
+        [Fact]
         public void SetSaltStringInvalid()
         {
             string key = GeneratePassPhrase();
             string salt = null;
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetSalt(salt);
-
-            Assert.Fail("Should never get here");
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                ICryptoEngine engine = new RijndaelEngine(key)
+                    .SetSalt(salt);
+            });
         }
 
-        [Test]
-        [Repeat(50)]
-        [ExpectedArgumentNullException]
+        [Fact]
         public void SetSaltSecureStringInvalid()
         {
             string key = GeneratePassPhrase();
 
             SecureString salt = null;
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetSalt(salt);
-
-            Assert.Fail("Should never get here");
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                ICryptoEngine engine = new RijndaelEngine(key)
+                    .SetSalt(salt);
+            });
         }
 
-        [Test]
-        [Repeat(50)]
-        [ExpectedArgumentOutOfRangeException]
-        [Row(0)]
-        [Row(-1)]
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
         public void SetPasswordIterationsInvalid(int times)
         {
             string key = GeneratePassPhrase();
 
-            ICryptoEngine engine = new RijndaelEngine(key)
-                .SetIterations(times);
-
-            Assert.Fail("Should never get here");
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                ICryptoEngine engine = new RijndaelEngine(key)
+                    .SetIterations(times);
+            });
         }
 
-        [Test]
+        [Fact]
         public void SetHashAlgorithm_To_Test_Backwards_Compatability()
         {
             ICryptoEngine engine = new RijndaelEngine("ggsssdsdgfsdfgagawrgarg345gae5gdsargfsxgzfsga")
@@ -384,7 +370,7 @@ namespace EfficientlyLazy.Crypto.Test
 
             var plain = engine.Decrypt("ByFZ5i5rMdprzBE/WVoUJQ==");
 
-            Assert.AreEqual("Hello There!!", plain);
+            Assert.Equal("Hello There!!", plain);
         }
     }
 }

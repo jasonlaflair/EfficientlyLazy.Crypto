@@ -1,0 +1,115 @@
+﻿<Project DefaultTargets="Reflection" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Default project property values -->
+  <PropertyGroup>
+    <ToolsRoot Condition="$(ToolsRoot) == ''">$(DXROOT)</ToolsRoot>
+    <NetfxVer>4.0</NetfxVer>
+    <ProductionTools>$(ToolsRoot)\ProductionTools</ProductionTools>
+    <ProductionTransforms>$(ToolsRoot)\ProductionTransforms</ProductionTransforms>
+    <TmpPath>.\Tmp</TmpPath>
+    <DestPath>.\Reflection</DestPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Determine the assemblies to include -->
+    <AssemblyFolders Include="$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\*.dll"
+        Exclude="
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\AdoNetDiag.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\Aspnet_perf.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\CORPerfMonExt.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\Culture.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\EventLogMessages.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\FileTracker.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\InstallUtilLib.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\Microsoft.Transactions.Bridge.Dtc.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\Microsoft.VisualBasic.Activities.Compiler.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\Microsoft.Windows.ApplicationServer.Applications.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\MmcAspExt.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\PerfCounter.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\SMDiagnostics.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\SOS.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\SbsNclPerf.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\ServiceModelEvents.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\ServiceModelInstallRC.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\ServiceModelPerformanceCounters.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\ServiceModelRegUI.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\ServiceMonikerSupport.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Dynamic.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.EnterpriseServices.Thunk.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.EnterpriseServices.Wrapper.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.ServiceModel.WasHosting.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Web.Abstractions.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Web.DataVisualization.Design.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Web.Routing.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Windows.Forms.DataVisualization.Design.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.dll.Serialization.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\TLBREF.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WMINet_Utils.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\alink.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\aspnet_filter.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\aspnet_rc.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\clr.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\clretwrc.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\clrjit.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\dfdll.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\diasymreader.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\fusion.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscordacwks.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscordbi.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscoreei.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscoreeis.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorpe.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorpehost.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorrc.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorsecimpl.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorsn.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\mscorsvc.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\nlssorting.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\normalization.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\peverify.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\sysglobl.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\webengine.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\webengine4.dll"
+        Condition="$(NetfxVer) &gt;= 4.0" />
+
+    <AssemblyFolders Include="$(ProgramFiles)\Reference Assemblies\Microsoft\FSharp\2.0\Runtime\v4.0\*.dll"
+        Condition="$(NetfxVer) &gt;= 4.0" />
+
+    <AssemblyFolders Include="$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\*.dll"
+        Exclude="
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\NaturalLanguage6.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\NlsData0009.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\NlsLexicons0009.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\PenIMC.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\PresentationHost_v0400.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\PresentationNative_v0400.dll;
+            $(WINDIR)\Microsoft.NET\Framework\v4.0.30319\WPF\wpfgfx_v0400.dll"
+        Condition="$(NetfxVer) &gt;= 4.0" />
+  </ItemGroup>
+
+  <Target Name="Reflection">
+    <!-- Create the folders -->
+    <MakeDir Directories="$(TmpPath)" Condition="!Exists('$(TmpPath)')" />
+    <MakeDir Directories="$(DestPath)" Condition="!Exists('$(DestPath)')" />
+
+    <!-- Generate the list of assemblies -->
+    <CreateItem Include="@(AssemblyFolders->'%(FullPath)')">
+      <Output ItemName="Assemblies" TaskParameter="Include"/>
+    </CreateItem>
+
+    <!-- Create a response file for MRefBuilder so that it can properly determine implementation details
+         by scanning all assemblies together in one pass. -->
+    <WriteLinesToFile File="MRefBuilder.rsp" Lines="@(AssemblyFolders)" Overwrite="true" />
+
+    <!-- Generate the reflection data file for the assemblies.  Use the VS2005 doc model transform.  It will work for all styles. -->
+    <Exec ContinueOnError="true" IgnoreExitCode="true"
+      Command="&quot;$(ProductionTools)\MRefBuilder.exe&quot; @MRefBuilder.rsp /out:&quot;$(TmpPath)\Reflection.org&quot;" />
+    <Exec ContinueOnError="true" IgnoreExitCode="true"
+      Command="&quot;$(ProductionTools)\XslTransform.exe&quot; /xsl:&quot;$(ProductionTransforms)\ApplyVSDocModel.xsl&quot; /xsl:&quot;$(ProductionTransforms)\AddGuidFilenames.xsl&quot; &quot;$(TmpPath)\Reflection.org&quot; /out:&quot;$(TmpPath)\Reflection.xml&quot; /arg:IncludeAllMembersTopic=true /arg:IncludeInheritedOverloadTopics=false" />
+
+    <!-- Segregate the reflection data by namespace -->
+    <Exec ContinueOnError="true" IgnoreExitCode="true"
+      Command="&quot;$(ProductionTools)\SegregateByNamespace.exe&quot; &quot;$(TmpPath)\Reflection.xml&quot; /out:&quot;$(DestPath)&quot;" />
+  </Target>
+</Project>
