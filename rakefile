@@ -1,0 +1,32 @@
+require 'albacore'
+
+task :default => [:assemblyinfo, :build, :nugetpack]
+
+
+desc "Version"
+assemblyinfo :assemblyinfo do |asm|
+  asm.version = "0.9.5.0"
+  asm.file_version = "0.9.5.0"
+  asm.custom_attributes :AssemblyInformationalVersionAttribute => "0.9.5.0"
+  asm.company_name = "LaFlair.NET"
+  asm.description = "Simplifying .NET Cryptography"
+  asm.product_name = "EfficientlyLazy.Crypto for .NET"
+  asm.copyright = "Copyright (c) LaFlair.NET 2009-2012"
+  asm.output_file = "src/SharedAssemblyInfo.cs"
+  asm.com_visible = false
+end
+
+desc "Build"
+msbuild :build do |msb|
+  msb.properties = { :configuration => :Release }
+  msb.targets = [ :Clean, :Rebuild ]
+  msb.solution = "src/EfficientlyLazy.Crypto.sln"
+end
+
+desc "create the nuget package"
+nugetpack :nugetpack do |nuget|
+   nuget.command     = "Build/nuget.exe"
+   nuget.nuspec      = "Build/EfficientlyLazy.Crypto.nuspec"
+   nuget.base_folder = "build/"
+   nuget.output      = "build/Release/"
+end
