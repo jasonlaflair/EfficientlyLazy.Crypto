@@ -54,14 +54,7 @@ namespace EfficientlyLazy.Crypto
 
             var hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(plaintext);
 
-            var strRet = string.Empty;
-
-            foreach (var b in hashValue)
-            {
-                strRet += String.Format("{0:x2}", b);
-            }
-
-            return strRet;
+            return BitConverter.ToString(hashValue).Replace("-", string.Empty).ToUpper();
         }
 
         /// <summary>
@@ -83,10 +76,7 @@ namespace EfficientlyLazy.Crypto
             {
                 var hashValue = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(fs);
 
-                foreach (var b in hashValue)
-                {
-                    strRet += String.Format("{0:x2}", b);
-                }
+                strRet = BitConverter.ToString(hashValue).Replace("-", string.Empty).ToUpper();
             }
 
             return strRet;

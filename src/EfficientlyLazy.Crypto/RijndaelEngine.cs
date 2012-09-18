@@ -323,7 +323,7 @@ namespace EfficientlyLazy.Crypto
         /// </remarks>
         private byte[] GenerateSalt()
         {
-            var saltLen = DataGenerator.RandomInteger(RandomSaltMinimumLength, RandomSaltMaximumLength);
+            var saltLen = DataGenerator.Integer(RandomSaltMinimumLength, RandomSaltMaximumLength);
 
             // Allocate byte array to hold our salt.
             var salt = new byte[saltLen];

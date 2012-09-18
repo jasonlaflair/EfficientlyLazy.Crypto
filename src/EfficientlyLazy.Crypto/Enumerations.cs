@@ -17,7 +17,9 @@ namespace EfficientlyLazy.Crypto
         /// <summary>SHA384 Hashing</summary>
         SHA384 = 384,
         /// <summary>SHA512 Hashing</summary>
-        SHA512 = 512
+        SHA512 = 512,
+        /// <summary>RIPEMD160 Hashing</summary>
+        RIPEMD160 = 160,
     }
 
     /// <summary>DPAPI Key Type</summary>

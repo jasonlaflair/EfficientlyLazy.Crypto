@@ -6,7 +6,7 @@ namespace EfficientlyLazy.Crypto.Test
 {
     public class ConfigurationTests
     {
-        private ICryptoEngine _engine;
+        private readonly ICryptoEngine _engine;
 
         public ConfigurationTests()
         {
@@ -22,24 +22,30 @@ namespace EfficientlyLazy.Crypto.Test
         [InlineData("App.Setting.03", "Simple Encrypted Data")]
         [InlineData("App.Setting.04", "Another Random Set of Encrypted Data")]
         [InlineData("App.Setting.05", "0V6KOK1ot2II06Q03S/grjjBDe1NYFUGqYKtlUFA8PSboFAAaxaXY2fzsLIJNBSdrwraLzoiKtOuldELxsheZg==")]
-        //[InlineData("App.Setting.06", "should bomb")] // TODO: FIX
         [InlineData("App.Setting.Missing", "")]
-        public void Sett(string key, string expectedValue)
+        public void GetSetting_Sucessful(string key, string expectedValue)
         {
-            // ACT
+            // Act
             var actual = _engine.GetSetting(key);
 
-            // ASSERT
+            // Assert
             Assert.Equal(expectedValue, actual);
+        }
+
+        [Fact]
+        public void GetSetting_Fails()
+        {
+            // Assert
+            Assert.Throws<FormatException>(() => _engine.GetSetting("App.Setting.06"));
         }
 
         [Fact]
         public void GetSqlConnectionString_With_No_Encrypted_Values()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION01");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);
@@ -54,10 +60,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_With_Encrypted_Values()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION02");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);
@@ -72,10 +78,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_Mixed_Values_Uses_UnEncrypted()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION03");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);
@@ -90,10 +96,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_Use_Windows_Authentication()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION04");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(true, builder.IntegratedSecurity);
@@ -108,10 +114,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_Show_WorkstationID()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION05");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);
@@ -127,10 +133,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_Custom_App_Name()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION06");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);
@@ -145,10 +151,10 @@ namespace EfficientlyLazy.Crypto.Test
         [Fact]
         public void GetSqlConnectionString_Custom_Settings()
         {
-            // ACT
+            // Act
             var builder = _engine.GetSqlConnectionString("CONNECTION07");
 
-            // ASSERT
+            // Assert
             Assert.Equal("server", builder.DataSource);
             Assert.Equal("db", builder.InitialCatalog);
             Assert.Equal(false, builder.IntegratedSecurity);

@@ -1,11 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 using Xunit.Extensions;
 
 namespace EfficientlyLazy.Crypto.Test
 {
+    public class HashTestPair
+    {
+        public Algorithm Algorithm { get; set; }
+        public Encoding Encoding { get; set; }
+
+        public HashTestPair(Algorithm alg, Encoding enc)
+        {
+            Algorithm = alg;
+            Encoding = enc;
+        }
+    }
+
     /// <summary>
     ///This is a test class for HashingTest and is intended
     ///to contain all HashingTest Unit Tests
@@ -13,55 +28,75 @@ namespace EfficientlyLazy.Crypto.Test
     public class DataHashingTests : RandomBase
     {
         [Theory]
-        [InlineData(Algorithm.MD5, false, false)]
-        [InlineData(Algorithm.SHA1, false, false)]
-        [InlineData(Algorithm.SHA256, false, false)]
-        [InlineData(Algorithm.SHA384, false, false)]
-        [InlineData(Algorithm.SHA512, false, false)]
-        //[InlineData(Algorithm.SHA1, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA256, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA384, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA512, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA1, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA256, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA384, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA512, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA1, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA256, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA384, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA512, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHash3(Algorithm algorithm, bool useNullString, bool useNullEncoding)
+        [InlineData(Algorithm.SHA1)]
+        [InlineData(Algorithm.SHA256)]
+        [InlineData(Algorithm.SHA384)]
+        [InlineData(Algorithm.SHA512)]
+        [InlineData(Algorithm.RIPEMD160)]
+        public void Compute_Default_Encoding_Successful(Algorithm algorithm)
         {
-            string normalText = useNullString ? null : GenerateText(100, 500);
-            Encoding encoding = useNullEncoding ? null : Encoding.UTF8;
+            // Arrange
+            const string PLAIN_TEXT = "The quick brown fox jumps over the lazy dog";
+            var bytes = Encoding.Default.GetBytes(PLAIN_TEXT);
+            var expectedHash = HashAlgorithm.Create(algorithm.ToString()).ComputeHash(bytes);
+            var expectedString = BitConverter.ToString(expectedHash).Replace("-", string.Empty).ToUpper();
 
-            string hashed = DataHashing.Compute(algorithm, normalText, encoding);
+            // Act
+            var actualHash = DataHashing.Compute(algorithm, PLAIN_TEXT);
 
-            Assert.True(DataHashing.Validate(algorithm, normalText, hashed, encoding));
+            // Assert
+            Assert.Equal(expectedString, actualHash);
+        }
+
+        public static IEnumerable<object[]> HashTestPairs
+        {
+            get
+            {
+                var encodings = new List<Encoding>
+                    {
+                        Encoding.ASCII,
+                        Encoding.BigEndianUnicode,
+                        Encoding.Default,
+                        Encoding.UTF32,
+                        Encoding.UTF7,
+                        Encoding.UTF8,
+                        Encoding.Unicode
+                    };
+
+                var list = new List<object[]>();
+
+                foreach (var algStr in Enum.GetNames(typeof(Algorithm)).Where(x => x != "MD5"))
+                {
+                    var alg = (Algorithm)Enum.Parse(typeof(Algorithm), algStr);
+
+                    foreach (var enc in encodings)
+                    {
+                        list.Add(new object[]
+                            {
+                                new HashTestPair(alg, enc)
+                            });
+                    }
+                }
+
+                return list;
+            }
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false)]
-        [InlineData(Algorithm.SHA1, false)]
-        [InlineData(Algorithm.SHA256, false)]
-        [InlineData(Algorithm.SHA384, false)]
-        [InlineData(Algorithm.SHA512, false)]
-        //[InlineData(Algorithm.SHA1, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA256, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA384, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        //[InlineData(Algorithm.SHA512, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHash2(Algorithm algorithm, bool useNullByte)
+        [PropertyData("HashTestPairs")]
+        public void Compute_Specific_Encoding_Successful(HashTestPair pair)
         {
-            byte[] bytes = null;
+            // Arrange
+            const string PLAIN_TEXT = "The quick brown fox jumps over the lazy dog";
+            var bytes = pair.Encoding.GetBytes(PLAIN_TEXT);
+            var expectedHash = HashAlgorithm.Create(pair.Algorithm.ToString()).ComputeHash(bytes);
+            var expectedString = BitConverter.ToString(expectedHash).Replace("-", string.Empty).ToUpper();
 
-            if (!useNullByte)
-            {
-                bytes = Encoding.UTF8.GetBytes(GenerateText(100, 500));
-            }
+            // Act
+            var actualHash = DataHashing.Compute(pair.Algorithm, PLAIN_TEXT, pair.Encoding);
 
-            string hashed = DataHashing.Compute(algorithm, bytes);
-
-            Assert.True(DataHashing.Validate(algorithm, bytes, hashed));
+            // Assert
+            Assert.Equal(expectedString, actualHash);
         }
 
         [Theory]
