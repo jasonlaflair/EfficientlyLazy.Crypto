@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
     public class VersionGenerator
     {

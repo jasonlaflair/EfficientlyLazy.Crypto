@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Extensions;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
     public class ConfigurationTests
     {

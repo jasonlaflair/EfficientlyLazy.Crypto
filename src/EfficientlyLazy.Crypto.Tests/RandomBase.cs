@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
 
     public class RandomBase

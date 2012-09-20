@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+#if !NET20
 using System.Linq;
+#endif
 using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 using Xunit.Extensions;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
     public class HashTestPair
     {
@@ -65,7 +67,14 @@ namespace EfficientlyLazy.Crypto.Test
 
                 var list = new List<object[]>();
 
-                foreach (var algStr in Enum.GetNames(typeof(Algorithm)).Where(x => x != "MD5"))
+#if !NET20                
+                var enumNames = Enum.GetNames(typeof(Algorithm)).Where(x => x != "MD5");
+#else
+                var enumNames = new List<string>(Enum.GetNames(typeof(Algorithm)));
+                enumNames.Remove("MD5");
+#endif
+
+                foreach (var algStr in enumNames)
                 {
                     var alg = (Algorithm)Enum.Parse(typeof(Algorithm), algStr);
 

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{482A895B-3A9D-4FE6-945B-D6C31BD4011C}</ProjectGuid>
+    <ProjectGuid>{8C1CF3F4-BA21-4E4C-AF7D-EBCC3881254E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EfficientlyLazy.Crypto.Test</RootNamespace>
-    <AssemblyName>EfficientlyLazy.Crypto.Test</AssemblyName>
+    <RootNamespace>EfficientlyLazy.Crypto.Tests</RootNamespace>
+    <AssemblyName>EfficientlyLazy.Crypto.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -19,8 +19,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\Debug\net35\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>
@@ -29,8 +29,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>bin\Release\net35\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>
@@ -66,9 +66,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.csproj">
-      <Project>{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}</Project>
-      <Name>EfficientlyLazy.Crypto</Name>
+    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net35.csproj">
+      <Project>{7F60EF22-3447-4E8A-92ED-6B29AD4D6F3F}</Project>
+      <Name>EfficientlyLazy.Crypto.net35</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

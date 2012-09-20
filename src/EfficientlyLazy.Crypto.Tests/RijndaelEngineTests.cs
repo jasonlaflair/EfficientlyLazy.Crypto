@@ -5,7 +5,7 @@ using System.Text;
 using Xunit;
 using Xunit.Extensions;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
     /// <summary>
     ///This is a test class for RijndaelEngineTest and is intended

@@ -1,10 +1,16 @@
-/src/_ReSharper.EfficientlyLazy.Crypto
-/src/EfficientlyLazy.Crypto.Demo/bin
-/src/EfficientlyLazy.Crypto.Demo/obj
-/src/EfficientlyLazy.Crypto.suo
-/src/EfficientlyLazy.Crypto.5.0.ReSharper.user
-/src/EfficientlyLazy.Crypto/bin
-/src/EfficientlyLazy.Crypto/obj
-/src/EfficientlyLazy.Crypto.Tests/bin
-/src/EfficientlyLazy.Crypto.Tests/obj
-/Build/Artifacts
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+bin
+obj
+
+# mstest test results
+TestResults
+
+*.csproj.user
+*.suo
+_ReSharper.*
+
+# nuget packages
+/src/packages/**
+
+# build directory contents
+/build/**

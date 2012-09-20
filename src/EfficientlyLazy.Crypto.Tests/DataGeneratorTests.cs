@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+#if !NET20
 using System.Linq;
+#endif
 using Xunit;
 using Xunit.Extensions;
 
-namespace EfficientlyLazy.Crypto.Test
+namespace EfficientlyLazy.Crypto.Tests
 {
     /// <summary>
     /// Summary description for DataGeneratorTests
@@ -60,7 +62,11 @@ namespace EfficientlyLazy.Crypto.Test
             DataGenerator.SetDefaults(5, 10, set);
 
             // Assert
+#if NET20
+            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
+#else
             Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
+#endif
         }
 
         [Fact]
@@ -79,7 +85,11 @@ namespace EfficientlyLazy.Crypto.Test
             DataGenerator.SetDefaults(5, 10, expectedPool);
 
             // Assert
+#if NET20
+            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
+#else
             Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
+#endif
             Assert.NotEqual(expectedPool, DataGenerator.DefaultCharacterPool);
         }
 
@@ -452,7 +462,11 @@ namespace EfficientlyLazy.Crypto.Test
             // Assert
             Assert.Equal(min, DataGenerator.DefaultMinimumLength);
             Assert.Equal(max, DataGenerator.DefaultMaximumLength);
-            Assert.True(!expectedPool.Except(DataGenerator.DefaultCharacterPool).Any());
+#if NET20
+            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
+#else
+            Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
+#endif
             Assert.InRange(actual.Length, min, max);
             foreach (var ch in actual)
             {
