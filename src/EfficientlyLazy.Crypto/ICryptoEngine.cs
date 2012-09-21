@@ -51,31 +51,5 @@ namespace EfficientlyLazy.Crypto
         ///<param name="key"></param>
         ///<returns></returns>
         SqlConnectionStringBuilder GetSqlConnectionString(string key);
-
-        /////<summary>
-        /////</summary>
-        /////<param name="key">Key name given to the setting in the config file.</param>
-        /////<returns>The setting value if available, if not, String.Empty is returned.</returns>
-        //string GetSettingFromConfiguration(string key);
-        
-        /////<summary>
-        /////</summary>
-        /////<param name="key">Name given to the setting in the config file.</param>
-        /////<param name="defaultValue">Value returned if the setting key is not found.</param>
-        /////<returns>The setting value if available, if not, the defaultValue is returned.</returns>
-        //string GetSettingFromConfiguration(string key, string defaultValue);
-
-        /////<summary>
-        /////</summary>
-        /////<param name="alias">Alias name given to the connection string in the config file.</param>
-        /////<returns>The connection string value if available, if not, String.Empty is returned.</returns>
-        //string GetConnectionStringFromConfiguration(string alias);
-
-        /////<summary>
-        /////</summary>
-        /////<param name="alias">Alias given to the connection string in the config file.</param>
-        /////<param name="defaultValue">Value returned if the connection string alias is not found.</param>
-        /////<returns>The connection string value if available, if not, the defaultValue is returned.</returns>
-        //string GetConnectionStringFromConfiguration(string alias, string defaultValue);
     }
 }

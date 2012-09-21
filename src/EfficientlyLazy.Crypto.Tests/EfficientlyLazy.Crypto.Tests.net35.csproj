@@ -54,10 +54,13 @@
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="DataGeneratorTests.cs" />
     <Compile Include="DataHashingTests.cs" />
+    <Compile Include="DESEngineTests.cs" />
     <Compile Include="DPAPIEngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomBase.cs" />
+    <Compile Include="RC2EngineTests.cs" />
     <Compile Include="RijndaelEngineTests.cs" />
+    <Compile Include="TripleDESEngineTests.cs" />
     <Compile Include="VersionGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

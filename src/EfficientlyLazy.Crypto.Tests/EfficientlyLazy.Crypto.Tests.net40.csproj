@@ -52,6 +52,9 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="TripleDESEngineTests.cs" />
+    <Compile Include="DESEngineTests.cs" />
+    <Compile Include="RC2EngineTests.cs" />
     <Compile Include="DataGeneratorTests.cs" />
     <Compile Include="DataHashingTests.cs" />
     <Compile Include="DPAPIEngineTests.cs" />

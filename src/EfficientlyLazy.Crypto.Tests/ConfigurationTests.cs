@@ -13,7 +13,7 @@ namespace EfficientlyLazy.Crypto.Tests
             _engine = new RijndaelEngine("WVZwzJ/n<Czp1p73iL=?!0_FR[yYjqq#~zJi$Z")
                 .SetInitVector("nj9VU7Bksh9EAqPE")
                 .SetRandomSaltLength(13, 19)
-                .SetKeySize(KeySize.Key256Bit);
+                .SetKeySize(RijndaelKeySize.Key256Bit);
         }
 
         [Theory]
