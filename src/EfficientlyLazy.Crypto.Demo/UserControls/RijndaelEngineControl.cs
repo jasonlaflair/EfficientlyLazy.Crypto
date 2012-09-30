@@ -10,8 +10,8 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
         {
             InitializeComponent();
 
-            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(KeySize));
-            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(KeySize.Key256Bit);
+            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(RijndaelKeySize));
+            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(RijndaelKeySize.Key256Bit);
 
             cmbEncoding.DisplayMember = "EncodingName";
             cmbEncoding.Items.Add(Encoding.ASCII);
@@ -48,7 +48,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
             if (cbxUseKeySize.Checked)
             {
-                var keySize = EnumerationConversions.GetEnumName<KeySize>(cmbKeySize.SelectedItem.ToString());
+                var keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cmbKeySize.SelectedItem.ToString());
 
                 engine.SetKeySize(keySize);
             }
