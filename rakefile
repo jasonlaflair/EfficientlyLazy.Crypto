@@ -5,7 +5,7 @@ $CONFIG = "Debug"
 $FWVERSIONS = ["net20", "net35", "net40"]
 
 desc "Debug Build"
-task :default => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution]
+task :default => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
 
 desc "Create Release Build"
 task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :mergeDemoApp, :copyOutputFiles, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
