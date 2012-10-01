@@ -2,6 +2,7 @@
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using EfficientlyLazy.Crypto.Engines;
 using Xunit;
 using Xunit.Extensions;
 
@@ -14,9 +15,9 @@ namespace EfficientlyLazy.Crypto.Tests
     public class DPAPIEngineTests : RandomBase
     {
         [Theory]
-        [InlineData(KeyType.UserKey)]
-        [InlineData(KeyType.MachineKey)]
-        public void Constructor(KeyType keyType)
+        [InlineData(DPAPIKeyType.UserKey)]
+        [InlineData(DPAPIKeyType.MachineKey)]
+        public void Constructor(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
 
@@ -32,9 +33,9 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(KeyType.UserKey)]
-        [InlineData(KeyType.MachineKey)]
-        public void SetEntropyString(KeyType keyType)
+        [InlineData(DPAPIKeyType.UserKey)]
+        [InlineData(DPAPIKeyType.MachineKey)]
+        public void SetEntropyString(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
 
@@ -51,9 +52,9 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(KeyType.UserKey)]
-        [InlineData(KeyType.MachineKey)]
-        public void SetEntropySecureString(KeyType keyType)
+        [InlineData(DPAPIKeyType.UserKey)]
+        [InlineData(DPAPIKeyType.MachineKey)]
+        public void SetEntropySecureString(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
 
@@ -76,19 +77,19 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        //[InlineData(KeyType.UserKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        [InlineData(KeyType.UserKey, Encodings.ASCII)]
-        [InlineData(KeyType.UserKey, Encodings.Unicode)]
-        [InlineData(KeyType.UserKey, Encodings.UTF32)]
-        [InlineData(KeyType.UserKey, Encodings.UTF7)]
-        [InlineData(KeyType.UserKey, Encodings.UTF8)]
-        //[InlineData(KeyType.MachineKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        [InlineData(KeyType.MachineKey, Encodings.ASCII)]
-        [InlineData(KeyType.MachineKey, Encodings.Unicode)]
-        [InlineData(KeyType.MachineKey, Encodings.UTF32)]
-        [InlineData(KeyType.MachineKey, Encodings.UTF7)]
-        [InlineData(KeyType.MachineKey, Encodings.UTF8)]
-        public void SetEncoding(KeyType keyType, Encodings encodingType)
+        //[InlineData(DPAPIKeyType.UserKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
+        [InlineData(DPAPIKeyType.UserKey, Encodings.ASCII)]
+        [InlineData(DPAPIKeyType.UserKey, Encodings.Unicode)]
+        [InlineData(DPAPIKeyType.UserKey, Encodings.UTF32)]
+        [InlineData(DPAPIKeyType.UserKey, Encodings.UTF7)]
+        [InlineData(DPAPIKeyType.UserKey, Encodings.UTF8)]
+        //[InlineData(DPAPIKeyType.MachineKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
+        [InlineData(DPAPIKeyType.MachineKey, Encodings.ASCII)]
+        [InlineData(DPAPIKeyType.MachineKey, Encodings.Unicode)]
+        [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF32)]
+        [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF7)]
+        [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF8)]
+        public void SetEncoding(DPAPIKeyType keyType, Encodings encodingType)
         {
             Encoding encoding = null;
 
@@ -127,9 +128,9 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(KeyType.UserKey)]
-        [InlineData(KeyType.MachineKey)]
-        public void Failures(KeyType keyType)
+        [InlineData(DPAPIKeyType.UserKey)]
+        [InlineData(DPAPIKeyType.MachineKey)]
+        public void Failures(DPAPIKeyType keyType)
         {
             string plainText = GenerateClearText();
 

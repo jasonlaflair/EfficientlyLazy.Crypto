@@ -10,7 +10,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using EfficientlyLazy.Crypto.Configuration;
 
-namespace EfficientlyLazy.Crypto
+namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
     /// Encryption/Decryption using the windows crypto API.
@@ -20,8 +20,8 @@ namespace EfficientlyLazy.Crypto
         ///<summary>
         /// Initializes a new instance of the <see cref="DPAPIEngine"/> object.
         ///</summary>
-        ///<param name="keyType">Defines the method (<see cref="EfficientlyLazy.Crypto.KeyType"/>) to use for encryption/decryption.</param>
-        public DPAPIEngine(KeyType keyType)
+        ///<param name="keyType">Defines the method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.</param>
+        public DPAPIEngine(DPAPIKeyType keyType)
         {
             KeyType = keyType;
             Entropy = ToSecureString(string.Empty);
@@ -34,9 +34,9 @@ namespace EfficientlyLazy.Crypto
         public SecureString Entropy { get; private set; }
 
         ///<summary>
-        /// Method (<see cref="EfficientlyLazy.Crypto.KeyType"/>) to use for encryption/decryption.
+        /// Method (<see cref="DPAPIKeyType"/>) to use for encryption/decryption.
         ///</summary>
-        public KeyType KeyType { get; private set; }
+        public DPAPIKeyType KeyType { get; private set; }
 
         ///<summary>
         /// Character encoding to use during encryption/decryption.
@@ -145,7 +145,7 @@ namespace EfficientlyLazy.Crypto
         private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        private static byte[] DPAPIEncrypt(KeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
+        private static byte[] DPAPIEncrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
             var plainTextBlob = DPAPINativeDATABLOB.Null();
@@ -169,7 +169,7 @@ namespace EfficientlyLazy.Crypto
                 var flags = CRYPTPROTECT_UI_FORBIDDEN;
 
                 // When using machine-specific key, set up machine flag.
-                if (keyType == KeyType.MachineKey)
+                if (keyType == DPAPIKeyType.MachineKey)
                 {
                     flags |= CRYPTPROTECT_LOCAL_MACHINE;
                 }

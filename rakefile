@@ -2,10 +2,10 @@ require 'albacore'
 
 $VERSION_NUMBER = ENV["version"] || '0.9.5.0'
 $CONFIG = "Debug"
-$FWVERSIONS = ["net20", "net35", "net40"]
+$FWVERSIONS = ["net45"] #"net20", "net35", "net40", "net45"]
 
 desc "Debug Build"
-task :default => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
+task :default => [:runUnitTests] #:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
 
 desc "Create Release Build"
 task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :mergeDemoApp, :copyOutputFiles, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]

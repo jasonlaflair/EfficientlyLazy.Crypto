@@ -2,6 +2,7 @@
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using EfficientlyLazy.Crypto.Engines;
 using Xunit;
 using Xunit.Extensions;
 

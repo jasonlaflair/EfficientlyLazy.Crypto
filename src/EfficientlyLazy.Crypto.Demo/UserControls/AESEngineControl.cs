@@ -5,14 +5,14 @@ using EfficientlyLazy.Crypto.Engines;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
-    public partial class RijndaelEngineControl : CryptoUserControl
+    public partial class AESEngineControl : CryptoUserControl
     {
-        public RijndaelEngineControl()
+        public AESEngineControl()
         {
             InitializeComponent();
 
-            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(RijndaelKeySize));
-            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(RijndaelKeySize.Key256Bit);
+            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(AESKeySize));
+            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(AESKeySize.Key256Bit);
 
             cmbEncoding.DisplayMember = "EncodingName";
             cmbEncoding.Items.Add(Encoding.ASCII);
@@ -36,20 +36,20 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
             nudIterations.Value = 10;
         }
 
-        public override string DisplayName { get { return "Rijndael Encryption/Decryption"; } }
+        public override string DisplayName { get { return "AES Encryption/Decryption"; } }
 
-        private void RijndaelEngineControl_Load(object sender, EventArgs e)
+        private void AESEngineControl_Load(object sender, EventArgs e)
         {
 
         }
 
         private ICryptoEngine GenerateEngine()
         {
-            var engine = new RijndaelEngine(txtKey.Text);
+            var engine = new AESEngine(txtKey.Text);
 
             if (cbxUseKeySize.Checked)
             {
-                var keySize = EnumerationConversions.GetEnumName<RijndaelKeySize>(cmbKeySize.SelectedItem.ToString());
+                var keySize = EnumerationConversions.GetEnumName<AESKeySize>(cmbKeySize.SelectedItem.ToString());
 
                 engine.SetKeySize(keySize);
             }

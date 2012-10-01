@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{20BEC4B3-D83D-484B-A9EE-33E4F4D461C4}</ProjectGuid>
+    <ProjectGuid>{0BAAAD4D-41F1-4517-BE95-E62925B8D021}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EfficientlyLazy.Crypto.Tests</RootNamespace>
     <AssemblyName>EfficientlyLazy.Crypto.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -19,12 +19,13 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\net40\</OutputPath>
+    <OutputPath>bin\Debug\net45\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NET40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>
     </NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>
     </NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -57,8 +59,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AESEngineTests.cs" />
     <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="AESEngineTests.cs" />
     <Compile Include="TripleDESEngineTests.cs" />
     <Compile Include="DESEngineTests.cs" />
     <Compile Include="RC2EngineTests.cs" />
@@ -76,9 +78,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net40.csproj">
-      <Project>{42E635C6-6718-4C96-B94E-4DD3A01C7302}</Project>
-      <Name>EfficientlyLazy.Crypto.net40</Name>
+    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net45.csproj">
+      <Project>{2875fe62-d44b-4fb2-b653-c61428a369d3}</Project>
+      <Name>EfficientlyLazy.Crypto.net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -25,6 +25,7 @@ namespace EfficientlyLazy.Crypto
         ///<summary>Characters: All character sets; <see cref="Uppercase"/> <see cref="Lowercase"/> <see cref="Numeric"/> <see cref="Special"/></summary>
         All = Uppercase | Lowercase | Numeric | Special
     }
+
     /// <summary>
     /// Generation of true random data.
     /// This overcomes the limitations of .NET Framework's Random

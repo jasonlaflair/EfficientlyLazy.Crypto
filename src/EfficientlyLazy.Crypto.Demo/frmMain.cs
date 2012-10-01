@@ -18,6 +18,15 @@ namespace EfficientlyLazy.Crypto.Demo
             rijndaelEngineControlMenu.Click += MenuClick;
             configurationToolStripMenuItem.DropDownItems.Add(rijndaelEngineControlMenu);
 
+#if !NET20
+            var aesEngineControl = new AESEngineControl();
+            var aesEngineControlMenu = new ToolStripMenuItem(aesEngineControl.DisplayName)
+                {
+                    Tag = aesEngineControl
+                };
+            aesEngineControlMenu.Click += MenuClick;
+            configurationToolStripMenuItem.DropDownItems.Add(aesEngineControlMenu);
+#endif
             var tripleDESEngineControl = new TripleDESEngineControl();
             var tripleDESEngineControlMenu = new ToolStripMenuItem(tripleDESEngineControl.DisplayName)
                                                  {

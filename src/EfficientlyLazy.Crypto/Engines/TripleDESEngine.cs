@@ -1,19 +1,20 @@
 using System.Security;
 using System.Security.Cryptography;
 
-namespace EfficientlyLazy.Crypto
+
+namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
-    /// Encryption/Decryption using <see cref="System.Security.Cryptography.DESCryptoServiceProvider"/>.
+    /// Encryption/Decryption using <see cref="TripleDESCryptoServiceProvider"/>.
     /// </summary>
-    public sealed class DESEngine : SymmetricEngineBase<DESKeySize>
+    public sealed class TripleDESEngine : AbstractSymmetricEngine<TripleDESKeySize>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
-        public DESEngine(string key)
-            : base(key, DESKeySize.Key64Bit)
+        public TripleDESEngine(string key)
+            : base(key, TripleDESKeySize.Key192Bit)
         {
         }
 
@@ -21,8 +22,8 @@ namespace EfficientlyLazy.Crypto
         /// 
         /// </summary>
         /// <param name="key"></param>
-        public DESEngine(SecureString key)
-            : base(key, DESKeySize.Key64Bit)
+        public TripleDESEngine(SecureString key)
+            : base(key, TripleDESKeySize.Key192Bit)
         {
         }
 
@@ -33,7 +34,7 @@ namespace EfficientlyLazy.Crypto
         /// <returns></returns>
         protected override SymmetricAlgorithm GenerateAlgorithmEngine(CipherMode cipherMode)
         {
-            return new DESCryptoServiceProvider
+            return new TripleDESCryptoServiceProvider
                 {
                     Mode = cipherMode
                 };

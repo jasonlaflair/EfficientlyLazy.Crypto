@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using EfficientlyLazy.Crypto.Engines;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
@@ -9,8 +10,8 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
         {
             InitializeComponent();
 
-            cmbKeyType.DataSource = EnumerationConversions.GetEnumDescriptions(typeof (KeyType));
-            cmbKeyType.SelectedItem = EnumerationConversions.GetEnumDescription(KeyType.UserKey);
+            cmbKeyType.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(DPAPIKeyType));
+            cmbKeyType.SelectedItem = EnumerationConversions.GetEnumDescription(DPAPIKeyType.UserKey);
 
             cmbEncoding.DisplayMember = "EncodingName";
             cmbEncoding.Items.Add(Encoding.ASCII);
@@ -36,7 +37,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         private ICryptoEngine GenerateEngine()
         {
-            var keyType = EnumerationConversions.GetEnumName<KeyType>(cmbKeyType.SelectedItem.ToString());
+            var keyType = EnumerationConversions.GetEnumName<DPAPIKeyType>(cmbKeyType.SelectedItem.ToString());
 
             var engine = new DPAPIEngine(keyType);
 

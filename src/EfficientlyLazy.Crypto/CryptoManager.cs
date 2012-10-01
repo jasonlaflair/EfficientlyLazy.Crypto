@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 
 namespace EfficientlyLazy.Crypto
 {
@@ -15,7 +16,7 @@ namespace EfficientlyLazy.Crypto
         /// <param name="engine">CryptoEngine to use</param>
         public static void Initialize(ICryptoEngine engine)
         {
-            _engine = engine;   
+            _engine = engine;
         }
 
         private static void CheckInitialization()
@@ -74,6 +75,28 @@ namespace EfficientlyLazy.Crypto
             CheckInitialization();
 
             return _engine.Decrypt(cipherText);
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public static string GetSetting(string key)
+        {
+            CheckInitialization();
+
+            return _engine.GetSetting(key);
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="key"></param>
+        ///<returns></returns>
+        public static SqlConnectionStringBuilder GetSqlConnectionString(string key)
+        {
+            CheckInitialization();
+
+            return _engine.GetSqlConnectionString(key);
         }
     }
 }

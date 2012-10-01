@@ -1,12 +1,12 @@
 ﻿using System.Security;
 using System.Security.Cryptography;
 
-namespace EfficientlyLazy.Crypto
+namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
     /// Encryption/Decryption using <see cref="System.Security.Cryptography.RC2CryptoServiceProvider"/>.
     /// </summary>
-    public sealed class RC2Engine : SymmetricEngineBase<RC2KeySize>
+    public sealed class RC2Engine : AbstractSymmetricEngine<RC2KeySize>
     {
         /// <summary>
         /// 

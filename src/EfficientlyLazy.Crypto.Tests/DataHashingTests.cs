@@ -13,10 +13,10 @@ namespace EfficientlyLazy.Crypto.Tests
 {
     public class HashTestPair
     {
-        public Algorithm Algorithm { get; set; }
+        public HashType Algorithm { get; set; }
         public Encoding Encoding { get; set; }
 
-        public HashTestPair(Algorithm alg, Encoding enc)
+        public HashTestPair(HashType alg, Encoding enc)
         {
             Algorithm = alg;
             Encoding = enc;
@@ -30,12 +30,12 @@ namespace EfficientlyLazy.Crypto.Tests
     public class DataHashingTests : RandomBase
     {
         [Theory]
-        [InlineData(Algorithm.SHA1)]
-        [InlineData(Algorithm.SHA256)]
-        [InlineData(Algorithm.SHA384)]
-        [InlineData(Algorithm.SHA512)]
-        [InlineData(Algorithm.RIPEMD160)]
-        public void Compute_Default_Encoding_Successful(Algorithm algorithm)
+        [InlineData(HashType.SHA1)]
+        [InlineData(HashType.SHA256)]
+        [InlineData(HashType.SHA384)]
+        [InlineData(HashType.SHA512)]
+        [InlineData(HashType.RIPEMD160)]
+        public void Compute_Default_Encoding_Successful(HashType algorithm)
         {
             // Arrange
             const string PLAIN_TEXT = "The quick brown fox jumps over the lazy dog";
@@ -68,15 +68,15 @@ namespace EfficientlyLazy.Crypto.Tests
                 var list = new List<object[]>();
 
 #if !NET20                
-                var enumNames = Enum.GetNames(typeof(Algorithm)).Where(x => x != "MD5");
+                var enumNames = Enum.GetNames(typeof(HashType)).Where(x => x != "MD5");
 #else
-                var enumNames = new List<string>(Enum.GetNames(typeof(Algorithm)));
+                var enumNames = new List<string>(Enum.GetNames(typeof(HashType)));
                 enumNames.Remove("MD5");
 #endif
 
                 foreach (var algStr in enumNames)
                 {
-                    var alg = (Algorithm)Enum.Parse(typeof(Algorithm), algStr);
+                    var alg = (HashType)Enum.Parse(typeof(HashType), algStr);
 
                     foreach (var enc in encodings)
                     {
@@ -109,16 +109,16 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false)]
-        [InlineData(Algorithm.SHA1, false)]
-        [InlineData(Algorithm.SHA256, false)]
-        [InlineData(Algorithm.SHA384, false)]
-        [InlineData(Algorithm.SHA512, false)]
+        [InlineData(HashType.MD5, false)]
+        [InlineData(HashType.SHA1, false)]
+        [InlineData(HashType.SHA256, false)]
+        [InlineData(HashType.SHA384, false)]
+        [InlineData(HashType.SHA512, false)]
         //[InlineData(Algorithm.SHA1, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA256, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA512, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHashFile2(Algorithm algorithm, bool useNullFile)
+        public void GetHashFile2(HashType algorithm, bool useNullFile)
         {
             FileInfo file = null;
 
@@ -149,11 +149,11 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false, false, false)]
-        [InlineData(Algorithm.SHA1, false, false, false)]
-        [InlineData(Algorithm.SHA256, false, false, false)]
-        [InlineData(Algorithm.SHA384, false, false, false)]
-        [InlineData(Algorithm.SHA512, false, false, false)]
+        [InlineData(HashType.MD5, false, false, false)]
+        [InlineData(HashType.SHA1, false, false, false)]
+        [InlineData(HashType.SHA256, false, false, false)]
+        [InlineData(HashType.SHA384, false, false, false)]
+        [InlineData(HashType.SHA512, false, false, false)]
         //[InlineData(Algorithm.SHA1, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA256, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
@@ -182,7 +182,7 @@ namespace EfficientlyLazy.Crypto.Tests
         //[InlineData(Algorithm.SHA256, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA512, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHMACHash4(Algorithm algorithm, bool useNullText, bool useNullKey, bool useNullEncoding)
+        public void GetHMACHash4(HashType algorithm, bool useNullText, bool useNullKey, bool useNullEncoding)
         {
             string normalText = useNullText ? null : GenerateText(3, 500);
             string keyText = useNullKey ? null : GenerateText(10, 50);
@@ -194,11 +194,11 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false, false)]
-        [InlineData(Algorithm.SHA1, false, false)]
-        [InlineData(Algorithm.SHA256, false, false)]
-        [InlineData(Algorithm.SHA384, false, false)]
-        [InlineData(Algorithm.SHA512, false, false)]
+        [InlineData(HashType.MD5, false, false)]
+        [InlineData(HashType.SHA1, false, false)]
+        [InlineData(HashType.SHA256, false, false)]
+        [InlineData(HashType.SHA384, false, false)]
+        [InlineData(HashType.SHA512, false, false)]
         //[InlineData(Algorithm.SHA1, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA256, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
@@ -211,7 +211,7 @@ namespace EfficientlyLazy.Crypto.Tests
         //[InlineData(Algorithm.SHA256, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA512, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHMACHash3(Algorithm algorithm, bool useNullBytes, bool useNullKey)
+        public void GetHMACHash3(HashType algorithm, bool useNullBytes, bool useNullKey)
         {
             byte[] bytes = useNullBytes ? null : Encoding.UTF8.GetBytes(GenerateText(100, 500));
             byte[] key = useNullKey ? null : Encoding.UTF8.GetBytes(GenerateText(10, 50));
@@ -222,11 +222,11 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false, false, false)]
-        [InlineData(Algorithm.SHA1, false, false, false)]
-        [InlineData(Algorithm.SHA256, false, false, false)]
-        [InlineData(Algorithm.SHA384, false, false, false)]
-        [InlineData(Algorithm.SHA512, false, false, false)]
+        [InlineData(HashType.MD5, false, false, false)]
+        [InlineData(HashType.SHA1, false, false, false)]
+        [InlineData(HashType.SHA256, false, false, false)]
+        [InlineData(HashType.SHA384, false, false, false)]
+        [InlineData(HashType.SHA512, false, false, false)]
         //[InlineData(Algorithm.SHA1, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA256, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, false, true, false)] // TODO : ExpectedException = typeof (ArgumentNullException))]
@@ -255,7 +255,7 @@ namespace EfficientlyLazy.Crypto.Tests
         //[InlineData(Algorithm.SHA256, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA512, true, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHMACHashFile4(Algorithm algorithm, bool useNullFile, bool useNullKey, bool useNullEncoding)
+        public void GetHMACHashFile4(HashType algorithm, bool useNullFile, bool useNullKey, bool useNullEncoding)
         {
             FileInfo file = null;
 
@@ -289,11 +289,11 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(Algorithm.MD5, false, false)]
-        [InlineData(Algorithm.SHA1, false, false)]
-        [InlineData(Algorithm.SHA256, false, false)]
-        [InlineData(Algorithm.SHA384, false, false)]
-        [InlineData(Algorithm.SHA512, false, false)]
+        [InlineData(HashType.MD5, false, false)]
+        [InlineData(HashType.SHA1, false, false)]
+        [InlineData(HashType.SHA256, false, false)]
+        [InlineData(HashType.SHA384, false, false)]
+        [InlineData(HashType.SHA512, false, false)]
         //[InlineData(Algorithm.SHA1, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA256, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, false, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
@@ -306,7 +306,7 @@ namespace EfficientlyLazy.Crypto.Tests
         //[InlineData(Algorithm.SHA256, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA384, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         //[InlineData(Algorithm.SHA512, true, true)] // TODO : ExpectedException = typeof (ArgumentNullException))]
-        public void GetHMACHashFile3(Algorithm algorithm, bool useNullFile, bool useNullKey)
+        public void GetHMACHashFile3(HashType algorithm, bool useNullFile, bool useNullKey)
         {
             FileInfo file = null;
 

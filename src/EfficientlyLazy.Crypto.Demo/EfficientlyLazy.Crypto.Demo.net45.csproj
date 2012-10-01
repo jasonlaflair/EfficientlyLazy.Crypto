@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BCD03428-E119-458F-8D8E-680BCD8A2FB5}</ProjectGuid>
+    <ProjectGuid>{5CE117FF-8F7A-4FC2-AA23-EDAB5F71CF28}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EfficientlyLazy.Crypto.Demo</RootNamespace>
     <AssemblyName>EfficientlyLazy.Crypto.Demo</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,27 +31,30 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\net20\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
+    <OutputPath>bin\Debug\net45\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\net20\</OutputPath>
+    <OutputPath>bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>false</DebugSymbols>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -71,6 +74,30 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="UserControls\AESEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AESEngineControl.Designer.cs">
+      <DependentUpon>AESEngineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TripleDESEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TripleDESEngineControl.Designer.cs">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DESEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DESEngineControl.Designer.cs">
+      <DependentUpon>DESEngineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\RC2EngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\RC2EngineControl.Designer.cs">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CryptoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,12 +106,6 @@
     </Compile>
     <Compile Include="frmSQLConnectionStringBuilder.Designer.cs">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\DESEngineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\DESEngineControl.Designer.cs">
-      <DependentUpon>DESEngineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\HashingControl.cs">
       <SubType>UserControl</SubType>
@@ -112,29 +133,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\RC2EngineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\RC2EngineControl.Designer.cs">
-      <DependentUpon>RC2EngineControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\RijndaelEngineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\RijndaelEngineControl.Designer.cs">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TripleDESEngineControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\TripleDESEngineControl.Designer.cs">
-      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AESEngineControl.resx">
+      <DependentUpon>AESEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TripleDESEngineControl.resx">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DESEngineControl.resx">
       <DependentUpon>DESEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RC2EngineControl.resx">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HashingControl.resx">
       <DependentUpon>HashingControl.cs</DependentUpon>
@@ -149,14 +167,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\RC2EngineControl.resx">
-      <DependentUpon>RC2EngineControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RijndaelEngineControl.resx">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\TripleDESEngineControl.resx">
-      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +195,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net20.csproj">
-      <Project>{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}</Project>
-      <Name>EfficientlyLazy.Crypto.net20</Name>
+    <ProjectReference Include="..\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net45.csproj">
+      <Project>{2875fe62-d44b-4fb2-b653-c61428a369d3}</Project>
+      <Name>EfficientlyLazy.Crypto.net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

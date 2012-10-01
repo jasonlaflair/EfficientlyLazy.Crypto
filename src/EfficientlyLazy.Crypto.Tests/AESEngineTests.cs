@@ -9,10 +9,10 @@ using Xunit.Extensions;
 namespace EfficientlyLazy.Crypto.Tests
 {
     /// <summary>
-    ///This is a test class for RC2Engine and is intended
-    ///to contain all RC2Engine Unit Tests
+    ///This is a test class for AESEngineTest and is intended
+    ///to contain all AESEngineTest Unit Tests
     ///</summary>
-    public class RC2EngineTests : RandomBase
+    public class AESEngineTests : RandomBase
     {
         [Fact]
         public void ConstructorString()
@@ -21,7 +21,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             string key = GeneratePassPhrase();
 
-            ICryptoEngine engine = new RC2Engine(key);
+            ICryptoEngine engine = new AESEngine(key);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
@@ -37,7 +37,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             SecureString key = ToSS(GeneratePassPhrase());
 
-            ICryptoEngine engine = new RC2Engine(key);
+            ICryptoEngine engine = new AESEngine(key);
 
             string encrypted = engine.Encrypt(clearText);
             string decrypted = engine.Decrypt(encrypted);
@@ -54,7 +54,7 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init);
 
             string encrypted = engine.Encrypt(clearText);
@@ -72,7 +72,7 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             SecureString init = ToSS(GenerateInitVector());
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init);
 
             string encrypted = engine.Encrypt(clearText);
@@ -93,7 +93,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var minSalt = (byte)DataGenerator.Integer(4, 100);
             var maxSalt = (byte)DataGenerator.Integer(100, 250);
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt);
 
@@ -116,7 +116,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var maxSalt = (byte)DataGenerator.Integer(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt)
                 .SetSalt(saltKey);
@@ -140,7 +140,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var maxSalt = (byte)DataGenerator.Integer(100, 250);
             SecureString saltKey = ToSS(GenerateRandomSalt());
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt)
                 .SetSalt(saltKey);
@@ -153,9 +153,10 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(RC2KeySize.Key40Bit)]
-        [InlineData(RC2KeySize.Key128Bit)]
-        public void SetKeySize(RC2KeySize keySize)
+        [InlineData(AESKeySize.Key128Bit)]
+        [InlineData(AESKeySize.Key192Bit)]
+        [InlineData(AESKeySize.Key256Bit)]
+        public void SetKeySize(AESKeySize keySize)
         {
             string clearText = GenerateClearText();
 
@@ -166,7 +167,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var maxSalt = (byte)DataGenerator.Integer(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt)
                 .SetSalt(saltKey)
@@ -193,11 +194,11 @@ namespace EfficientlyLazy.Crypto.Tests
 
             var iterations = (byte)DataGenerator.Integer(1, 10);
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init)
                 .SetRandomSaltLength(minSalt, maxSalt)
                 .SetSalt(saltKey)
-                .SetKeySize(RC2KeySize.Key128Bit)
+                .SetKeySize(AESKeySize.Key256Bit)
                 .SetIterations(iterations);
 
             string encrypted = engine.Encrypt(clearText);
@@ -242,7 +243,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             string key = GeneratePassPhrase();
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetEncoding(encoding);
 
             string encrypted = engine.Encrypt(clearText);
@@ -262,7 +263,7 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            ICryptoEngine engine = new RC2Engine(key)
+            ICryptoEngine engine = new AESEngine(key)
                 .SetInitVector(init);
 
             Assert.Throws<CryptographicException>(delegate
@@ -281,7 +282,7 @@ namespace EfficientlyLazy.Crypto.Tests
         //{
         //    string key = GeneratePassPhrase();
 
-        //    ICryptoEngine engine = new RC2Engine(key)
+        //    ICryptoEngine engine = new AESEngine(key)
         //        .SetInitVector(invalidValue);
 
         //    //Assert.Fail("Should never get here");
@@ -297,7 +298,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
         //    SecureString invalidSecureString = string.IsNullOrEmpty(invalidValue) ? null : ToSS(invalidValue);
 
-        //    ICryptoEngine engine = new RC2Engine(key)
+        //    ICryptoEngine engine = new AESEngine(key)
         //        .SetInitVector(invalidSecureString);
 
         //    //Assert.Fail("Should never get here");
@@ -315,7 +316,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                ICryptoEngine engine = new RC2Engine(key)
+                ICryptoEngine engine = new AESEngine(key)
                     .SetRandomSaltLength(min, max);
             });
         }
@@ -328,7 +329,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                ICryptoEngine engine = new RC2Engine(key)
+                ICryptoEngine engine = new AESEngine(key)
                     .SetSalt(salt);
             });
         }
@@ -342,7 +343,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                ICryptoEngine engine = new RC2Engine(key)
+                ICryptoEngine engine = new AESEngine(key)
                     .SetSalt(salt);
             });
         }
@@ -356,7 +357,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                ICryptoEngine engine = new RC2Engine(key)
+                ICryptoEngine engine = new AESEngine(key)
                     .SetIterations(times);
             });
         }

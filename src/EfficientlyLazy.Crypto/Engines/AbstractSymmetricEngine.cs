@@ -9,12 +9,12 @@ using System.Configuration;
 using System.Data.SqlClient;
 using EfficientlyLazy.Crypto.Configuration;
 
-namespace EfficientlyLazy.Crypto
+namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
-    /// Encryption/Decryption using <see cref="SymmetricEngineBase{T}"/>.
+    /// Encryption/Decryption using <see cref="AbstractSymmetricEngine{T}"/>.
     /// </summary>
-    public abstract class SymmetricEngineBase<T> : ICryptoEngine where T : struct, IConvertible
+    public abstract class AbstractSymmetricEngine<T> : ISymmetricEngine where T : struct, IConvertible
     {
         private ICryptoTransform _decryptor;
         private ICryptoTransform _encryptor;
@@ -24,7 +24,7 @@ namespace EfficientlyLazy.Crypto
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
-        protected SymmetricEngineBase(string key, T defaultKeySize)
+        protected AbstractSymmetricEngine(string key, T defaultKeySize)
         {
             Key = ToSecureString(key);
             InitVector = ToSecureString(string.Empty);
@@ -43,7 +43,7 @@ namespace EfficientlyLazy.Crypto
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
-        protected SymmetricEngineBase(SecureString key, T defaultKeySize)
+        protected AbstractSymmetricEngine(SecureString key, T defaultKeySize)
         {
             key.MakeReadOnly();
 
@@ -387,7 +387,7 @@ namespace EfficientlyLazy.Crypto
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public SymmetricEngineBase<T> SetInitVector(string initVector)
+        public AbstractSymmetricEngine<T> SetInitVector(string initVector)
         {
             if (initVector == null)
             {
@@ -413,7 +413,7 @@ namespace EfficientlyLazy.Crypto
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public SymmetricEngineBase<T> SetInitVector(SecureString initVector)
+        public AbstractSymmetricEngine<T> SetInitVector(SecureString initVector)
         {
             if (initVector == null)
             {
@@ -441,7 +441,7 @@ namespace EfficientlyLazy.Crypto
         ///<param name="maximumLength">Maximum salt length, must be greater than 0 (unless both minimum and maximum are set to 0)</param>
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public SymmetricEngineBase<T> SetRandomSaltLength(int minimumLength, int maximumLength)
+        public AbstractSymmetricEngine<T> SetRandomSaltLength(int minimumLength, int maximumLength)
         {
             if (minimumLength < 4 && maximumLength >= 4)
             {
@@ -470,7 +470,7 @@ namespace EfficientlyLazy.Crypto
         ///<param name="salt">Key salt used to derive the key</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public SymmetricEngineBase<T> SetSalt(string salt)
+        public AbstractSymmetricEngine<T> SetSalt(string salt)
         {
             if (salt == null)
             {
@@ -490,7 +490,7 @@ namespace EfficientlyLazy.Crypto
         ///<param name="salt">Key salt used to derive the key</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public SymmetricEngineBase<T> SetSalt(SecureString salt)
+        public AbstractSymmetricEngine<T> SetSalt(SecureString salt)
         {
             if (salt == null)
             {
@@ -510,7 +510,7 @@ namespace EfficientlyLazy.Crypto
         ///</summary>
         ///<param name="keySize">The size of the secret key used by the algorithm</param>
         ///<returns></returns>
-        public SymmetricEngineBase<T> SetKeySize(T keySize)
+        public AbstractSymmetricEngine<T> SetKeySize(T keySize)
         {
             KeySize = keySize;
 
@@ -525,7 +525,7 @@ namespace EfficientlyLazy.Crypto
         ///<param name="iterations">The number of iterations for the operation</param>
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public SymmetricEngineBase<T> SetIterations(int iterations)
+        public AbstractSymmetricEngine<T> SetIterations(int iterations)
         {
             if (iterations <= 0)
             {
@@ -545,7 +545,7 @@ namespace EfficientlyLazy.Crypto
         ///<param name="encoding">The character encoding</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public SymmetricEngineBase<T> SetEncoding(Encoding encoding)
+        public AbstractSymmetricEngine<T> SetEncoding(Encoding encoding)
         {
             if (encoding == null)
             {
@@ -565,7 +565,7 @@ namespace EfficientlyLazy.Crypto
         /// <param name="hashAlgorithm"></param>
         /// <returns></returns>
         [Obsolete("Used in old key generation using the now Obsolite PasswordDeriveBytes", false)]
-        public SymmetricEngineBase<T> SetHashAlgorithm(string hashAlgorithm)
+        public AbstractSymmetricEngine<T> SetHashAlgorithm(string hashAlgorithm)
         {
             HashAlgorithm = hashAlgorithm;
 

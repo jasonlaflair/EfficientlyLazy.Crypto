@@ -1,28 +1,28 @@
 using System.Security;
 using System.Security.Cryptography;
 
-namespace EfficientlyLazy.Crypto
+namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
-    /// Encryption/Decryption using <see cref="RijndaelManaged"/>.
+    /// Encryption/Decryption using <see cref="AesManaged"/>.
     /// </summary>
-    public sealed class RijndaelEngine : SymmetricEngineBase<RijndaelKeySize>
+    public sealed class AESEngine : AbstractSymmetricEngine<AESKeySize>
     {
         ///<summary>
-        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
+        /// Initializes a new instance of the <see cref="AESEngine"/> object.
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
-        public RijndaelEngine(string key)
-            : base(key, RijndaelKeySize.Key256Bit)
+        public AESEngine(string key)
+            : base(key, AESKeySize.Key256Bit)
         {
         }
 
         ///<summary>
-        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
+        /// Initializes a new instance of the <see cref="AESEngine"/> object.
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
-        public RijndaelEngine(SecureString key)
-            : base(key, RijndaelKeySize.Key256Bit)
+        public AESEngine(SecureString key)
+            : base(key, AESKeySize.Key256Bit)
         {
         }
 
@@ -33,7 +33,7 @@ namespace EfficientlyLazy.Crypto
         /// <returns></returns>
         protected override SymmetricAlgorithm GenerateAlgorithmEngine(CipherMode cipherMode)
         {
-            return new RijndaelManaged
+            return new AesManaged
                 {
                     Mode = cipherMode
                 };

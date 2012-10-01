@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using EfficientlyLazy.Crypto.Engines;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using EfficientlyLazy.Crypto.Engines;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
@@ -12,14 +13,14 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
             var algorithms = new List<string>
                                       {
-                                          Algorithm.SHA1.ToString(),
-                                          Algorithm.SHA256.ToString(),
-                                          Algorithm.SHA384.ToString(),
-                                          Algorithm.SHA512.ToString()
+                                          HashType.SHA1.ToString(),
+                                          HashType.SHA256.ToString(),
+                                          HashType.SHA384.ToString(),
+                                          HashType.SHA512.ToString()
                                       };
 
             cbxAlgorithm.DataSource = algorithms;
-            cbxAlgorithm.SelectedItem = Algorithm.SHA512.ToString();
+            cbxAlgorithm.SelectedItem = HashType.SHA512.ToString();
 
             cbxEncoding.DisplayMember = "EncodingName";
             cbxEncoding.Items.Add(Encoding.ASCII);
@@ -58,7 +59,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         protected override string EngineEncrypt(string clearText)
         {
-            var algorithm = (Algorithm)Enum.Parse(typeof (Algorithm), cbxAlgorithm.SelectedItem.ToString());
+            var algorithm = (HashType)Enum.Parse(typeof (HashType), cbxAlgorithm.SelectedItem.ToString());
             var encoding = (Encoding)cbxEncoding.SelectedItem;
 
             return cbxUseHMAC.Checked

@@ -54,6 +54,12 @@
     <DebugSymbols>false</DebugSymbols>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\EfficientlyLazy.Crypto.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -65,6 +71,10 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="UserControls\AESEngineControl.cs" />
+    <Compile Include="UserControls\AESEngineControl.Designer.cs">
+      <DependentUpon>AESEngineControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CryptoControl.cs">
       <SubType>UserControl</SubType>
@@ -127,6 +137,9 @@
     </Compile>
     <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AESEngineControl.resx">
+      <DependentUpon>AESEngineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DESEngineControl.resx">
       <DependentUpon>DESEngineControl.cs</DependentUpon>
