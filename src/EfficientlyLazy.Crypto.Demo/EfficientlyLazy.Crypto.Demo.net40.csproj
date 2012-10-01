@@ -66,6 +66,24 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="UserControls\TripleDESEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TripleDESEngineControl.Designer.cs">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DESEngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DESEngineControl.Designer.cs">
+      <DependentUpon>DESEngineControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\RC2EngineControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\RC2EngineControl.Designer.cs">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CryptoControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,6 +127,15 @@
     </Compile>
     <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TripleDESEngineControl.resx">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DESEngineControl.resx">
+      <DependentUpon>DESEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RC2EngineControl.resx">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HashingControl.resx">
       <DependentUpon>HashingControl.cs</DependentUpon>

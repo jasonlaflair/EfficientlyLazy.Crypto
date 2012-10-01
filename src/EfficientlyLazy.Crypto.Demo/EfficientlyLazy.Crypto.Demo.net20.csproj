@@ -74,6 +74,10 @@
     <Compile Include="frmSQLConnectionStringBuilder.Designer.cs">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\DESEngineControl.cs" />
+    <Compile Include="UserControls\DESEngineControl.Designer.cs">
+      <DependentUpon>DESEngineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\HashingControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -100,14 +104,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\RC2EngineControl.cs" />
+    <Compile Include="UserControls\RC2EngineControl.Designer.cs">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RijndaelEngineControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\RijndaelEngineControl.Designer.cs">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TripleDESEngineControl.cs" />
+    <Compile Include="UserControls\TripleDESEngineControl.Designer.cs">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmSQLConnectionStringBuilder.resx">
       <DependentUpon>frmSQLConnectionStringBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DESEngineControl.resx">
+      <DependentUpon>DESEngineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HashingControl.resx">
       <DependentUpon>HashingControl.cs</DependentUpon>
@@ -122,8 +137,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\RC2EngineControl.resx">
+      <DependentUpon>RC2EngineControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RijndaelEngineControl.resx">
       <DependentUpon>RijndaelEngineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TripleDESEngineControl.resx">
+      <DependentUpon>TripleDESEngineControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

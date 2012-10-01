@@ -12,11 +12,36 @@ namespace EfficientlyLazy.Crypto.Demo
 
             var rijndaelEngineControl = new RijndaelEngineControl();
             var rijndaelEngineControlMenu = new ToolStripMenuItem(rijndaelEngineControl.DisplayName)
-                                                          {
-                                                              Tag = rijndaelEngineControl
-                                                          };
+                                                {
+                                                    Tag = rijndaelEngineControl
+                                                };
             rijndaelEngineControlMenu.Click += MenuClick;
             configurationToolStripMenuItem.DropDownItems.Add(rijndaelEngineControlMenu);
+
+            var tripleDESEngineControl = new TripleDESEngineControl();
+            var tripleDESEngineControlMenu = new ToolStripMenuItem(tripleDESEngineControl.DisplayName)
+                                                 {
+                                                     Tag = tripleDESEngineControl
+                                                 };
+            tripleDESEngineControlMenu.Click += MenuClick;
+            configurationToolStripMenuItem.DropDownItems.Add(tripleDESEngineControlMenu);
+
+            var desEngineControl = new DESEngineControl();
+            var desEngineControlMenu = new ToolStripMenuItem(desEngineControl.DisplayName)
+                                           {
+                                               Tag = desEngineControl
+                                           };
+            desEngineControlMenu.Click += MenuClick;
+            configurationToolStripMenuItem.DropDownItems.Add(desEngineControlMenu);
+
+            var rc2EngineControl = new RC2EngineControl();
+            var rc2EngineControlMenu = new ToolStripMenuItem(rc2EngineControl.DisplayName)
+                                           {
+                                               Tag = rc2EngineControl
+                                           };
+            rc2EngineControlMenu.Click += MenuClick;
+            configurationToolStripMenuItem.DropDownItems.Add(rc2EngineControlMenu);
+
 
             var dpapiEngineControl = new DPAPIEngineControl();
             var dpapiEngineControlMenu = new ToolStripMenuItem(dpapiEngineControl.DisplayName)
