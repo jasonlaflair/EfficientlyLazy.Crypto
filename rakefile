@@ -2,16 +2,13 @@ require 'albacore'
 
 $VERSION_NUMBER = ENV["version"] || '0.9.5.0'
 $CONFIG = "Debug"
-$FWVERSIONS = ["net45"] #"net20", "net35", "net40", "net45"]
+$FWVERSIONS = ["net20", "net35", "net40", "net45"]
 
 desc "Debug Build"
-task :default => [:runUnitTests] #:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
+task :default => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
 
 desc "Create Release Build"
-task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :mergeDemoApp, :copyOutputFiles, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
-
-desc "Nightly Build"
-task :ci => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
+task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
 
 task :setDebugConfigLevel do
 	$CONFIG = "Debug"
@@ -21,16 +18,23 @@ task :setReleaseConfigLevel do
 	$CONFIG = "Release"
 end
 
-zip :zipBinaries do |zip|
-	 zip.directories_to_zip "Build"
-	 zip.output_file = "EfficientlyLazy.Crypto.#{$VERSION_NUMBER}.zip"
+task :zipBinaries do
+	 $FWVERSIONS.each do |fwVersion|
+	 	 Rake::Task[:zipFrameworkBinaries].invoke(fwVersion)
+	end
+end
+
+zip :zipFrameworkBinaries, [:fwVersion] do |zip, args|
+	 zip.directories_to_zip "Build/#{$CONFIG}/tools/#{args.fwVersion}"
+	 zip.additional_files "Build/#{$CONFIG}/content/EfficientlyLazy.Crypto.chm"
+	 zip.output_file = "EfficientlyLazy.Crypto.v#{$VERSION_NUMBER}.#{args.fwVersion}.zip"
 	 zip.output_path = "Build"
+	 
+	 Rake::Task[:zipFrameworkBinaries].reenable()
 end
 
 task :cleanup do
-	FileUtils.rm_rf "Build/content" if File.exists?("Build/content")
-	FileUtils.rm_rf "Build/lib" if File.exists?("Build/lib")
-	FileUtils.rm_rf "Build/tools" if File.exists?("Build/tools")
+	FileUtils.rm_rf "Build/#{$CONFIG}" if File.exists?("Build/#{$CONFIG}")
 	FileUtils.rm_rf "Build/EfficientlyLazy.Crypto.nuspec" if File.exists?("Build/EfficientlyLazy.Crypto.nuspec")
 end
 
@@ -42,22 +46,12 @@ end
 
 xunit :runFrameworkUnitTests, [:fwVersion] do |xunit, args|
 	xunit.command = "tools/xunit/xunit.console.clr4.exe"
-	xunit.assembly = "src/EfficientlyLazy.Crypto.Tests/bin/#{$CONFIG}/#{args.fwVersion}/EfficientlyLazy.Crypto.Tests.dll"
+	xunit.assembly = "Build/#{$CONFIG}/tests/#{args.fwVersion}/EfficientlyLazy.Crypto.Tests.dll"
 	Rake::Task[:runFrameworkUnitTests].reenable()
 end
 
-output :copyOutputFiles do |out|
-	out.from '.'
-	out.to 'Build'
-  
-	$FWVERSIONS.each do |fwVersion|
-		out.file "src/EfficientlyLazy.Crypto/bin/#{$CONFIG}/#{fwVersion}/EfficientlyLazy.Crypto.dll", :as=> "lib/#{fwVersion}/EfficientlyLazy.Crypto.dll"
-		out.file "src/EfficientlyLazy.Crypto/bin/#{$CONFIG}/#{fwVersion}/EfficientlyLazy.Crypto.xml", :as=> "lib/#{fwVersion}/EfficientlyLazy.Crypto.xml"
-		out.file "src/EfficientlyLazy.Crypto.Demo/bin/#{$CONFIG}/#{fwVersion}/EfficientlyLazy.Crypto.Demo.Merged.exe", :as=> "tools/#{fwVersion}/EfficientlyLazy.Crypto.Demo.exe"
-	end
-end
-
 nuspec :createNuspecFile do |nuspec|
+	puts "NUSPEC"
 	nuspec.id="EfficientlyLazy.Crypto"
 	nuspec.version = "#{$VERSION_NUMBER}"
 	nuspec.authors = "Jason LaFlair"
@@ -72,10 +66,10 @@ nuspec :createNuspecFile do |nuspec|
 	nuspec.tags = "security cryptography encryption AES configuration library random csharp hash data"
 	
 	$FWVERSIONS.each do |fwVersion|
-		nuspec.file "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll"
-		nuspec.file "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml"
-		nuspec.file "tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.exe", "tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.exe"
-		nuspec.file "content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm", "content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm"
+		nuspec.file "#{$CONFIG}\\lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll"
+		nuspec.file "#{$CONFIG}\\lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml"
+		#nuspec.file "#{$CONFIG}\\tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.Merged.exe", "tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.exe"
+		#nuspec.file "#{$CONFIG}\\content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm", "content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm"
 	end
 end
 
@@ -93,9 +87,9 @@ task :mergeDemoApp do
 end
 
 ilmerge :mergeFrameworkDemoApp, [:fwVersion] do |cfg, args|
-	cfg.command = 'tools\ILMerge\ILMerge.exe'
-	cfg.assemblies "src/EfficientlyLazy.Crypto.Demo/bin/#{$CONFIG}/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.exe", "src/EfficientlyLazy.Crypto.Demo/bin/#{$CONFIG}/#{args.fwVersion}/EfficientlyLazy.Crypto.dll"
-	cfg.output = "src/EfficientlyLazy.Crypto.Demo/bin/#{$CONFIG}/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.Merged.exe"
+	cfg.command = "tools\\ILMerge\\ILMerge.exe /v4" # /targetplatform:""v4,C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0"""
+	cfg.assemblies "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.exe", "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.dll"
+	cfg.output = "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.Merged.exe"
 	
 	Rake::Task[:mergeFrameworkDemoApp].reenable()
 end
@@ -112,15 +106,9 @@ assemblyinfo :updateAssemblyInfo do |asm|
 	asm.com_visible = false
 end
 
-task :buildDocumentation do
-	$FWVERSIONS.each do |fwVersion|
-		Rake::Task[:buildFrameworkDocumentation].invoke(fwVersion)
-	end
-end
-
-msbuild :buildFrameworkDocumentation, [:fwVersion] do |msb, args|
+msbuild :buildDocumentation do |msb|
 	lines = ""
-	versionFile = "doc/EfficientlyLazy.Crypto.#{args.fwVersion}.shfbproj"
+	versionFile = "doc/EfficientlyLazy.Crypto.net45.shfbproj"
 	
 	File.open(versionFile, 'r') do |f|
 		lines = f.readlines
@@ -141,8 +129,6 @@ msbuild :buildFrameworkDocumentation, [:fwVersion] do |msb, args|
 	msb.solution = versionFile
 	msb.verbosity = "minimal"
 	msb.other_switches :toolsVersion => 4.0
-  
-	Rake::Task[:buildFrameworkDocumentation].reenable()
 end
 
 msbuild :buildSolution do |msb|

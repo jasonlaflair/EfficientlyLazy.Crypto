@@ -6,6 +6,7 @@ namespace EfficientlyLazy.Crypto.Engines
     /// <summary>
     /// Encryption/Decryption using <see cref="AesManaged"/>.
     /// </summary>
+    /// <remarks>This engine is not available in the v2.0 framework</remarks>
     public sealed class AESEngine : AbstractSymmetricEngine<AESKeySize>
     {
         ///<summary>
@@ -15,6 +16,7 @@ namespace EfficientlyLazy.Crypto.Engines
         public AESEngine(string key)
             : base(key, AESKeySize.Key256Bit)
         {
+            SetInitVector("                ");
         }
 
         ///<summary>
@@ -24,6 +26,7 @@ namespace EfficientlyLazy.Crypto.Engines
         public AESEngine(SecureString key)
             : base(key, AESKeySize.Key256Bit)
         {
+            SetInitVector("                ");
         }
 
         /// <summary>

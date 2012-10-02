@@ -154,8 +154,8 @@ namespace EfficientlyLazy.Crypto.Tests
 
         [Theory]
         [InlineData(AESKeySize.Key128Bit)]
-        [InlineData(AESKeySize.Key192Bit)]
-        [InlineData(AESKeySize.Key256Bit)]
+        //[InlineData(AESKeySize.Key192Bit)]
+        //[InlineData(AESKeySize.Key256Bit)]
         public void SetKeySize(AESKeySize keySize)
         {
             string clearText = GenerateClearText();
@@ -211,8 +211,6 @@ namespace EfficientlyLazy.Crypto.Tests
         [Theory]
         //[InlineData(Encodings.None)] // TODO : ExpectedException = typeof(ArgumentNullException))]
         [InlineData(Encodings.ASCII)]
-        [InlineData(Encodings.Unicode)]
-        [InlineData(Encodings.UTF32)]
         [InlineData(Encodings.UTF7)]
         [InlineData(Encodings.UTF8)]
         public void SetEncoding(Encodings encodingType)
@@ -224,12 +222,6 @@ namespace EfficientlyLazy.Crypto.Tests
                 //case Encodings.None:
                 case Encodings.ASCII:
                     encoding = Encoding.ASCII;
-                    break;
-                case Encodings.Unicode:
-                    encoding = Encoding.Unicode;
-                    break;
-                case Encodings.UTF32:
-                    encoding = Encoding.UTF32;
                     break;
                 case Encodings.UTF7:
                     encoding = Encoding.UTF7;

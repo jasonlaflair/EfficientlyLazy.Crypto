@@ -15,7 +15,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\build\content\net35</OutputPath>
+    <OutputPath>..\Build\$(Configuration)\content\net35</OutputPath>
     <HtmlHelpName>EfficientlyLazy.Crypto</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net35.csproj" />

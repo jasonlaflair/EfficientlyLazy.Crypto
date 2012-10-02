@@ -79,14 +79,10 @@ namespace EfficientlyLazy.Crypto.Tests
         [Theory]
         //[InlineData(DPAPIKeyType.UserKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         [InlineData(DPAPIKeyType.UserKey, Encodings.ASCII)]
-        [InlineData(DPAPIKeyType.UserKey, Encodings.Unicode)]
-        [InlineData(DPAPIKeyType.UserKey, Encodings.UTF32)]
         [InlineData(DPAPIKeyType.UserKey, Encodings.UTF7)]
         [InlineData(DPAPIKeyType.UserKey, Encodings.UTF8)]
         //[InlineData(DPAPIKeyType.MachineKey, Encodings.None)] // TODO : ExpectedException = typeof (ArgumentNullException))]
         [InlineData(DPAPIKeyType.MachineKey, Encodings.ASCII)]
-        [InlineData(DPAPIKeyType.MachineKey, Encodings.Unicode)]
-        [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF32)]
         [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF7)]
         [InlineData(DPAPIKeyType.MachineKey, Encodings.UTF8)]
         public void SetEncoding(DPAPIKeyType keyType, Encodings encodingType)
@@ -98,12 +94,6 @@ namespace EfficientlyLazy.Crypto.Tests
                     //case Encodings.None:
                 case Encodings.ASCII :
                     encoding = Encoding.ASCII;
-                    break;
-                case Encodings.Unicode :
-                    encoding = Encoding.Unicode;
-                    break;
-                case Encodings.UTF32 :
-                    encoding = Encoding.UTF32;
                     break;
                 case Encodings.UTF7 :
                     encoding = Encoding.UTF7;

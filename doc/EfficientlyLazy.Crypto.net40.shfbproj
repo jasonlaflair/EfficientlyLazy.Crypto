@@ -15,7 +15,7 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\build\content\net40</OutputPath>
+    <OutputPath>..\Build\$(Configuration)\build\content\net40</OutputPath>
     <HtmlHelpName>EfficientlyLazy.Crypto</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net40.csproj" />

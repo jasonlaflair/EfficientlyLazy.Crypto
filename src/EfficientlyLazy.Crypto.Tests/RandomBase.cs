@@ -11,8 +11,6 @@ namespace EfficientlyLazy.Crypto.Tests
         {
             None,
             ASCII,
-            Unicode,
-            UTF32,
             UTF7,
             UTF8
         }

@@ -15,10 +15,10 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <OutputPath>..\Build\$(Configuration)\content\net20</OutputPath>
+    <OutputPath>..\Build\$(Configuration)\content</OutputPath>
     <HtmlHelpName>EfficientlyLazy.Crypto</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net20.csproj" />
+      <DocumentationSource sourceFile="..\src\EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net45.csproj" />
     </DocumentationSources>
     <KeepLogFile>False</KeepLogFile>
     <CopyrightHref>https://github.com/jasonlaflair/EfficientlyLazy.Crypto</CopyrightHref>
@@ -34,7 +34,7 @@
     <SyntaxFilters>CSharp, VisualBasic</SyntaxFilters>
     <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter</MissingTags>
     <ShowFeedbackControl>False</ShowFeedbackControl>
-    <FrameworkVersion>.NET 2.0.50727</FrameworkVersion>
+    <FrameworkVersion>.NET 4.0.30319</FrameworkVersion>
     <HtmlHelp1xCompilerPath>..\tools\HTML Help Workshop\</HtmlHelp1xCompilerPath>
     <SandcastlePath>..\tools\Sandcastle\</SandcastlePath>
   </PropertyGroup>

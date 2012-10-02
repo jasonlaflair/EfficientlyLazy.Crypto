@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Security.Permissions;
 
 namespace EfficientlyLazy.Crypto
@@ -6,7 +7,7 @@ namespace EfficientlyLazy.Crypto
     /// <summary>
     /// Encryption/Decryption interface
     /// </summary>
-    public interface ICryptoEngine
+    public interface ICryptoEngine : IDisposable
     {
         /// <summary>
         /// Encrypts the specified plain text.

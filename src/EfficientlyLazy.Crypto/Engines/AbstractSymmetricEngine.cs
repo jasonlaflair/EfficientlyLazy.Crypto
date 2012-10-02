@@ -16,6 +16,7 @@ namespace EfficientlyLazy.Crypto.Engines
     /// </summary>
     public abstract class AbstractSymmetricEngine<T> : ISymmetricEngine where T : struct, IConvertible
     {
+        private readonly object _theadsafeLock = new object();
         private ICryptoTransform _decryptor;
         private ICryptoTransform _encryptor;
 
@@ -35,7 +36,7 @@ namespace EfficientlyLazy.Crypto.Engines
             PasswordIterations = 10;
             Encoding = Encoding.Default;
 
-            GenerateEngine();
+            ResetEngine();
         }
 
         ///<summary>
@@ -56,7 +57,7 @@ namespace EfficientlyLazy.Crypto.Engines
             PasswordIterations = 10;
             Encoding = Encoding.Default;
 
-            GenerateEngine();
+            ResetEngine();
         }
 
         ///<summary>
@@ -117,8 +118,10 @@ namespace EfficientlyLazy.Crypto.Engines
             byte[] cipherTextBytes;
 
             // Let's make cryptographic operations thread-safe.
-            lock (_encryptor)
+            lock (_theadsafeLock)
             {
+                InitializeEngine();
+
                 try
                 {
                     // Add salt at the beginning of the plain text bytes (if needed).
@@ -170,8 +173,10 @@ namespace EfficientlyLazy.Crypto.Engines
             byte[] plainTextBytes;
 
             // Let's make cryptographic operations thread-safe.
-            lock (_decryptor)
+            lock (_theadsafeLock)
             {
+                InitializeEngine();
+
                 try
                 {
                     // Since we do not know how big decrypted value will be, use the same
@@ -401,7 +406,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
             InitVector = ToSecureString(initVector);
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -428,7 +433,7 @@ namespace EfficientlyLazy.Crypto.Engines
             initVector.MakeReadOnly();
             InitVector = initVector;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -459,7 +464,7 @@ namespace EfficientlyLazy.Crypto.Engines
             RandomSaltMinimumLength = minimumLength;
             RandomSaltMaximumLength = maximumLength;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -479,7 +484,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
             Salt = ToSecureString(salt);
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -500,7 +505,7 @@ namespace EfficientlyLazy.Crypto.Engines
             salt.MakeReadOnly();
             Salt = salt;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -514,7 +519,7 @@ namespace EfficientlyLazy.Crypto.Engines
         {
             KeySize = keySize;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -534,7 +539,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
             PasswordIterations = iterations;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -554,7 +559,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
             Encoding = encoding;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
@@ -569,70 +574,30 @@ namespace EfficientlyLazy.Crypto.Engines
         {
             HashAlgorithm = hashAlgorithm;
 
-            GenerateEngine();
+            ResetEngine();
 
             return this;
         }
 
-        //        private void GenerateEngine()
-        //        {
-        //            // Initialization vector converted to a byte array.  Get bytes of initialization vector.
-        //            var initVectorBytes = Encoding.GetBytes(ToString(InitVector));
-
-        //            byte[] keyBytes;
-
-        //            if (!string.IsNullOrEmpty(HashAlgorithm))
-        //            {
-        //                // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
-        //                // Get bytes of salt (used in hashing).
-        //                var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[0] : Encoding.GetBytes(ToString(Salt));
-
-        //                var password = new PasswordDeriveBytes(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations);
-
-        //                // Convert key to a byte array adjusting the size from bits to bytes.
-        //#pragma warning disable 612,618
-        //                keyBytes = password.GetBytes((int)KeySize / 8);
-        //#pragma warning restore 612,618
-        //            }
-        //            else
-        //            {
-        //                // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
-        //                // Get bytes of salt (used in hashing).
-        //                var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
-
-        //                var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
-
-        //                // Convert key to a byte array adjusting the size from bits to bytes.
-        //                keyBytes = password.GetBytes((int) KeySize/8);
-        //            }
-
-        //            var sk = new TripleDESCryptoServiceProvider
-        //            {
-        //                Mode = (initVectorBytes.Length == 0)
-        //                           ? CipherMode.ECB
-        //                           : CipherMode.CBC
-        //            };
-
-
-        //            // If we do not have initialization vector, we cannot use the CBC mode.
-        //            // The only alternative is the ECB mode (which is not as good).
-        //            var symmetricKey = new RijndaelManaged
-        //                                   {
-        //                                       Mode = (initVectorBytes.Length == 0)
-        //                                                  ? CipherMode.ECB
-        //                                                  : CipherMode.CBC
-        //                                   };
-
-        //            // Create encryptor and decryptor, which we will use for cryptographic operations.
-        //            _encryptor = symmetricKey.CreateEncryptor(keyBytes, initVectorBytes);
-        //            _decryptor = symmetricKey.CreateDecryptor(keyBytes, initVectorBytes);
-        //        }
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void ResetEngine()
+        {
+            if (_decryptor != null) _decryptor.Dispose();
+            if (_encryptor != null) _encryptor.Dispose();
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        protected virtual void GenerateEngine()
+        protected virtual void InitializeEngine()
         {
+            if (_encryptor != null && _decryptor != null)
+            {
+                return;
+            }
+
             // Initialization vector converted to a byte array.  Get bytes of initialization vector.
             var initVectorBytes = Encoding.GetBytes(ToString(InitVector));
 
@@ -669,6 +634,9 @@ namespace EfficientlyLazy.Crypto.Engines
 
             var algorithm = GenerateAlgorithmEngine(cipherMode);
 
+            //algorithm.Key = keyBytes;
+            //algorithm.IV = initVectorBytes;
+
             _decryptor = algorithm.CreateDecryptor(keyBytes, initVectorBytes);
             _encryptor = algorithm.CreateEncryptor(keyBytes, initVectorBytes);
         }
@@ -679,5 +647,73 @@ namespace EfficientlyLazy.Crypto.Engines
         /// <param name="cipherMode"></param>
         /// <returns></returns>
         protected abstract SymmetricAlgorithm GenerateAlgorithmEngine(CipherMode cipherMode);
+
+        #region Dispose
+
+        private bool _disposed = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+
+            // This object will be cleaned up by the Dispose method. 
+            // Therefore, you should call GC.SupressFinalize to 
+            // take this object off the finalization queue 
+            // and prevent finalization code for this object 
+            // from executing a second time.
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
+        // Dispose(bool disposing) executes in two distinct scenarios. 
+        // If disposing equals true, the method has been called directly 
+        // or indirectly by a user's code. Managed and unmanaged resources 
+        // can be disposed. 
+        // If disposing equals false, the method has been called by the 
+        // runtime from inside the finalizer and you should not reference 
+        // other objects. Only unmanaged resources can be disposed. 
+        protected virtual void Dispose(bool disposing)
+        {
+            // Check to see if Dispose has already been called. 
+            if (!_disposed)
+            {
+                // If disposing equals true, dispose all managed and unmanaged resources. 
+                if (disposing)
+                {
+                    Key.Dispose();
+                    InitVector.Dispose();
+                    Salt.Dispose();
+
+                    if (_decryptor != null) _decryptor.Dispose();
+                    if (_encryptor != null) _encryptor.Dispose();
+                }
+
+                // Call the appropriate methods to clean up unmanaged resources here. 
+                // If disposing is false, only the following code is executed.
+
+
+                // Note disposing has been done.
+                _disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        ~AbstractSymmetricEngine()
+        {
+            // Do not re-create Dispose clean-up code here. 
+            // Calling Dispose(false) is optimal in terms of 
+            // readability and maintainability.
+            Dispose(false);
+        }
+
+        #endregion
     }
 }
