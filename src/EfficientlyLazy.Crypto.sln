@@ -3,25 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Files", "Build Files", "{41BAA1AA-2F2B-4F32-A995-09B26A9DE31E}"
 	ProjectSection(SolutionItems) = preProject
+		EfficientlyLazy.Crypto.ruleset = EfficientlyLazy.Crypto.ruleset
 		..\LICENSE.txt = ..\LICENSE.txt
 		..\rakefile = ..\rakefile
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.net20", "EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net20.csproj", "{6060C8DD-5BEE-4EA4-8B27-7648ED9CF523}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7F60EF22-3447-4E8A-92ED-6B29AD4D6F3F} = {7F60EF22-3447-4E8A-92ED-6B29AD4D6F3F}
-		{42E635C6-6718-4C96-B94E-4DD3A01C7302} = {42E635C6-6718-4C96-B94E-4DD3A01C7302}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Demo.net20", "EfficientlyLazy.Crypto.Demo\EfficientlyLazy.Crypto.Demo.net20.csproj", "{BCD03428-E119-458F-8D8E-680BCD8A2FB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.Tests.net20", "EfficientlyLazy.Crypto.Tests\EfficientlyLazy.Crypto.Tests.net20.csproj", "{482A895B-3A9D-4FE6-945B-D6C31BD4011C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.net35", "EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net35.csproj", "{7F60EF22-3447-4E8A-92ED-6B29AD4D6F3F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{42E635C6-6718-4C96-B94E-4DD3A01C7302} = {42E635C6-6718-4C96-B94E-4DD3A01C7302}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfficientlyLazy.Crypto.net40", "EfficientlyLazy.Crypto\EfficientlyLazy.Crypto.net40.csproj", "{42E635C6-6718-4C96-B94E-4DD3A01C7302}"
 EndProject

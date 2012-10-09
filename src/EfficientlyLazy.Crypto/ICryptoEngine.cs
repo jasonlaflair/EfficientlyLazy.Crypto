@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Security.Permissions;
 
 namespace EfficientlyLazy.Crypto
 {
@@ -14,7 +13,6 @@ namespace EfficientlyLazy.Crypto
         /// </summary>
         /// <param name="plaintext">The plain text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         byte[] Encrypt(byte[] plaintext);
 
         /// <summary>
@@ -22,7 +20,6 @@ namespace EfficientlyLazy.Crypto
         /// </summary>
         /// <param name="plaintext">The plain text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         string Encrypt(string plaintext);
 
         /// <summary>
@@ -30,7 +27,6 @@ namespace EfficientlyLazy.Crypto
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         byte[] Decrypt(byte[] cipherText);
 
         /// <summary>
@@ -38,7 +34,6 @@ namespace EfficientlyLazy.Crypto
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         string Decrypt(string cipherText);
 
         ///<summary>

@@ -10,7 +10,7 @@ namespace EfficientlyLazy.Crypto
     /// 
     /// </summary>
     [Flags]
-    public enum CharacterSet
+    public enum CharacterSets
     {
         ///<summary>Characters: none</summary>
         None = 0,
@@ -35,24 +35,28 @@ namespace EfficientlyLazy.Crypto
     public static class DataGenerator
     {
         ///<summary>Characters: abcdefghijklmnopqrstuvwxyz</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")]
         public static ReadOnlyCollection<char> LowercaseCharacters = new ReadOnlyCollection<char>(new[]
             {
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
             });
 
         ///<summary>Characters: 0123456789</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")]
         public static ReadOnlyCollection<char> NumericCharacters = new ReadOnlyCollection<char>(new[]
             {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
             });
 
         ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")]
         public static ReadOnlyCollection<char> SpecialCharacters = new ReadOnlyCollection<char>(new[]
             {
                 '`', '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '\\', '|', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?'
             });
 
         ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2211:NonConstantFieldsShouldNotBeVisible")]
         public static ReadOnlyCollection<char> UppercaseCharacters = new ReadOnlyCollection<char>(new[]
             {
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
@@ -60,143 +64,65 @@ namespace EfficientlyLazy.Crypto
 
         private static readonly Random _random;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static ReadOnlyCollection<char> DefaultCharacterPool { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int DefaultMaximumLength { get; private set; }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int DefaultMinimumLength { get; private set; }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static DataGenerator()
         {
             _random = new Random(GenerateSeedValue());
-            DefaultMinimumLength = 0;
-            DefaultMaximumLength = 0;
-            DefaultCharacterPool = null;
+
+            _defaultCharacterPool = GenerateCharacterPool(CharacterSets.All);
         }
 
-        ///<param name="minimumLength">The inclusive lower bound of the random number or string length returned.</param>
-        ///<param name="maximumLength">The exclusive upper bound of the random number or string length returned. maximumLength must be greater than or equal to minimumLength.</param>
-        ///<param name="characterSets"><see cref="CharacterSet"/> to use when generating random strings.</param>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">at least one character set must be specified.</exception>
-        public static void SetDefaults(int minimumLength, int maximumLength, CharacterSet characterSets)
-        {
-            if (minimumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
-            }
-            if (maximumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
-            }
-            if (minimumLength > maximumLength)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
-            }
-            if (characterSets == CharacterSet.None)
-            {
-                throw new ArgumentOutOfRangeException("characterSets", "at least one character set must be specified");
-            }
-
-            DefaultMinimumLength = minimumLength;
-            DefaultMaximumLength = maximumLength;
-            DefaultCharacterPool = GenerateCharacterPool(characterSets);
-        }
-
-        ///<param name="minimumLength">The inclusive lower bound of the random number or string length returned.</param>
-        ///<param name="maximumLength">The exclusive upper bound of the random number or string length returned. maximumLength must be greater than or equal to minimumLength.</param>
-        ///<param name="characterList">List of characters to use when generating random strings.</param>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">at least one character must be specified.</exception>
-        public static void SetDefaults(int minimumLength, int maximumLength, IList<char> characterList)
-        {
-            if (minimumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
-            }
-            if (maximumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
-            }
-            if (minimumLength > maximumLength)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
-            }
-            if (characterList.Count == 0)
-            {
-                throw new ArgumentOutOfRangeException("characterList", "at least one character must be specified");
-            }
-
-            DefaultMinimumLength = minimumLength;
-            DefaultMaximumLength = maximumLength;
-            DefaultCharacterPool = RandomizeCharacterPool(characterList);
-        }
+        private static readonly ReadOnlyCollection<char> _defaultCharacterPool;
 
         /// <summary>
         /// Generates a random number within a specified range.
         /// </summary>
-        ///<param name="minimumLength">The inclusive lower bound of the random number returned.</param>
-        ///<param name="maximumLength">The exclusive upper bound of the random number returned. maximumLength must be greater than or equal to minimumLength.</param>
+        ///<param name="minimumValue">The inclusive lower bound of the random number returned.</param>
+        ///<param name="maximumValue">The exclusive upper bound of the random number returned. maximumValue must be greater than or equal to minimumValue.</param>
         /// <returns>Returns a random number within a specified range.</returns>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
-        public static int Integer(int minimumLength, int maximumLength)
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is greater than maximumValue.</exception>
+        public static int NextInteger(int minimumValue, int maximumValue)
         {
-            if (minimumLength <= 0)
+            if (minimumValue > maximumValue)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
-            }
-            if (maximumLength <= 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
-            }
-            if (minimumLength > maximumLength)
-            {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
+                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than or equal to minimumValue");
             }
 
-            return _random.Next(minimumLength, maximumLength);
+            return _random.Next(minimumValue, maximumValue);
         }
 
         ///<summary>
         /// Generates a random number within a specified default range.
         ///</summary>
         ///<returns>Returns a random number within the specified default range.</returns>
-        public static int Integer()
+        public static int NextInteger()
         {
-            return _random.Next(DefaultMinimumLength, DefaultMaximumLength);
+            return _random.Next();
         }
 
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
-        public static double Double()
+        public static double NextDouble()
         {
             return _random.NextDouble();
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random number between minimum and maximum with specified precision.
         /// </summary>
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
-        public static double Double(double minimum, double maximum, int precision)
+        public static double NextDouble(double minimum, double maximum, int precision)
         {
-            return _random.NextDouble();
+            var whole = NextInteger((int)minimum, (int)maximum);
+            var dec = Math.Round(_random.NextDouble(), precision);
+
+            var result = whole + dec;
+
+            return result > maximum
+                       ? result - 1
+                       : result;
         }
 
         ///<summary>
@@ -222,27 +148,27 @@ namespace EfficientlyLazy.Crypto
         ///<summary>
         /// Fills the elements of an array of bytes with random numbers.
         ///</summary>
-        ///<param name="minimumLength">The inclusive lower bound of the byte array length returned.</param>
-        ///<param name="maximumLength">The exclusive upper bound of the byte array length returned. maximumLength must be greater than or equal to minimumLength.</param>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
-        public static byte[] Bytes(int minimumLength, int maximumLength)
+        ///<param name="minimumValue">The inclusive lower bound of the byte array length returned.</param>
+        ///<param name="maximumValue">The exclusive upper bound of the byte array length returned. maximumValue must be greater than or equal to minimumValue.</param>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is greater than maximumValue.</exception>
+        public static byte[] Bytes(int minimumValue, int maximumValue)
         {
-            if (minimumLength <= 0)
+            if (minimumValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimumValue", minimumValue, "minimumValue must be greater than 0");
             }
-            if (maximumLength <= 0)
+            if (maximumValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximumValue", maximumValue, "maximumValue must be greater than 0");
             }
-            if (minimumLength > maximumLength)
+            if (minimumValue > maximumValue)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
+                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than or equal to minimumValue");
             }
 
-            var length = _random.Next(minimumLength, maximumLength);
+            var length = _random.Next(minimumValue, maximumValue);
 
             var buffer = new byte[length];
 
@@ -273,36 +199,36 @@ namespace EfficientlyLazy.Crypto
         ///<summary>
         /// Generates a random string between the specifed lengths using the specified character sets
         ///</summary>
-        ///<param name="minimumLength">The inclusive lower length of the random string returned.</param>
-        ///<param name="maximumLength">The exclusive upper length of the random string returned. maximumLength must be greater than or equal to minimumLength.</param>
-        ///<param name="characterSets">Includes the <see cref="CharacterSet"/> to use in the generated random string</param>
+        ///<param name="minimumValue">The inclusive lower length of the random string returned.</param>
+        ///<param name="maximumValue">The exclusive upper length of the random string returned. maximumValue must be greater than or equal to minimumValue.</param>
+        ///<param name="characterSets">Includes the <see cref="CharacterSets"/> to use in the generated random string</param>
         ///<returns>Returns a random string between the specifed lengths using the specified character sets</returns>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is greater than maximumValue.</exception>
         ///<exception cref="ArgumentException">At least one character sets must be used.</exception>
-        public static string String(int minimumLength, int maximumLength, CharacterSet characterSets)
+        public static string NextString(int minimumValue, int maximumValue, CharacterSets characterSets)
         {
-            if (minimumLength <= 0)
+            if (minimumValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimumValue", minimumValue, "minimumValue must be greater than 0");
             }
-            if (maximumLength <= 0)
+            if (maximumValue <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximumValue", maximumValue, "maximumValue must be greater than 0");
             }
-            if (minimumLength > maximumLength)
+            if (minimumValue > maximumValue)
             {
-                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
+                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than or equal to minimumValue");
             }
-            if (!(IncludeSet(CharacterSet.Uppercase, characterSets) || IncludeSet(CharacterSet.Lowercase, characterSets) || IncludeSet(CharacterSet.Numeric, characterSets) || IncludeSet(CharacterSet.Special, characterSets)))
+            if (!(IncludeSet(CharacterSets.Uppercase, characterSets) || IncludeSet(CharacterSets.Lowercase, characterSets) || IncludeSet(CharacterSets.Numeric, characterSets) || IncludeSet(CharacterSets.Special, characterSets)))
             {
                 throw new ArgumentException("at least one character set must be specified");
             }
 
             var characterPool = GenerateCharacterPool(characterSets);
 
-            return RandomString(characterPool, minimumLength, maximumLength);
+            return RandomString(characterPool, minimumValue, maximumValue);
         }
 
         ///<summary>
@@ -312,11 +238,11 @@ namespace EfficientlyLazy.Crypto
         ///<param name="maximumLength">The exclusive upper length of the random string returned. maximumLength must be greater than or equal to minimumLength.</param>
         ///<param name="characterList">List of characters to use when generating random strings.</param>
         ///<returns>Returns a random string between the specifed lengths using the specified character list</returns>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximumValue is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumValue is greater than maximumValue.</exception>
         ///<exception cref="ArgumentException">At least one character must be specified</exception>
-        public static string String(int minimumLength, int maximumLength, IList<char> characterList)
+        public static string NextString(int minimumLength, int maximumLength, IList<char> characterList)
         {
             if (minimumLength <= 0)
             {
@@ -344,14 +270,23 @@ namespace EfficientlyLazy.Crypto
         /// Generates a random string between the specifed default lengths using the specified default character sets
         ///</summary>
         ///<returns>Returns a random string between the specifed default lengths using the specified default character sets</returns>
-        public static string String()
+        public static string NextString(int minimumLength, int maximumLength)
         {
-            return RandomString(DefaultCharacterPool, DefaultMinimumLength, DefaultMaximumLength);
+            return RandomString(_defaultCharacterPool, minimumLength, maximumLength);
         }
 
-        private static string RandomString(ReadOnlyCollection<char> characterPool, int minimumLength, int maximumLength)
+        ///<summary>
+        /// Generates a random string between the specifed default lengths using the specified default character sets
+        ///</summary>
+        ///<returns>Returns a random string between the specifed default lengths using the specified default character sets</returns>
+        public static string NextString()
         {
-            var length = _random.Next(minimumLength, maximumLength);
+            return NextString(32, 4096);
+        }
+
+        private static string RandomString(ReadOnlyCollection<char> characterPool, int minimumValue, int maximumValue)
+        {
+            var length = _random.Next(minimumValue, maximumValue);
 
             var data = new StringBuilder();
 
@@ -378,28 +313,28 @@ namespace EfficientlyLazy.Crypto
             return seed;
         }
 
-        private static bool IncludeSet(CharacterSet option, CharacterSet current)
+        private static bool IncludeSet(CharacterSets option, CharacterSets current)
         {
             return current == (current | option);
         }
 
-        private static ReadOnlyCollection<char> GenerateCharacterPool(CharacterSet characterSets)
+        private static ReadOnlyCollection<char> GenerateCharacterPool(CharacterSets characterSets)
         {
             var masterCharacterPool = new List<char>();
 
-            if (IncludeSet(CharacterSet.Uppercase, characterSets))
+            if (IncludeSet(CharacterSets.Uppercase, characterSets))
             {
                 masterCharacterPool.AddRange(UppercaseCharacters);
             }
-            if (IncludeSet(CharacterSet.Lowercase, characterSets))
+            if (IncludeSet(CharacterSets.Lowercase, characterSets))
             {
                 masterCharacterPool.AddRange(LowercaseCharacters);
             }
-            if (IncludeSet(CharacterSet.Numeric, characterSets))
+            if (IncludeSet(CharacterSets.Numeric, characterSets))
             {
                 masterCharacterPool.AddRange(NumericCharacters);
             }
-            if (IncludeSet(CharacterSet.Special, characterSets))
+            if (IncludeSet(CharacterSets.Special, characterSets))
             {
                 masterCharacterPool.AddRange(SpecialCharacters);
             }

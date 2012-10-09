@@ -11,6 +11,53 @@ using EfficientlyLazy.Crypto.Configuration;
 
 namespace EfficientlyLazy.Crypto.Engines
 {
+    internal static class DeriveBytes
+    {
+        public static byte[] Generate<T>(string key, byte[] saltValueBytes, string hashAlgorithm, int passwordIterations, T keySize)
+        {
+            byte[] keyBytes;
+            PasswordDeriveBytes password = null;
+
+            try
+            {
+                password = new PasswordDeriveBytes(key, saltValueBytes, hashAlgorithm, passwordIterations);
+
+#pragma warning disable 612,618
+                keyBytes = password.GetBytes(Convert.ToInt32(keySize) / 8);
+#pragma warning restore 612,618
+            }
+            finally
+            {
+#if !NET20 && !NET35
+                password.Dispose();
+#endif
+            }
+
+            return keyBytes;
+        }
+
+        public static byte[] Generate<T>(string key, byte[] saltValueBytes, int passwordIterations, T keySize)
+        {
+            byte[] keyBytes;
+            Rfc2898DeriveBytes password = null;
+
+            try
+            {
+                password = new Rfc2898DeriveBytes(key, saltValueBytes, passwordIterations);
+
+                keyBytes = password.GetBytes(Convert.ToInt32(keySize) / 8);
+            }
+            finally
+            {
+#if !NET20 && !NET35
+                password.Dispose();
+#endif
+            }
+
+            return keyBytes;
+        }
+    }
+
     /// <summary>
     /// Encryption/Decryption using <see cref="AbstractSymmetricEngine{T}"/>.
     /// </summary>
@@ -25,6 +72,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(string key, T defaultKeySize)
         {
             Key = ToSecureString(key);
@@ -44,6 +92,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///</summary>
         ///<param name="key">Represents the secret key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(SecureString key, T defaultKeySize)
         {
             key.MakeReadOnly();
@@ -112,6 +161,7 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="plaintext">The plain text.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public byte[] Encrypt(byte[] plaintext)
         {
             // byte array for encrypted data
@@ -168,6 +218,7 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public byte[] Decrypt(byte[] cipherText)
         {
             byte[] plainTextBytes;
@@ -330,16 +381,21 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </remarks>
         private byte[] GenerateSalt()
         {
-            var saltLen = DataGenerator.Integer(RandomSaltMinimumLength, RandomSaltMaximumLength);
+            var saltLen = DataGenerator.NextInteger(RandomSaltMinimumLength, RandomSaltMaximumLength);
 
             // Allocate byte array to hold our salt.
             var salt = new byte[saltLen];
 
             // Populate salt with cryptographically strong bytes.
+#if NET20 || NET35
             var rng = new RNGCryptoServiceProvider();
-
             rng.GetNonZeroBytes(salt);
-
+#else
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetNonZeroBytes(salt);
+            }
+#endif
             // Split salt length (always one byte) into four two-bit pieces and
             // store these pieces in the first four bytes of the salt array.
             salt[0] = (byte)((salt[0] & 0xfc) | (saltLen & 0x03));
@@ -609,12 +665,7 @@ namespace EfficientlyLazy.Crypto.Engines
                 // Get bytes of salt (used in hashing).
                 var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[0] : Encoding.GetBytes(ToString(Salt));
 
-                var password = new PasswordDeriveBytes(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations);
-
-                // Convert key to a byte array adjusting the size from bits to bytes.
-#pragma warning disable 612,618
-                keyBytes = password.GetBytes(Convert.ToInt32(KeySize) / 8);
-#pragma warning restore 612,618
+                keyBytes = DeriveBytes.Generate(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations, KeySize);
             }
             else
             {
@@ -622,23 +673,18 @@ namespace EfficientlyLazy.Crypto.Engines
                 // Get bytes of salt (used in hashing).
                 var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[8] : Encoding.GetBytes(ToString(Salt));
 
-                var password = new Rfc2898DeriveBytes(ToString(Key), saltValueBytes, PasswordIterations);
-
-                // Convert key to a byte array adjusting the size from bits to bytes.
-                keyBytes = password.GetBytes(Convert.ToInt32(KeySize) / 8);
+                keyBytes = DeriveBytes.Generate(ToString(Key), saltValueBytes, PasswordIterations, KeySize);
             }
 
             var cipherMode = (initVectorBytes.Length == 0)
                                  ? CipherMode.ECB
                                  : CipherMode.CBC;
 
-            var algorithm = GenerateAlgorithmEngine(cipherMode);
-
-            //algorithm.Key = keyBytes;
-            //algorithm.IV = initVectorBytes;
-
-            _decryptor = algorithm.CreateDecryptor(keyBytes, initVectorBytes);
-            _encryptor = algorithm.CreateEncryptor(keyBytes, initVectorBytes);
+            using (var algorithm = GenerateAlgorithmEngine(cipherMode))
+            {
+                _decryptor = algorithm.CreateDecryptor(keyBytes, initVectorBytes);
+                _encryptor = algorithm.CreateEncryptor(keyBytes, initVectorBytes);
+            }
         }
 
         /// <summary>

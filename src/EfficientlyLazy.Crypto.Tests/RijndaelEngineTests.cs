@@ -90,8 +90,8 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            var minSalt = (byte)DataGenerator.Integer(4, 100);
-            var maxSalt = (byte)DataGenerator.Integer(100, 250);
+            var minSalt = (byte)DataGenerator.NextInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.NextInteger(100, 250);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)
@@ -112,8 +112,8 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            var minSalt = (byte)DataGenerator.Integer(4, 100);
-            var maxSalt = (byte)DataGenerator.Integer(100, 250);
+            var minSalt = (byte)DataGenerator.NextInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.NextInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -136,8 +136,8 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            var minSalt = (byte)DataGenerator.Integer(4, 100);
-            var maxSalt = (byte)DataGenerator.Integer(100, 250);
+            var minSalt = (byte)DataGenerator.NextInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.NextInteger(100, 250);
             SecureString saltKey = ToSS(GenerateRandomSalt());
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -163,8 +163,8 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            var minSalt = (byte)DataGenerator.Integer(4, 100);
-            var maxSalt = (byte)DataGenerator.Integer(100, 250);
+            var minSalt = (byte)DataGenerator.NextInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.NextInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
             ICryptoEngine engine = new RijndaelEngine(key)
@@ -188,11 +188,11 @@ namespace EfficientlyLazy.Crypto.Tests
             string key = GeneratePassPhrase();
             string init = GenerateInitVector();
 
-            var minSalt = (byte)DataGenerator.Integer(4, 100);
-            var maxSalt = (byte)DataGenerator.Integer(100, 250);
+            var minSalt = (byte)DataGenerator.NextInteger(4, 100);
+            var maxSalt = (byte)DataGenerator.NextInteger(100, 250);
             string saltKey = GenerateRandomSalt();
 
-            var iterations = (byte)DataGenerator.Integer(1, 10);
+            var iterations = (byte)DataGenerator.NextInteger(1, 10);
 
             ICryptoEngine engine = new RijndaelEngine(key)
                 .SetInitVector(init)

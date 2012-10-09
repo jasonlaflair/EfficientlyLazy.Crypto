@@ -50,7 +50,6 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="plaintext">The plain text to encrypt.</param>
         /// <returns>Byte array of encrypted data.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Encrypt(byte[] plaintext)
         {
             return DPAPIEncrypt(KeyType, plaintext, Encoding.GetBytes(ToString(Entropy)));
@@ -61,7 +60,6 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="plaintext">The plain text to encrypt.</param>
         /// <returns>String of encrypted data.</returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Encrypt(string plaintext)
         {
             return Convert.ToBase64String(Encrypt(Encoding.GetBytes(plaintext)));
@@ -72,7 +70,6 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public byte[] Decrypt(byte[] cipherText)
         {
             return DPAPIDecrypt(cipherText, Encoding.GetBytes(ToString(Entropy)));
@@ -83,7 +80,6 @@ namespace EfficientlyLazy.Crypto.Engines
         /// </summary>
         /// <param name="cipherText">The cipher text.</param>
         /// <returns></returns>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public string Decrypt(string cipherText)
         {
             return Encoding.GetString(Decrypt(Convert.FromBase64String(cipherText)));
@@ -144,7 +140,6 @@ namespace EfficientlyLazy.Crypto.Engines
         private const int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
         private const int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         private static byte[] DPAPIEncrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
@@ -175,7 +170,7 @@ namespace EfficientlyLazy.Crypto.Engines
                 }
 
                 // Call DPAPI to encrypt data.
-                var success = ProtectData(ref plainTextBlob, string.Empty, ref entropyBlob, IntPtr.Zero, ref prompt, flags, ref cipherTextBlob);
+                var success = CryptProtectData(ref plainTextBlob, string.Empty, ref entropyBlob, IntPtr.Zero, ref prompt, flags, ref cipherTextBlob);
 
                 // Check the result.
                 if (!success)
@@ -212,7 +207,6 @@ namespace EfficientlyLazy.Crypto.Engines
             return cipherTextBytes;
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         private static byte[] DPAPIDecrypt(byte[] cipherText, byte[] entropy)
         {
             // Create BLOBs to hold data.
@@ -237,8 +231,7 @@ namespace EfficientlyLazy.Crypto.Engines
                 var description = String.Empty;
 
                 // Call DPAPI to decrypt data.
-                var success = UnprotectData(ref cipherTextBlob, ref description, ref entropyBlob, IntPtr.Zero, ref prompt,
-                                             CRYPTPROTECT_UI_FORBIDDEN, ref plainTextBlob);
+                var success = CryptUnprotectData(ref cipherTextBlob, ref description, ref entropyBlob, IntPtr.Zero, ref prompt, CRYPTPROTECT_UI_FORBIDDEN, ref plainTextBlob);
 
                 // Check the result.
                 if (!success)
@@ -312,30 +305,8 @@ namespace EfficientlyLazy.Crypto.Engines
 
         #region DPAPI Native Methods
 
-        ///<summary>
-        /// Performs encryption on the data in a <see cref="DPAPINativeDATABLOB"/> structure
-        ///</summary>
-        ///<param name="plainText">Structure that contains the plaintext to be encrypted.</param>
-        ///<param name="description">A readable description of the data to be encrypted.</param>
-        ///<param name="entropy">Structure that contains a password or other additional entropy used to encrypt the data.</param>
-        ///<param name="reserved">Reserved for future use and must be set to NULL.</param>
-        ///<param name="prompt">Structure that provides information about where and when prompts are to be displayed and what the content of those prompts should be.</param>
-        ///<param name="flags">Crypt Protection</param>
-        ///<param name="cipherText">Structure that receives the encrypted data.</param>
-        ///<returns>If the function succeeds, then <c>TRUE</c> else <c>FALSE</c>.</returns>
-        private static bool ProtectData(ref DPAPINativeDATABLOB plainText,
-                                        string description,
-                                        ref DPAPINativeDATABLOB entropy,
-                                        IntPtr reserved,
-                                        ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
-                                        int flags,
-                                        ref DPAPINativeDATABLOB cipherText)
-        {
-            return CryptProtectData(ref plainText, description, ref entropy, reserved, ref prompt, flags, ref cipherText);
-        }
-
         // Wrapper for DPAPI CryptProtectData function.
-        [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CryptProtectData(ref DPAPINativeDATABLOB plainText,
                                                     string description,
@@ -345,30 +316,8 @@ namespace EfficientlyLazy.Crypto.Engines
                                                     int flags,
                                                     ref DPAPINativeDATABLOB cipherText);
 
-        ///<summary>
-        /// Decrypts and does an integrity check of the data in a <see cref="DPAPINativeDATABLOB"/> structure
-        ///</summary>
-        ///<param name="cipherText">Structure that contains the encrypted data.</param>
-        ///<param name="description">A readable description of the data to be encrypted.</param>
-        ///<param name="entropy">Structure that contains a password or other additional entropy used to encrypt the data.</param>
-        ///<param name="reserved">Reserved for future use and must be set to NULL.</param>
-        ///<param name="prompt">Structure that provides information about where and when prompts are to be displayed and what the content of those prompts should be.</param>
-        ///<param name="flags">Crypt Protection</param>
-        ///<param name="plainText">Structure that receives the decrypted data.</param>
-        ///<returns>If the function succeeds, then <c>TRUE</c> else <c>FALSE</c>.</returns>
-        private static bool UnprotectData(ref DPAPINativeDATABLOB cipherText,
-                                          ref string description,
-                                          ref DPAPINativeDATABLOB entropy,
-                                          IntPtr reserved,
-                                          ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
-                                          int flags,
-                                          ref DPAPINativeDATABLOB plainText)
-        {
-            return CryptUnprotectData(ref cipherText, ref description, ref entropy, reserved, ref prompt, flags, ref plainText);
-        }
-
         // Wrapper for DPAPI CryptUnprotectData function.
-        [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CryptUnprotectData(ref DPAPINativeDATABLOB cipherText,
                                                       ref string description,

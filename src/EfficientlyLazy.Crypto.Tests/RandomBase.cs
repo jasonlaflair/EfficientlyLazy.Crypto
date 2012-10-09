@@ -30,27 +30,27 @@ namespace EfficientlyLazy.Crypto.Tests
 
         protected static string GenerateText(int min, int max)
         {
-            return DataGenerator.String(min, max, CharacterSet.All);
+            return DataGenerator.NextString(min, max, CharacterSets.All);
         }
 
         protected static string GenerateClearText()
         {
-            return DataGenerator.String(50, 300, CharacterSet.All);
+            return DataGenerator.NextString(50, 300, CharacterSets.All);
         }
 
         protected static string GeneratePassPhrase()
         {
-            return DataGenerator.String(100, 500, CharacterSet.All);
+            return DataGenerator.NextString(100, 500, CharacterSets.All);
         }
 
         protected static string GenerateRandomSalt()
         {
-            return DataGenerator.String(50, 250, CharacterSet.All);
+            return DataGenerator.NextString(50, 250, CharacterSets.All);
         }
 
         protected static string GenerateInitVector()
         {
-            return DataGenerator.String(16, 16, CharacterSet.All);
+            return DataGenerator.NextString(16, 16, CharacterSets.All);
         }
     }
 }

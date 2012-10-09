@@ -8,7 +8,7 @@ desc "Debug Build"
 task :default => [:setDebugConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests]
 
 desc "Create Release Build"
-task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
+task :release => [:setReleaseConfigLevel, :updateAssemblyInfo, :buildSolution, :runUnitTests, :buildDocumentation, :zipBinaries, :createNuspecFile, :createNugetPackage, :cleanup]
 
 task :setDebugConfigLevel do
 	$CONFIG = "Debug"
@@ -26,7 +26,7 @@ end
 
 zip :zipFrameworkBinaries, [:fwVersion] do |zip, args|
 	 zip.directories_to_zip "Build/#{$CONFIG}/tools/#{args.fwVersion}"
-	 zip.additional_files "Build/#{$CONFIG}/content/EfficientlyLazy.Crypto.chm"
+	 zip.additional_files "Build/#{$CONFIG}/content/#{args.fwVersion}/EfficientlyLazy.Crypto.chm"
 	 zip.output_file = "EfficientlyLazy.Crypto.v#{$VERSION_NUMBER}.#{args.fwVersion}.zip"
 	 zip.output_path = "Build"
 	 
@@ -51,7 +51,6 @@ xunit :runFrameworkUnitTests, [:fwVersion] do |xunit, args|
 end
 
 nuspec :createNuspecFile do |nuspec|
-	puts "NUSPEC"
 	nuspec.id="EfficientlyLazy.Crypto"
 	nuspec.version = "#{$VERSION_NUMBER}"
 	nuspec.authors = "Jason LaFlair"
@@ -68,8 +67,7 @@ nuspec :createNuspecFile do |nuspec|
 	$FWVERSIONS.each do |fwVersion|
 		nuspec.file "#{$CONFIG}\\lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.dll"
 		nuspec.file "#{$CONFIG}\\lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml", "lib\\#{fwVersion}\\EfficientlyLazy.Crypto.xml"
-		#nuspec.file "#{$CONFIG}\\tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.Merged.exe", "tools\\#{fwVersion}\\EfficientlyLazy.Crypto.Demo.exe"
-		#nuspec.file "#{$CONFIG}\\content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm", "content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm"
+		nuspec.file "#{$CONFIG}\\content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm", "content\\#{fwVersion}\\EfficientlyLazy.Crypto.chm"
 	end
 end
 
@@ -78,20 +76,6 @@ nugetpack :createNugetPackage do |nuget|
 	nuget.nuspec      = "Build/EfficientlyLazy.Crypto.nuspec"
 	nuget.base_folder = "Build/"
 	nuget.output      = "Build/"
-end
-
-task :mergeDemoApp do
-	$FWVERSIONS.each do |fwVersion|
-		Rake::Task[:mergeFrameworkDemoApp].invoke(fwVersion)
-	end
-end
-
-ilmerge :mergeFrameworkDemoApp, [:fwVersion] do |cfg, args|
-	cfg.command = "tools\\ILMerge\\ILMerge.exe /v4" # /targetplatform:""v4,C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.0"""
-	cfg.assemblies "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.exe", "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.dll"
-	cfg.output = "Build/#{$CONFIG}/tools/#{args.fwVersion}/EfficientlyLazy.Crypto.Demo.Merged.exe"
-	
-	Rake::Task[:mergeFrameworkDemoApp].reenable()
 end
 
 assemblyinfo :updateAssemblyInfo do |asm|
@@ -106,9 +90,15 @@ assemblyinfo :updateAssemblyInfo do |asm|
 	asm.com_visible = false
 end
 
-msbuild :buildDocumentation do |msb|
+task :buildDocumentation do
+	$FWVERSIONS.each do |fwVersion|
+		Rake::Task[:buildFrameworkDocumentation].invoke(fwVersion)
+	end
+end
+
+msbuild :buildFrameworkDocumentation, [:fwVersion] do |msb, args|
 	lines = ""
-	versionFile = "doc/EfficientlyLazy.Crypto.net45.shfbproj"
+	versionFile = "doc/EfficientlyLazy.Crypto.#{args.fwVersion}.shfbproj"
 	
 	File.open(versionFile, 'r') do |f|
 		lines = f.readlines
@@ -129,6 +119,8 @@ msbuild :buildDocumentation do |msb|
 	msb.solution = versionFile
 	msb.verbosity = "minimal"
 	msb.other_switches :toolsVersion => 4.0
+	
+	Rake::Task[:buildFrameworkDocumentation].reenable()
 end
 
 msbuild :buildSolution do |msb|

@@ -14,191 +14,38 @@ namespace EfficientlyLazy.Crypto.Tests
     public class DataGeneratorTests
     {
         [Theory]
-        [InlineData(2, 200)]
-        [InlineData(5, 500)]
-        [InlineData(60, 60)]
-        public void SetDefaults_Length_Successful(int min, int max)
-        {
-            // Act
-            DataGenerator.SetDefaults(min, max, CharacterSet.All);
-
-            // Assert
-            Assert.Equal(min, DataGenerator.DefaultMinimumLength);
-            Assert.Equal(max, DataGenerator.DefaultMaximumLength);
-        }
-
-        [Theory]
-        [InlineData(CharacterSet.Lowercase)]
-        [InlineData(CharacterSet.Uppercase)]
-        [InlineData(CharacterSet.Numeric)]
-        [InlineData(CharacterSet.Special)]
-        [InlineData(CharacterSet.All)]
-        [InlineData(CharacterSet.Lowercase | CharacterSet.Uppercase)]
-        [InlineData(CharacterSet.Lowercase | CharacterSet.Uppercase | CharacterSet.Numeric)]
-        [InlineData(CharacterSet.Special | CharacterSet.Lowercase | CharacterSet.Numeric)]
-        public void SetDefaults_CharacterSets_Successful(CharacterSet set)
-        {
-            // Arrange
-            var expectedPool = new List<char>();
-
-            if (set == (set | CharacterSet.Uppercase))
-            {
-                expectedPool.AddRange(DataGenerator.UppercaseCharacters);
-            }
-            if (set == (set | CharacterSet.Lowercase))
-            {
-                expectedPool.AddRange(DataGenerator.LowercaseCharacters);
-            }
-            if (set == (set | CharacterSet.Numeric))
-            {
-                expectedPool.AddRange(DataGenerator.NumericCharacters);
-            }
-            if (set == (set | CharacterSet.Special))
-            {
-                expectedPool.AddRange(DataGenerator.SpecialCharacters);
-            }
-
-            // Act
-            DataGenerator.SetDefaults(5, 10, set);
-
-            // Assert
-#if NET20
-            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
-#else
-            Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
-#endif
-        }
-
-        [Fact]
-        public void SetDefaults_CharacterList_Successful()
-        {
-            // Arrange
-            var expectedPool = new List<char>
-                {
-                    'A',
-                    'Z',
-                    '%',
-                    '1'
-                };
-
-            // Act
-            DataGenerator.SetDefaults(5, 10, expectedPool);
-
-            // Assert
-#if NET20
-            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
-#else
-            Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
-#endif
-            Assert.NotEqual(expectedPool, DataGenerator.DefaultCharacterPool);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void SetDefaults_CharacterSet_Throws_Exception_When_Mininmum_Is(int minimumValue)
-        {
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(minimumValue, 50, CharacterSet.All));
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        [InlineData(3)]
-        public void SetDefaults_CharacterSet_Throws_Exception_When_Maximum_Is(int maximumValue)
-        {
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(5, maximumValue, CharacterSet.All));
-        }
-
-        [Fact]
-        public void SetDefaults_CharacterSet_Throws_Exception_When_None_Specified()
-        {
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(5, 10, CharacterSet.None));
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void SetDefaults_CharacterList_Throws_Exception_When_Mininmum_Is(int minimumValue)
-        {
-            // Arrange
-            var charPool = new List<char>
-                {
-                    'A',
-                    'Z',
-                    '%',
-                    '1'
-                };
-
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(minimumValue, 50, charPool));
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        [InlineData(3)]
-        public void SetDefaults_CharacterList_Throws_Exception_When_Maximum_Is(int maximumValue)
-        {
-            // Arrange
-            var charPool = new List<char>
-                {
-                    'A',
-                    'Z',
-                    '%',
-                    '1'
-                };
-
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(5, maximumValue, charPool));
-        }
-
-        [Fact]
-        public void SetDefaults_CharacterList_Throws_Exception_When_None_Specified()
-        {
-            // Arrange
-            var charPool = new List<char>();
-
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.SetDefaults(5, 10, charPool));
-        }
-
-        [Theory]
         [InlineData(1, 100)]
         [InlineData(1, int.MaxValue)]
         [InlineData(5, 5)]
         public void Integer_With_Min_Max_Returns_Valid_Random_Integer(int min, int max)
         {
             // Act
-            var actual = DataGenerator.Integer(min, max);
+            var actual = DataGenerator.NextInteger(min, max);
 
             // Assert
             Assert.InRange(actual, min, max);
         }
 
-        [Theory]
-        [InlineData(1, 100)]
-        [InlineData(1, int.MaxValue)]
-        [InlineData(5, 5)]
-        public void Integer_With_Defaults_Returns_Valid_Random_Integer(int min, int max)
+        [Fact]
+        public void Double_Returns_Valid_Random_Double()
         {
-            // Arrange
-            DataGenerator.SetDefaults(min, max, CharacterSet.All);
-
             // Act
-            var actual = DataGenerator.Integer();
+            var actual = DataGenerator.NextDouble();
 
             // Assert
-            Assert.Equal(min, DataGenerator.DefaultMinimumLength);
-            Assert.Equal(max, DataGenerator.DefaultMaximumLength);
+            Assert.InRange(actual, 0, 1);
+        }
+
+        [Theory]
+        [InlineData(0, double.MaxValue, 15)]
+        public void Double_Returns_Valid_Random_Double_With_Parameters(double min, double max, int precision)
+        {
+            // Act
+            var actual = DataGenerator.NextDouble(min, max, precision);
+
+            // Assert
             Assert.InRange(actual, min, max);
+            Assert.Equal(actual, Math.Round(actual, precision));
         }
 
         [Theory]
@@ -294,36 +141,36 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(10, 50, CharacterSet.All)]
-        [InlineData(10, 50, CharacterSet.Lowercase)]
-        [InlineData(10, 50, CharacterSet.Uppercase)]
-        [InlineData(10, 50, CharacterSet.Numeric)]
-        [InlineData(10, 50, CharacterSet.Special)]
-        [InlineData(10, 50, CharacterSet.Lowercase | CharacterSet.Uppercase)]
-        public void String_With_CharacterSet_Successful(int min, int max, CharacterSet charSets)
+        [InlineData(10, 50, CharacterSets.All)]
+        [InlineData(10, 50, CharacterSets.Lowercase)]
+        [InlineData(10, 50, CharacterSets.Uppercase)]
+        [InlineData(10, 50, CharacterSets.Numeric)]
+        [InlineData(10, 50, CharacterSets.Special)]
+        [InlineData(10, 50, CharacterSets.Lowercase | CharacterSets.Uppercase)]
+        public void String_With_CharacterSet_Successful(int min, int max, CharacterSets charSets)
         {
             // Arrange
             var expectedPool = new List<char>();
 
-            if (charSets == (charSets | CharacterSet.Uppercase))
+            if (charSets == (charSets | CharacterSets.Uppercase))
             {
                 expectedPool.AddRange(DataGenerator.UppercaseCharacters);
             }
-            if (charSets == (charSets | CharacterSet.Lowercase))
+            if (charSets == (charSets | CharacterSets.Lowercase))
             {
                 expectedPool.AddRange(DataGenerator.LowercaseCharacters);
             }
-            if (charSets == (charSets | CharacterSet.Numeric))
+            if (charSets == (charSets | CharacterSets.Numeric))
             {
                 expectedPool.AddRange(DataGenerator.NumericCharacters);
             }
-            if (charSets == (charSets | CharacterSet.Special))
+            if (charSets == (charSets | CharacterSets.Special))
             {
                 expectedPool.AddRange(DataGenerator.SpecialCharacters);
             }
 
             // Act
-            var actual = DataGenerator.String(min, max, charSets);
+            var actual = DataGenerator.NextString(min, max, charSets);
 
             // Assert
             Assert.InRange(actual.Length, min, max);
@@ -340,7 +187,7 @@ namespace EfficientlyLazy.Crypto.Tests
         public void String_With_CharacterSet_Throws_Exception_When_Minimum_Is(int min)
         {
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.String(min, 10, CharacterSet.All));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.NextString(min, 10, CharacterSets.All));
         }
 
         [Theory]
@@ -351,14 +198,14 @@ namespace EfficientlyLazy.Crypto.Tests
         public void String_With_CharacterSet_Throws_Exception_When_Maximum_Is(int max)
         {
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.String(5, max, CharacterSet.All));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.NextString(5, max, CharacterSets.All));
         }
 
         [Fact]
         public void String_With_CharacterSet_Throws_Exception_When_CharacterSet_Is_None()
         {
             // Assert
-            Assert.Throws<ArgumentException>(() => DataGenerator.String(5, 10, CharacterSet.None));
+            Assert.Throws<ArgumentException>(() => DataGenerator.NextString(5, 10, CharacterSets.None));
         }
 
         [Fact]
@@ -368,7 +215,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var expectedPool = new List<char>(DataGenerator.LowercaseCharacters);
 
             // Act
-            var actual = DataGenerator.String(5, 55, expectedPool);
+            var actual = DataGenerator.NextString(5, 55, expectedPool);
 
             // Assert
             Assert.InRange(actual.Length, 5, 55);
@@ -393,7 +240,7 @@ namespace EfficientlyLazy.Crypto.Tests
                 };
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.String(min, 10, charList));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.NextString(min, 10, charList));
         }
 
         [Theory]
@@ -412,7 +259,7 @@ namespace EfficientlyLazy.Crypto.Tests
                 };
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.String(5, max, charList));
+            Assert.Throws<ArgumentOutOfRangeException>(() => DataGenerator.NextString(5, max, charList));
         }
 
         [Fact]
@@ -422,56 +269,7 @@ namespace EfficientlyLazy.Crypto.Tests
             var charList = new List<char>();
 
             // Assert
-            Assert.Throws<ArgumentException>(() => DataGenerator.String(5, 10, charList));
-        }
-
-        [Theory]
-        [InlineData(10, 50, CharacterSet.All)]
-        [InlineData(10, 50, CharacterSet.Lowercase)]
-        [InlineData(10, 50, CharacterSet.Uppercase)]
-        [InlineData(10, 50, CharacterSet.Numeric)]
-        [InlineData(10, 50, CharacterSet.Special)]
-        [InlineData(10, 50, CharacterSet.Lowercase | CharacterSet.Uppercase)]
-        public void String_Default_Successful(int min, int max, CharacterSet charSets)
-        {
-            // Arrange
-            var expectedPool = new List<char>();
-
-            if (charSets == (charSets | CharacterSet.Uppercase))
-            {
-                expectedPool.AddRange(DataGenerator.UppercaseCharacters);
-            }
-            if (charSets == (charSets | CharacterSet.Lowercase))
-            {
-                expectedPool.AddRange(DataGenerator.LowercaseCharacters);
-            }
-            if (charSets == (charSets | CharacterSet.Numeric))
-            {
-                expectedPool.AddRange(DataGenerator.NumericCharacters);
-            }
-            if (charSets == (charSets | CharacterSet.Special))
-            {
-                expectedPool.AddRange(DataGenerator.SpecialCharacters);
-            }
-
-            DataGenerator.SetDefaults(min, max, charSets);
-
-            // Act
-            var actual = DataGenerator.String();
-
-            // Assert
-            Assert.Equal(min, DataGenerator.DefaultMinimumLength);
-            Assert.Equal(max, DataGenerator.DefaultMaximumLength);
-#if NET20
-            Assert.True(ComparerMethods.AreMatch(DataGenerator.DefaultCharacterPool, expectedPool));
-#else
-            Assert.True(!DataGenerator.DefaultCharacterPool.Except(expectedPool).Any());
-#endif
-            Assert.InRange(actual.Length, min, max);
-            foreach (var ch in actual)
-            {
-                Assert.Contains(ch, expectedPool);
-            }
+            Assert.Throws<ArgumentException>(() => DataGenerator.NextString(5, 10, charList));
         }
     }
 }
