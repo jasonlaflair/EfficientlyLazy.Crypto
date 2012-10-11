@@ -8,6 +8,7 @@ namespace EfficientlyLazy.Crypto.Configuration
     ///<summary>
     /// Handles access to secured configuration sections.
     ///</summary>
+    /// <code></code>
     public class SecureSectionHandler : IConfigurationSectionHandler
     {
         /// <summary>
@@ -20,8 +21,19 @@ namespace EfficientlyLazy.Crypto.Configuration
         public object Create(object parent, object configContext, XmlNode section)
         {
             var navigator = section.CreateNavigator();
+            
             var typeOfObject = (string)navigator.Evaluate("string(@type)");
+            if (typeOfObject == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var type = Type.GetType(typeOfObject);
+            if (type == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var xmlSerializer = new XmlSerializer(type);
             var nodeReader = new XmlNodeReader(section);
             return xmlSerializer.Deserialize(nodeReader);

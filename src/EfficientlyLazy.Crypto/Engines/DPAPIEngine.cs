@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
-using System.Security.Permissions;
 using System.Text;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -143,22 +142,22 @@ namespace EfficientlyLazy.Crypto.Engines
         private static byte[] DPAPIEncrypt(DPAPIKeyType keyType, byte[] plainTextBytes, byte[] entropyBytes)
         {
             // Create Null BLOBs to hold data, they will be initialized later.
-            var plainTextBlob = DPAPINativeDATABLOB.Null();
-            var cipherTextBlob = DPAPINativeDATABLOB.Null();
-            var entropyBlob = DPAPINativeDATABLOB.Null();
+            var plainTextBlob = DPAPINativeDataBlob.Null();
+            var cipherTextBlob = DPAPINativeDataBlob.Null();
+            var entropyBlob = DPAPINativeDataBlob.Null();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = DPAPINativeCRYPTPROTECTPROMPTSTRUCT.Default();
+            var prompt = DPAPINativeCryptPotectPromptStruct.Default();
 
             byte[] cipherTextBytes;
 
             try
             {
                 // Convert plaintext bytes into a BLOB structure.
-                plainTextBlob = DPAPINativeDATABLOB.Init(plainTextBytes); // InitBLOB(plainTextBytes);
+                plainTextBlob = DPAPINativeDataBlob.Init(plainTextBytes); // InitBLOB(plainTextBytes);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DPAPINativeDATABLOB.Init(entropyBytes); // InitBLOB(entropyBytes);
+                entropyBlob = DPAPINativeDataBlob.Init(entropyBytes); // InitBLOB(entropyBytes);
 
                 // Disable any types of UI.
                 var flags = CRYPTPROTECT_UI_FORBIDDEN;
@@ -210,22 +209,22 @@ namespace EfficientlyLazy.Crypto.Engines
         private static byte[] DPAPIDecrypt(byte[] cipherText, byte[] entropy)
         {
             // Create BLOBs to hold data.
-            var plainTextBlob = new DPAPINativeDATABLOB();
-            var cipherTextBlob = new DPAPINativeDATABLOB();
-            var entropyBlob = new DPAPINativeDATABLOB();
+            var plainTextBlob = new DPAPINativeDataBlob();
+            var cipherTextBlob = new DPAPINativeDataBlob();
+            var entropyBlob = new DPAPINativeDataBlob();
 
             // We only need prompt structure because it is a required parameter.
-            var prompt = DPAPINativeCRYPTPROTECTPROMPTSTRUCT.Default();
+            var prompt = DPAPINativeCryptPotectPromptStruct.Default();
 
             byte[] plainTextBytes;
 
             try
             {
                 // Convert ciphertext bytes into a BLOB structure.
-                cipherTextBlob = DPAPINativeDATABLOB.Init(cipherText);
+                cipherTextBlob = DPAPINativeDataBlob.Init(cipherText);
 
                 // Convert entropy bytes into a BLOB structure.
-                entropyBlob = DPAPINativeDATABLOB.Init(entropy);
+                entropyBlob = DPAPINativeDataBlob.Init(entropy);
 
                 // Initialize description string.
                 var description = String.Empty;
@@ -308,24 +307,24 @@ namespace EfficientlyLazy.Crypto.Engines
         // Wrapper for DPAPI CryptProtectData function.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool CryptProtectData(ref DPAPINativeDATABLOB plainText,
+        private static extern bool CryptProtectData(ref DPAPINativeDataBlob plainText,
                                                     string description,
-                                                    ref DPAPINativeDATABLOB entropy,
+                                                    ref DPAPINativeDataBlob entropy,
                                                     IntPtr reserved,
-                                                    ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
+                                                    ref DPAPINativeCryptPotectPromptStruct prompt,
                                                     int flags,
-                                                    ref DPAPINativeDATABLOB cipherText);
+                                                    ref DPAPINativeDataBlob cipherText);
 
         // Wrapper for DPAPI CryptUnprotectData function.
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass"), DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool CryptUnprotectData(ref DPAPINativeDATABLOB cipherText,
+        private static extern bool CryptUnprotectData(ref DPAPINativeDataBlob cipherText,
                                                       ref string description,
-                                                      ref DPAPINativeDATABLOB entropy,
+                                                      ref DPAPINativeDataBlob entropy,
                                                       IntPtr reserved,
-                                                      ref DPAPINativeCRYPTPROTECTPROMPTSTRUCT prompt,
+                                                      ref DPAPINativeCryptPotectPromptStruct prompt,
                                                       int flags,
-                                                      ref DPAPINativeDATABLOB plainText);
+                                                      ref DPAPINativeDataBlob plainText);
 
         #endregion
 
@@ -337,7 +336,7 @@ namespace EfficientlyLazy.Crypto.Engines
         /// Indicates when prompts to the user are to be displayed.
         ///</summary>
         [Flags]
-        private enum DPAPINativeCryptProtectPromptFlags
+        internal enum DPAPINativeCryptProtectPromptFlags
         {
             ///<summary>
             /// This flag can be combined with CRYPTPROTECT_PROMPT_ON_PROTECT to enforce the UI (user interface) policy of the caller. When CryptUnprotectData is called, the dwPromptFlags specified in the CryptProtectData call are enforced.
@@ -358,7 +357,7 @@ namespace EfficientlyLazy.Crypto.Engines
         /// Provides the text of a prompt and information about when and where that prompt is to be displayed when using the CryptProtectData and CryptUnprotectData functions.
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct DPAPINativeCRYPTPROTECTPROMPTSTRUCT : IDisposable
+        internal struct DPAPINativeCryptPotectPromptStruct : IDisposable
         {
             /// <summary>
             /// The size, in bytes, of this structure.
@@ -384,11 +383,11 @@ namespace EfficientlyLazy.Crypto.Engines
             /// Creates a default instance of CRYPTPROTECT_PROMPTSTRUCT.
             ///</summary>
             ///<returns>The default instance of CRYPTPROTECT_PROMPTSTRUCT</returns>
-            public static DPAPINativeCRYPTPROTECTPROMPTSTRUCT Default()
+            public static DPAPINativeCryptPotectPromptStruct Default()
             {
-                return new DPAPINativeCRYPTPROTECTPROMPTSTRUCT
+                return new DPAPINativeCryptPotectPromptStruct
                        {
-                           Size = Marshal.SizeOf(typeof(DPAPINativeCRYPTPROTECTPROMPTSTRUCT)),
+                           Size = Marshal.SizeOf(typeof(DPAPINativeCryptPotectPromptStruct)),
                            PromptFlags = 0,
                            Handle = IntPtr.Zero,
                            Prompt = null
@@ -404,8 +403,6 @@ namespace EfficientlyLazy.Crypto.Engines
                 {
                     Marshal.FreeHGlobal(Handle);
                 }
-
-                GC.SuppressFinalize(this);
             }
         }
 
@@ -417,7 +414,7 @@ namespace EfficientlyLazy.Crypto.Engines
         /// Structure that holds the encrypted data.
         ///</summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct DPAPINativeDATABLOB : IDisposable
+        private struct DPAPINativeDataBlob : IDisposable
         {
             ///<summary>
             /// Holds the length of the data
@@ -433,9 +430,9 @@ namespace EfficientlyLazy.Crypto.Engines
             /// Creates an empty DATA_BLOB.
             ///</summary>
             ///<returns>An empty DATA_BLOB</returns>
-            public static DPAPINativeDATABLOB Null()
+            public static DPAPINativeDataBlob Null()
             {
-                return new DPAPINativeDATABLOB
+                return new DPAPINativeDataBlob
                        {
                            DataLength = 0,
                            DataPointer = IntPtr.Zero
@@ -448,7 +445,7 @@ namespace EfficientlyLazy.Crypto.Engines
             ///<param name="data">Data to be encrypted.</param>
             ///<returns>Structure that holds byte[] data to be encrypted.</returns>
             ///<exception cref="MemberAccessException">Unable to allocate data buffer for BLOB structure</exception>
-            public static DPAPINativeDATABLOB Init(byte[] data)
+            public static DPAPINativeDataBlob Init(byte[] data)
             {
                 // Use empty array for null parameter.
                 if (data == null)
@@ -456,7 +453,7 @@ namespace EfficientlyLazy.Crypto.Engines
                     data = new byte[0];
                 }
 
-                var blob = new DPAPINativeDATABLOB
+                var blob = new DPAPINativeDataBlob
                            {
                                DataPointer = Marshal.AllocHGlobal(data.Length),
                                DataLength = data.Length
@@ -482,8 +479,6 @@ namespace EfficientlyLazy.Crypto.Engines
                 {
                     Marshal.FreeHGlobal(DataPointer);
                 }
-
-                GC.SuppressFinalize(this);
             }
         }
 
@@ -533,7 +528,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
         #region Dispose
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         /// <summary>
         /// 

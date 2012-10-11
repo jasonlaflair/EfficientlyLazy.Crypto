@@ -7,14 +7,14 @@ using System.Text;
 namespace EfficientlyLazy.Crypto
 {
     /// <summary>
-    /// 
+    /// Character sets to use in string generation
     /// </summary>
     [Flags]
     public enum CharacterSets
     {
         ///<summary>Characters: none</summary>
         None = 0,
-        ///<summary>Characters: `~!@#$%^&amp;*()-_=+[]{}\\|;:'\",&lt;.&gt;/?</summary>
+        ///<summary>Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZ</summary>
         Uppercase = 1,
         ///<summary>Characters: abcdefghijklmnopqrstuvwxyz</summary>
         Lowercase = 2,
@@ -109,22 +109,6 @@ namespace EfficientlyLazy.Crypto
             return _random.NextDouble();
         }
 
-        /// <summary>
-        /// Returns a random number between minimum and maximum with specified precision.
-        /// </summary>
-        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
-        public static double NextDouble(double minimum, double maximum, int precision)
-        {
-            var whole = NextInteger((int)minimum, (int)maximum);
-            var dec = Math.Round(_random.NextDouble(), precision);
-
-            var result = whole + dec;
-
-            return result > maximum
-                       ? result - 1
-                       : result;
-        }
-
         ///<summary>
         /// Fills the elements of a specified array of bytes with random numbers.
         ///</summary>
@@ -148,27 +132,27 @@ namespace EfficientlyLazy.Crypto
         ///<summary>
         /// Fills the elements of an array of bytes with random numbers.
         ///</summary>
-        ///<param name="minimumValue">The inclusive lower bound of the byte array length returned.</param>
-        ///<param name="maximumValue">The exclusive upper bound of the byte array length returned. maximumValue must be greater than or equal to minimumValue.</param>
-        ///<exception cref="ArgumentOutOfRangeException">minimumValue is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">maximumValue is less than or equal to 0.</exception>
-        ///<exception cref="ArgumentOutOfRangeException">minimumValue is greater than maximumValue.</exception>
-        public static byte[] Bytes(int minimumValue, int maximumValue)
+        ///<param name="minimumLength">The inclusive lower bound of the byte array length returned.</param>
+        ///<param name="maximumLength">The exclusive upper bound of the byte array length returned. maximumLength must be greater than or equal to minimumLength.</param>
+        ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
+        ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
+        public static byte[] Bytes(int minimumLength, int maximumLength)
         {
-            if (minimumValue <= 0)
+            if (minimumLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("minimumValue", minimumValue, "minimumValue must be greater than 0");
+                throw new ArgumentOutOfRangeException("minimumLength", minimumLength, "minimumLength must be greater than 0");
             }
-            if (maximumValue <= 0)
+            if (maximumLength <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumValue", maximumValue, "maximumValue must be greater than 0");
+                throw new ArgumentOutOfRangeException("maximumLength", maximumLength, "maximumLength must be greater than 0");
             }
-            if (minimumValue > maximumValue)
+            if (minimumLength > maximumLength)
             {
-                throw new ArgumentOutOfRangeException("maximumValue", "maximumValue must be greater than or equal to minimumValue");
+                throw new ArgumentOutOfRangeException("maximumLength", "maximumLength must be greater than or equal to minimumLength");
             }
 
-            var length = _random.Next(minimumValue, maximumValue);
+            var length = _random.Next(minimumLength, maximumLength);
 
             var buffer = new byte[length];
 

@@ -308,8 +308,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                ICryptoEngine engine = new RijndaelEngine(key)
-                    .SetRandomSaltLength(min, max);
+                new RijndaelEngine(key).SetRandomSaltLength(min, max);
             });
         }
 
@@ -317,12 +316,10 @@ namespace EfficientlyLazy.Crypto.Tests
         public void SetSaltStringInvalid()
         {
             string key = GeneratePassPhrase();
-            string salt = null;
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                ICryptoEngine engine = new RijndaelEngine(key)
-                    .SetSalt(salt);
+                new RijndaelEngine(key).SetSalt((string)null);
             });
         }
 
@@ -331,12 +328,9 @@ namespace EfficientlyLazy.Crypto.Tests
         {
             string key = GeneratePassPhrase();
 
-            SecureString salt = null;
-
             Assert.Throws<ArgumentNullException>(() =>
             {
-                ICryptoEngine engine = new RijndaelEngine(key)
-                    .SetSalt(salt);
+                new RijndaelEngine(key).SetSalt((SecureString)null);
             });
         }
 
@@ -349,8 +343,7 @@ namespace EfficientlyLazy.Crypto.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                ICryptoEngine engine = new RijndaelEngine(key)
-                    .SetIterations(times);
+                new RijndaelEngine(key).SetIterations(times);
             });
         }
 

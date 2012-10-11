@@ -5,14 +5,14 @@ using EfficientlyLazy.Crypto.Engines;
 
 namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
-    public partial class AESEngineControl : CryptoUserControl
+    public partial class AesEngineControl : CryptoUserControl
     {
-        public AESEngineControl()
+        public AesEngineControl()
         {
             InitializeComponent();
 
-            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(AESKeySize));
-            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(AESKeySize.Key256Bit);
+            cmbKeySize.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(AesKeySize));
+            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(AesKeySize.Key256Bit);
 
             cmbEncoding.DisplayMember = "EncodingName";
             cmbEncoding.Items.Add(Encoding.ASCII);
@@ -45,11 +45,11 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         private ICryptoEngine GenerateEngine()
         {
-            var engine = new AESEngine(txtKey.Text);
+            var engine = new AesEngine(txtKey.Text);
 
             if (cbxUseKeySize.Checked)
             {
-                var keySize = EnumerationConversions.GetEnumName<AESKeySize>(cmbKeySize.SelectedItem.ToString());
+                var keySize = EnumerationConversions.GetEnumName<AesKeySize>(cmbKeySize.SelectedItem.ToString());
 
                 engine.SetKeySize(keySize);
             }

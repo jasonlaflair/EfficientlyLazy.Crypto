@@ -29,7 +29,7 @@ namespace EfficientlyLazy.Crypto.Engines
             finally
             {
 #if !NET20 && !NET35
-                password.Dispose();
+                if (password != null) password.Dispose();
 #endif
             }
 
@@ -50,7 +50,7 @@ namespace EfficientlyLazy.Crypto.Engines
             finally
             {
 #if !NET20 && !NET35
-                password.Dispose();
+                if (password != null) password.Dispose();
 #endif
             }
 
@@ -68,9 +68,9 @@ namespace EfficientlyLazy.Crypto.Engines
         private ICryptoTransform _encryptor;
 
         ///<summary>
-        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
+        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}"/> object.
         ///</summary>
-        ///<param name="key">Represents the secret key for the algorithm</param>
+        ///<param name="key">Represents the key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(string key, T defaultKeySize)
@@ -88,9 +88,9 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         ///<summary>
-        /// Initializes a new instance of the <see cref="RijndaelEngine"/> object.
+        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}"/> object.
         ///</summary>
-        ///<param name="key">Represents the secret key for the algorithm</param>
+        ///<param name="key">Represents the key for the algorithm</param>
         ///<param name="defaultKeySize"> </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(SecureString key, T defaultKeySize)
@@ -110,7 +110,7 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         ///<summary>
-        /// Represents the secret key for the algorithm
+        /// Represents the key for the algorithm
         ///</summary>
         public SecureString Key { get; private set; }
 
@@ -135,7 +135,7 @@ namespace EfficientlyLazy.Crypto.Engines
         public SecureString Salt { get; private set; }
 
         ///<summary>
-        /// Represents the size, in bits, of the secret key used by the algorithm
+        /// Represents the size, in bits, of the key used by the algorithm
         ///</summary>
         public T KeySize { get; private set; }
 
@@ -150,7 +150,7 @@ namespace EfficientlyLazy.Crypto.Engines
         public Encoding Encoding { get; private set; }
 
         /// <summary>
-        /// Used in old key generation using the now Obsolite PasswordDeriveBytes
+        /// Used in old key generation using the now obsolite <see cref="PasswordDeriveBytes"/> 
         /// </summary>
         public string HashAlgorithm { get; private set; }
 
@@ -289,9 +289,10 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         ///<summary>
+        /// Returns the value in the <see cref="SecureSection"/>
         ///</summary>
-        ///<param name="key"></param>
-        ///<returns></returns>
+        ///<param name="key">Value used to identify the <see cref="SecureSetting"/> value</param>
+        ///<returns>Returns specified value if exists, returns string.Empty if invalid or missing</returns>
         public string GetSetting(string key)
         {
             var config = GetSecureConfigSection();
@@ -312,9 +313,10 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         ///<summary>
+        /// Returns the value in the <see cref="SqlConnectionString"/>
         ///</summary>
-        ///<param name="key"></param>
-        ///<returns></returns>
+        ///<param name="key">Value used to identify the <see cref="SqlConnectionString"/> value</param>
+        ///<returns>Returns specified <see cref="SqlConnectionStringBuilder"/> value if exists, returns null if invalid or missing</returns>
         public SqlConnectionStringBuilder GetSqlConnectionString(string key)
         {
             var config = GetSecureConfigSection();
@@ -567,9 +569,9 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         ///<summary>
-        /// Sets the size of the secret key used by the algorithm
+        /// Sets the size of the key used by the algorithm
         ///</summary>
-        ///<param name="keySize">The size of the secret key used by the algorithm</param>
+        ///<param name="keySize">The size of the key used by the algorithm</param>
         ///<returns></returns>
         public AbstractSymmetricEngine<T> SetKeySize(T keySize)
         {
@@ -696,7 +698,7 @@ namespace EfficientlyLazy.Crypto.Engines
 
         #region Dispose
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         /// <summary>
         /// 

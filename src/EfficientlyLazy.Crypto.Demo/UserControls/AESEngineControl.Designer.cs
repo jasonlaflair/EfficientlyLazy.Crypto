@@ -1,6 +1,6 @@
 ﻿namespace EfficientlyLazy.Crypto.Demo.UserControls
 {
-    partial class AESEngineControl
+    partial class AesEngineControl
     {
         /// <summary> 
         /// Required designer variable.

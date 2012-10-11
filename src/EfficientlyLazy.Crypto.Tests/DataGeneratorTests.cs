@@ -37,18 +37,6 @@ namespace EfficientlyLazy.Crypto.Tests
         }
 
         [Theory]
-        [InlineData(0, double.MaxValue, 15)]
-        public void Double_Returns_Valid_Random_Double_With_Parameters(double min, double max, int precision)
-        {
-            // Act
-            var actual = DataGenerator.NextDouble(min, max, precision);
-
-            // Assert
-            Assert.InRange(actual, min, max);
-            Assert.Equal(actual, Math.Round(actual, precision));
-        }
-
-        [Theory]
         [InlineData(5)]
         [InlineData(10)]
         [InlineData(159135)]

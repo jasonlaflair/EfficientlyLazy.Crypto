@@ -6,13 +6,13 @@ namespace EfficientlyLazy.Crypto.Demo
 {
     public partial class frmSQLConnectionStringBuilder : Form
     {
-        public string SQLConnectionString { get; private set; }
+        public string SqlConnectionString { get; private set; }
 
         public frmSQLConnectionStringBuilder()
         {
             InitializeComponent();
 
-            SQLConnectionString = string.Empty;
+            SqlConnectionString = string.Empty;
         }
 
         private void frmSQLConnectionStringBuilder_Load(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace EfficientlyLazy.Crypto.Demo
                     builder.ConnectTimeout = (int)nudConnectionTimeout.Value;
                 }
 
-                SQLConnectionString = builder.ToString();
+                SqlConnectionString = builder.ToString();
 
                 DialogResult = DialogResult.OK;
                 Close();

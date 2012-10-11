@@ -5,7 +5,7 @@ namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary><see cref="AesManaged"/> Key Size</summary>
     /// <remarks>This engine is not available in the v2.0 framework</remarks>
-    public enum AESKeySize
+    public enum AesKeySize
     {
         /// <summary>128bit key length</summary>
         [Description("128bit")]

@@ -19,7 +19,7 @@ namespace EfficientlyLazy.Crypto.Demo
             configurationToolStripMenuItem.DropDownItems.Add(rijndaelEngineControlMenu);
 
 #if !NET20
-            var aesEngineControl = new AESEngineControl();
+            var aesEngineControl = new AesEngineControl();
             var aesEngineControlMenu = new ToolStripMenuItem(aesEngineControl.DisplayName)
                 {
                     Tag = aesEngineControl
@@ -159,7 +159,7 @@ namespace EfficientlyLazy.Crypto.Demo
             {
                 if (builder.ShowDialog() == DialogResult.OK)
                 {
-                    txtClearText.Text = builder.SQLConnectionString;
+                    txtClearText.Text = builder.SqlConnectionString;
                 }
             }
         }

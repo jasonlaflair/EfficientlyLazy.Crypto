@@ -16,10 +16,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="algorithm"><see cref="HashType"/> to use.</param>
         /// <param name="plaintext">The input to compute the hash code for.</param>
         /// <returns>The hash as a hexadecimal string.</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static string Compute(HashType algorithm, string plaintext)
         {
-            return Compute(algorithm, plaintext, Encoding.Default);
+            return Compute(algorithm, plaintext, Encoding.UTF8);
         }
 
         /// <summary>Generates the hash of a text.</summary>
@@ -70,7 +70,7 @@ namespace EfficientlyLazy.Crypto
                 throw new ArgumentNullException("file", "file cannot be null");
             }
 
-            var strRet = string.Empty;
+            string strRet;
 
             using (var fs = new FileStream(file.FullName, FileMode.Open))
             {
@@ -93,10 +93,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="plaintext">The input to compute the hash code for.</param>
         /// <param name="key">Key to use in the hash algorithm</param>
         /// <returns>Hashed string</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static string ComputeHMAC(HashType algorithm, string plaintext, string key)
         {
-            return ComputeHMAC(algorithm, plaintext, key, Encoding.Default);
+            return ComputeHMAC(algorithm, plaintext, key, Encoding.UTF8);
         }
 
         /// <summary>
@@ -165,10 +165,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="file">The file to compute the hash code for.</param>
         /// <param name="key">Key to use in the hash algorithm</param>
         /// <returns>Hashed string</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static string ComputeHMAC(HashType algorithm, FileSystemInfo file, string key)
         {
-            return ComputeHMAC(algorithm, file, key, Encoding.Default);
+            return ComputeHMAC(algorithm, file, key, Encoding.UTF8);
         }
 
         /// <summary>
@@ -242,10 +242,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="originalValue">The text to compare the hash against.</param>
         /// <param name="hashValue">The hash to compare against.</param>
         /// <returns>True if the hash validates, false otherwise.</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static bool Validate(HashType algorithm, string originalValue, string hashValue)
         {
-            return Validate(algorithm, Encoding.Default.GetBytes(originalValue), hashValue);
+            return Validate(algorithm, Encoding.UTF8.GetBytes(originalValue), hashValue);
         }
 
         /// <summary>Checks a text with a hash.</summary>
@@ -302,10 +302,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="key">Key to use in the hash algorithm</param>
         /// <param name="hashValue">The hash to compare against.</param>
         /// <returns>True if the hash validates, false otherwise.</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static bool ValidateHMAC(HashType algorithm, string originalValue, string key, string hashValue)
         {
-            return ValidateHMAC(algorithm, Encoding.Default.GetBytes(originalValue), Encoding.Default.GetBytes(key), hashValue);
+            return ValidateHMAC(algorithm, Encoding.UTF8.GetBytes(originalValue), Encoding.UTF8.GetBytes(key), hashValue);
         }
 
         /// <summary>Checks a text with a hash.</summary>
@@ -326,10 +326,10 @@ namespace EfficientlyLazy.Crypto
         /// <param name="key">Key to use in the hash algorithm</param>
         /// <param name="hashValue">The hash to compare against.</param>
         /// <returns>True if the hash validates, false otherwise.</returns>
-        /// <remarks>Using Encoding.Default for character encoding</remarks>
+        /// <remarks>Using Encoding.UTF8 for character encoding</remarks>
         public static bool ValidateHMAC(HashType algorithm, FileSystemInfo file, string key, string hashValue)
         {
-            return string.Equals(ComputeHMAC(algorithm, file, key, Encoding.Default), hashValue, StringComparison.CurrentCulture);
+            return string.Equals(ComputeHMAC(algorithm, file, key, Encoding.UTF8), hashValue, StringComparison.CurrentCulture);
         }
 
         /// <summary>Checks a text with a hash.</summary>
