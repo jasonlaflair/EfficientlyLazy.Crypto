@@ -5,6 +5,8 @@ namespace EfficientlyLazy.Crypto
     /// <summary>Algorithms used for Data Hashing</summary>
     public enum HashType
     {
+        /// <summary>No Hashing</summary>
+        None = 0,
         /// <summary>MD5 Hashing</summary>
         [Obsolete("Should not be used as it has been proven insecure", false)]
         MD5 = 5,

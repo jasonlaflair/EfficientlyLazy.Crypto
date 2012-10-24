@@ -14,11 +14,20 @@ namespace EfficientlyLazy.Crypto.Demo
             FieldInfo[] fis = value.GetFields();
             foreach (FieldInfo fi in fis)
             {
+                if (fi.Name == "value__")
+                {
+                    continue;
+                }
+
                 DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof (DescriptionAttribute), false);
 
                 if (attributes.Length > 0)
                 {
                     descriptions.Add(attributes[0].Description);
+                }
+                else
+                {
+                    descriptions.Add(fi.Name);
                 }
             }
 

@@ -46,14 +46,14 @@
             this.cbxUseEncoding = new System.Windows.Forms.CheckBox();
             this.cbxUsePasswordIterations = new System.Windows.Forms.CheckBox();
             this.cbxUseRandomSalt = new System.Windows.Forms.CheckBox();
+            this.cbxUseHashAlgorithm = new System.Windows.Forms.CheckBox();
             this.cbxUseKeySalt = new System.Windows.Forms.CheckBox();
             this.cbxUseInitVector = new System.Windows.Forms.CheckBox();
             this.cbxUseKeySize = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.cmbEncoding = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtHashAlgorithm = new System.Windows.Forms.TextBox();
-            this.cbxUseHashAlgorithm = new System.Windows.Forms.CheckBox();
+            this.cmbHashAlgorithm = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudIterations)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSaltMax)).BeginInit();
@@ -217,6 +217,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmbHashAlgorithm);
             this.groupBox1.Controls.Add(this.cbxUseEncoding);
             this.groupBox1.Controls.Add(this.cbxUsePasswordIterations);
             this.groupBox1.Controls.Add(this.cbxUseRandomSalt);
@@ -234,7 +235,6 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtHashAlgorithm);
             this.groupBox1.Controls.Add(this.txtSalt);
             this.groupBox1.Controls.Add(this.nudSaltMin);
             this.groupBox1.Controls.Add(this.cmbKeySize);
@@ -280,6 +280,16 @@
             this.cbxUseRandomSalt.TabIndex = 7;
             this.cbxUseRandomSalt.UseVisualStyleBackColor = true;
             this.cbxUseRandomSalt.CheckedChanged += new System.EventHandler(this.cbxUseRandomSalt_CheckedChanged);
+            // 
+            // cbxUseHashAlgorithm
+            // 
+            this.cbxUseHashAlgorithm.AutoSize = true;
+            this.cbxUseHashAlgorithm.Location = new System.Drawing.Point(184, 232);
+            this.cbxUseHashAlgorithm.Name = "cbxUseHashAlgorithm";
+            this.cbxUseHashAlgorithm.Size = new System.Drawing.Size(15, 14);
+            this.cbxUseHashAlgorithm.TabIndex = 14;
+            this.cbxUseHashAlgorithm.UseVisualStyleBackColor = true;
+            this.cbxUseHashAlgorithm.CheckedChanged += new System.EventHandler(this.cbxUseHashAlgorithm_CheckedChanged);
             // 
             // cbxUseKeySalt
             // 
@@ -341,32 +351,24 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "Hash Algorithm:";
             // 
-            // txtHashAlgorithm
+            // cmbHashAlgorithm
             // 
-            this.txtHashAlgorithm.Enabled = false;
-            this.txtHashAlgorithm.Location = new System.Drawing.Point(205, 229);
-            this.txtHashAlgorithm.Name = "txtHashAlgorithm";
-            this.txtHashAlgorithm.Size = new System.Drawing.Size(313, 20);
-            this.txtHashAlgorithm.TabIndex = 15;
+            this.cmbHashAlgorithm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbHashAlgorithm.Enabled = false;
+            this.cmbHashAlgorithm.FormattingEnabled = true;
+            this.cmbHashAlgorithm.Location = new System.Drawing.Point(206, 229);
+            this.cmbHashAlgorithm.Name = "cmbHashAlgorithm";
+            this.cmbHashAlgorithm.Size = new System.Drawing.Size(312, 21);
+            this.cmbHashAlgorithm.TabIndex = 23;
             // 
-            // cbxUseHashAlgorithm
-            // 
-            this.cbxUseHashAlgorithm.AutoSize = true;
-            this.cbxUseHashAlgorithm.Location = new System.Drawing.Point(184, 232);
-            this.cbxUseHashAlgorithm.Name = "cbxUseHashAlgorithm";
-            this.cbxUseHashAlgorithm.Size = new System.Drawing.Size(15, 14);
-            this.cbxUseHashAlgorithm.TabIndex = 14;
-            this.cbxUseHashAlgorithm.UseVisualStyleBackColor = true;
-            this.cbxUseHashAlgorithm.CheckedChanged += new System.EventHandler(this.cbxUseHashAlgorithm_CheckedChanged);
-            // 
-            // AESEngineControl
+            // AesEngineControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(5);
-            this.Name = "AESEngineControl";
+            this.Name = "AesEngineControl";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Size = new System.Drawing.Size(554, 282);
             this.Load += new System.EventHandler(this.AESEngineControl_Load);
@@ -405,7 +407,7 @@
         private System.Windows.Forms.CheckBox cbxUseInitVector;
         private System.Windows.Forms.CheckBox cbxUseKeySize;
         private System.Windows.Forms.CheckBox cbxUseHashAlgorithm;
-        private System.Windows.Forms.TextBox txtHashAlgorithm;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbHashAlgorithm;
     }
 }

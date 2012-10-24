@@ -12,7 +12,7 @@
     <AssemblyName>EfficientlyLazy.Crypto</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-	<BaseIntermediateOutputPath>obj\net20\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>obj\net20\</BaseIntermediateOutputPath>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
@@ -66,6 +66,7 @@
     <Compile Include="DataGenerator.cs" />
     <Compile Include="DataHashing.cs" />
     <Compile Include="Engines\AbstractSymmetricEngine.cs" />
+    <Compile Include="Engines\DeriveBytes.cs" />
     <Compile Include="Engines\DESEngine.cs" />
     <Compile Include="Engines\DESKeySize.cs" />
     <Compile Include="Engines\DPAPIEngine.cs" />

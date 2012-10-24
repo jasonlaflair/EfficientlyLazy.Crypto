@@ -21,7 +21,10 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
             cmbEncoding.Items.Add(Encoding.UTF32);
             cmbEncoding.Items.Add(Encoding.UTF7);
             cmbEncoding.Items.Add(Encoding.UTF8);
-            cmbEncoding.SelectedItem = Encoding.Default;
+            cmbEncoding.SelectedItem = Encoding.UTF8;
+
+            cmbHashAlgorithm.DataSource = EnumerationConversions.GetEnumDescriptions(typeof(HashType));
+            cmbKeySize.SelectedItem = EnumerationConversions.GetEnumDescription(HashType.None);
 
             nudSaltMin.Minimum = 0;
             nudSaltMin.Maximum = int.MaxValue;
@@ -79,9 +82,9 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
                 engine.SetEncoding(cmbEncoding.SelectedItem as Encoding);
             }
 
-            if (!string.IsNullOrEmpty(txtHashAlgorithm.Text))
+            if (cbxUseHashAlgorithm.Checked)
             {
-                engine.SetHashAlgorithm(txtHashAlgorithm.Text);
+                engine.SetHashAlgorithm((HashType)cmbHashAlgorithm.SelectedItem);
             }
 
             return engine;
@@ -102,6 +105,10 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
             else if (cbxUseRandomSalt.Checked && nudSaltMin.Value > nudSaltMax.Value)
             {
                 MessageBox.Show("Minimum Salt value can not exceed Maximum Salt value", "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (cbxUseHashAlgorithm.Checked && cmbHashAlgorithm.SelectedIndex == 0)
+            {
+                MessageBox.Show("Hash Algorithm required if selected", "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -162,7 +169,7 @@ namespace EfficientlyLazy.Crypto.Demo.UserControls
 
         private void cbxUseHashAlgorithm_CheckedChanged(object sender, EventArgs e)
         {
-            txtHashAlgorithm.Enabled = cbxUseHashAlgorithm.Checked;
+            cmbHashAlgorithm.Enabled = cbxUseHashAlgorithm.Checked;
         }
     }
 }

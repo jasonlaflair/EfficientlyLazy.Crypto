@@ -351,7 +351,7 @@ namespace EfficientlyLazy.Crypto.Tests
         public void SetHashAlgorithm_To_Test_Backwards_Compatability()
         {
             ICryptoEngine engine = new RijndaelEngine("ggsssdsdgfsdfgagawrgarg345gae5gdsargfsxgzfsga")
-                .SetHashAlgorithm("SHA1")
+                .SetHashAlgorithm(HashType.SHA1)
                 .SetIterations(1);
 
             var plain = engine.Decrypt("ByFZ5i5rMdprzBE/WVoUJQ==");

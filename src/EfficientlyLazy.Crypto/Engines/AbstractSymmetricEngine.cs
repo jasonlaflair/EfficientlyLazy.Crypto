@@ -11,57 +11,10 @@ using EfficientlyLazy.Crypto.Configuration;
 
 namespace EfficientlyLazy.Crypto.Engines
 {
-    internal static class DeriveBytes
-    {
-        public static byte[] Generate<T>(string key, byte[] saltValueBytes, string hashAlgorithm, int passwordIterations, T keySize)
-        {
-            byte[] keyBytes;
-            PasswordDeriveBytes password = null;
-
-            try
-            {
-                password = new PasswordDeriveBytes(key, saltValueBytes, hashAlgorithm, passwordIterations);
-
-#pragma warning disable 612,618
-                keyBytes = password.GetBytes(Convert.ToInt32(keySize) / 8);
-#pragma warning restore 612,618
-            }
-            finally
-            {
-#if !NET20 && !NET35
-                if (password != null) password.Dispose();
-#endif
-            }
-
-            return keyBytes;
-        }
-
-        public static byte[] Generate<T>(string key, byte[] saltValueBytes, int passwordIterations, T keySize)
-        {
-            byte[] keyBytes;
-            Rfc2898DeriveBytes password = null;
-
-            try
-            {
-                password = new Rfc2898DeriveBytes(key, saltValueBytes, passwordIterations);
-
-                keyBytes = password.GetBytes(Convert.ToInt32(keySize) / 8);
-            }
-            finally
-            {
-#if !NET20 && !NET35
-                if (password != null) password.Dispose();
-#endif
-            }
-
-            return keyBytes;
-        }
-    }
-
     /// <summary>
     /// Encryption/Decryption using <see cref="AbstractSymmetricEngine{T}"/>.
     /// </summary>
-    public abstract class AbstractSymmetricEngine<T> : ISymmetricEngine where T : struct, IConvertible
+    public abstract class AbstractSymmetricEngine<T> : ISymmetricEngine<T> where T : struct, IConvertible
     {
         private readonly object _theadsafeLock = new object();
         private ICryptoTransform _decryptor;
@@ -117,42 +70,42 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<summary>
         /// Represents the initialization vector (IV) for the algorithm
         ///</summary>
-        public SecureString InitVector { get; private set; }
+        public SecureString InitVector { get; internal set; }
 
         ///<summary>
         /// Minimum length of the random salt used in encryption/decryption.  If 0, no random salt will be used.
         ///</summary>
-        public int RandomSaltMinimumLength { get; private set; }
+        public int RandomSaltMinimumLength { get; internal set; }
 
         ///<summary>
         /// Maximum length of the random salt used in encryption/decryption.  If 0, no random salt will be used.
         ///</summary>
-        public int RandomSaltMaximumLength { get; private set; }
+        public int RandomSaltMaximumLength { get; internal set; }
 
         ///<summary>
         /// Key salt used to derive the key
         ///</summary>
-        public SecureString Salt { get; private set; }
+        public SecureString Salt { get; internal set; }
 
         ///<summary>
         /// Represents the size, in bits, of the key used by the algorithm
         ///</summary>
-        public T KeySize { get; private set; }
+        public T KeySize { get; internal set; }
 
         ///<summary>
         /// The number of iterations for the operation
         ///</summary>
-        public int PasswordIterations { get; private set; }
+        public int PasswordIterations { get; internal set; }
 
         ///<summary>
         /// Represents the character encoding
         ///</summary>
-        public Encoding Encoding { get; private set; }
+        public Encoding Encoding { get; internal set; }
 
         /// <summary>
         /// Used in old key generation using the now obsolite <see cref="PasswordDeriveBytes"/> 
         /// </summary>
-        public string HashAlgorithm { get; private set; }
+        public HashType HashType { get; internal set; }
 
         #region ICryptoEngine Members
 
@@ -450,7 +403,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public AbstractSymmetricEngine<T> SetInitVector(string initVector)
+        public ISymmetricEngine<T> SetInitVector(string initVector)
         {
             if (initVector == null)
             {
@@ -476,7 +429,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public AbstractSymmetricEngine<T> SetInitVector(SecureString initVector)
+        public ISymmetricEngine<T> SetInitVector(SecureString initVector)
         {
             if (initVector == null)
             {
@@ -504,7 +457,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<param name="maximumLength">Maximum salt length, must be greater than 0 (unless both minimum and maximum are set to 0)</param>
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public AbstractSymmetricEngine<T> SetRandomSaltLength(int minimumLength, int maximumLength)
+        public ISymmetricEngine<T> SetRandomSaltLength(int minimumLength, int maximumLength)
         {
             if (minimumLength < 4 && maximumLength >= 4)
             {
@@ -533,7 +486,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<param name="salt">Key salt used to derive the key</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public AbstractSymmetricEngine<T> SetSalt(string salt)
+        public ISymmetricEngine<T> SetSalt(string salt)
         {
             if (salt == null)
             {
@@ -553,7 +506,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<param name="salt">Key salt used to derive the key</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public AbstractSymmetricEngine<T> SetSalt(SecureString salt)
+        public ISymmetricEngine<T> SetSalt(SecureString salt)
         {
             if (salt == null)
             {
@@ -573,7 +526,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///</summary>
         ///<param name="keySize">The size of the key used by the algorithm</param>
         ///<returns></returns>
-        public AbstractSymmetricEngine<T> SetKeySize(T keySize)
+        public ISymmetricEngine<T> SetKeySize(T keySize)
         {
             KeySize = keySize;
 
@@ -588,7 +541,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<param name="iterations">The number of iterations for the operation</param>
         ///<returns></returns>
         ///<exception cref="ArgumentOutOfRangeException"></exception>
-        public AbstractSymmetricEngine<T> SetIterations(int iterations)
+        public ISymmetricEngine<T> SetIterations(int iterations)
         {
             if (iterations <= 0)
             {
@@ -608,7 +561,7 @@ namespace EfficientlyLazy.Crypto.Engines
         ///<param name="encoding">The character encoding</param>
         ///<returns></returns>
         ///<exception cref="ArgumentNullException"></exception>
-        public AbstractSymmetricEngine<T> SetEncoding(Encoding encoding)
+        public ISymmetricEngine<T> SetEncoding(Encoding encoding)
         {
             if (encoding == null)
             {
@@ -623,14 +576,14 @@ namespace EfficientlyLazy.Crypto.Engines
         }
 
         /// <summary>
-        /// 
+        /// Obsolete as it was used to indicate the hash used for the now obsolete PasswordDeriveBytes
         /// </summary>
         /// <param name="hashAlgorithm"></param>
         /// <returns></returns>
         [Obsolete("Used in old key generation using the now Obsolite PasswordDeriveBytes", false)]
-        public AbstractSymmetricEngine<T> SetHashAlgorithm(string hashAlgorithm)
+        public ISymmetricEngine<T> SetHashAlgorithm(HashType hashAlgorithm)
         {
-            HashAlgorithm = hashAlgorithm;
+            HashType = hashAlgorithm;
 
             ResetEngine();
 
@@ -661,13 +614,13 @@ namespace EfficientlyLazy.Crypto.Engines
 
             byte[] keyBytes;
 
-            if (!string.IsNullOrEmpty(HashAlgorithm))
+            if (HashType != HashType.None)
             {
                 // Salt used for password hashing (to generate the key, not during encryption) converted to a byte array.
                 // Get bytes of salt (used in hashing).
                 var saltValueBytes = Salt == null || Salt.Length == 0 ? new byte[0] : Encoding.GetBytes(ToString(Salt));
 
-                keyBytes = DeriveBytes.Generate(ToString(Key), saltValueBytes, HashAlgorithm, PasswordIterations, KeySize);
+                keyBytes = DeriveBytes.Generate(ToString(Key), saltValueBytes, HashType, PasswordIterations, KeySize);
             }
             else
             {

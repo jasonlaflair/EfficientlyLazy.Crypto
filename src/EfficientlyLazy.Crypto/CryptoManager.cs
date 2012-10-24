@@ -10,6 +10,18 @@ namespace EfficientlyLazy.Crypto
     {
         private static ICryptoEngine _engine;
 
+#if !NET20
+        /// <summary>
+        /// Initializes the CryptoEngine to use.
+        /// </summary>
+        /// <param name="engine">CryptoEngine to use</param>
+        public static void Initialize(this ICryptoEngine engine)
+        {
+            _engine = engine;
+        }
+#endif
+
+#if NET20
         /// <summary>
         /// Initializes the CryptoEngine to use.
         /// </summary>
@@ -18,6 +30,7 @@ namespace EfficientlyLazy.Crypto
         {
             _engine = engine;
         }
+#endif
 
         private static void CheckInitialization()
         {
