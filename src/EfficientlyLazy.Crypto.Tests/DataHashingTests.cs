@@ -68,10 +68,11 @@ namespace EfficientlyLazy.Crypto.Tests
                 var list = new List<object[]>();
 
 #if !NET20                
-                var enumNames = Enum.GetNames(typeof(HashType)).Where(x => x != "MD5");
+                var enumNames = Enum.GetNames(typeof(HashType)).Where(x => x != "MD5").Where(x => x != "None");
 #else
                 var enumNames = new List<string>(Enum.GetNames(typeof(HashType)));
                 enumNames.Remove("MD5");
+                enumNames.Remove("None");
 #endif
 
                 foreach (var algStr in enumNames)
