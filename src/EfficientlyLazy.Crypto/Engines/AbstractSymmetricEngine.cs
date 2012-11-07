@@ -12,19 +12,28 @@ using EfficientlyLazy.Crypto.Configuration;
 namespace EfficientlyLazy.Crypto.Engines
 {
     /// <summary>
-    /// Encryption/Decryption using <see cref="AbstractSymmetricEngine{T}"/>.
+    /// Encryption/Decryption using <see cref="AbstractSymmetricEngine{T}" />.
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class AbstractSymmetricEngine<T> : ISymmetricEngine<T> where T : struct, IConvertible
     {
         private readonly object _theadsafeLock = new object();
-        private ICryptoTransform _decryptor;
-        private ICryptoTransform _encryptor;
 
-        ///<summary>
-        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}"/> object.
-        ///</summary>
-        ///<param name="key">Represents the key for the algorithm</param>
-        ///<param name="defaultKeySize"> </param>
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ICryptoTransform _decryptor;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ICryptoTransform _encryptor;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}" /> object.
+        /// </summary>
+        /// <param name="key">Represents the key for the algorithm</param>
+        /// <param name="defaultKeySize">Default size of the key.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(string key, T defaultKeySize)
         {
@@ -40,11 +49,11 @@ namespace EfficientlyLazy.Crypto.Engines
             ResetEngine();
         }
 
-        ///<summary>
-        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}"/> object.
-        ///</summary>
-        ///<param name="key">Represents the key for the algorithm</param>
-        ///<param name="defaultKeySize"> </param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractSymmetricEngine{T}" /> object.
+        /// </summary>
+        /// <param name="key">Represents the key for the algorithm</param>
+        /// <param name="defaultKeySize">Default size of the key.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected AbstractSymmetricEngine(SecureString key, T defaultKeySize)
         {
@@ -62,9 +71,12 @@ namespace EfficientlyLazy.Crypto.Engines
             ResetEngine();
         }
 
-        ///<summary>
+        /// <summary>
         /// Represents the key for the algorithm
-        ///</summary>
+        /// </summary>
+        /// <value>
+        /// The key.
+        /// </value>
         public SecureString Key { get; private set; }
 
         ///<summary>
@@ -361,7 +373,12 @@ namespace EfficientlyLazy.Crypto.Engines
             return salt;
         }
 
-        private static SecureString ToSecureString(IEnumerable<char> text)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        protected virtual SecureString ToSecureString(IEnumerable<char> text)
         {
             var ss = new SecureString();
 
@@ -375,7 +392,12 @@ namespace EfficientlyLazy.Crypto.Engines
             return ss;
         }
 
-        private static string ToString(SecureString secureString)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="secureString"></param>
+        /// <returns></returns>
+        protected virtual string ToString(SecureString secureString)
         {
             string text;
 

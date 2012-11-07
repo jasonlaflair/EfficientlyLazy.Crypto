@@ -10,31 +10,31 @@ namespace EfficientlyLazy.Crypto
     public interface ICryptoEngine : IDisposable
     {
         /// <summary>
-        /// Encrypts the specified plain text.
+        /// Encrypts the specified byte array.
         /// </summary>
-        /// <param name="plaintext">The plain text.</param>
-        /// <returns></returns>
+        /// <param name="plaintext">Unencrypted byte array.</param>
+        /// <returns>Encrypted byte array</returns>
         byte[] Encrypt(byte[] plaintext);
 
         /// <summary>
-        /// Encrypts the specified plain text.
+        /// Encrypts the specified unencrypted string.
         /// </summary>
-        /// <param name="plaintext">The plain text.</param>
-        /// <returns></returns>
+        /// <param name="plaintext">Unencrypted string.</param>
+        /// <returns>Encrypted string</returns>
         string Encrypt(string plaintext);
 
         /// <summary>
-        /// Decrypts the specified cipher text.
+        /// Decrypts the specified encrypted byte array.
         /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <returns></returns>
+        /// <param name="cipherText">Encrypted byte array</param>
+        /// <returns>Decrypted byte array</returns>
         byte[] Decrypt(byte[] cipherText);
 
         /// <summary>
-        /// Decrypts the specified cipher text.
+        /// Decrypts the specified encrypted string
         /// </summary>
-        /// <param name="cipherText">The cipher text.</param>
-        /// <returns></returns>
+        /// <param name="cipherText">Encrypted string</param>
+        /// <returns>Decrypted string</returns>
         string Decrypt(string cipherText);
 
         ///<summary>

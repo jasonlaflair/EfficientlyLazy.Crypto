@@ -92,25 +92,25 @@ namespace EfficientlyLazy.Crypto
         }
 
         ///<summary>
-        /// Generates a random number within a specified default range.
+        /// Generates a nonnegative random number.
         ///</summary>
-        ///<returns>Returns a random number within the specified default range.</returns>
+        ///<returns>Returns a nonnegative random number.</returns>
         public static int NextInteger()
         {
             return _random.Next();
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Generates a random number between 0.0 and 1.0.
         /// </summary>
-        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
+        /// <returns>Returns a random number between 0.0 and 1.0.</returns>
         public static double NextDouble()
         {
             return _random.NextDouble();
         }
 
         ///<summary>
-        /// Fills the elements of a specified array of bytes with random numbers.
+        /// Fills the elements of a specified array of bytes with random bytes.
         ///</summary>
         ///<param name="buffer">An array of bytes to contain random numbers.</param>
         ///<exception cref="ArgumentNullException">buffer is null</exception>
@@ -134,6 +134,7 @@ namespace EfficientlyLazy.Crypto
         ///</summary>
         ///<param name="minimumLength">The inclusive lower bound of the byte array length returned.</param>
         ///<param name="maximumLength">The exclusive upper bound of the byte array length returned. maximumLength must be greater than or equal to minimumLength.</param>
+        ///<returns>Returns byte array between specified lengths, filled with random bytes.</returns>
         ///<exception cref="ArgumentOutOfRangeException">minimumLength is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">maximumLength is less than or equal to 0.</exception>
         ///<exception cref="ArgumentOutOfRangeException">minimumLength is greater than maximumLength.</exception>
@@ -165,6 +166,7 @@ namespace EfficientlyLazy.Crypto
         /// Fills the elements of an array of bytes with random numbers.
         ///</summary>
         ///<param name="length">The array length returned.</param>
+        ///<returns>Returns byte array with length specified filled with random bytes.</returns>
         ///<exception cref="ArgumentOutOfRangeException">length is less than or equal to 0.</exception>
         public static byte[] Bytes(int length)
         {
@@ -268,7 +270,7 @@ namespace EfficientlyLazy.Crypto
             return NextString(32, 4096);
         }
 
-        private static string RandomString(ReadOnlyCollection<char> characterPool, int minimumValue, int maximumValue)
+        private static string RandomString(IReadOnlyList<char> characterPool, int minimumValue, int maximumValue)
         {
             var length = _random.Next(minimumValue, maximumValue);
 
