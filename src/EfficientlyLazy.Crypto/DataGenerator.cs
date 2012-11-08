@@ -270,7 +270,7 @@ namespace EfficientlyLazy.Crypto
             return NextString(32, 4096);
         }
 
-        private static string RandomString(IReadOnlyList<char> characterPool, int minimumValue, int maximumValue)
+        private static string RandomString(IList<char> characterPool, int minimumValue, int maximumValue)
         {
             var length = _random.Next(minimumValue, maximumValue);
 
